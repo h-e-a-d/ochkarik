@@ -1,58 +1,143 @@
-/* Custom CSS Styles for Ophthalmologist Website */
+/* Custom CSS Styles for Ophthalmologist Website - Minimalist Design */
 
 /* Smooth Scrolling */
 html {
     scroll-behavior: smooth;
 }
 
-/* Custom Button Styles */
-.btn-primary {
-    @apply inline-flex items-center px-8 py-4 bg-blue-600 text-white font-semibold rounded-full hover:bg-blue-700 transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl;
+/* Reset and Base Styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
 }
 
-.btn-secondary {
-    @apply inline-flex items-center px-8 py-4 bg-white/20 text-white font-semibold rounded-full hover:bg-white/30 transition-all duration-300 backdrop-blur-sm border-2 border-white/50 hover:border-white;
+body {
+    font-family: 'Poppins', sans-serif;
+    font-weight: 300;
+    line-height: 1.7;
+    color: #333;
+}
+
+/* Custom Button Styles */
+.btn-navy {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 16px 40px;
+    background-color: #0a2a3d;
+    color: white;
+    font-weight: 500;
+    font-size: 14px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    border-radius: 4px;
+    transition: all 0.3s ease;
+    text-decoration: none;
+    border: 2px solid #0a2a3d;
+}
+
+.btn-navy:hover {
+    background-color: #0f3d56;
+    transform: translateY(-2px);
+    box-shadow: 0 10px 25px rgba(10, 42, 61, 0.2);
+}
+
+.btn-outline {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 16px 40px;
+    background-color: transparent;
+    color: #0a2a3d;
+    font-weight: 500;
+    font-size: 14px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    border-radius: 4px;
+    transition: all 0.3s ease;
+    text-decoration: none;
+    border: 2px solid #0a2a3d;
+}
+
+.btn-outline:hover {
+    background-color: #0a2a3d;
+    color: white;
+    transform: translateY(-2px);
+    box-shadow: 0 10px 25px rgba(10, 42, 61, 0.2);
+}
+
+.btn-outline-white {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 16px 40px;
+    background-color: transparent;
+    color: white;
+    font-weight: 500;
+    font-size: 14px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    border-radius: 4px;
+    transition: all 0.3s ease;
+    text-decoration: none;
+    border: 2px solid white;
+}
+
+.btn-outline-white:hover {
+    background-color: white;
+    color: #0a2a3d;
+    transform: translateY(-2px);
 }
 
 /* Navigation Links */
-.nav-link {
-    @apply text-gray-700 hover:text-blue-600 font-medium transition-colors duration-200 relative;
+.nav-link-light {
+    color: white;
+    font-weight: 400;
+    font-size: 14px;
+    text-decoration: none;
+    position: relative;
+    transition: all 0.3s ease;
+    opacity: 0.9;
 }
 
-.nav-link::after {
-    content: '';
-    position: absolute;
-    bottom: -4px;
-    left: 0;
-    width: 0;
-    height: 2px;
-    background-color: #2563eb;
-    transition: width 0.3s ease;
+.nav-link-light:hover {
+    opacity: 1;
+    color: #ff6b4a;
 }
 
-.nav-link:hover::after {
-    width: 100%;
+.nav-link-light.active {
+    color: #ff6b4a;
 }
 
-/* Service Cards */
-.service-card {
-    @apply bg-white p-8 rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 border border-gray-100;
+/* Navbar Scroll Effect */
+#navbar.scrolled {
+    background-color: rgba(10, 42, 61, 0.95) !important;
+    backdrop-filter: blur(10px);
+    box-shadow: 0 2px 20px rgba(0, 0, 0, 0.1);
 }
 
-.service-icon {
-    @apply w-16 h-16 rounded-xl flex items-center justify-center mb-4;
+/* Service Cards - Minimal Style */
+.service-card-minimal {
+    padding: 0;
+    background: transparent;
+    transition: all 0.3s ease;
 }
 
-/* Testimonial Cards */
-.testimonial-card {
-    @apply bg-white p-8 rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 border border-gray-100;
+.service-card-minimal:hover {
+    transform: translateY(-5px);
+}
+
+.service-card-minimal:hover .text-coral {
+    transform: scale(1.1);
+    transition: transform 0.3s ease;
 }
 
 /* Animations */
-@keyframes fadeIn {
+@keyframes fadeInUp {
     from {
         opacity: 0;
-        transform: translateY(30px);
+        transform: translateY(40px);
     }
     to {
         opacity: 1;
@@ -60,23 +145,10 @@ html {
     }
 }
 
-.animate-fade-in {
-    animation: fadeIn 1s ease-out;
-}
-
-.animate-fade-in-delay {
-    animation: fadeIn 1s ease-out 0.3s both;
-}
-
-.animate-fade-in-delay-2 {
-    animation: fadeIn 1s ease-out 0.6s both;
-}
-
-/* Scroll Animation Classes */
 .fade-in-up {
     opacity: 0;
     transform: translateY(40px);
-    transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+    transition: opacity 0.8s ease-out, transform 0.8s ease-out;
 }
 
 .fade-in-up.visible {
@@ -84,9 +156,39 @@ html {
     transform: translateY(0);
 }
 
+/* Hero Background Animation */
+#home .absolute.inset-0 img {
+    animation: slowZoom 20s ease-in-out infinite alternate;
+}
+
+@keyframes slowZoom {
+    from {
+        transform: scale(1);
+    }
+    to {
+        transform: scale(1.05);
+    }
+}
+
+/* Testimonial Quote Styling */
+blockquote {
+    position: relative;
+    padding: 0 20px;
+}
+
+blockquote::before {
+    content: '"';
+    font-size: 120px;
+    position: absolute;
+    left: -20px;
+    top: -40px;
+    color: rgba(255, 107, 74, 0.2);
+    font-family: Georgia, serif;
+}
+
 /* Custom Scrollbar */
 ::-webkit-scrollbar {
-    width: 10px;
+    width: 8px;
 }
 
 ::-webkit-scrollbar-track {
@@ -94,12 +196,12 @@ html {
 }
 
 ::-webkit-scrollbar-thumb {
-    background: linear-gradient(180deg, #2563eb, #7c3aed);
-    border-radius: 5px;
+    background: #0a2a3d;
+    border-radius: 4px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-    background: linear-gradient(180deg, #1d4ed8, #6d28d9);
+    background: #ff6b4a;
 }
 
 /* Mobile Menu Animation */
@@ -110,30 +212,89 @@ html {
 }
 
 #mobile-menu.open {
-    max-height: 300px;
+    max-height: 400px;
 }
 
-/* Form Focus States */
-input:focus,
-textarea:focus {
-    @apply outline-none ring-2 ring-blue-500 border-transparent;
+/* Typography Enhancements */
+h1, h2, h3, h4, h5, h6 {
+    font-weight: 300;
+    line-height: 1.2;
 }
 
-/* Hero Background Overlay Animation */
-@keyframes gradientShift {
-    0% {
-        background-position: 0% 50%;
+p {
+    font-weight: 300;
+}
+
+/* Section Spacing */
+section {
+    position: relative;
+}
+
+/* Image Hover Effects */
+img {
+    transition: transform 0.5s ease;
+}
+
+.service-card-minimal:hover img,
+section:hover img {
+    transform: scale(1.02);
+}
+
+/* Stats Circle Animation */
+.w-64.h-64.bg-navy-900 {
+    animation: pulse-ring 3s ease-in-out infinite;
+}
+
+@keyframes pulse-ring {
+    0%, 100% {
+        box-shadow: 0 0 0 0 rgba(255, 107, 74, 0.3);
     }
     50% {
-        background-position: 100% 50%;
+        box-shadow: 0 0 0 30px rgba(255, 107, 74, 0);
     }
-    100% {
-        background-position: 0% 50%;
-    }
+}
+
+/* Gradient Overlays */
+.gradient-overlay {
+    position: relative;
+}
+
+.gradient-overlay::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(135deg, rgba(10, 42, 61, 0.8), rgba(255, 107, 74, 0.3));
+    pointer-events: none;
+}
+
+/* Focus States for Accessibility */
+a:focus,
+button:focus {
+    outline: 2px solid #ff6b4a;
+    outline-offset: 4px;
+}
+
+/* Smooth Transitions */
+* {
+    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Links Hover States */
+a {
+    text-decoration: none;
+    transition: all 0.3s ease;
+}
+
+/* Footer Link Hover */
+footer a:hover {
+    color: #ff6b4a !important;
 }
 
 /* Responsive Typography */
-@media (max-width: 640px) {
+@media (max-width: 768px) {
     h1 {
         font-size: 2.5rem !important;
     }
@@ -141,9 +302,20 @@ textarea:focus {
     h2 {
         font-size: 2rem !important;
     }
+
+    blockquote {
+        font-size: 1.5rem !important;
+    }
+
+    .btn-navy,
+    .btn-outline,
+    .btn-outline-white {
+        width: 100%;
+        justify-content: center;
+    }
 }
 
-/* Loading Animation for Form Submit */
+/* Loading Animation */
 @keyframes spin {
     to {
         transform: rotate(360deg);
@@ -154,73 +326,96 @@ textarea:focus {
     animation: spin 1s linear infinite;
 }
 
-/* Hover Effects for Images */
-img {
+/* Glass Morphism for Cards */
+.glass-card {
+    background: rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 12px;
+}
+
+/* Coral Accent Elements */
+.accent-line {
+    width: 60px;
+    height: 2px;
+    background: #ff6b4a;
+    margin: 20px 0;
+}
+
+/* Map Overlay Card */
+.absolute.bottom-8 {
+    backdrop-filter: blur(10px);
+}
+
+/* Hover Scale Effects */
+.hover-scale {
     transition: transform 0.3s ease;
 }
 
-.service-card:hover img,
-.testimonial-card:hover img {
+.hover-scale:hover {
     transform: scale(1.05);
 }
 
-/* Glass Morphism Effect */
-.glass {
-    background: rgba(255, 255, 255, 0.1);
-    backdrop-filter: blur(10px);
-    border: 1px solid rgba(255, 255, 255, 0.2);
+/* Text Selection */
+::selection {
+    background-color: #ff6b4a;
+    color: white;
 }
 
-/* Pulse Animation for CTA Buttons */
-@keyframes pulse {
-    0%, 100% {
-        box-shadow: 0 0 0 0 rgba(37, 99, 235, 0.7);
+::-moz-selection {
+    background-color: #ff6b4a;
+    color: white;
+}
+
+/* Smooth Page Transitions */
+body {
+    animation: fadeIn 0.5s ease-in;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
     }
-    50% {
-        box-shadow: 0 0 0 10px rgba(37, 99, 235, 0);
+    to {
+        opacity: 1;
     }
-}
-
-.btn-primary:hover {
-    animation: pulse 2s infinite;
-}
-
-/* Gradient Text */
-.gradient-text {
-    background: linear-gradient(135deg, #2563eb, #7c3aed);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-}
-
-/* Section Dividers */
-.section-divider {
-    width: 80px;
-    height: 4px;
-    background: linear-gradient(90deg, #2563eb, #7c3aed);
-    margin: 0 auto;
-    border-radius: 2px;
-}
-
-/* Card Hover Glow Effect */
-.service-card:hover,
-.testimonial-card:hover {
-    box-shadow: 0 20px 40px rgba(37, 99, 235, 0.1);
-}
-
-/* Accessibility Improvements */
-a:focus,
-button:focus {
-    outline: 2px solid #2563eb;
-    outline-offset: 2px;
 }
 
 /* Print Styles */
 @media print {
     nav,
     footer,
-    .btn-primary,
-    .btn-secondary {
-        display: none;
+    .btn-navy,
+    .btn-outline,
+    .btn-outline-white {
+        display: none !important;
     }
+
+    section {
+        page-break-inside: avoid;
+    }
+}
+
+/* Reduced Motion for Accessibility */
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+    }
+}
+
+/* High Contrast Mode Support */
+@media (prefers-contrast: high) {
+    .btn-navy,
+    .btn-outline {
+        border-width: 3px;
+    }
+}
+
+/* Dark Mode Support (Optional) */
+@media (prefers-color-scheme: dark) {
+    /* Add dark mode styles if needed */
 }
