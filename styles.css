@@ -170,6 +170,29 @@ body {
     }
 }
 
+/* Hero Text Enhanced Visibility */
+.hero-text-enhanced h1,
+.hero-text-enhanced p,
+.hero-text-enhanced .text-sm {
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+.hero-text-enhanced h1 {
+    font-weight: 400 !important;
+    letter-spacing: -0.02em;
+}
+
+/* Enhanced gradient for better text contrast on light backgrounds */
+#home .bg-gradient-to-r {
+    background: linear-gradient(to right,
+        rgba(10, 42, 61, 0.85) 0%,
+        rgba(10, 42, 61, 0.70) 50%,
+        rgba(10, 42, 61, 0.60) 100%
+    );
+}
+
 /* Testimonial Quote Styling */
 blockquote {
     position: relative;
