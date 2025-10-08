@@ -52,7 +52,7 @@ const translations = {
             subtitle: 'Meet Dr. Karimova',
             title: 'Excellence in ophthalmology since 2008',
             description1: 'Dr. Sitora Karimova brings 8 years of specialized experience in comprehensive eye care. Trained at Avicenna Tajik State Medical University, she combines cutting-edge technology with a patient-first philosophy.',
-            description2: 'Her practice focuses on delivering personalized treatment plans that address each patient\'s unique needs, ensuring optimal vision outcomes and long-term eye health.',
+            description2: 'Her practice focuses on delivering personalized consultation that address each patient\'s unique needs, ensuring optimal vision outcomes and long-term eye health.',
             credential1: 'Board Certified Ophthalmologist',
             credential2: 'Fellow, American Academy of Ophthalmology',
             credential3: '8+ Years Clinical Experience'
