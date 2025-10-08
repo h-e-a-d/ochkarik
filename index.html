@@ -171,11 +171,11 @@
     </section>
 
     <!-- About Section -->
-    <section id="about" class="py-24 bg-white">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="grid md:grid-cols-2 gap-16 items-center">
-                <!-- Left: Content -->
-                <div>
+    <section id="about" class="bg-white">
+        <div class="grid md:grid-cols-2">
+            <!-- Left: Content -->
+            <div class="flex items-center py-24 px-4 sm:px-6 lg:px-16">
+                <div class="max-w-xl">
                     <p class="text-sm uppercase tracking-widest mb-3 text-coral">Meet Dr. Karimova</p>
                     <h2 class="text-4xl md:text-5xl font-light mb-6 text-navy-900">Excellence in ophthalmology since 2008</h2>
                     <p class="text-lg text-gray-600 mb-6 font-light leading-relaxed">
@@ -201,15 +201,13 @@
                         </div>
                     </div>
                 </div>
+            </div>
 
-                <!-- Right: Image -->
-                <div>
-                    <div class="relative">
-                        <img src="https://images.unsplash.com/photo-1612349317150-e413f6a5b16d?auto=format&fit=crop&w=800&q=80"
-                             alt="Dr. Sitora Karimova"
-                             class="rounded-lg shadow-2xl w-full">
-                    </div>
-                </div>
+            <!-- Right: Image (Full Height) -->
+            <div class="relative h-full min-h-[600px]">
+                <img src="https://images.unsplash.com/photo-1612349317150-e413f6a5b16d?auto=format&fit=crop&w=1200&q=80"
+                     alt="Dr. Sitora Karimova"
+                     class="absolute inset-0 w-full h-full object-cover">
             </div>
         </div>
     </section>
