@@ -788,25 +788,28 @@ document.addEventListener('DOMContentLoaded', function() {
     // ===========================
     // Smooth Reveal for Elements
     // ===========================
-    const revealElements = document.querySelectorAll('h2, p, .btn-navy, .btn-outline');
-    revealElements.forEach((element, index) => {
-        element.style.opacity = '0';
-        element.style.transform = 'translateY(20px)';
+    const sections = document.querySelectorAll('section');
+    sections.forEach(section => {
+        const revealElements = section.querySelectorAll('h2, p, .btn-navy, .btn-outline');
+        revealElements.forEach((element, index) => {
+            element.style.opacity = '0';
+            element.style.transform = 'translateY(20px)';
 
-        const elementObserver = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    setTimeout(() => {
-                        entry.target.style.transition = 'all 0.6s ease-out';
-                        entry.target.style.opacity = '1';
-                        entry.target.style.transform = 'translateY(0)';
-                    }, index * 50);
-                    elementObserver.unobserve(entry.target);
-                }
-            });
-        }, { threshold: 0.1 });
+            const elementObserver = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        setTimeout(() => {
+                            entry.target.style.transition = 'all 0.6s ease-out';
+                            entry.target.style.opacity = '1';
+                            entry.target.style.transform = 'translateY(0)';
+                        }, index * 50);
+                        elementObserver.unobserve(entry.target);
+                    }
+                });
+            }, { threshold: 0.1 });
 
-        elementObserver.observe(element);
+            elementObserver.observe(element);
+        });
     });
 
 
