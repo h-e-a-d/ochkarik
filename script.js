@@ -788,7 +788,6 @@ document.addEventListener('DOMContentLoaded', function() {
     // ===========================
     // Smooth Reveal for Elements
     // ===========================
-    const sections = document.querySelectorAll('section');
     sections.forEach(section => {
         const revealElements = section.querySelectorAll('h2, p, .btn-navy, .btn-outline');
         revealElements.forEach((element, index) => {
