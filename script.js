@@ -951,6 +951,96 @@ document.addEventListener('DOMContentLoaded', function() {
 
 
     // ===========================
+    // About Section Image Carousel
+    // ===========================
+    const carouselSlides = document.querySelectorAll('.carousel-slide');
+    const carouselPrev = document.querySelector('.carousel-prev');
+    const carouselNext = document.querySelector('.carousel-next');
+    const carouselIndicators = document.querySelectorAll('.indicator');
+    let currentSlide = 0;
+    let carouselInterval;
+
+    function showSlide(index) {
+        // Remove active class from all slides and indicators
+        carouselSlides.forEach(slide => {
+            slide.classList.remove('active');
+            slide.classList.add('opacity-0');
+        });
+        carouselIndicators.forEach(indicator => {
+            indicator.classList.remove('active');
+            indicator.classList.remove('bg-white');
+            indicator.classList.add('bg-white/50');
+        });
+
+        // Add active class to current slide and indicator
+        carouselSlides[index].classList.add('active');
+        carouselSlides[index].classList.remove('opacity-0');
+        carouselIndicators[index].classList.add('active');
+        carouselIndicators[index].classList.add('bg-white');
+        carouselIndicators[index].classList.remove('bg-white/50');
+
+        currentSlide = index;
+    }
+
+    function nextSlide() {
+        const next = (currentSlide + 1) % carouselSlides.length;
+        showSlide(next);
+    }
+
+    function prevSlide() {
+        const prev = (currentSlide - 1 + carouselSlides.length) % carouselSlides.length;
+        showSlide(prev);
+    }
+
+    // Auto-advance carousel every 5 seconds
+    function startCarousel() {
+        carouselInterval = setInterval(nextSlide, 5000);
+    }
+
+    function stopCarousel() {
+        clearInterval(carouselInterval);
+    }
+
+    // Event listeners for carousel controls
+    if (carouselNext) {
+        carouselNext.addEventListener('click', () => {
+            stopCarousel();
+            nextSlide();
+            startCarousel();
+        });
+    }
+
+    if (carouselPrev) {
+        carouselPrev.addEventListener('click', () => {
+            stopCarousel();
+            prevSlide();
+            startCarousel();
+        });
+    }
+
+    // Event listeners for indicators
+    carouselIndicators.forEach((indicator, index) => {
+        indicator.addEventListener('click', () => {
+            stopCarousel();
+            showSlide(index);
+            startCarousel();
+        });
+    });
+
+    // Pause carousel on hover
+    const aboutCarousel = document.querySelector('.about-carousel');
+    if (aboutCarousel) {
+        aboutCarousel.addEventListener('mouseenter', stopCarousel);
+        aboutCarousel.addEventListener('mouseleave', startCarousel);
+    }
+
+    // Start the carousel
+    if (carouselSlides.length > 0) {
+        startCarousel();
+    }
+
+
+    // ===========================
     // Service Worker Registration (for PWA support)
     // ===========================
     if ('serviceWorker' in navigator) {
