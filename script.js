@@ -1,7 +1,395 @@
 // JavaScript for Minimalist Ophthalmologist Website
 
+// ===========================
+// Translations Object
+// ===========================
+const translations = {
+    en: {
+        nav: {
+            home: 'Home',
+            services: 'Services',
+            about: 'About',
+            reviews: 'Reviews',
+            contact: 'Contact',
+            language: 'Language'
+        },
+        hero: {
+            subtitle: 'Ophthalmology Practice',
+            title: 'Exceptional eye care with cutting-edge technology',
+            description: 'Experience personalized ophthalmology services designed for your unique vision needs',
+            bookNow: 'Book Now',
+            ourServices: 'Our Services'
+        },
+        services: {
+            subtitle: 'What We Offer',
+            title: 'Core Services',
+            exams: {
+                title: 'Comprehensive Exams',
+                description: 'Complete eye health evaluation using advanced diagnostic technology'
+            },
+            cataract: {
+                title: 'Cataract Surgery',
+                description: 'State-of-the-art microsurgical procedures for vision restoration'
+            },
+            lasik: {
+                title: 'LASIK Surgery',
+                description: 'Precision laser vision correction for lasting results'
+            },
+            glaucoma: {
+                title: 'Glaucoma Management',
+                description: 'Advanced detection and treatment to preserve your vision'
+            },
+            retina: {
+                title: 'Retina Specialist',
+                description: 'Expert care for retinal conditions and macular health'
+            },
+            pediatric: {
+                title: 'Pediatric Care',
+                description: 'Gentle, specialized eye care for children'
+            }
+        },
+        about: {
+            subtitle: 'Meet Dr. Karimova',
+            title: 'Excellence in ophthalmology since 2008',
+            description1: 'Dr. Sitora Karimova brings over 15 years of specialized experience in comprehensive eye care. Trained at Johns Hopkins University and Massachusetts Eye and Ear Infirmary, she combines cutting-edge technology with a patient-first philosophy.',
+            description2: 'Her practice focuses on delivering personalized treatment plans that address each patient\'s unique needs, ensuring optimal vision outcomes and long-term eye health.',
+            credential1: 'Board Certified Ophthalmologist',
+            credential2: 'Fellow, American Academy of Ophthalmology',
+            credential3: '15+ Years Clinical Experience'
+        },
+        stats: {
+            years: 'Years of<br>Experience'
+        },
+        testimonials: {
+            quote: '"Dr. Karimova\'s expertise and compassionate care transformed my vision. The cataract surgery was seamless, and I can now see the world with perfect clarity. Truly exceptional service."',
+            patient: 'Cataract Surgery Patient'
+        },
+        partners: {
+            title: 'Trusted Partnerships'
+        },
+        contact: {
+            subtitle: 'Get In Touch',
+            title: 'Schedule your appointment',
+            phone: 'Phone',
+            email: 'Email',
+            hours: 'Hours',
+            monFri: 'Mon - Fri: 8:00 AM - 6:00 PM',
+            sat: 'Sat: 9:00 AM - 2:00 PM',
+            sun: 'Sun: Closed',
+            bookNow: 'Book Now',
+            callUs: 'Call Us',
+            visitClinic: 'Visit Our Clinic',
+            address1: 'Bekhzod Street 14',
+            address2: 'Dushanbe, Tajikistan'
+        },
+        footer: {
+            tagline: 'Exceptional ophthalmology care since 2008',
+            servicesTitle: 'Services',
+            eyeExams: 'Eye Exams',
+            cataractSurgery: 'Cataract Surgery',
+            lasik: 'LASIK',
+            glaucomaCare: 'Glaucoma Care',
+            infoTitle: 'Information',
+            about: 'About',
+            reviews: 'Reviews',
+            contact: 'Contact',
+            privacy: 'Privacy Policy',
+            connect: 'Connect',
+            copyright: '© 2025 Sitora Karimova Ophthalmology. All rights reserved.'
+        }
+    },
+    ru: {
+        nav: {
+            home: 'Главная',
+            services: 'Услуги',
+            about: 'О нас',
+            reviews: 'Отзывы',
+            contact: 'Контакты',
+            language: 'Язык'
+        },
+        hero: {
+            subtitle: 'Офтальмологическая практика',
+            title: 'Исключительный уход за зрением с передовыми технологиями',
+            description: 'Персонализированные офтальмологические услуги для ваших уникальных потребностей',
+            bookNow: 'Записаться',
+            ourServices: 'Наши услуги'
+        },
+        services: {
+            subtitle: 'Что мы предлагаем',
+            title: 'Основные услуги',
+            exams: {
+                title: 'Комплексное обследование',
+                description: 'Полная оценка здоровья глаз с использованием передовых диагностических технологий'
+            },
+            cataract: {
+                title: 'Операция по удалению катаракты',
+                description: 'Современные микрохирургические процедуры для восстановления зрения'
+            },
+            lasik: {
+                title: 'LASIK операция',
+                description: 'Точная лазерная коррекция зрения для долговременных результатов'
+            },
+            glaucoma: {
+                title: 'Лечение глаукомы',
+                description: 'Передовая диагностика и лечение для сохранения вашего зрения'
+            },
+            retina: {
+                title: 'Специалист по сетчатке',
+                description: 'Экспертная помощь при заболеваниях сетчатки и макулы'
+            },
+            pediatric: {
+                title: 'Детская офтальмология',
+                description: 'Бережный, специализированный уход за глазами детей'
+            }
+        },
+        about: {
+            subtitle: 'Знакомьтесь, доктор Каримова',
+            title: 'Превосходство в офтальмологии с 2008 года',
+            description1: 'Доктор Ситора Каримова имеет более 15 лет специализированного опыта в комплексном уходе за глазами. Получив образование в Университете Джонса Хопкинса и Массачусетской глазной и ушной больнице, она сочетает передовые технологии с философией заботы о пациентах.',
+            description2: 'Её практика фокусируется на разработке персонализированных планов лечения, которые отвечают уникальным потребностям каждого пациента, обеспечивая оптимальные результаты для зрения и долгосрочное здоровье глаз.',
+            credential1: 'Сертифицированный офтальмолог',
+            credential2: 'Член Американской академии офтальмологии',
+            credential3: '15+ лет клинического опыта'
+        },
+        stats: {
+            years: 'Лет<br>опыта'
+        },
+        testimonials: {
+            quote: '"Опыт и заботливый подход доктора Каримовой преобразили моё зрение. Операция по удалению катаракты прошла безупречно, и теперь я могу видеть мир с идеальной чёткостью. Поистине исключительный сервис."',
+            patient: 'Пациент после операции катаракты'
+        },
+        partners: {
+            title: 'Доверенные партнёры'
+        },
+        contact: {
+            subtitle: 'Свяжитесь с нами',
+            title: 'Запишитесь на приём',
+            phone: 'Телефон',
+            email: 'Эл. почта',
+            hours: 'Часы работы',
+            monFri: 'Пн - Пт: 8:00 - 18:00',
+            sat: 'Сб: 9:00 - 14:00',
+            sun: 'Вс: Закрыто',
+            bookNow: 'Записаться',
+            callUs: 'Позвонить',
+            visitClinic: 'Посетите нашу клинику',
+            address1: 'Улица Бехзода 14',
+            address2: 'Душанбе, Таджикистан'
+        },
+        footer: {
+            tagline: 'Исключительный уход за глазами с 2008 года',
+            servicesTitle: 'Услуги',
+            eyeExams: 'Обследование глаз',
+            cataractSurgery: 'Операция катаракты',
+            lasik: 'LASIK',
+            glaucomaCare: 'Лечение глаукомы',
+            infoTitle: 'Информация',
+            about: 'О нас',
+            reviews: 'Отзывы',
+            contact: 'Контакты',
+            privacy: 'Политика конфиденциальности',
+            connect: 'Связаться',
+            copyright: '© 2025 Офтальмология Ситоры Каримовой. Все права защищены.'
+        }
+    },
+    tj: {
+        nav: {
+            home: 'Асосӣ',
+            services: 'Хидматҳо',
+            about: 'Дар бораи мо',
+            reviews: 'Тақризҳо',
+            contact: 'Тамос',
+            language: 'Забон'
+        },
+        hero: {
+            subtitle: 'Амалиёти офтальмологӣ',
+            title: 'Нигоҳубини истисноии чашм бо технологияи пешрафта',
+            description: 'Хидматҳои офтальмологии шахсӣ барои эҳтиёҷоти беназири бинишии шумо',
+            bookNow: 'Сабти ном',
+            ourServices: 'Хидматҳои мо'
+        },
+        services: {
+            subtitle: 'Он чӣ мо пешниҳод мекунем',
+            title: 'Хидматҳои асосӣ',
+            exams: {
+                title: 'Санҷишҳои комил',
+                description: 'Арзёбии пурраи саломатии чашм бо истифода аз технологияи ташхисии пешрафта'
+            },
+            cataract: {
+                title: 'Амалиёти катаракт',
+                description: 'Усулҳои микроҷарроҳии муосир барои барқароркунии бинӣ'
+            },
+            lasik: {
+                title: 'Амалиёти LASIK',
+                description: 'Ислоҳи дақиқи бинӣ бо лазер барои натиҷаҳои пойдор'
+            },
+            glaucoma: {
+                title: 'Табобати глаукома',
+                description: 'Ошкоркунӣ ва табобати пешрафта барои нигоҳ доштани бинишии шумо'
+            },
+            retina: {
+                title: 'Мутахассиси шабакия',
+                description: 'Нигоҳубини мутахассисона барои ҳолатҳои шабакия ва макулярӣ'
+            },
+            pediatric: {
+                title: 'Нигоҳубини кӯдакон',
+                description: 'Нигоҳубини махсус ва мулоим барои чашми кӯдакон'
+            }
+        },
+        about: {
+            subtitle: 'Бо доктор Каримова шинос шавед',
+            title: 'Дараҷаи олӣ дар офтальмология аз соли 2008',
+            description1: 'Доктор Ситора Каримова зиёда аз 15 сол таҷрибаи ихтисосӣ дар нигоҳубини комили чашм дорад. Таҳсилёфтаи Донишгоҳи Ҷонс Ҳопкинс ва Беморхонаи чашм ва гӯши Массачусетс, ӯ технологияи пешрафтаро бо фалсафаи аввалан беморро муттаҳид мекунад.',
+            description2: 'Амалиёти ӯ ба таҳияи нақшаҳои шахсии табобат равона карда шудааст, ки ба эҳтиёҷоти беназири ҳар бемор ҷавобгӯ аст ва натиҷаҳои мувофиқ барои бинӣ ва саломатии дарозмуҳлати чашмро таъмин мекунад.',
+            credential1: 'Офтальмологи тасдиқшуда',
+            credential2: 'Узви Академияи Америкоии Офтальмология',
+            credential3: '15+ сол таҷрибаи клиникӣ'
+        },
+        stats: {
+            years: 'Солҳои<br>таҷриба'
+        },
+        testimonials: {
+            quote: '"Маҳорат ва ғамхории доктор Каримова бинишии маро табдил дод. Амалиёти катаракт бенуқс буд ва акнун ман метавонам дунёро бо равшании комил бинам. Дар ҳақиқат хидмати истисноӣ."',
+            patient: 'Бемори амалиёти катаракт'
+        },
+        partners: {
+            title: 'Шарикони боэътимод'
+        },
+        contact: {
+            subtitle: 'Бо мо тамос гиред',
+            title: 'Барои вохӯрӣ сабти ном кунед',
+            phone: 'Телефон',
+            email: 'Почтаи электронӣ',
+            hours: 'Соатҳои корӣ',
+            monFri: 'Душ - Ҷум: 8:00 - 18:00',
+            sat: 'Шан: 9:00 - 14:00',
+            sun: 'Якш: Пӯшида',
+            bookNow: 'Сабти ном',
+            callUs: 'Занг занед',
+            visitClinic: 'Клиникаи моро боздид кунед',
+            address1: 'Кӯчаи Беҳзод 14',
+            address2: 'Душанбе, Тоҷикистон'
+        },
+        footer: {
+            tagline: 'Нигоҳубини истисноии чашм аз соли 2008',
+            servicesTitle: 'Хидматҳо',
+            eyeExams: 'Санҷиши чашм',
+            cataractSurgery: 'Амалиёти катаракт',
+            lasik: 'LASIK',
+            glaucomaCare: 'Табобати глаукома',
+            infoTitle: 'Маълумот',
+            about: 'Дар бораи мо',
+            reviews: 'Тақризҳо',
+            contact: 'Тамос',
+            privacy: 'Сиёсати махфият',
+            connect: 'Пайваст',
+            copyright: '© 2025 Офтальмологияи Ситора Каримова. Ҳамаи ҳуқуқҳо маҳфузанд.'
+        }
+    }
+};
+
 // Wait for DOM to be fully loaded
 document.addEventListener('DOMContentLoaded', function() {
+
+    // ===========================
+    // Language Switching System
+    // ===========================
+    let currentLang = localStorage.getItem('language') || 'en';
+
+    // Function to get nested translation value
+    function getTranslation(lang, key) {
+        const keys = key.split('.');
+        let value = translations[lang];
+
+        for (let k of keys) {
+            if (value && value[k] !== undefined) {
+                value = value[k];
+            } else {
+                return null;
+            }
+        }
+        return value;
+    }
+
+    // Function to update page language
+    function updateLanguage(lang) {
+        currentLang = lang;
+        localStorage.setItem('language', lang);
+
+        // Update all elements with data-i18n attribute
+        document.querySelectorAll('[data-i18n]').forEach(element => {
+            const key = element.getAttribute('data-i18n');
+            const translation = getTranslation(lang, key);
+
+            if (translation) {
+                element.innerHTML = translation;
+            }
+        });
+
+        // Update current language display
+        const langMap = { en: 'EN', ru: 'RU', tj: 'TJ' };
+        const currentLangDisplay = document.getElementById('current-lang');
+        if (currentLangDisplay) {
+            currentLangDisplay.textContent = langMap[lang];
+        }
+
+        // Update html lang attribute
+        document.documentElement.setAttribute('lang', lang);
+    }
+
+    // Initialize language on page load
+    updateLanguage(currentLang);
+
+    // Desktop language switcher
+    const langBtn = document.getElementById('lang-btn');
+    const langMenu = document.getElementById('lang-menu');
+
+    if (langBtn && langMenu) {
+        langBtn.addEventListener('click', function(e) {
+            e.stopPropagation();
+            langMenu.classList.toggle('hidden');
+        });
+
+        // Close dropdown when clicking outside
+        document.addEventListener('click', function(e) {
+            if (!langBtn.contains(e.target) && !langMenu.contains(e.target)) {
+                langMenu.classList.add('hidden');
+            }
+        });
+
+        // Language option clicks
+        const langOptions = document.querySelectorAll('.lang-option');
+        langOptions.forEach(option => {
+            option.addEventListener('click', function() {
+                const selectedLang = this.getAttribute('data-lang');
+                updateLanguage(selectedLang);
+                langMenu.classList.add('hidden');
+            });
+        });
+    }
+
+    // Mobile language switcher
+    const mobileLangOptions = document.querySelectorAll('.lang-option-mobile');
+    mobileLangOptions.forEach(option => {
+        option.addEventListener('click', function() {
+            const selectedLang = this.getAttribute('data-lang');
+            updateLanguage(selectedLang);
+
+            // Close mobile menu after language change
+            const mobileMenu = document.getElementById('mobile-menu');
+            const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+            if (mobileMenu && mobileMenuBtn) {
+                mobileMenu.classList.add('hidden');
+                mobileMenu.classList.remove('open');
+                const icon = mobileMenuBtn.querySelector('i');
+                if (icon) {
+                    icon.classList.remove('fa-times');
+                    icon.classList.add('fa-bars');
+                }
+            }
+        });
+    });
+
 
     // ===========================
     // Mobile Menu Toggle
