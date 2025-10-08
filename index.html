@@ -18,6 +18,9 @@
                             900: '#0a2a3d',
                         },
                         coral: '#ff6b4a',
+                    },
+                    fontFamily: {
+                        sans: ['Söhne', '-apple-system', 'BlinkMacSystemFont', 'Segoe UI', 'Helvetica Neue', 'Arial', 'sans-serif'],
                     }
                 }
             }
@@ -27,13 +30,20 @@
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
-    <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Söhne Font (with fallback to system fonts) -->
+    <style>
+        @font-face {
+            font-family: 'Söhne';
+            src: local('Söhne'), local('Sohne');
+            font-weight: 300;
+            font-style: normal;
+        }
+    </style>
 
     <!-- Custom Styles -->
     <link rel="stylesheet" href="styles.css">
 </head>
-<body class="font-['Poppins'] text-gray-800">
+<body class="font-['Söhne'] text-gray-800">
 
     <!-- Navigation -->
     <nav class="fixed w-full bg-transparent backdrop-blur-md z-50 transition-all" id="navbar">
@@ -201,9 +211,9 @@
             <div class="flex items-center justify-center py-24 px-4 sm:px-6 lg:px-16">
                 <div class="max-w-xl">
                     <p class="text-sm uppercase tracking-widest mb-3 text-coral" data-i18n="about.subtitle">Meet Dr. Karimova</p>
-                    <h2 class="text-4xl md:text-5xl font-light mb-6 text-navy-900" data-i18n="about.title">Excellence in ophthalmology since 2008</h2>
+                    <h2 class="text-4xl md:text-5xl font-light mb-6 text-navy-900" data-i18n="about.title">Excellence in ophthalmology since 2017</h2>
                     <p class="text-lg text-gray-600 mb-6 font-light leading-relaxed" data-i18n="about.description1">
-                        Dr. Sitora Karimova brings over 15 years of specialized experience in comprehensive eye care. Trained at Johns Hopkins University and Massachusetts Eye and Ear Infirmary, she combines cutting-edge technology with a patient-first philosophy.
+                        Dr. Sitora Karimova brings 8 years of specialized experience in comprehensive eye care. Trained at Avicenna Tajik State Medical University, she combines cutting-edge technology with a patient-first philosophy.
                     </p>
                     <p class="text-lg text-gray-600 mb-6 font-light leading-relaxed" data-i18n="about.description2">
                         Her practice focuses on delivering personalized treatment plans that address each patient's unique needs, ensuring optimal vision outcomes and long-term eye health.
@@ -221,7 +231,7 @@
                         </div>
                         <div class="flex items-center text-gray-700">
                             <div class="w-1 h-1 bg-coral rounded-full mr-3"></div>
-                            <span class="font-light" data-i18n="about.credential3">15+ Years Clinical Experience</span>
+                            <span class="font-light" data-i18n="about.credential3">8 Years Clinical Experience</span>
                         </div>
                     </div>
                 </div>
@@ -356,12 +366,7 @@
             </div>
 
             <!-- Carousel Controls -->
-            <div class="flex items-center justify-center mt-12 space-x-8">
-                <!-- Previous Button -->
-                <button id="testimonial-prev" class="text-white/70 hover:text-white transition-colors duration-300" aria-label="Previous testimonial">
-                    <i class="fas fa-chevron-left text-2xl"></i>
-                </button>
-
+            <div class="flex items-center justify-center mt-12">
                 <!-- Dots Indicator -->
                 <div class="flex space-x-3">
                     <button class="testimonial-dot active" data-slide="0" aria-label="Go to testimonial 1"></button>
@@ -369,11 +374,6 @@
                     <button class="testimonial-dot" data-slide="2" aria-label="Go to testimonial 3"></button>
                     <button class="testimonial-dot" data-slide="3" aria-label="Go to testimonial 4"></button>
                 </div>
-
-                <!-- Next Button -->
-                <button id="testimonial-next" class="text-white/70 hover:text-white transition-colors duration-300" aria-label="Next testimonial">
-                    <i class="fas fa-chevron-right text-2xl"></i>
-                </button>
             </div>
         </div>
     </section>
@@ -476,7 +476,7 @@
                 <!-- Column 1 -->
                 <div>
                     <h4 class="font-medium text-navy-900 mb-4">Sitora Karimova</h4>
-                    <p class="text-sm font-light" data-i18n="footer.tagline">Exceptional ophthalmology care since 2008</p>
+                    <p class="text-sm font-light" data-i18n="footer.tagline">Exceptional ophthalmology care since 2017</p>
                 </div>
 
                 <!-- Column 2 -->

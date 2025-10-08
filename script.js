@@ -620,7 +620,6 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     function animateCounter(element, target, duration = 2000) {
-        const originalText = element.textContent;
         let current = 0;
         const increment = target / (duration / 16);
 
@@ -799,8 +798,6 @@ document.addEventListener('DOMContentLoaded', function() {
     let currentSlide = 0;
     const slides = document.querySelectorAll('.testimonial-slide');
     const dots = document.querySelectorAll('.testimonial-dot');
-    const prevBtn = document.getElementById('testimonial-prev');
-    const nextBtn = document.getElementById('testimonial-next');
 
     function showSlide(index) {
         // Remove active class from all slides and dots
@@ -815,20 +812,6 @@ document.addEventListener('DOMContentLoaded', function() {
     function nextSlide() {
         currentSlide = (currentSlide + 1) % slides.length;
         showSlide(currentSlide);
-    }
-
-    function prevSlide() {
-        currentSlide = (currentSlide - 1 + slides.length) % slides.length;
-        showSlide(currentSlide);
-    }
-
-    // Event listeners for navigation buttons
-    if (nextBtn) {
-        nextBtn.addEventListener('click', nextSlide);
-    }
-
-    if (prevBtn) {
-        prevBtn.addEventListener('click', prevSlide);
     }
 
     // Event listeners for dots
@@ -853,15 +836,6 @@ document.addEventListener('DOMContentLoaded', function() {
             autoAdvance = setInterval(nextSlide, 7000);
         });
     }
-
-    // Keyboard navigation for carousel
-    document.addEventListener('keydown', function(e) {
-        if (e.key === 'ArrowLeft') {
-            prevSlide();
-        } else if (e.key === 'ArrowRight') {
-            nextSlide();
-        }
-    });
 
 
     // ===========================
