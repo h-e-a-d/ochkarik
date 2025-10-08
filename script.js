@@ -50,12 +50,12 @@ const translations = {
         },
         about: {
             subtitle: 'Meet Dr. Karimova',
-            title: 'Excellence in ophthalmology since 2008',
-            description1: 'Dr. Sitora Karimova brings 17 years of specialized experience in comprehensive eye care. Trained at Avicenna Tajik State Medical University, she combines cutting-edge technology with a patient-first philosophy.',
+            title: 'Excellence in ophthalmology since 2017',
+            description1: 'Dr. Sitora Karimova brings 8 years of specialized experience in comprehensive eye care. Trained at Avicenna Tajik State Medical University, she combines cutting-edge technology with a patient-first philosophy.',
             description2: 'Her practice focuses on delivering personalized consultation that address each patient\'s unique needs, ensuring optimal vision outcomes and long-term eye health.',
             credential1: 'Board Certified Ophthalmologist',
             credential2: 'Fellow, American Academy of Ophthalmology',
-            credential3: '17+ Years Clinical Experience'
+            credential3: '8+ Years Clinical Experience'
         },
         stats: {
             years: 'Years of<br>Experience'
@@ -93,7 +93,7 @@ const translations = {
             address2: 'Dushanbe, Tajikistan'
         },
         footer: {
-            tagline: 'Exceptional ophthalmology care since 2008',
+            tagline: 'Exceptional ophthalmology care since 2017',
             servicesTitle: 'Services',
             eyeExams: 'Eye Exams',
             cataractSurgery: 'Cataract Surgery',
@@ -154,12 +154,12 @@ const translations = {
         },
         about: {
             subtitle: 'Знакомьтесь, доктор Каримова',
-            title: 'Превосходство в офтальмологии с 2008 года',
-            description1: 'Доктор Ситора Каримова имеет 17 лет специализированного опыта в комплексном уходе за глазами. Получив образование в Таджикском государственном медицинском университете имени Авиценны, она сочетает передовые технологии с философией заботы о пациентах.',
+            title: 'Превосходство в офтальмологии с 2017 года',
+            description1: 'Доктор Ситора Каримова имеет 8 лет специализированного опыта в комплексном уходе за глазами. Получив образование в Таджикском государственном медицинском университете имени Авиценны, она сочетает передовые технологии с философией заботы о пациентах.',
             description2: 'Её практика фокусируется на разработке персонализированных планов лечения, которые отвечают уникальным потребностям каждого пациента, обеспечивая оптимальные результаты для зрения и долгосрочное здоровье глаз.',
             credential1: 'Сертифицированный офтальмолог',
             credential2: 'Член Американской академии офтальмологии',
-            credential3: '17+ лет клинического опыта'
+            credential3: '8+ лет клинического опыта'
         },
         stats: {
             years: 'Лет<br>опыта'
@@ -197,7 +197,7 @@ const translations = {
             address2: 'Душанбе, Таджикистан'
         },
         footer: {
-            tagline: 'Исключительный уход за глазами с 2008 года',
+            tagline: 'Исключительный уход за глазами с 2017 года',
             servicesTitle: 'Услуги',
             eyeExams: 'Обследование глаз',
             cataractSurgery: 'Операция катаракты',
@@ -258,12 +258,12 @@ const translations = {
         },
         about: {
             subtitle: 'Бо доктор Каримова шинос шавед',
-            title: 'Дараҷаи олӣ дар офтальмология аз соли 2008',
-            description1: 'Доктор Ситора Каримова 17 сол таҷрибаи ихтисосӣ дар нигоҳубини комили чашм дорад. Таҳсилёфтаи Донишгоҳи тиббии давлатии Тоҷикистон ба номи Абӯалӣ ибни Сино, ӯ технологияи пешрафтаро бо фалсафаи аввалан беморро муттаҳид мекунад.',
+            title: 'Дараҷаи олӣ дар офтальмология аз соли 2017',
+            description1: 'Доктор Ситора Каримова 8 сол таҷрибаи ихтисосӣ дар нигоҳубини комили чашм дорад. Таҳсилёфтаи Донишгоҳи тиббии давлатии Тоҷикистон ба номи Абӯалӣ ибни Сино, ӯ технологияи пешрафтаро бо фалсафаи аввалан беморро муттаҳид мекунад.',
             description2: 'Амалиёти ӯ ба таҳияи нақшаҳои шахсии табобат равона карда шудааст, ки ба эҳтиёҷоти беназири ҳар бемор ҷавобгӯ аст ва натиҷаҳои мувофиқ барои бинӣ ва саломатии дарозмуҳлати чашмро таъмин мекунад.',
             credential1: 'Офтальмологи тасдиқшуда',
             credential2: 'Узви Академияи Америкоии Офтальмология',
-            credential3: '17+ сол таҷрибаи клиникӣ'
+            credential3: '8+ сол таҷрибаи клиникӣ'
         },
         stats: {
             years: 'Солҳои<br>таҷриба'
@@ -301,7 +301,7 @@ const translations = {
             address2: 'Душанбе, Тоҷикистон'
         },
         footer: {
-            tagline: 'Нигоҳубини истисноии чашм аз соли 2008',
+            tagline: 'Нигоҳубини истисноии чашм аз соли 2017',
             servicesTitle: 'Хидматҳо',
             eyeExams: 'Санҷиши чашм',
             cataractSurgery: 'Амалиёти катаракт',
@@ -676,7 +676,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 if (entry.isIntersecting) {
                     const numberElement = statsCircle.querySelector('.text-5xl');
                     if (numberElement) {
-                        animateCounter(numberElement, 17, 2000);
+                        animateCounter(numberElement, 8, 2000);
                     }
                     statsObserver.unobserve(entry.target);
                 }
