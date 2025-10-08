@@ -270,11 +270,38 @@ section:hover img {
     pointer-events: none;
 }
 
+/* Skip to Content Link (Accessibility) */
+.skip-to-content {
+    position: absolute;
+    top: -100px;
+    left: 0;
+    background: #ff6b4a;
+    color: white;
+    padding: 12px 24px;
+    text-decoration: none;
+    z-index: 10000;
+    font-weight: 500;
+    transition: top 0.3s ease;
+}
+
+.skip-to-content:focus {
+    top: 0;
+    outline: 3px solid #0a2a3d;
+    outline-offset: 2px;
+}
+
 /* Focus States for Accessibility */
-a:focus,
-button:focus {
-    outline: 2px solid #ff6b4a;
+a:focus-visible,
+button:focus-visible {
+    outline: 3px solid #ff6b4a;
     outline-offset: 4px;
+    border-radius: 4px;
+}
+
+/* Remove focus outline when not using keyboard */
+a:focus:not(:focus-visible),
+button:focus:not(:focus-visible) {
+    outline: none;
 }
 
 /* Smooth Transitions */
@@ -304,7 +331,9 @@ footer a:hover {
     }
 
     blockquote {
-        font-size: 1.5rem !important;
+        font-size: 1.25rem !important;
+        line-height: 1.6 !important;
+        padding: 0 10px !important;
     }
 
     .btn-navy,
@@ -418,6 +447,81 @@ body {
 /* Dark Mode Support (Optional) */
 @media (prefers-color-scheme: dark) {
     /* Add dark mode styles if needed */
+}
+
+/* Loading Skeleton States */
+.skeleton {
+    background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+    background-size: 200% 100%;
+    animation: skeleton-loading 1.5s ease-in-out infinite;
+    border-radius: 4px;
+}
+
+.skeleton-text {
+    height: 1em;
+    margin-bottom: 0.5em;
+}
+
+.skeleton-title {
+    height: 2em;
+    margin-bottom: 1em;
+    width: 80%;
+}
+
+.skeleton-image {
+    width: 100%;
+    height: 200px;
+    background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+    background-size: 200% 100%;
+    animation: skeleton-loading 1.5s ease-in-out infinite;
+}
+
+@keyframes skeleton-loading {
+    0% {
+        background-position: 200% 0;
+    }
+    100% {
+        background-position: -200% 0;
+    }
+}
+
+/* Content loading state */
+.content-loading {
+    opacity: 0.6;
+    pointer-events: none;
+}
+
+/* Page load animation */
+body.loading {
+    overflow: hidden;
+}
+
+.page-loader {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: #0a2a3d;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 99999;
+    transition: opacity 0.5s ease, visibility 0.5s ease;
+}
+
+.page-loader.hidden {
+    opacity: 0;
+    visibility: hidden;
+}
+
+.loader-icon {
+    width: 60px;
+    height: 60px;
+    border: 4px solid rgba(255, 255, 255, 0.2);
+    border-top-color: #ff6b4a;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
 }
 
 /* Testimonial Carousel Styles */

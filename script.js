@@ -51,11 +51,11 @@ const translations = {
         about: {
             subtitle: 'Meet Dr. Karimova',
             title: 'Excellence in ophthalmology since 2008',
-            description1: 'Dr. Sitora Karimova brings 8 years of specialized experience in comprehensive eye care. Trained at Avicenna Tajik State Medical University, she combines cutting-edge technology with a patient-first philosophy.',
+            description1: 'Dr. Sitora Karimova brings 17 years of specialized experience in comprehensive eye care. Trained at Avicenna Tajik State Medical University, she combines cutting-edge technology with a patient-first philosophy.',
             description2: 'Her practice focuses on delivering personalized consultation that address each patient\'s unique needs, ensuring optimal vision outcomes and long-term eye health.',
             credential1: 'Board Certified Ophthalmologist',
             credential2: 'Fellow, American Academy of Ophthalmology',
-            credential3: '8+ Years Clinical Experience'
+            credential3: '17+ Years Clinical Experience'
         },
         stats: {
             years: 'Years of<br>Experience'
@@ -155,11 +155,11 @@ const translations = {
         about: {
             subtitle: 'Знакомьтесь, доктор Каримова',
             title: 'Превосходство в офтальмологии с 2008 года',
-            description1: 'Доктор Ситора Каримова имеет более 15 лет специализированного опыта в комплексном уходе за глазами. Получив образование в Университете Джонса Хопкинса и Массачусетской глазной и ушной больнице, она сочетает передовые технологии с философией заботы о пациентах.',
+            description1: 'Доктор Ситора Каримова имеет 17 лет специализированного опыта в комплексном уходе за глазами. Получив образование в Таджикском государственном медицинском университете имени Авиценны, она сочетает передовые технологии с философией заботы о пациентах.',
             description2: 'Её практика фокусируется на разработке персонализированных планов лечения, которые отвечают уникальным потребностям каждого пациента, обеспечивая оптимальные результаты для зрения и долгосрочное здоровье глаз.',
             credential1: 'Сертифицированный офтальмолог',
             credential2: 'Член Американской академии офтальмологии',
-            credential3: '15+ лет клинического опыта'
+            credential3: '17+ лет клинического опыта'
         },
         stats: {
             years: 'Лет<br>опыта'
@@ -259,11 +259,11 @@ const translations = {
         about: {
             subtitle: 'Бо доктор Каримова шинос шавед',
             title: 'Дараҷаи олӣ дар офтальмология аз соли 2008',
-            description1: 'Доктор Ситора Каримова зиёда аз 15 сол таҷрибаи ихтисосӣ дар нигоҳубини комили чашм дорад. Таҳсилёфтаи Донишгоҳи Ҷонс Ҳопкинс ва Беморхонаи чашм ва гӯши Массачусетс, ӯ технологияи пешрафтаро бо фалсафаи аввалан беморро муттаҳид мекунад.',
+            description1: 'Доктор Ситора Каримова 17 сол таҷрибаи ихтисосӣ дар нигоҳубини комили чашм дорад. Таҳсилёфтаи Донишгоҳи тиббии давлатии Тоҷикистон ба номи Абӯалӣ ибни Сино, ӯ технологияи пешрафтаро бо фалсафаи аввалан беморро муттаҳид мекунад.',
             description2: 'Амалиёти ӯ ба таҳияи нақшаҳои шахсии табобат равона карда шудааст, ки ба эҳтиёҷоти беназири ҳар бемор ҷавобгӯ аст ва натиҷаҳои мувофиқ барои бинӣ ва саломатии дарозмуҳлати чашмро таъмин мекунад.',
             credential1: 'Офтальмологи тасдиқшуда',
             credential2: 'Узви Академияи Америкоии Офтальмология',
-            credential3: '15+ сол таҷрибаи клиникӣ'
+            credential3: '17+ сол таҷрибаи клиникӣ'
         },
         stats: {
             years: 'Солҳои<br>таҷриба'
@@ -322,6 +322,30 @@ const translations = {
 document.addEventListener('DOMContentLoaded', function() {
 
     // ===========================
+    // Page Loader
+    // ===========================
+    const pageLoader = document.getElementById('page-loader');
+
+    // Hide loader when page is fully loaded
+    window.addEventListener('load', function() {
+        setTimeout(() => {
+            if (pageLoader) {
+                pageLoader.classList.add('hidden');
+                document.body.classList.remove('loading');
+            }
+        }, 300);
+    });
+
+    // Fallback: Hide loader after 3 seconds if load event doesn't fire
+    setTimeout(() => {
+        if (pageLoader && !pageLoader.classList.contains('hidden')) {
+            pageLoader.classList.add('hidden');
+            document.body.classList.remove('loading');
+        }
+    }, 3000);
+
+
+    // ===========================
     // Language Switching System
     // ===========================
     let currentLang = localStorage.getItem('language') || 'en';
@@ -377,23 +401,64 @@ document.addEventListener('DOMContentLoaded', function() {
     if (langBtn && langMenu) {
         langBtn.addEventListener('click', function(e) {
             e.stopPropagation();
+            const isHidden = langMenu.classList.contains('hidden');
             langMenu.classList.toggle('hidden');
+            langBtn.setAttribute('aria-expanded', !isHidden);
+        });
+
+        // Keyboard navigation for language menu
+        langBtn.addEventListener('keydown', function(e) {
+            if (e.key === 'Enter' || e.key === ' ') {
+                e.preventDefault();
+                langBtn.click();
+            } else if (e.key === 'ArrowDown') {
+                e.preventDefault();
+                langMenu.classList.remove('hidden');
+                langBtn.setAttribute('aria-expanded', 'true');
+                const firstOption = langMenu.querySelector('.lang-option');
+                if (firstOption) firstOption.focus();
+            }
         });
 
         // Close dropdown when clicking outside
         document.addEventListener('click', function(e) {
             if (!langBtn.contains(e.target) && !langMenu.contains(e.target)) {
                 langMenu.classList.add('hidden');
+                langBtn.setAttribute('aria-expanded', 'false');
             }
         });
 
         // Language option clicks
         const langOptions = document.querySelectorAll('.lang-option');
-        langOptions.forEach(option => {
+        langOptions.forEach((option, index) => {
             option.addEventListener('click', function() {
                 const selectedLang = this.getAttribute('data-lang');
                 updateLanguage(selectedLang);
                 langMenu.classList.add('hidden');
+                langBtn.setAttribute('aria-expanded', 'false');
+                langBtn.focus();
+            });
+
+            // Keyboard navigation within dropdown
+            option.addEventListener('keydown', function(e) {
+                if (e.key === 'ArrowDown') {
+                    e.preventDefault();
+                    const next = langOptions[index + 1];
+                    if (next) next.focus();
+                } else if (e.key === 'ArrowUp') {
+                    e.preventDefault();
+                    if (index === 0) {
+                        langBtn.focus();
+                        langMenu.classList.add('hidden');
+                        langBtn.setAttribute('aria-expanded', 'false');
+                    } else {
+                        langOptions[index - 1].focus();
+                    }
+                } else if (e.key === 'Escape') {
+                    langMenu.classList.add('hidden');
+                    langBtn.setAttribute('aria-expanded', 'false');
+                    langBtn.focus();
+                }
             });
         });
     }
@@ -429,8 +494,10 @@ document.addEventListener('DOMContentLoaded', function() {
 
     if (mobileMenuBtn && mobileMenu) {
         mobileMenuBtn.addEventListener('click', function() {
+            const isHidden = mobileMenu.classList.contains('hidden');
             mobileMenu.classList.toggle('hidden');
             mobileMenu.classList.toggle('open');
+            mobileMenuBtn.setAttribute('aria-expanded', isHidden);
 
             // Toggle icon between bars and times
             const icon = mobileMenuBtn.querySelector('i');
@@ -609,7 +676,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 if (entry.isIntersecting) {
                     const numberElement = statsCircle.querySelector('.text-5xl');
                     if (numberElement) {
-                        animateCounter(numberElement, 8, 2000);
+                        animateCounter(numberElement, 17, 2000);
                     }
                     statsObserver.unobserve(entry.target);
                 }
@@ -814,6 +881,11 @@ document.addEventListener('DOMContentLoaded', function() {
         showSlide(currentSlide);
     }
 
+    function prevSlide() {
+        currentSlide = (currentSlide - 1 + slides.length) % slides.length;
+        showSlide(currentSlide);
+    }
+
     // Event listeners for dots
     dots.forEach((dot, index) => {
         dot.addEventListener('click', () => {
@@ -835,6 +907,39 @@ document.addEventListener('DOMContentLoaded', function() {
         testimonialSection.addEventListener('mouseleave', () => {
             autoAdvance = setInterval(nextSlide, 7000);
         });
+
+        // Touch swipe support for mobile
+        let touchStartX = 0;
+        let touchEndX = 0;
+
+        testimonialSection.addEventListener('touchstart', (e) => {
+            touchStartX = e.changedTouches[0].screenX;
+        }, { passive: true });
+
+        testimonialSection.addEventListener('touchend', (e) => {
+            touchEndX = e.changedTouches[0].screenX;
+            handleSwipe();
+        }, { passive: true });
+
+        function handleSwipe() {
+            const swipeThreshold = 50;
+            const diff = touchStartX - touchEndX;
+
+            if (Math.abs(diff) > swipeThreshold) {
+                clearInterval(autoAdvance);
+
+                if (diff > 0) {
+                    // Swipe left - next slide
+                    nextSlide();
+                } else {
+                    // Swipe right - previous slide
+                    prevSlide();
+                }
+
+                // Restart auto-advance after swipe
+                autoAdvance = setInterval(nextSlide, 7000);
+            }
+        }
     }
 
 
@@ -846,13 +951,12 @@ document.addEventListener('DOMContentLoaded', function() {
 
 
     // ===========================
-    // Service Worker Registration (for future PWA support)
+    // Service Worker Registration (for PWA support)
     // ===========================
     if ('serviceWorker' in navigator) {
-        // Uncomment when you have a service worker file
-        // navigator.serviceWorker.register('/sw.js')
-        //     .then(reg => console.log('Service Worker registered'))
-        //     .catch(err => console.log('Service Worker registration failed'));
+        navigator.serviceWorker.register('/sw.js')
+            .then(() => console.log('Service Worker registered successfully'))
+            .catch(err => console.log('Service Worker registration failed:', err));
     }
 
 });
