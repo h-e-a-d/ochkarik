@@ -15,7 +15,7 @@ const translations = {
         },
         hero: {
             subtitle: 'Ophthalmology Practice',
-            title: 'Exceptional eye care with cutting-edge technology',
+            title: 'Exceptional eye care',
             description: 'Experience personalized ophthalmology services designed for your unique vision needs',
             bookNow: 'Book Now',
             ourServices: 'Our Services'
@@ -119,7 +119,7 @@ const translations = {
         },
         hero: {
             subtitle: 'Офтальмологическая практика',
-            title: 'Исключительный уход за зрением с передовыми технологиями',
+            title: 'Исключительный уход за зрением',
             description: 'Персонализированные офтальмологические услуги для ваших уникальных потребностей',
             bookNow: 'Записаться',
             ourServices: 'Наши услуги'
@@ -223,7 +223,7 @@ const translations = {
         },
         hero: {
             subtitle: 'Амалиёти офтальмологӣ',
-            title: 'Нигоҳубини истисноии чашм бо технологияи пешрафта',
+            title: 'Нигоҳубини истисноии чашм',
             description: 'Хидматҳои офтальмологии шахсӣ барои эҳтиёҷоти беназири бинишии шумо',
             bookNow: 'Сабти ном',
             ourServices: 'Хидматҳои мо'
