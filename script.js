@@ -894,20 +894,9 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 
-    // Auto-advance carousel every 7 seconds
-    let autoAdvance = setInterval(nextSlide, 7000);
-
-    // Pause auto-advance when user interacts with carousel
+    // Touch swipe support for mobile
     const testimonialSection = document.getElementById('testimonials');
     if (testimonialSection) {
-        testimonialSection.addEventListener('mouseenter', () => {
-            clearInterval(autoAdvance);
-        });
-
-        testimonialSection.addEventListener('mouseleave', () => {
-            autoAdvance = setInterval(nextSlide, 7000);
-        });
-
         // Touch swipe support for mobile
         let touchStartX = 0;
         let touchEndX = 0;
@@ -954,11 +943,8 @@ document.addEventListener('DOMContentLoaded', function() {
     // About Section Image Carousel
     // ===========================
     const aboutSlides = document.querySelectorAll('.carousel-slide');
-    const aboutPrev = document.querySelector('.carousel-prev');
-    const aboutNext = document.querySelector('.carousel-next');
     const aboutIndicators = document.querySelectorAll('.indicator');
     let aboutCurrentSlide = 0;
-    let aboutCarouselInterval;
 
     function showAboutSlide(index) {
         // Remove active class from all slides and indicators
@@ -982,62 +968,12 @@ document.addEventListener('DOMContentLoaded', function() {
         aboutCurrentSlide = index;
     }
 
-    function nextAboutSlide() {
-        const next = (aboutCurrentSlide + 1) % aboutSlides.length;
-        showAboutSlide(next);
-    }
-
-    function prevAboutSlide() {
-        const prev = (aboutCurrentSlide - 1 + aboutSlides.length) % aboutSlides.length;
-        showAboutSlide(prev);
-    }
-
-    // Auto-advance carousel every 5 seconds
-    function startAboutCarousel() {
-        aboutCarouselInterval = setInterval(nextAboutSlide, 5000);
-    }
-
-    function stopAboutCarousel() {
-        clearInterval(aboutCarouselInterval);
-    }
-
-    // Event listeners for carousel controls
-    if (aboutNext) {
-        aboutNext.addEventListener('click', () => {
-            stopAboutCarousel();
-            nextAboutSlide();
-            startAboutCarousel();
-        });
-    }
-
-    if (aboutPrev) {
-        aboutPrev.addEventListener('click', () => {
-            stopAboutCarousel();
-            prevAboutSlide();
-            startAboutCarousel();
-        });
-    }
-
     // Event listeners for indicators
     aboutIndicators.forEach((indicator, index) => {
         indicator.addEventListener('click', () => {
-            stopAboutCarousel();
             showAboutSlide(index);
-            startAboutCarousel();
         });
     });
-
-    // Pause carousel on hover
-    const aboutCarousel = document.querySelector('.about-carousel');
-    if (aboutCarousel) {
-        aboutCarousel.addEventListener('mouseenter', stopAboutCarousel);
-        aboutCarousel.addEventListener('mouseleave', startAboutCarousel);
-    }
-
-    // Start the carousel
-    if (aboutSlides.length > 0) {
-        startAboutCarousel();
-    }
 
 
     // ===========================
