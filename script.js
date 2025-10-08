@@ -17,34 +17,34 @@ const translations = {
             subtitle: 'Ophthalmology Practice',
             title: 'Exceptional eye care',
             description: 'Experience personalized ophthalmology services designed for your unique vision needs',
-            bookNow: 'Book Now',
-            ourServices: 'Our Services'
+            ourServices: 'Our Services',
+            findUs: 'Find Us'
         },
         services: {
             subtitle: 'What We Offer',
             title: 'Core Services',
             exams: {
-                title: 'Comprehensive Exams',
+                title: 'Comprehensive Eye Examinations',
                 description: 'Complete eye health evaluation using advanced diagnostic technology'
             },
-            cataract: {
-                title: 'Cataract Surgery',
-                description: 'State-of-the-art microsurgical procedures for vision restoration'
+            glasses: {
+                title: 'Prescription Glasses',
+                description: 'Custom eyewear tailored to your vision needs and style preferences'
             },
-            lasik: {
-                title: 'LASIK Surgery',
-                description: 'Precision laser vision correction for lasting results'
+            contacts: {
+                title: 'Contact Lenses',
+                description: 'Professional fitting and care for comfortable contact lens wear'
             },
-            glaucoma: {
-                title: 'Glaucoma Management',
-                description: 'Advanced detection and treatment to preserve your vision'
+            dryeye: {
+                title: 'Dry Eye Management',
+                description: 'Effective treatments to relieve discomfort and restore eye moisture'
             },
-            retina: {
-                title: 'Retina Specialist',
-                description: 'Expert care for retinal conditions and macular health'
+            followup: {
+                title: 'Ongoing Care and Follow-Up',
+                description: 'Continuous monitoring and personalized care plans for long-term eye health'
             },
             pediatric: {
-                title: 'Pediatric Care',
+                title: 'Children\'s Eye Care',
                 description: 'Gentle, specialized eye care for children'
             }
         },
@@ -61,12 +61,12 @@ const translations = {
             years: 'Years of<br>Experience'
         },
         testimonials: {
-            quote1: '"Dr. Karimova\'s expertise and compassionate care transformed my vision. The cataract surgery was seamless, and I can now see the world with perfect clarity. Truly exceptional service."',
+            quote1: '"Dr. Karimova provided exceptional care during my eyeglasses consultation. Her attention to detail and expertise helped me find the perfect prescription. The quality of care and personalized service exceeded my expectations."',
             name1: 'Farrukh Rahimov',
-            patient1: 'Cataract Surgery Patient',
-            quote2: '"After years of wearing glasses, LASIK surgery has given me the freedom I always wanted. Dr. Karimova\'s professionalism and the modern technology made all the difference. Highly recommend!"',
+            patient1: 'Eyeglasses Patient',
+            quote2: '"After years of struggling with contact lenses, Dr. Karimova helped me find the most comfortable lenses for my eyes. Her expertise and patience made all the difference. I can now wear them all day without any discomfort. Highly recommend!"',
             name2: 'Dilshoda Nazarova',
-            patient2: 'LASIK Surgery Patient',
+            patient2: 'Contact Lens Patient',
             quote3: '"The glaucoma treatment I received was outstanding. Dr. Karimova took the time to explain everything and made me feel comfortable throughout the process. My vision is stable thanks to her expertise."',
             name3: 'Rustam Shokirov',
             patient3: 'Glaucoma Patient',
@@ -80,10 +80,11 @@ const translations = {
         contact: {
             subtitle: 'Get In Touch',
             title: 'Schedule your appointment',
+            address: 'Address',
             phone: 'Phone',
             email: 'Email',
             hours: 'Hours',
-            monFri: 'Mon - Fri: 8:00 AM - 6:00 PM',
+            monFri: 'Mon - Fri: 9:00 AM - 6:00 PM',
             sat: 'Sat: 9:00 AM - 2:00 PM',
             sun: 'Sun: Closed',
             bookNow: 'Book Now',
@@ -123,31 +124,31 @@ const translations = {
             subtitle: 'Офтальмологическая практика',
             title: 'Исключительный уход за зрением',
             description: 'Персонализированные офтальмологические услуги для ваших уникальных потребностей',
-            bookNow: 'Записаться',
-            ourServices: 'Наши услуги'
+            ourServices: 'Наши услуги',
+            findUs: 'Найти нас'
         },
         services: {
             subtitle: 'Что мы предлагаем',
             title: 'Основные услуги',
             exams: {
-                title: 'Комплексное обследование',
+                title: 'Комплексное обследование глаз',
                 description: 'Полная оценка здоровья глаз с использованием передовых диагностических технологий'
             },
-            cataract: {
-                title: 'Операция по удалению катаракты',
-                description: 'Современные микрохирургические процедуры для восстановления зрения'
+            glasses: {
+                title: 'Очки по рецепту',
+                description: 'Индивидуальные очки, адаптированные к вашим потребностям зрения и стилю'
             },
-            lasik: {
-                title: 'LASIK операция',
-                description: 'Точная лазерная коррекция зрения для долговременных результатов'
+            contacts: {
+                title: 'Контактные линзы',
+                description: 'Профессиональная подборка и уход за удобным ношением контактных линз'
             },
-            glaucoma: {
-                title: 'Лечение глаукомы',
-                description: 'Передовая диагностика и лечение для сохранения вашего зрения'
+            dryeye: {
+                title: 'Лечение сухости глаз',
+                description: 'Эффективные методы лечения для снятия дискомфорта и восстановления влажности глаз'
             },
-            retina: {
-                title: 'Специалист по сетчатке',
-                description: 'Экспертная помощь при заболеваниях сетчатки и макулы'
+            followup: {
+                title: 'Постоянный уход и наблюдение',
+                description: 'Непрерывный мониторинг и персонализированные планы ухода для долгосрочного здоровья глаз'
             },
             pediatric: {
                 title: 'Детская офтальмология',
@@ -167,12 +168,12 @@ const translations = {
             years: 'Лет<br>опыта'
         },
         testimonials: {
-            quote1: '"Опыт и заботливый подход доктора Каримовой преобразили моё зрение. Операция по удалению катаракты прошла безупречно, и теперь я могу видеть мир с идеальной чёткостью. Поистине исключительный сервис."',
+            quote1: '"Доктор Каримова обеспечила исключительный уход во время консультации по подбору очков. Её внимание к деталям и опыт помогли мне найти идеальный рецепт. Качество ухода и персонализированный сервис превзошли мои ожидания."',
             name1: 'Фаррух Рахимов',
-            patient1: 'Пациент после операции катаракты',
-            quote2: '"После многих лет ношения очков операция LASIK дала мне свободу, о которой я всегда мечтал. Профессионализм доктора Каримовой и современные технологии изменили всё. Очень рекомендую!"',
+            patient1: 'Пациент с очками',
+            quote2: '"После многих лет сложностей с контактными линзами доктор Каримова помогла мне найти самые удобные линзы для моих глаз. Её опыт и терпение изменили всё. Теперь я могу носить их весь день без какого-либо дискомфорта. Очень рекомендую!"',
             name2: 'Дилшода Назарова',
-            patient2: 'Пациент после операции LASIK',
+            patient2: 'Пациент с контактными линзами',
             quote3: '"Лечение глаукомы, которое я получил, было выдающимся. Доктор Каримова уделила время, чтобы всё объяснить, и я чувствовал себя комфортно на протяжении всего процесса. Моё зрение стабильно благодаря её опыту."',
             name3: 'Рустам Шокиров',
             patient3: 'Пациент с глаукомой',
@@ -186,10 +187,11 @@ const translations = {
         contact: {
             subtitle: 'Свяжитесь с нами',
             title: 'Запишитесь на приём',
+            address: 'Адрес',
             phone: 'Телефон',
             email: 'Эл. почта',
             hours: 'Часы работы',
-            monFri: 'Пн - Пт: 8:00 - 18:00',
+            monFri: 'Пн - Пт: 9:00 - 18:00',
             sat: 'Сб: 9:00 - 14:00',
             sun: 'Вс: Закрыто',
             bookNow: 'Записаться',
@@ -229,34 +231,34 @@ const translations = {
             subtitle: 'Амалиёти офтальмологӣ',
             title: 'Нигоҳубини истисноии чашм',
             description: 'Хидматҳои офтальмологии шахсӣ барои эҳтиёҷоти беназири бинишии шумо',
-            bookNow: 'Сабти ном',
-            ourServices: 'Хидматҳои мо'
+            ourServices: 'Хидматҳои мо',
+            findUs: 'Моро ёбед'
         },
         services: {
             subtitle: 'Он чӣ мо пешниҳод мекунем',
             title: 'Хидматҳои асосӣ',
             exams: {
-                title: 'Санҷишҳои комил',
+                title: 'Санҷишҳои комили чашм',
                 description: 'Арзёбии пурраи саломатии чашм бо истифода аз технологияи ташхисии пешрафта'
             },
-            cataract: {
-                title: 'Амалиёти катаракт',
-                description: 'Усулҳои микроҷарроҳии муосир барои барқароркунии бинӣ'
+            glasses: {
+                title: 'Айнаки тиббӣ',
+                description: 'Айнаки фардӣ мутобиқ ба эҳтиёҷоти бинишӣ ва услуби шумо'
             },
-            lasik: {
-                title: 'Амалиёти LASIK',
-                description: 'Ислоҳи дақиқи бинӣ бо лазер барои натиҷаҳои пойдор'
+            contacts: {
+                title: 'Линзаҳои тамосӣ',
+                description: 'Интихоби касбӣ ва нигоҳубин барои истифодаи бароҳати линзаҳои тамосӣ'
             },
-            glaucoma: {
-                title: 'Табобати глаукома',
-                description: 'Ошкоркунӣ ва табобати пешрафта барои нигоҳ доштани бинишии шумо'
+            dryeye: {
+                title: 'Табобати хушкии чашм',
+                description: 'Усулҳои муассир барои бартараф кардани ноароҳатӣ ва барқарор кардани намии чашм'
             },
-            retina: {
-                title: 'Мутахассиси шабакия',
-                description: 'Нигоҳубини мутахассисона барои ҳолатҳои шабакия ва макулярӣ'
+            followup: {
+                title: 'Нигоҳубини доимӣ ва пайгирӣ',
+                description: 'Назорати доимӣ ва нақшаҳои фардии нигоҳубин барои саломатии дарозмуҳлати чашм'
             },
             pediatric: {
-                title: 'Нигоҳубини кӯдакон',
+                title: 'Нигоҳубини чашми кӯдакон',
                 description: 'Нигоҳубини махсус ва мулоим барои чашми кӯдакон'
             }
         },
@@ -273,12 +275,12 @@ const translations = {
             years: 'Солҳои<br>таҷриба'
         },
         testimonials: {
-            quote1: '"Маҳорат ва ғамхории доктор Каримова бинишии маро табдил дод. Амалиёти катаракт бенуқс буд ва акнун ман метавонам дунёро бо равшании комил бинам. Дар ҳақиқат хидмати истисноӣ."',
+            quote1: '"Доктор Каримова дар вақти маслиҳат барои интихоби айнак нигоҳубини беназир таъмин кард. Диққати ӯ ба тафсилот ва маҳорат ба ман кӯмак кард, то рецепти комил ёбам. Сифати нигоҳубин ва хидмати шахсӣ интизориҳои маро аз ҳад гузаронид."',
             name1: 'Фаррух Раҳимов',
-            patient1: 'Бемори амалиёти катаракт',
-            quote2: '"Баъд аз солҳои зиёди истифодаи айнак, амалиёти LASIK ба ман озодиеро дод, ки ҳамеша орзу мекардам. Профессионализми доктор Каримова ва технологияи муосир ҳама чизро иваз кард. Пешниҳод мекунам!"',
+            patient1: 'Бемори айнакӣ',
+            quote2: '"Баъд аз солҳои душворӣ бо линзаҳои тамосӣ, доктор Каримова ба ман кӯмак кард, то роҳаттарин линзаҳоро барои чашмонам ёбам. Маҳорат ва сабри ӯ ҳама чизро иваз кард. Акнун ман метавонам онҳоро тамоми рӯз бе ҳеҷ гуна ноароҳатӣ истифода барам. Пешниҳод мекунам!"',
             name2: 'Дилшода Назарова',
-            patient2: 'Бемори амалиёти LASIK',
+            patient2: 'Бемори линзаҳои тамосӣ',
             quote3: '"Табобати глаукомае, ки ман гирифтам, ғоят олӣ буд. Доктор Каримова вақт гузоронд, то ҳама чизро шарҳ диҳад ва ман дар тамоми раванд худро осуда эҳсос кардам. Бинишии ман устувор аст, ташаккур ба маҳорати ӯ."',
             name3: 'Рустам Шокиров',
             patient3: 'Бемори глаукома',
@@ -292,10 +294,11 @@ const translations = {
         contact: {
             subtitle: 'Бо мо тамос гиред',
             title: 'Барои вохӯрӣ сабти ном кунед',
+            address: 'Суроға',
             phone: 'Телефон',
             email: 'Почтаи электронӣ',
             hours: 'Соатҳои корӣ',
-            monFri: 'Душ - Ҷум: 8:00 - 18:00',
+            monFri: 'Душ - Ҷум: 9:00 - 18:00',
             sat: 'Шан: 9:00 - 14:00',
             sun: 'Якш: Пӯшида',
             bookNow: 'Сабти ном',
