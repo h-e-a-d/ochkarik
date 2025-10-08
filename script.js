@@ -378,7 +378,7 @@ document.addEventListener('DOMContentLoaded', function() {
     // ===========================
     // Console Branding
     // ===========================
-    console.log('%c👁️ Edward Buxton Ophthalmology', 'color: #0a2a3d; font-size: 24px; font-weight: bold; padding: 10px;');
+    console.log('%c👁️ Sitora Karimova Ophthalmology', 'color: #0a2a3d; font-size: 24px; font-weight: bold; padding: 10px;');
     console.log('%cExceptional eye care with modern design', 'color: #ff6b4a; font-size: 14px; font-weight: 300;');
 
 
