@@ -724,45 +724,6 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
 
-    // ===========================
-    // Cursor Follow Effect (Optional Enhancement)
-    // ===========================
-    let cursor = null;
-    if (window.innerWidth > 768) {
-        cursor = document.createElement('div');
-        cursor.className = 'custom-cursor';
-        cursor.style.cssText = `
-            position: fixed;
-            width: 20px;
-            height: 20px;
-            border: 2px solid #ff6b4a;
-            border-radius: 50%;
-            pointer-events: none;
-            z-index: 9999;
-            transition: transform 0.2s ease;
-            display: none;
-        `;
-        document.body.appendChild(cursor);
-
-        document.addEventListener('mousemove', function(e) {
-            cursor.style.display = 'block';
-            cursor.style.left = e.clientX - 10 + 'px';
-            cursor.style.top = e.clientY - 10 + 'px';
-        });
-
-        // Scale cursor on button hover
-        const buttons = document.querySelectorAll('a, button');
-        buttons.forEach(button => {
-            button.addEventListener('mouseenter', () => {
-                cursor.style.transform = 'scale(1.5)';
-                cursor.style.borderColor = '#0a2a3d';
-            });
-            button.addEventListener('mouseleave', () => {
-                cursor.style.transform = 'scale(1)';
-                cursor.style.borderColor = '#ff6b4a';
-            });
-        });
-    }
 
 
     // ===========================

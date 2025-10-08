@@ -6,7 +6,7 @@
     <!-- Iris -->
     <circle cx="0" cy="0" r="8" fill="#ff6b4a"/>
     <!-- Pupil -->
-    <circle cx="0" cy="0" r="4" fill="#0a2a3d"/>
+    <circle cx="0" cy="0" r="4" fill="#ffffff"/>
     <!-- Highlight -->
     <circle cx="-1.5" cy="-1.5" r="1.5" fill="#ffffff" opacity="0.8"/>
   </g>
