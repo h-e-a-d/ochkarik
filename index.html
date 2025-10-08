@@ -20,7 +20,7 @@
                         coral: '#ff6b4a',
                     },
                     fontFamily: {
-                        sans: ['Söhne', '-apple-system', 'BlinkMacSystemFont', 'Segoe UI', 'Helvetica Neue', 'Arial', 'sans-serif'],
+                        sans: ['Helvetica Neue', 'Helvetica', 'Arial', 'sans-serif'],
                     }
                 }
             }
@@ -30,20 +30,11 @@
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
-    <!-- Söhne Font (with fallback to system fonts) -->
-    <style>
-        @font-face {
-            font-family: 'Söhne';
-            src: local('Söhne'), local('Sohne');
-            font-weight: 300;
-            font-style: normal;
-        }
-    </style>
 
     <!-- Custom Styles -->
     <link rel="stylesheet" href="styles.css">
 </head>
-<body class="font-['Söhne'] text-gray-800">
+<body class="text-gray-800">
 
     <!-- Navigation -->
     <nav class="fixed w-full bg-transparent backdrop-blur-md z-50 transition-all" id="navbar">
@@ -436,9 +427,7 @@
                         <div>
                             <p class="text-sm uppercase tracking-widest text-gray-500 mb-2" data-i18n="contact.hours">Hours</p>
                             <div class="text-lg font-light text-gray-700 space-y-1">
-                                <p data-i18n="contact.monFri">Mon - Fri: 8:00 AM - 6:00 PM</p>
-                                <p data-i18n="contact.sat">Sat: 9:00 AM - 2:00 PM</p>
-                                <p data-i18n="contact.sun">Sun: Closed</p>
+                                <p data-i18n="contact.monFri">Mon - Fri: 9:00 AM - 6:00 PM</p>
                             </div>
                         </div>
                     </div>
