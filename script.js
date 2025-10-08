@@ -61,8 +61,18 @@ const translations = {
             years: 'Years of<br>Experience'
         },
         testimonials: {
-            quote: '"Dr. Karimova\'s expertise and compassionate care transformed my vision. The cataract surgery was seamless, and I can now see the world with perfect clarity. Truly exceptional service."',
-            patient: 'Cataract Surgery Patient'
+            quote1: '"Dr. Karimova\'s expertise and compassionate care transformed my vision. The cataract surgery was seamless, and I can now see the world with perfect clarity. Truly exceptional service."',
+            name1: 'Farrukh Rahimov',
+            patient1: 'Cataract Surgery Patient',
+            quote2: '"After years of wearing glasses, LASIK surgery has given me the freedom I always wanted. Dr. Karimova\'s professionalism and the modern technology made all the difference. Highly recommend!"',
+            name2: 'Dilshoda Nazarova',
+            patient2: 'LASIK Surgery Patient',
+            quote3: '"The glaucoma treatment I received was outstanding. Dr. Karimova took the time to explain everything and made me feel comfortable throughout the process. My vision is stable thanks to her expertise."',
+            name3: 'Rustam Shokirov',
+            patient3: 'Glaucoma Patient',
+            quote4: '"My daughter\'s vision problems were diagnosed and treated with such care and attention. Dr. Karimova has a wonderful way with children and made the whole experience stress-free for our family."',
+            name4: 'Gulnora Karimova',
+            patient4: 'Pediatric Patient Parent'
         },
         partners: {
             title: 'Trusted Partnerships'
@@ -155,8 +165,18 @@ const translations = {
             years: 'Лет<br>опыта'
         },
         testimonials: {
-            quote: '"Опыт и заботливый подход доктора Каримовой преобразили моё зрение. Операция по удалению катаракты прошла безупречно, и теперь я могу видеть мир с идеальной чёткостью. Поистине исключительный сервис."',
-            patient: 'Пациент после операции катаракты'
+            quote1: '"Опыт и заботливый подход доктора Каримовой преобразили моё зрение. Операция по удалению катаракты прошла безупречно, и теперь я могу видеть мир с идеальной чёткостью. Поистине исключительный сервис."',
+            name1: 'Фаррух Рахимов',
+            patient1: 'Пациент после операции катаракты',
+            quote2: '"После многих лет ношения очков операция LASIK дала мне свободу, о которой я всегда мечтал. Профессионализм доктора Каримовой и современные технологии изменили всё. Очень рекомендую!"',
+            name2: 'Дилшода Назарова',
+            patient2: 'Пациент после операции LASIK',
+            quote3: '"Лечение глаукомы, которое я получил, было выдающимся. Доктор Каримова уделила время, чтобы всё объяснить, и я чувствовал себя комфортно на протяжении всего процесса. Моё зрение стабильно благодаря её опыту."',
+            name3: 'Рустам Шокиров',
+            patient3: 'Пациент с глаукомой',
+            quote4: '"Проблемы со зрением моей дочери были диагностированы и вылечены с такой заботой и вниманием. У доктора Каримовой прекрасный подход к детям, и весь процесс прошёл без стресса для нашей семьи."',
+            name4: 'Гульнора Каримова',
+            patient4: 'Родитель детского пациента'
         },
         partners: {
             title: 'Доверенные партнёры'
@@ -249,8 +269,18 @@ const translations = {
             years: 'Солҳои<br>таҷриба'
         },
         testimonials: {
-            quote: '"Маҳорат ва ғамхории доктор Каримова бинишии маро табдил дод. Амалиёти катаракт бенуқс буд ва акнун ман метавонам дунёро бо равшании комил бинам. Дар ҳақиқат хидмати истисноӣ."',
-            patient: 'Бемори амалиёти катаракт'
+            quote1: '"Маҳорат ва ғамхории доктор Каримова бинишии маро табдил дод. Амалиёти катаракт бенуқс буд ва акнун ман метавонам дунёро бо равшании комил бинам. Дар ҳақиқат хидмати истисноӣ."',
+            name1: 'Фаррух Раҳимов',
+            patient1: 'Бемори амалиёти катаракт',
+            quote2: '"Баъд аз солҳои зиёди истифодаи айнак, амалиёти LASIK ба ман озодиеро дод, ки ҳамеша орзу мекардам. Профессионализми доктор Каримова ва технологияи муосир ҳама чизро иваз кард. Пешниҳод мекунам!"',
+            name2: 'Дилшода Назарова',
+            patient2: 'Бемори амалиёти LASIK',
+            quote3: '"Табобати глаукомае, ки ман гирифтам, ғоят олӣ буд. Доктор Каримова вақт гузоронд, то ҳама чизро шарҳ диҳад ва ман дар тамоми раванд худро осуда эҳсос кардам. Бинишии ман устувор аст, ташаккур ба маҳорати ӯ."',
+            name3: 'Рустам Шокиров',
+            patient3: 'Бемори глаукома',
+            quote4: '"Мушкилоти бинишии духтарам бо чунин ғамхорӣ ва диққат ташхис ва табобат карда шуд. Доктор Каримова бо кӯдакон усули ҳамоиш дорад ва тамоми раванд барои оилаи мо бидуни танг буд."',
+            name4: 'Гулнора Каримова',
+            patient4: 'Волидайни бемори кӯдак'
         },
         partners: {
             title: 'Шарикони боэътимод'
@@ -579,7 +609,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 if (entry.isIntersecting) {
                     const numberElement = statsCircle.querySelector('.text-5xl');
                     if (numberElement) {
-                        animateCounter(numberElement, 15, 2000);
+                        animateCounter(numberElement, 8, 2000);
                     }
                     statsObserver.unobserve(entry.target);
                 }
@@ -761,6 +791,77 @@ document.addEventListener('DOMContentLoaded', function() {
         const currentYear = new Date().getFullYear();
         footerYear.innerHTML = footerYear.innerHTML.replace('2025', currentYear);
     }
+
+
+    // ===========================
+    // Testimonial Carousel
+    // ===========================
+    let currentSlide = 0;
+    const slides = document.querySelectorAll('.testimonial-slide');
+    const dots = document.querySelectorAll('.testimonial-dot');
+    const prevBtn = document.getElementById('testimonial-prev');
+    const nextBtn = document.getElementById('testimonial-next');
+
+    function showSlide(index) {
+        // Remove active class from all slides and dots
+        slides.forEach(slide => slide.classList.remove('active'));
+        dots.forEach(dot => dot.classList.remove('active'));
+
+        // Add active class to current slide and dot
+        slides[index].classList.add('active');
+        dots[index].classList.add('active');
+    }
+
+    function nextSlide() {
+        currentSlide = (currentSlide + 1) % slides.length;
+        showSlide(currentSlide);
+    }
+
+    function prevSlide() {
+        currentSlide = (currentSlide - 1 + slides.length) % slides.length;
+        showSlide(currentSlide);
+    }
+
+    // Event listeners for navigation buttons
+    if (nextBtn) {
+        nextBtn.addEventListener('click', nextSlide);
+    }
+
+    if (prevBtn) {
+        prevBtn.addEventListener('click', prevSlide);
+    }
+
+    // Event listeners for dots
+    dots.forEach((dot, index) => {
+        dot.addEventListener('click', () => {
+            currentSlide = index;
+            showSlide(currentSlide);
+        });
+    });
+
+    // Auto-advance carousel every 7 seconds
+    let autoAdvance = setInterval(nextSlide, 7000);
+
+    // Pause auto-advance when user interacts with carousel
+    const testimonialSection = document.getElementById('testimonials');
+    if (testimonialSection) {
+        testimonialSection.addEventListener('mouseenter', () => {
+            clearInterval(autoAdvance);
+        });
+
+        testimonialSection.addEventListener('mouseleave', () => {
+            autoAdvance = setInterval(nextSlide, 7000);
+        });
+    }
+
+    // Keyboard navigation for carousel
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'ArrowLeft') {
+            prevSlide();
+        } else if (e.key === 'ArrowRight') {
+            nextSlide();
+        }
+    });
 
 
     // ===========================
