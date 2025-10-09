@@ -517,6 +517,73 @@
         </div>
     </section>
 
+    <!-- Vision Test Section -->
+    <section id="vision-test" class="py-24 bg-white">
+        <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+            <!-- Header -->
+            <div class="text-center mb-12">
+                <p class="text-sm uppercase tracking-widest mb-3 text-coral" data-i18n="visionTest.subtitle">Test Your Vision</p>
+            </div>
+
+            <!-- Test Container -->
+            <div class="vision-test-container bg-gray-50 rounded-lg p-4 md:p-8 relative">
+                <!-- Chart Display Area with indicators inside -->
+                <div class="vision-chart-container mb-4 flex flex-col justify-center items-center min-h-[350px] md:min-h-[400px] bg-white rounded-lg relative">
+                    <!-- Indicators Row - Inside white chart box, absolute positioned at top -->
+                    <div class="vision-indicators-row absolute top-3 left-3 right-3 flex justify-between items-start z-10">
+                        <div id="line-indicator" class="text-xs md:text-sm uppercase tracking-widest text-gray-600 hidden">
+                            Line 1 of 12
+                        </div>
+                        <div id="vision-indicator" class="text-xs md:text-sm font-medium text-coral hidden">
+                            V = 0,1
+                        </div>
+                    </div>
+
+                    <!-- Characters display area - centered -->
+                    <div id="vision-chart" class="vision-chart hidden flex-1 flex items-center justify-center">
+                        <!-- Character line will be dynamically inserted here -->
+                    </div>
+
+                    <!-- Instruction Text - at bottom of white box -->
+                    <div class="vision-instruction-bottom absolute bottom-4 left-4 right-4 text-center z-10">
+                        <p id="vision-instruction" class="text-sm md:text-lg text-gray-700 font-light" data-i18n="visionTest.initialInstruction">
+                            Try our interactive vision test. Sit 50cm from the screen. Cover one eye.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Controls - Initial State -->
+                <div class="vision-controls-initial text-center">
+                    <button id="vision-start-btn" class="btn-navy">
+                        <span data-i18n="visionTest.startButton">Start Test</span>
+                    </button>
+                </div>
+
+                <!-- Controls - During Test -->
+                <div class="vision-controls-test hidden text-center">
+                    <div class="flex justify-center gap-4 mb-4">
+                        <button id="vision-yes-btn" class="btn-green">
+                            <span data-i18n="visionTest.yesButton">Yes</span>
+                        </button>
+                        <button id="vision-no-btn" class="btn-outline">
+                            <span data-i18n="visionTest.noButton">No</span>
+                        </button>
+                    </div>
+                    <button id="vision-restart-btn" class="btn-outline text-sm">
+                        <span data-i18n="visionTest.restartButton">Restart</span>
+                    </button>
+                </div>
+
+                <!-- Disclaimer -->
+                <div class="mt-8 text-center">
+                    <p class="text-xs text-gray-500 font-light" data-i18n="visionTest.disclaimer">
+                        This test is for educational purposes only and does not replace a professional eye examination.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
     <!-- Contact Section -->
     <section id="contact" class="bg-white">
         <div class="grid md:grid-cols-2">
@@ -639,5 +706,6 @@
 
     <!-- JavaScript -->
     <script src="script.js"></script>
+    <script src="vision-test.js"></script>
 </body>
 </html>
