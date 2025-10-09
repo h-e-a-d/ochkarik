@@ -1,12 +1,17 @@
 // Service Worker for Sitora Karimova Ophthalmology Website
 // Provides offline support and caching for better performance
 
-const CACHE_NAME = 'sitora-karimova-v1';
+// IMPORTANT: Increment this version number whenever you update the site
+// This will force all users to get the new version
+const CACHE_VERSION = '1.0.0';
+const CACHE_NAME = `sitora-karimova-v${CACHE_VERSION}`;
+
 const urlsToCache = [
   '/',
   '/index.html',
-  '/styles.css',
-  '/script.js'
+  `/styles.css?v=${CACHE_VERSION}`,
+  `/script.js?v=${CACHE_VERSION}`,
+  `/vision-test.js?v=${CACHE_VERSION}`
 ];
 
 // Install Service Worker
@@ -23,18 +28,45 @@ self.addEventListener('install', event => {
 
 // Fetch from cache, fallback to network
 self.addEventListener('fetch', event => {
-  // Skip caching for external CDN resources
+  // Skip caching for external CDN resources and Google Analytics
   if (event.request.url.startsWith('https://cdn.') ||
-      event.request.url.startsWith('https://cdnjs.')) {
+      event.request.url.startsWith('https://cdnjs.') ||
+      event.request.url.startsWith('https://www.google-analytics.') ||
+      event.request.url.startsWith('https://www.googletagmanager.')) {
     event.respondWith(fetch(event.request));
     return;
   }
 
+  // Use Network First strategy for HTML files to ensure fresh content
+  if (event.request.url.includes('.html') || event.request.url.endsWith('/')) {
+    event.respondWith(
+      fetch(event.request)
+        .then(response => {
+          const responseToCache = response.clone();
+          caches.open(CACHE_NAME).then(cache => {
+            cache.put(event.request, responseToCache);
+          });
+          return response;
+        })
+        .catch(() => caches.match(event.request))
+    );
+    return;
+  }
+
+  // Use Cache First strategy for CSS, JS, and images
   event.respondWith(
     caches.match(event.request)
       .then(response => {
-        // Cache hit - return response
+        // Cache hit - but also fetch in background to update cache
         if (response) {
+          // Update cache in background
+          fetch(event.request).then(networkResponse => {
+            if (networkResponse && networkResponse.status === 200) {
+              caches.open(CACHE_NAME).then(cache => {
+                cache.put(event.request, networkResponse);
+              });
+            }
+          });
           return response;
         }
 

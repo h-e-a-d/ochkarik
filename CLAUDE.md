@@ -178,39 +178,50 @@ The vision test follows a structured flow with three states:
 - **Indicators**: Hidden (line indicator and vision strength indicator)
 
 #### 2. **Active Test State (During Test)**
-- **Instruction Text**: "Can you read all characters?"
-- **Controls**: Two buttons - "Yes" (advance to next line) and "Restart" (reset test)
-- **Chart Display**: Visible, showing current line from the Snellen chart
-- **Indicators**:
-  - **Top Left**: Line indicator (e.g., "Line 1 of 7", "Line 2 of 7", etc.)
+- **Instruction Text**: "Can you read all characters?" - positioned at bottom of white box
+- **Controls**: Three buttons
+  - **"Yes"** (green) - Records positive result, advances to next line
+  - **"No"** (outline) - Records negative result, advances to next line
+  - **"Restart"** (outline, smaller) - Resets test at any time
+- **Chart Display**: Single line of Cyrillic characters, centered in white box
+- **Indicators** (inside white box, top corners):
+  - **Top Left**: Line indicator (e.g., "LINE 1 OF 12", "LINE 2 OF 12", etc.)
   - **Top Right**: Vision strength indicator (e.g., "V = 0,1", "V = 0,2", etc.)
 
-#### 3. **Completion State (After All 7 Lines)**
-- **Instruction Text**: "Test complete! Your vision reaches [final vision value]. Please consult with Dr. Karimova for professional assessment."
+#### 3. **Completion State (After All 12 Lines)**
+- **Display**: Results summary shown in chart area
+  - "Test Complete!" heading
+  - "Your vision level: V = X,X" (highest line successfully read)
+  - Detailed results table with checkmarks (✓) and X marks (✗) for each line
+  - Scrollable if more than ~8 lines
+  - Professional consultation reminder
 - **Controls**: Only "Restart" button visible
-- **Chart Display**: Remains visible on final line
+- **Instruction Text**: Hidden
 - **Disclaimer**: Always visible at bottom - "This test is for educational purposes only and does not replace a professional eye examination."
 
 ### Vision Chart Data
 
-The vision test uses **12 progressively smaller lines** from the Russian Snellen chart, covering the full range from V=0.1 to V=2.0:
+The vision test uses **12 progressively smaller lines** of Russian Cyrillic characters, covering the full range from V=0.1 to V=2.0:
 
-| Line | Vision Value | Diopter Value | Description |
-|------|--------------|---------------|-------------|
-| 1    | V = 0,1      | D = 50,0      | Largest (very poor vision) |
-| 2    | V = 0,2      | D = 25,0      | |
-| 3    | V = 0,3      | D = 16,67     | |
-| 4    | V = 0,4      | D = 12,5      | |
-| 5    | V = 0,5      | D = 10,0      | |
-| 6    | V = 0,6      | D = 8,33      | |
-| 7    | V = 0,7      | D = 7,14      | |
-| 8    | V = 0,8      | D = 6,25      | |
-| 9    | V = 0,9      | D = 5,55      | |
-| 10   | V = 1,0      | D = 5,0       | Normal vision |
-| 11   | V = 1,5      | D = 3,33      | Above average vision |
-| 12   | V = 2,0      | D = 2,5       | Excellent vision (smallest line) |
+| Line | Vision Value | Diopter Value | Characters | Font Size | Description |
+|------|--------------|---------------|------------|-----------|-------------|
+| 1    | V = 0,1      | D = 50,0      | Ш Б        | 120px     | Largest (very poor vision) |
+| 2    | V = 0,2      | D = 25,0      | М Н К      | 80px      | |
+| 3    | V = 0,3      | D = 16,67     | Ы М Б Ш    | 60px      | |
+| 4    | V = 0,4      | D = 12,5      | Б Ы Н К М  | 48px      | |
+| 5    | V = 0,5      | D = 10,0      | И Н Ш М К  | 40px      | |
+| 6    | V = 0,6      | D = 8,33      | Н Ш Ы И К Б | 32px     | |
+| 7    | V = 0,7      | D = 7,14      | Ш И Н Б К Ы | 28px     | |
+| 8    | V = 0,8      | D = 6,25      | К Н Ш М Ы Б И | 24px   | |
+| 9    | V = 0,9      | D = 5,55      | Б К Ш М И Ы Н | 20px   | |
+| 10   | V = 1,0      | D = 5,0       | Н К И Б М Ш Ы Б | 18px | Normal vision (20/20) |
+| 11   | V = 1,5      | D = 3,33      | Ш И Н К М И Ы Б | 14px | Above average vision |
+| 12   | V = 2,0      | D = 2,5       | И М Ш Ы Н Б М К | 12px | Excellent vision (smallest) |
 
 These values are hardcoded in `vision-test.js` in the `VISION_TEST_CONFIG` object.
+
+**Character Selection:**
+Characters are selected from Russian Cyrillic optotypes commonly used in Snellen charts: Ш, Б, М, Н, К, Ы, И. These characters have similar visual complexity and are easily distinguishable at various sizes.
 
 ### JavaScript Architecture (vision-test.js)
 
@@ -227,39 +238,59 @@ The vision test is implemented as an **IIFE (Immediately Invoked Function Expres
 
 1. **`initVisionTest()`** - Main initialization function, called on DOM ready
    - Checks if `#vision-test` section exists in DOM
-   - Attaches event listeners to all buttons
+   - Attaches event listeners to all buttons (Start, Yes, No, Restart)
    - Sets up initial UI state
 
 2. **`startTest()`** - Triggered when "Start Test" button is clicked
    - Sets `currentLine = 1`
+   - Initializes `testResults = []` to track answers
    - Shows chart and indicators
    - Hides initial controls, shows test controls
-   - Updates instruction text
+   - Updates instruction text to "Can you read all characters?"
 
-3. **`nextLine()`** - Triggered when "Yes" button is clicked
-   - Increments `currentLine`
-   - Updates indicators with new line/vision values
-   - Calls `updateTestDisplay()` to refresh UI
-   - If `currentLine > 7`, calls `showCompletionMessage()`
+3. **`recordAnswer(canRead)`** - Triggered when "Yes" or "No" button is clicked
+   - Stores result in `testResults` array with:
+     - `line`: Current line number (1-12)
+     - `vision`: Vision value (e.g., "V = 0,5")
+     - `diopter`: Diopter value (e.g., "D = 10,0")
+     - `canRead`: Boolean (true for Yes, false for No)
+   - Increments `currentLine` and calls `updateTestDisplay()`
+   - If `currentLine > 12`, calls `showCompletionMessage()`
+   - **Does NOT reset test** - continues until all 12 lines are tested
 
 4. **`resetTest()`** - Triggered when "Restart" button is clicked
    - Resets `currentLine = 0`
+   - Clears `testResults = []`
    - Hides chart and indicators
    - Shows initial controls, hides test controls
    - Resets instruction text to initial state
+   - Shows instruction text again (sets `display: 'block'`)
 
 5. **`updateTestDisplay()`** - Updates UI based on current line
-   - Updates line indicator text (e.g., "Line 3 of 7")
+   - Updates line indicator text (e.g., "LINE 3 OF 12")
    - Updates vision indicator text (e.g., "V = 0,3")
-   - Sets `data-current-line` attribute on chart image for CSS targeting
+   - Calls `updateChartDisplay(currentLine)` to render characters
 
-6. **`updateChartDisplay(lineNumber)`** - Handles chart visualization
-   - Sets `data-current-line` attribute for CSS-based animations
-   - Future enhancement could implement SVG cropping/highlighting
+6. **`updateChartDisplay(lineNumber)`** - Renders current line of characters
+   - Gets character array for current line from `VISION_TEST_CONFIG.lineCharacters`
+   - Gets font size from `VISION_TEST_CONFIG.fontSizes`
+   - Dynamically generates HTML with:
+     - `.vision-line` div with appropriate font size
+     - Individual `.vision-char` spans for each character
+     - Characters spaced with `gap: 0.3em` (CSS flexbox)
+   - Replaces `#vision-chart` innerHTML with rendered line
 
-7. **`showCompletionMessage()`** - Displays completion state
-   - Shows final vision value in instruction text
-   - Hides "Yes" button, keeps "Restart" button
+7. **`showCompletionMessage()`** - Displays results summary
+   - Analyzes `testResults` to find best vision (last "Yes" answer)
+   - If no "Yes" answers, shows "Below V = 0,1"
+   - Generates HTML summary with:
+     - "Test Complete!" heading (centered)
+     - Best vision level achieved
+     - Detailed results table (scrollable)
+     - Each line shows: Line number, vision value, checkmark (✓) or X (✗)
+     - Professional consultation reminder
+   - Hides instruction text (sets `display: 'none'`)
+   - Hides Yes and No buttons (only Restart visible)
 
 #### Public API:
 
@@ -270,30 +301,120 @@ The module exposes a global `window.VisionTest` object with:
 
 ### CSS Styling (styles.css)
 
-The vision test styles are organized in a dedicated section (lines 598-730):
+The vision test styles are organized in a dedicated section (lines 631-860+):
 
 #### Container Styles:
-- `.vision-test-container` - Main container with relative positioning
-- `.vision-chart-container` - Chart display area with gradient background
+- `.vision-test-container` - Main gray container with compact padding
+  - Desktop: `p-8` (32px)
+  - Mobile: `p-4` (16px)
+- `.vision-chart-container` - White box with gradient background, contains chart and indicators
+  - Height: `min-h-[400px]` (desktop), `min-h-[350px]` → `280px` (mobile)
+  - Uses `flexbox` with `flex-col` for vertical layout
+  - `position: relative` for absolute-positioned indicators
 
-#### Chart Animation:
-- Uses `data-current-line` attribute selector to apply progressive transformations
-- Each line gets unique `translateY()` and `scale()` values
-- Example: `[data-current-line="3"]` → `translateY(-100px) scale(1.4)`
+#### Layout Structure:
+```
+.vision-test-container (gray background)
+  └── .vision-chart-container (white box)
+        ├── .vision-indicators-row (absolute, top corners)
+        │     ├── #line-indicator (top-left)
+        │     └── #vision-indicator (top-right)
+        ├── #vision-chart (centered, flex-1)
+        │     └── .vision-line (dynamic characters)
+        └── .vision-instruction-bottom (absolute, bottom)
+              └── #vision-instruction
+```
+
+#### Character Display:
+- `.vision-chart` - Flexbox container with reduced padding
+  - Desktop: `padding: 20px`
+  - Mobile: `padding: 10px`
+  - Uses `flex items-center justify-center` for centering
+- `.vision-line` - Character line wrapper
+  - `display: flex` with `justify-content: center`
+  - `gap: 0.3em` (desktop), `0.2em` (mobile)
+  - Font size set inline (12px-120px)
+  - Fade-in animation on render
+- `.vision-char` - Individual character spans
+  - `display: inline-block` for proper spacing
+  - Centered with flexbox parent
 
 #### Indicator Styles:
-- `#line-indicator` - Gray, uppercase, tracking-widest
-- `#vision-indicator` - Coral color with light background badge
+- `#line-indicator` - Top-left corner
+  - Font: 0.75rem, uppercase, tracking-widest
+  - Color: Gray (#6b7280)
+  - Background: Semi-transparent white (rgba(255, 255, 255, 0.95))
+  - Padding: 4px 8px
+  - **No shadow** (removed for flat design)
+- `#vision-indicator` - Top-right corner
+  - Font: 0.875rem (14px)
+  - Color: Coral (#ff6b4a)
+  - Same background and padding as line indicator
+  - **No shadow**
 
-#### Responsive Design:
-- Mobile breakpoint at 768px
-- Chart height reduced on mobile (350px vs 500px)
-- Button widths adjusted for smaller screens
+#### Instruction Text:
+- `#vision-instruction` - Bottom of white box
+  - Position: Absolute at bottom
+  - Background: Semi-transparent white
+  - Padding: 8px 12px
+  - Font: 0.875rem (mobile), 1rem (desktop)
+  - **No shadow**
+  - Hidden on completion with `display: none`
+
+#### Button Styles:
+- `.btn-green` - "Yes" button
+  - Background: #059669 (green)
+  - Hover: #047857 (darker green)
+  - Lift effect on hover: `translateY(-2px)`
+  - Mobile: Smaller padding (12px 32px)
+- `.btn-outline` - "No" and "Restart" buttons
+  - Standard outline style (navy border)
+  - Mobile: Smaller padding
+- Button layout:
+  - Desktop: Side by side with gap-4
+  - Mobile: Full width, stacked vertically
+
+#### Results Summary Styles:
+- `.vision-results-summary` - Results container
+  - Max-width: 600px
+  - Centered with auto margins
+  - Top padding: `pt-6` (24px desktop), `1.5rem` (mobile)
+  - Compact padding overall: 10px (desktop), 5px (mobile)
+- `.results-details` - Scrollable results table
+  - White background with rounded corners
+  - Shadow: `0 2px 8px rgba(0, 0, 0, 0.1)`
+  - Max height: 256px (scrollable if needed)
+  - Right padding: `pr-2` to separate from scrollbar
+- Result rows:
+  - Spacing: `space-y-1` (4px between rows)
+  - Row padding: `py-1.5` (6px vertical)
+  - Right padding: `pr-1` (4px) - prevents checkmarks touching scrollbar
+  - Border bottom for separation
+- Scrollbar styling:
+  - Width: 6px
+  - Track: Light gray (#f1f1f1)
+  - Thumb: Gray (#d1d5db), darker on hover
+
+#### Mobile Responsiveness:
+All major elements are optimized for mobile at 768px breakpoint:
+- Reduced container padding (32px → 16px)
+- Smaller white box height (400px → 280px)
+- Compact chart padding (20px → 10px)
+- Smaller font sizes for indicators (0.75rem → 0.65rem)
+- Smaller instruction text (1rem → 0.875rem)
+- Reduced character gap (0.3em → 0.2em)
+- Stacked button layout (flex-col)
+- Full-width buttons
+- Smaller result heading (1.5rem → 1rem)
+- Compact results padding
 
 #### Accessibility:
-- Focus-visible outlines on buttons (3px solid coral)
-- Smooth transitions for state changes
-- Completion state uses green color (#059669)
+- No focus outlines on buttons (removed shadows for cleaner look)
+- Smooth transitions for all state changes (0.3s ease)
+- Fade-in animation for character appearance
+- High contrast text (black on white for characters)
+- Semantic HTML structure maintained
+- Responsive text sizing for readability
 
 ### Enabling/Disabling the Feature
 
@@ -314,15 +435,84 @@ The vision test is designed as a **modular, optional feature**. To enable/disabl
 
 When testing this feature:
 
-1. **Initial State**: Verify "Start Test" button appears and instruction text is correct
-2. **State Transitions**: Click through all 12 lines, verify indicators update correctly
-3. **Vision Range**: Test covers from V=0.1 (poor vision) to V=2.0 (excellent vision)
-4. **Font Sizes**: Verify progressive size reduction from 120px down to 12px
-5. **Completion**: Ensure completion message appears after line 12 showing V=2.0
-6. **Restart**: Verify "No" button resets to initial state at any point
-7. **Button Behavior**: Verify "Yes" button reappears after restart
-8. **Responsive**: Test on mobile devices (chart should scale appropriately)
-9. **Accessibility**: Test keyboard navigation (Tab, Enter, Escape)
+1. **Initial State**:
+   - Verify "Start Test" button appears
+   - Instruction text: "Try our interactive vision test. Sit 50cm from the screen. Cover one eye."
+   - Chart and indicators are hidden
+
+2. **Starting the Test**:
+   - Click "Start Test"
+   - Instruction moves to bottom of white box: "Can you read all characters?"
+   - First line (Ш Б) appears centered at 120px
+   - Line indicator shows "LINE 1 OF 12" (top-left)
+   - Vision indicator shows "V = 0,1" (top-right)
+   - Three buttons visible: Yes (green), No (outline), Restart (smaller outline)
+
+3. **Answer Recording**:
+   - Click "Yes" → Records positive result, moves to line 2
+   - Click "No" → Records negative result, moves to line 2
+   - Both buttons advance the test (do not end it)
+   - Click "Restart" → Resets test to initial state at any time
+
+4. **Progression Through Lines**:
+   - Each line shows progressively smaller characters
+   - Line indicator updates: "LINE 2 OF 12", "LINE 3 OF 12", etc.
+   - Vision indicator updates: "V = 0,2", "V = 0,3", etc.
+   - Characters properly centered with appropriate spacing
+   - Font sizes: 120px → 80px → 60px → 48px → 40px → 32px → 28px → 24px → 20px → 18px → 14px → 12px
+
+5. **Completion State**:
+   - After line 12, results summary appears
+   - "Test Complete!" heading (centered, compact)
+   - "Your vision level: V = X,X" (shows highest line successfully read)
+   - Detailed results table with ✓ for "Yes" answers, ✗ for "No" answers
+   - If more than 8 lines, table is scrollable
+   - Checkmarks have proper spacing from scrollbar (pr-1, pr-2)
+   - Only "Restart" button visible
+   - Instruction text hidden
+   - Professional consultation reminder at bottom
+
+6. **Results Calculation**:
+   - Best vision = last line where user clicked "Yes"
+   - If all "No" answers → "Below V = 0,1"
+   - If user clicks "Yes" through line 10 → "V = 1,0"
+   - Results persist until restart
+
+7. **Restart Functionality**:
+   - Click "Restart" from any state
+   - Clears all results
+   - Returns to initial state
+   - Yes and No buttons reappear
+   - Instruction text reappears at bottom
+
+8. **Visual/Layout Checks**:
+   - Characters centered in white box
+   - Indicators inside white box corners (not gray area)
+   - Instruction at bottom of white box (not outside)
+   - No overlapping text (indicators clear of "Test Complete!" heading)
+   - No shadows on indicators or instruction tooltips
+   - Smooth fade-in animation when characters appear
+
+9. **Mobile Responsiveness**:
+   - Test on screen width < 768px
+   - White box height: 280px (compact)
+   - Buttons stack vertically, full width
+   - Smaller font sizes for all elements
+   - Character gap reduced to 0.2em
+   - Results heading: 1rem
+   - Proper spacing maintained
+
+10. **Button Styling**:
+    - Yes button: Green (#059669) with hover lift effect
+    - No button: Navy outline
+    - Restart button: Navy outline, slightly smaller
+    - All buttons have hover effects
+
+11. **Accessibility**:
+    - Tab through buttons (keyboard navigation)
+    - Enter key activates buttons
+    - High contrast (black text on white for characters)
+    - Readable font sizes at all levels
 
 ### Future Enhancements
 

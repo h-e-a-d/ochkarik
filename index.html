@@ -11,6 +11,12 @@
 
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Cache Control Headers -->
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
+
     <title>Dr. Sitora Karimova - Expert Ophthalmologist in Dushanbe, Tajikistan | Eye Care Specialist</title>
     <meta name="description" content="Dr. Sitora Karimova offers expert ophthalmology services in Dushanbe including comprehensive eye exams, cataract surgery, LASIK, glaucoma management, and pediatric eye care. 8+ years of experience.">
     <meta name="keywords" content="ophthalmologist Dushanbe, eye doctor Tajikistan, cataract surgery, LASIK Dushanbe, glaucoma treatment, pediatric eye care, Sitora Karimova">
@@ -64,7 +70,7 @@
 
 
     <!-- Custom Styles -->
-    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="styles.css?v=1.0.0">
 
     <!-- Schema.org Structured Data -->
     <script type="application/ld+json">
@@ -705,7 +711,33 @@
     </footer>
 
     <!-- JavaScript -->
-    <script src="script.js"></script>
-    <script src="vision-test.js"></script>
+    <script src="script.js?v=1.0.0"></script>
+    <script src="vision-test.js?v=1.0.0"></script>
+
+    <!-- Service Worker Registration -->
+    <script>
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.register('/sw.js?v=1.0.0')
+                .then(registration => {
+                    console.log('Service Worker registered successfully:', registration);
+
+                    // Force update on refresh
+                    registration.addEventListener('updatefound', () => {
+                        const newWorker = registration.installing;
+                        newWorker.addEventListener('statechange', () => {
+                            if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
+                                // New service worker available, reload the page
+                                if (confirm('A new version is available! Click OK to update.')) {
+                                    window.location.reload();
+                                }
+                            }
+                        });
+                    });
+                })
+                .catch(error => {
+                    console.log('Service Worker registration failed:', error);
+                });
+        }
+    </script>
 </body>
 </html>
