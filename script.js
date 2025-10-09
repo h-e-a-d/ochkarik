@@ -637,14 +637,19 @@ document.addEventListener('DOMContentLoaded', function() {
     // Parallax Effect for Hero Section
     // ===========================
     const heroSection = document.querySelector('#home');
+    const heroImage = heroSection?.querySelector('img');
 
-    window.addEventListener('scroll', function() {
-        const scrollPosition = window.scrollY;
-        if (heroSection && scrollPosition < window.innerHeight) {
-            const parallaxSpeed = 0.5;
-            heroSection.style.backgroundPositionY = scrollPosition * parallaxSpeed + 'px';
-        }
-    });
+    // Only enable parallax on desktop to prevent mobile jitter
+    if (window.innerWidth > 768) {
+        window.addEventListener('scroll', function() {
+            const scrollPosition = window.scrollY;
+            if (heroImage && scrollPosition < window.innerHeight) {
+                const parallaxSpeed = 0.3;
+                // Use transform on the image element instead of background position
+                heroImage.style.transform = `translateY(${scrollPosition * parallaxSpeed}px)`;
+            }
+        });
+    }
 
 
     // ===========================
