@@ -408,7 +408,15 @@ document.addEventListener('DOMContentLoaded', function() {
     // ===========================
     // Language Switching System
     // ===========================
-    let currentLang = localStorage.getItem('language') || 'en';
+    // Detect language from URL parameter or localStorage or default to 'en'
+    const urlParams = new URLSearchParams(window.location.search);
+    const urlLang = urlParams.get('lang');
+    let currentLang = urlLang || localStorage.getItem('language') || 'en';
+
+    // Validate language code (only allow en, ru, tj)
+    if (!['en', 'ru', 'tj'].includes(currentLang)) {
+        currentLang = 'en';
+    }
 
     // Function to get nested translation value
     function getTranslation(lang, key) {
@@ -449,6 +457,26 @@ document.addEventListener('DOMContentLoaded', function() {
 
         // Update html lang attribute
         document.documentElement.setAttribute('lang', lang);
+
+        // Update canonical URL for SEO (language-specific canonical)
+        const canonicalUrl = document.getElementById('canonical-url');
+        if (canonicalUrl) {
+            const baseUrl = 'https://sitorakarimi.com/';
+            if (lang === 'en') {
+                canonicalUrl.setAttribute('href', baseUrl);
+            } else {
+                canonicalUrl.setAttribute('href', `${baseUrl}?lang=${lang}`);
+            }
+        }
+
+        // Update browser URL without reloading (for better SEO and bookmarking)
+        const url = new URL(window.location);
+        if (lang === 'en') {
+            url.searchParams.delete('lang');
+        } else {
+            url.searchParams.set('lang', lang);
+        }
+        window.history.replaceState({}, '', url);
 
         // Dispatch custom event for other modules (like vision test)
         document.dispatchEvent(new CustomEvent('languageChanged', { detail: { lang } }));

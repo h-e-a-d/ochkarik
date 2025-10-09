@@ -1,0 +1,20 @@
+# robots.txt for sitorakarimi.com
+# Ophthalmologist website - Dr. Sitora Karimova
+
+User-agent: *
+Allow: /
+
+# Sitemap location
+Sitemap: https://sitorakarimi.com/sitemap.xml
+
+# Disallow any admin or temporary files (if added in future)
+Disallow: /admin/
+Disallow: /temp/
+Disallow: /.git/
+
+# Allow all search engines to crawl images
+User-agent: Googlebot-Image
+Allow: /assets/images/
+
+# Crawl delay (optional, helps prevent server overload)
+Crawl-delay: 1

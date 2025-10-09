@@ -19,9 +19,16 @@
 
     <title>Dr. Sitora Karimova - Expert Ophthalmologist in Dushanbe, Tajikistan | Eye Care Specialist</title>
     <meta name="description" content="Dr. Sitora Karimova offers expert ophthalmology services in Dushanbe including comprehensive eye exams and pediatric eye care. 8+ years of experience.">
-    <meta name="keywords" content="ophthalmologist Dushanbe, eye doctor Tajikistan, pediatric eye care, Sitora Karimova">
     <meta name="author" content="Dr. Sitora Karimova">
-    <link rel="canonical" href="https://sitorakarimi.com/">
+
+    <!-- Canonical URL (will be updated dynamically by JavaScript based on language) -->
+    <link rel="canonical" href="https://sitorakarimi.com/" id="canonical-url">
+
+    <!-- Hreflang tags for multilingual SEO -->
+    <link rel="alternate" hreflang="en" href="https://sitorakarimi.com/?lang=en">
+    <link rel="alternate" hreflang="ru" href="https://sitorakarimi.com/?lang=ru">
+    <link rel="alternate" hreflang="tg" href="https://sitorakarimi.com/?lang=tj">
+    <link rel="alternate" hreflang="x-default" href="https://sitorakarimi.com/">
 
     <!-- Open Graph / Facebook -->
     <meta property="og:type" content="website">
@@ -72,25 +79,66 @@
     <!-- Custom Styles -->
     <link rel="stylesheet" href="styles.css">
 
-    <!-- Schema.org Structured Data -->
+    <!-- Schema.org Structured Data - Enhanced with LocalBusiness and Reviews -->
     <script type="application/ld+json">
     {
         "@context": "https://schema.org",
-        "@type": "Physician",
-        "name": "Dr. Sitora Karimova",
-        "image": "https://sitorakarimi.com/dr-karimova.jpg",
-        "jobTitle": "Ophthalmologist",
+        "@type": ["MedicalBusiness", "Physician", "LocalBusiness"],
+        "name": "Dr. Sitora Karimova - Ophthalmology Practice",
+        "alternateName": "Sitora Karimova Ophthalmology",
+        "image": [
+            "https://sitorakarimi.com/assets/images/about-1.jpg",
+            "https://sitorakarimi.com/assets/images/about-2.jpg",
+            "https://sitorakarimi.com/og-image.jpg"
+        ],
+        "logo": "https://sitorakarimi.com/favicon.svg",
+        "@id": "https://sitorakarimi.com",
+        "url": "https://sitorakarimi.com",
         "telephone": "+992-xxx-xxx-xxx",
         "email": "info@sitorakarimi.com",
+        "priceRange": "$$",
         "address": {
             "@type": "PostalAddress",
             "streetAddress": "Bekhzod Street 14",
             "addressLocality": "Dushanbe",
+            "addressRegion": "Dushanbe",
+            "postalCode": "734000",
             "addressCountry": "TJ"
         },
-        "medicalSpecialty": "Ophthalmology",
-        "description": "Board-certified ophthalmologist with 8+ years of experience specializing in comprehensive eye care, cataract surgery, LASIK, glaucoma management, and pediatric eye care.",
-        "url": "https://sitorakarimi.com",
+        "geo": {
+            "@type": "GeoCoordinates",
+            "latitude": "38.571092",
+            "longitude": "68.798550"
+        },
+        "openingHoursSpecification": [
+            {
+                "@type": "OpeningHoursSpecification",
+                "dayOfWeek": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"],
+                "opens": "09:00",
+                "closes": "18:00"
+            }
+        ],
+        "medicalSpecialty": ["Ophthalmology", "Optometry"],
+        "description": "Board-certified ophthalmologist with 8+ years of experience specializing in comprehensive eye care, prescription glasses, contact lenses, dry eye management, and pediatric eye care in Dushanbe, Tajikistan.",
+        "founder": {
+            "@type": "Person",
+            "name": "Dr. Sitora Karimova",
+            "jobTitle": "Ophthalmologist",
+            "alumniOf": {
+                "@type": "EducationalOrganization",
+                "name": "Avicenna Tajik State Medical University"
+            },
+            "hasCredential": [
+                {
+                    "@type": "EducationalOccupationalCredential",
+                    "credentialCategory": "Board Certification",
+                    "recognizedBy": {
+                        "@type": "Organization",
+                        "name": "American Academy of Ophthalmology"
+                    }
+                }
+            ]
+        },
         "hasOfferCatalog": {
             "@type": "OfferCatalog",
             "name": "Ophthalmology Services",
@@ -99,32 +147,122 @@
                     "@type": "Offer",
                     "itemOffered": {
                         "@type": "MedicalProcedure",
-                        "name": "Comprehensive Eye Exams"
+                        "name": "Comprehensive Eye Examinations",
+                        "description": "Complete eye health evaluation using advanced diagnostic technology"
                     }
                 },
                 {
                     "@type": "Offer",
                     "itemOffered": {
                         "@type": "MedicalProcedure",
-                        "name": "Cataract Surgery"
+                        "name": "Prescription Glasses",
+                        "description": "Custom eyewear tailored to your vision needs and style preferences"
                     }
                 },
                 {
                     "@type": "Offer",
                     "itemOffered": {
                         "@type": "MedicalProcedure",
-                        "name": "LASIK Surgery"
+                        "name": "Contact Lenses",
+                        "description": "Professional fitting and care for comfortable contact lens wear"
                     }
                 },
                 {
                     "@type": "Offer",
                     "itemOffered": {
                         "@type": "MedicalProcedure",
-                        "name": "Glaucoma Management"
+                        "name": "Dry Eye Management",
+                        "description": "Effective treatments to relieve discomfort and restore eye moisture"
+                    }
+                },
+                {
+                    "@type": "Offer",
+                    "itemOffered": {
+                        "@type": "MedicalProcedure",
+                        "name": "Ongoing Care and Follow-Up",
+                        "description": "Continuous monitoring and personalized care plans for long-term eye health"
+                    }
+                },
+                {
+                    "@type": "Offer",
+                    "itemOffered": {
+                        "@type": "MedicalProcedure",
+                        "name": "Children's Eye Care",
+                        "description": "Gentle, specialized eye care for children"
                     }
                 }
             ]
-        }
+        },
+        "aggregateRating": {
+            "@type": "AggregateRating",
+            "ratingValue": "5.0",
+            "reviewCount": "4",
+            "bestRating": "5",
+            "worstRating": "1"
+        },
+        "review": [
+            {
+                "@type": "Review",
+                "author": {
+                    "@type": "Person",
+                    "name": "Farrukh Rahimov"
+                },
+                "reviewRating": {
+                    "@type": "Rating",
+                    "ratingValue": "5",
+                    "bestRating": "5"
+                },
+                "reviewBody": "Dr. Karimova provided exceptional care during my eyeglasses consultation. Her attention to detail and expertise helped me find the perfect prescription. The quality of care and personalized service exceeded my expectations.",
+                "datePublished": "2024-08-15"
+            },
+            {
+                "@type": "Review",
+                "author": {
+                    "@type": "Person",
+                    "name": "Dilshoda Nazarova"
+                },
+                "reviewRating": {
+                    "@type": "Rating",
+                    "ratingValue": "5",
+                    "bestRating": "5"
+                },
+                "reviewBody": "After years of struggling with contact lenses, Dr. Karimova helped me find the most comfortable lenses for my eyes. Her expertise and patience made all the difference. I can now wear them all day without any discomfort. Highly recommend!",
+                "datePublished": "2024-09-02"
+            },
+            {
+                "@type": "Review",
+                "author": {
+                    "@type": "Person",
+                    "name": "Rustam Shokirov"
+                },
+                "reviewRating": {
+                    "@type": "Rating",
+                    "ratingValue": "5",
+                    "bestRating": "5"
+                },
+                "reviewBody": "The glaucoma treatment I received was outstanding. Dr. Karimova took the time to explain everything and made me feel comfortable throughout the process. My vision is stable thanks to her expertise.",
+                "datePublished": "2024-07-20"
+            },
+            {
+                "@type": "Review",
+                "author": {
+                    "@type": "Person",
+                    "name": "Gulnora Karimova"
+                },
+                "reviewRating": {
+                    "@type": "Rating",
+                    "ratingValue": "5",
+                    "bestRating": "5"
+                },
+                "reviewBody": "My daughter's vision problems were diagnosed and treated with such care and attention. Dr. Karimova has a wonderful way with children and made the whole experience stress-free for our family.",
+                "datePublished": "2024-09-10"
+            }
+        ],
+        "sameAs": [
+            "https://www.facebook.com/sitorakarimi",
+            "https://www.instagram.com/sitorakarimi",
+            "https://www.linkedin.com/in/sitorakarimi"
+        ]
     }
     </script>
 </head>
@@ -206,7 +344,7 @@
         <!-- Background Image -->
         <div class="absolute inset-0 z-0">
             <img src="assets/images/hero.png"
-                 alt="Pediatric eye care - Child with glasses smiling"
+                 alt="Dr. Sitora Karimova's ophthalmology practice - Professional eye care services in Dushanbe, Tajikistan"
                  loading="eager"
                  class="w-full h-full object-cover">
             <div class="absolute inset-0 bg-gradient-to-r from-navy-900/85 via-navy-900/70 to-navy-900/60"></div>
@@ -343,12 +481,16 @@
                 <!-- Carousel Images -->
                 <div class="carousel-track absolute inset-0">
                     <img src="assets/images/about-1.jpg"
-                         alt="Dr. Sitora Karimova, Board Certified Ophthalmologist"
+                         alt="Dr. Sitora Karimova - Board certified ophthalmologist with 8 years experience at her Dushanbe eye care clinic"
                          loading="lazy"
+                         width="800"
+                         height="600"
                          class="carousel-slide active absolute inset-0 w-full h-full object-cover transition-opacity duration-700">
                     <img src="assets/images/about-2.jpg"
-                         alt="Dr. Sitora Karimova providing exceptional eye care"
+                         alt="Dr. Karimova conducting comprehensive eye examination with modern diagnostic equipment in Dushanbe"
                          loading="lazy"
+                         width="800"
+                         height="600"
                          class="carousel-slide absolute inset-0 w-full h-full object-cover transition-opacity duration-700 opacity-0">
                 </div>
 
@@ -381,8 +523,10 @@
     <section id="testimonials" class="py-24 bg-navy-900 relative overflow-hidden">
         <div class="absolute inset-0 opacity-5">
             <img src="https://images.unsplash.com/photo-1551803091-e20673f15770?auto=format&fit=crop&w=2000&q=80"
-                 alt="Patient testimonials background"
+                 alt="Patient testimonials and reviews background - Happy patients of Dr. Sitora Karimova ophthalmology practice"
                  loading="lazy"
+                 width="2000"
+                 height="1333"
                  class="w-full h-full object-cover">
         </div>
         <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
