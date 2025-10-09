@@ -718,29 +718,15 @@
     <script src="script.js"></script>
     <script src="vision-test.js"></script>
 
-    <!-- Service Worker Registration -->
+    <!-- Service Worker unregistration script -->
     <script>
+        // Unregister any existing service workers to disable caching
         if ('serviceWorker' in navigator) {
-            navigator.serviceWorker.register('/sw.js')
-                .then(registration => {
-                    console.log('Service Worker registered successfully:', registration);
-
-                    // Force update on refresh
-                    registration.addEventListener('updatefound', () => {
-                        const newWorker = registration.installing;
-                        newWorker.addEventListener('statechange', () => {
-                            if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
-                                // New service worker available, reload the page
-                                if (confirm('A new version is available! Click OK to update.')) {
-                                    window.location.reload();
-                                }
-                            }
-                        });
-                    });
-                })
-                .catch(error => {
-                    console.log('Service Worker registration failed:', error);
-                });
+            navigator.serviceWorker.getRegistrations().then(registrations => {
+                for (let registration of registrations) {
+                    registration.unregister();
+                }
+            });
         }
     </script>
 </body>
