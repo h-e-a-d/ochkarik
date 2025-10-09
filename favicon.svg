@@ -1,8 +1,9 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
   <rect width="64" height="64" fill="#0a2a3d" rx="12"/>
   <g transform="translate(32, 32)">
-    <!-- Eye outer shape -->
-    <ellipse cx="0" cy="0" rx="22" ry="14" fill="none" stroke="#ffffff" stroke-width="2.5"/>
+    <!-- Eye outer shape - almond shape with pointed left/right corners -->
+    <path d="M -22,0 Q -11,-10 0,-10 Q 11,-10 22,0 Q 11,10 0,10 Q -11,10 -22,0 Z"
+          fill="none" stroke="#ffffff" stroke-width="2.5"/>
     <!-- Iris -->
     <circle cx="0" cy="0" r="8" fill="#FFFFFF"/>
     <!-- Pupil -->
