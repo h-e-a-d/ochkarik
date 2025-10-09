@@ -3,7 +3,7 @@
 // ===========================
 // Translations Object
 // ===========================
-const translations = {
+const translations = window.translations = {
     en: {
         nav: {
             home: 'Home',
@@ -76,6 +76,23 @@ const translations = {
         },
         partners: {
             title: 'Trusted Partnerships'
+        },
+        visionTest: {
+            subtitle: 'Test Your Vision',
+            title: 'Interactive Vision Test',
+            initialInstruction: 'Try our interactive vision test. Sit 50cm from the screen. Cover one eye.',
+            questionInstruction: 'Can you read all characters?',
+            startButton: 'Start Test',
+            yesButton: 'Yes',
+            noButton: 'No',
+            restartButton: 'Restart',
+            lineIndicator: 'Line',
+            of: 'of',
+            testComplete: 'Test Complete!',
+            yourVision: 'Your vision level:',
+            detailedResults: 'Detailed Results:',
+            consultationReminder: 'Please consult with Dr. Karimova for a professional eye examination.',
+            disclaimer: 'This test is for educational purposes only and does not replace a professional eye examination.'
         },
         contact: {
             subtitle: 'Get In Touch',
@@ -184,6 +201,23 @@ const translations = {
         partners: {
             title: 'Доверенные партнёры'
         },
+        visionTest: {
+            subtitle: 'Проверьте зрение',
+            title: 'Интерактивный тест зрения',
+            initialInstruction: 'Попробуйте наш интерактивный тест зрения. Сядьте на расстоянии 50 см от экрана. Закройте один глаз.',
+            questionInstruction: 'Вы можете прочитать все символы?',
+            startButton: 'Начать тест',
+            yesButton: 'Да',
+            noButton: 'Нет',
+            restartButton: 'Начать заново',
+            lineIndicator: 'Строка',
+            of: 'из',
+            testComplete: 'Тест завершён!',
+            yourVision: 'Ваш уровень зрения:',
+            detailedResults: 'Детальные результаты:',
+            consultationReminder: 'Пожалуйста, проконсультируйтесь с доктором Каримовой для профессионального обследования глаз.',
+            disclaimer: 'Этот тест предназначен только для образовательных целей и не заменяет профессионального обследования глаз.'
+        },
         contact: {
             subtitle: 'Свяжитесь с нами',
             title: 'Запишитесь на приём',
@@ -290,6 +324,23 @@ const translations = {
         },
         partners: {
             title: 'Шарикони боэътимод'
+        },
+        visionTest: {
+            subtitle: 'Бинишатонро санҷед',
+            title: 'Санҷиши интерактивии бинӣ',
+            initialInstruction: 'Санҷиши интерактивии биниши моро санҷед. Дар масофаи 50 см аз экран нишинед. Як чашматонро пӯшонед.',
+            questionInstruction: 'Шумо ҳамаи аломатҳоро хонда метавонед?',
+            startButton: 'Оғози санҷиш',
+            yesButton: 'Ҳа',
+            noButton: 'Не',
+            restartButton: 'Аз нав оғоз кунед',
+            lineIndicator: 'Сатр',
+            of: 'аз',
+            testComplete: 'Санҷиш анҷом ёфт!',
+            yourVision: 'Сатҳи бинишии шумо:',
+            detailedResults: 'Натиҷаҳои муфассал:',
+            consultationReminder: 'Лутфан, бо доктор Каримова барои санҷиши касбии чашм маслиҳат кунед.',
+            disclaimer: 'Ин санҷиш танҳо барои мақсадҳои таълимӣ мебошад ва санҷиши касбии чашмро иваз намекунад.'
         },
         contact: {
             subtitle: 'Бо мо тамос гиред',
@@ -398,6 +449,9 @@ document.addEventListener('DOMContentLoaded', function() {
 
         // Update html lang attribute
         document.documentElement.setAttribute('lang', lang);
+
+        // Dispatch custom event for other modules (like vision test)
+        document.dispatchEvent(new CustomEvent('languageChanged', { detail: { lang } }));
     }
 
     // Initialize language on page load

@@ -115,6 +115,39 @@ Visit `http://localhost:8000` in your browser.
 - Each feature is clearly commented with section headers
 - Modify scroll thresholds, animation delays, and timings as needed
 
+### Version Management & Releases
+
+When preparing a release or making significant updates to the site:
+
+**IMPORTANT: Always increment the Service Worker cache version in `sw.js`:**
+
+1. Open `sw.js` (Service Worker file)
+2. Update the `CACHE_VERSION` constant on line 6
+3. Follow semantic versioning (e.g., `1.0.1` → `1.0.2` for patches, `1.1.0` for features, `2.0.0` for breaking changes)
+4. This ensures all users receive the latest version of cached assets
+
+**Example:**
+```javascript
+// Before
+const CACHE_VERSION = '1.0.1';
+
+// After (patch release)
+const CACHE_VERSION = '1.0.2';
+```
+
+**Why this matters:**
+- The Service Worker caches static assets (HTML, CSS, JS) for offline support
+- Without updating the version, users may see old cached content
+- The new cache version forces all users to fetch fresh assets
+- Old cache versions are automatically deleted on Service Worker activation
+
+**When to increment:**
+- Major content changes to `index.html`
+- CSS updates in `styles.css`
+- JavaScript changes in `script.js` or `vision-test.js`
+- Before deploying to production
+- When fixing bugs or adding features
+
 ### Important Implementation Details
 
 1. **Navbar behavior**: Transparent by default, becomes opaque with `.scrolled` class after 100px scroll

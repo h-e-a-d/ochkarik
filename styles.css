@@ -777,8 +777,9 @@ body.loading {
     }
 }
 
-/* Smooth transitions for hiding/showing */
-.hidden {
+/* Smooth transitions for hiding/showing - only for specific elements */
+#mobile-menu.hidden,
+#lang-menu.hidden {
     display: none !important;
 }
 

@@ -91,6 +91,22 @@
         const controlsInitial = document.querySelector('.vision-controls-initial');
         const controlsTest = document.querySelector('.vision-controls-test');
 
+        /**
+         * Update vision test text when language changes
+         */
+        function updateVisionTestLanguage() {
+            if (visionTestActive && currentLine > 0) {
+                // Update line indicator if test is active
+                updateTestDisplay();
+            }
+        }
+
+        // Listen for language changes via custom event
+        document.addEventListener('languageChanged', updateVisionTestLanguage);
+
+        // Also expose as global function for direct calls
+        window.updateVisionTestLanguage = updateVisionTestLanguage;
+
         // Event listeners
         if (startBtn) {
             startBtn.addEventListener('click', startTest);
@@ -120,9 +136,11 @@
             lineIndicator.classList.remove('hidden');
             visionIndicator.classList.remove('hidden');
 
-            // Update instruction
-            instructionText.textContent = 'Can you read all characters?';
+            // Update instruction text
             instructionText.setAttribute('data-i18n', 'visionTest.questionInstruction');
+            const lang = localStorage.getItem('language') || 'en';
+            const questionText = window.translations?.[lang]?.visionTest?.questionInstruction || 'Can you read all characters?';
+            instructionText.textContent = questionText;
 
             // Show first line
             updateTestDisplay();
@@ -170,9 +188,11 @@
             yesBtn.classList.remove('hidden');
             noBtn.classList.remove('hidden');
 
-            // Reset instruction
-            instructionText.textContent = 'Try our interactive vision test. Sit 50cm from the screen. Cover one eye.';
+            // Reset instruction text
             instructionText.setAttribute('data-i18n', 'visionTest.initialInstruction');
+            const lang = localStorage.getItem('language') || 'en';
+            const initialText = window.translations?.[lang]?.visionTest?.initialInstruction || 'Try our interactive vision test. Sit 50cm from the screen. Cover one eye.';
+            instructionText.textContent = initialText;
             instructionText.style.display = 'block'; // Show instruction again
 
             // Reset chart content
@@ -189,8 +209,11 @@
 
             const lineIndex = currentLine - 1;
 
-            // Update indicators
-            lineIndicator.textContent = `Line ${currentLine} of ${VISION_TEST_CONFIG.totalLines}`;
+            // Update indicators - use translation system if available
+            const lang = localStorage.getItem('language') || 'en';
+            const lineText = window.translations?.[lang]?.visionTest?.lineIndicator || 'Line';
+            const ofText = window.translations?.[lang]?.visionTest?.of || 'of';
+            lineIndicator.textContent = `${lineText} ${currentLine} ${ofText} ${VISION_TEST_CONFIG.totalLines}`;
             visionIndicator.textContent = VISION_TEST_CONFIG.visionValues[lineIndex];
 
             // Update chart SVG (crop to show only current line)
@@ -228,6 +251,15 @@
          * Show completion message with results summary
          */
         function showCompletionMessage() {
+            // Get translations
+            const lang = localStorage.getItem('language') || 'en';
+            const t = window.translations?.[lang]?.visionTest || {};
+            const testCompleteText = t.testComplete || 'Test Complete!';
+            const yourVisionText = t.yourVision || 'Your vision level:';
+            const detailedResultsText = t.detailedResults || 'Detailed Results:';
+            const consultationText = t.consultationReminder || 'Please consult with Dr. Karimova for a professional eye examination.';
+            const lineText = t.lineIndicator || 'Line';
+
             // Find the best vision level (last "Yes" answer)
             let bestVision = null;
             let bestVisionLine = 0;
@@ -248,12 +280,12 @@
             // Build results summary
             let summaryHTML = `
                 <div class="vision-results-summary text-center pt-6">
-                    <h3 class="text-lg md:text-2xl font-semibold text-navy-900 mb-2">Test Complete!</h3>
+                    <h3 class="text-lg md:text-2xl font-semibold text-navy-900 mb-2">${testCompleteText}</h3>
                     <div class="text-base md:text-lg mb-3">
-                        <p>Your vision level: <strong class="text-coral">${bestVision}</strong></p>
+                        <p>${yourVisionText} <strong class="text-coral">${bestVision}</strong></p>
                     </div>
                     <div class="results-details bg-white rounded-lg p-4 md:p-6 mb-3 text-left">
-                        <h4 class="font-semibold text-navy-900 mb-2 text-center">Detailed Results:</h4>
+                        <h4 class="font-semibold text-navy-900 mb-2 text-center">${detailedResultsText}</h4>
                         <div class="space-y-1 max-h-64 overflow-y-auto pr-2">
             `;
 
@@ -262,7 +294,7 @@
                 const color = result.canRead ? 'text-green-600' : 'text-red-600';
                 summaryHTML += `
                     <div class="flex items-center justify-between py-1.5 border-b border-gray-100 pr-1">
-                        <span class="text-sm">Line ${result.line}: ${result.vision}</span>
+                        <span class="text-sm">${lineText} ${result.line}: ${result.vision}</span>
                         <span class="${color} font-bold text-lg">${icon}</span>
                     </div>
                 `;
@@ -271,7 +303,7 @@
             summaryHTML += `
                         </div>
                     </div>
-                    <p class="text-xs md:text-sm text-gray-600">Please consult with Dr. Karimova for a professional eye examination.</p>
+                    <p class="text-xs md:text-sm text-gray-600">${consultationText}</p>
                 </div>
             `;
 
