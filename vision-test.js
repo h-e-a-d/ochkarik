@@ -86,6 +86,7 @@
         const restartBtn = document.getElementById('vision-restart-btn');
         const instructionText = document.getElementById('vision-instruction');
         const chartImage = document.getElementById('vision-chart');
+        const chartBackground = document.getElementById('vision-chart-bg');
         const lineIndicator = document.getElementById('line-indicator');
         const visionIndicator = document.getElementById('vision-indicator');
         const controlsInitial = document.querySelector('.vision-controls-initial');
@@ -136,6 +137,11 @@
             lineIndicator.classList.remove('hidden');
             visionIndicator.classList.remove('hidden');
 
+            // Hide background SVG when test starts
+            if (chartBackground) {
+                chartBackground.classList.add('hidden');
+            }
+
             // Update instruction text
             instructionText.setAttribute('data-i18n', 'visionTest.questionInstruction');
             const lang = localStorage.getItem('language') || 'en';
@@ -183,6 +189,11 @@
             chartImage.classList.add('hidden');
             lineIndicator.classList.add('hidden');
             visionIndicator.classList.add('hidden');
+
+            // Show background SVG again when test resets
+            if (chartBackground) {
+                chartBackground.classList.remove('hidden');
+            }
 
             // Show Yes and No buttons again (in case they were hidden on completion)
             yesBtn.classList.remove('hidden');
