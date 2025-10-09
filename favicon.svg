@@ -4,10 +4,8 @@
     <!-- Eye outer shape -->
     <ellipse cx="0" cy="0" rx="22" ry="14" fill="none" stroke="#ffffff" stroke-width="2.5"/>
     <!-- Iris -->
-    <circle cx="0" cy="0" r="8" fill="#ffffff"/>
+    <circle cx="0" cy="0" r="8" fill="#FFFFFF"/>
     <!-- Pupil -->
-    <circle cx="0" cy="0" r="4" fill="#ffffff"/>
-    <!-- Highlight -->
-    <circle cx="-1.5" cy="-1.5" r="1.5" fill="#ffffff" opacity="0.8"/>
+    <circle cx="0" cy="0" r="4" fill="#0A2A3D"/>
   </g>
 </svg>
