@@ -3,7 +3,7 @@
 
 // IMPORTANT: Increment this version number whenever you update the site
 // This will force all users to get the new version
-const CACHE_VERSION = '1.0.0';
+const CACHE_VERSION = '1.0.1';
 const CACHE_NAME = `sitora-karimova-v${CACHE_VERSION}`;
 
 const urlsToCache = [
@@ -28,12 +28,18 @@ self.addEventListener('install', event => {
 
 // Fetch from cache, fallback to network
 self.addEventListener('fetch', event => {
+  // Only cache GET requests
+  if (event.request.method !== 'GET') {
+    return;
+  }
+
   // Skip caching for external CDN resources and Google Analytics
   if (event.request.url.startsWith('https://cdn.') ||
       event.request.url.startsWith('https://cdnjs.') ||
       event.request.url.startsWith('https://www.google-analytics.') ||
-      event.request.url.startsWith('https://www.googletagmanager.')) {
-    event.respondWith(fetch(event.request));
+      event.request.url.startsWith('https://www.googletagmanager.') ||
+      event.request.url.includes('google') ||
+      event.request.url.includes('analytics')) {
     return;
   }
 
