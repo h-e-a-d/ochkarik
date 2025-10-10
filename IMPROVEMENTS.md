@@ -183,7 +183,7 @@ Successfully implemented 8 major improvements to the Sitora Karimova ophthalmolo
    - Replace Unsplash images with actual photos
 
 2. **Create Open Graph image**:
-   - Upload `og-image.jpg` to root directory
+   - Upload `og-image.webp` to `assets/images/` directory
    - Recommended size: 1200×630px
    - Must include: doctor photo, branding, key info
 

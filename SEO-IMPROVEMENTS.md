@@ -51,8 +51,8 @@ Crawl-delay: 1 → Wait 1 second between requests
 
 ---
 
-### 3. **Created og-image.jpg**
-**File:** `og-image.jpg` (SVG placeholder - recommend replacing with actual photo)
+### 3. **Created og-image.webp**
+**File:** `og-image.webp` (WebP format for better compression)
 
 **What it does:**
 - Provides preview image when sharing on social media (Facebook, Twitter, LinkedIn, WhatsApp)
@@ -64,8 +64,8 @@ Crawl-delay: 1 → Wait 1 second between requests
 - Better user experience when sharing
 
 **Recommendation:**
-- Replace with actual 1200x630px photo of Dr. Karimova or clinic
-- Use JPEG format, optimized to ~200KB
+- Use 1200x630px photo of Dr. Karimova or clinic
+- WebP format provides better compression than JPEG
 - Include branding and text overlay
 
 ---
@@ -415,9 +415,10 @@ Lazy loading delays loading images until they're about to enter the viewport (us
    - Bing Webmaster Tools
    - Yandex Webmaster
 
-2. **Replace og-image.jpg**
-   - Use actual photo (1200x630px)
-   - Professional headshot or clinic photo
+2. **Update og-image.webp if needed**
+   - Current: 1200x630px WebP format
+   - Use professional headshot or clinic photo
+   - Located in `assets/images/og-image.webp`
 
 3. **Update contact info**
    - Replace placeholder phone: `+992-xxx-xxx-xxx`
@@ -456,7 +457,7 @@ Lazy loading delays loading images until they're about to enter the viewport (us
 ### Files Created:
 - ✅ `sitemap.xml` - Multilingual sitemap
 - ✅ `robots.txt` - Crawl directives
-- ✅ `og-image.jpg` - Social sharing image (SVG placeholder)
+- ✅ `assets/images/og-image.webp` - Social sharing image (WebP format)
 
 ### Version Control:
 Remember to update Service Worker cache version in `sw.js`:
