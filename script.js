@@ -10,6 +10,7 @@ const translations = window.translations = {
             services: 'Services',
             about: 'About',
             reviews: 'Reviews',
+            faq: 'FAQ',
             contact: 'Contact',
             language: 'Language'
         },
@@ -110,6 +111,25 @@ const translations = window.translations = {
             address1: 'Bekhzod Street 14',
             address2: 'Dushanbe, Tajikistan'
         },
+        faq: {
+            subtitle: 'Common Questions',
+            title: 'Frequently Asked Questions',
+            description: 'Find answers to common questions about our eye care services in Dushanbe',
+            question1: 'How often should I get an eye exam?',
+            answer1: 'Adults with no vision problems should get comprehensive eye exams every 2 years. If you wear glasses, have diabetes, or family history of eye disease, annual exams are recommended. Children need exams at 6 months, age 3, before school, then annually.',
+            question2: 'Do you see children? At what age?',
+            answer2: 'Yes! Dr. Karimova has specialized training in pediatric ophthalmology and welcomes children from infancy through teenage years using child-friendly testing methods.',
+            question3: 'What is dry eye syndrome and how is it treated?',
+            answer3: 'Dry eye syndrome causes burning, itching, redness, and watery eyes due to insufficient tear production or poor tear quality. Treatment includes prescription eye drops, punctal plugs, warm compress therapy, and lifestyle modifications. Most patients see improvement within 2-4 weeks.',
+            question4: 'How long does a comprehensive eye exam take?',
+            answer4: 'A comprehensive eye examination takes approximately 45-60 minutes for your first visit. This includes visual acuity testing, refraction assessment, intraocular pressure measurement, retinal health evaluation, and consultation with Dr. Karimova.',
+            question5: 'Do you fit contact lenses?',
+            answer5: 'Yes, we provide professional contact lens fitting including measurements of eye curvature and tear film quality. We offer daily disposable, monthly replacement, toric lenses for astigmatism, and multifocal lenses. Complete training and ongoing support are included.',
+            question6: 'Where is your clinic located in Dushanbe?',
+            answer6: 'Our clinic is located at Bekhzod Street 14, Dushanbe, Tajikistan. We are easily accessible with flexible appointment times including same-day urgent care for eye emergencies. Contact us at +992 93 009 71 71.',
+            cta: 'Still have questions? We\'re here to help.',
+            contactButton: 'Contact Us'
+        },
         footer: {
             tagline: 'Exceptional ophthalmology care since 2017',
             servicesTitle: 'Services',
@@ -134,6 +154,7 @@ const translations = window.translations = {
             services: 'Услуги',
             about: 'О нас',
             reviews: 'Отзывы',
+            faq: 'Вопросы',
             contact: 'Контакты',
             language: 'Язык'
         },
@@ -234,6 +255,25 @@ const translations = window.translations = {
             address1: 'Улица Бехзода 14',
             address2: 'Душанбе, Таджикистан'
         },
+        faq: {
+            subtitle: 'Часто задаваемые вопросы',
+            title: 'Часто задаваемые вопросы',
+            description: 'Найдите ответы на распространённые вопросы о наших офтальмологических услугах в Душанбе',
+            question1: 'Как часто нужно проходить обследование глаз?',
+            answer1: 'Взрослым без проблем со зрением рекомендуется проходить комплексное обследование глаз каждые 2 года. Если вы носите очки, страдаете диабетом или имеете семейную историю глазных заболеваний, рекомендуются ежегодные обследования. Детям необходимы обследования в 6 месяцев, в 3 года, перед школой, а затем ежегодно.',
+            question2: 'Вы принимаете детей? С какого возраста?',
+            answer2: 'Да! Доктор Каримова имеет специализированную подготовку в области детской офтальмологии и принимает детей с младенчества до подросткового возраста, используя методы тестирования, адаптированные для детей.',
+            question3: 'Что такое синдром сухого глаза и как его лечат?',
+            answer3: 'Синдром сухого глаза вызывает жжение, зуд, покраснение и слезотечение из-за недостаточного производства слёз или плохого качества слёзной плёнки. Лечение включает рецептурные глазные капли, пунктальные пробки, терапию тёплыми компрессами и изменение образа жизни. Большинство пациентов видят улучшение в течение 2-4 недель.',
+            question4: 'Сколько времени занимает комплексное обследование глаз?',
+            answer4: 'Комплексное обследование глаз занимает приблизительно 45-60 минут при первом посещении. Это включает проверку остроты зрения, оценку рефракции, измерение внутриглазного давления, оценку здоровья сетчатки и консультацию с доктором Каримовой.',
+            question5: 'Вы подбираете контактные линзы?',
+            answer5: 'Да, мы предоставляем профессиональный подбор контактных линз, включая измерение кривизны роговицы и качества слёзной плёнки. Мы предлагаем ежедневные одноразовые, ежемесячные линзы, торические линзы при астигматизме и мультифокальные линзы. Включены полное обучение и постоянная поддержка.',
+            question6: 'Где находится ваша клиника в Душанбе?',
+            answer6: 'Наша клиника расположена по адресу улица Бехзода 14, Душанбе, Таджикистан. Мы легко доступны с гибким графиком приёма, включая срочную помощь в тот же день при чрезвычайных ситуациях с глазами. Свяжитесь с нами по телефону +992 93 009 71 71.',
+            cta: 'Остались вопросы? Мы здесь, чтобы помочь.',
+            contactButton: 'Связаться с нами'
+        },
         footer: {
             tagline: 'Исключительный уход за глазами с 2017 года',
             servicesTitle: 'Услуги',
@@ -258,6 +298,7 @@ const translations = window.translations = {
             services: 'Хидматҳо',
             about: 'Дар бораи мо',
             reviews: 'Тақризҳо',
+            faq: 'Саволҳо',
             contact: 'Тамос',
             language: 'Забон'
         },
@@ -357,6 +398,25 @@ const translations = window.translations = {
             visitClinic: 'Клиникаи моро боздид кунед',
             address1: 'Кӯчаи Беҳзод 14',
             address2: 'Душанбе, Тоҷикистон'
+        },
+        faq: {
+            subtitle: 'Саволҳои маъмул',
+            title: 'Саволҳои зиёд пурсидашаванда',
+            description: 'Ҷавобҳоро барои саволҳои маъмул дар бораи хидматҳои нигоҳубини чашми мо дар Душанбе ёбед',
+            question1: 'Чанд вақт аз чанд вақт бояд санҷиши чашм гузаронам?',
+            answer1: 'Одамони калонсол бе мушкилоти бинӣ бояд ҳар 2 сол санҷишҳои комили чашмро гузаронанд. Агар шумо айнак пӯшед, диабет дошта бошед ё таърихи оилавии бемориҳои чашм дошта бошед, санҷишҳои ҳарсола тавсия дода мешаванд. Кӯдакон бояд дар 6 моҳагӣ, 3 солагӣ, пеш аз мактаб ва баъд ҳар сол санҷиш гузаронанд.',
+            question2: 'Шумо кӯдаконро қабул мекунед? Аз кадом синну сол?',
+            answer2: 'Бале! Доктор Каримова таълими махсуси офтальмологияи кӯдакон дорад ва кӯдаконро аз кӯдакии бемазмун то синни наврасӣ бо истифода аз усулҳои санҷиши мутобиқ ба кӯдакон қабул мекунад.',
+            question3: 'Синдроми хушкии чашм чист ва чӣ тавр табобат карда мешавад?',
+            answer3: 'Синдроми хушкии чашм сӯхтори, хориш, сурхӣ ва обравии чашмро аз сабаби истеҳсоли ношоями ашк ё сифати бади пардаи ашкӣ боис мешавад. Табобат шомили қатраҳои чашмии рецептӣ, пробкаҳои панкталӣ, табобати компрессҳои гарм ва тағирдиҳои тарзи ҳаёт мебошад. Аксари беморон дар давоми 2-4 ҳафта беҳтаршавиро мебинанд.',
+            question4: 'Санҷиши комили чашм чанд вақт давом мекунад?',
+            answer4: 'Санҷиши комили чашм тақрибан 45-60 дақиқа барои боздиди аввали шумо давом мекунад. Ин шомили санҷиши тезии бинӣ, арзёбии рефраксия, андозагирии фишори дохилии чашм, арзёбии саломатии шабакия ва маслиҳат бо доктор Каримова мебошад.',
+            question5: 'Шумо линзаҳои тамосиро интихоб мекунед?',
+            answer5: 'Бале, мо интихоби касбии линзаҳои тамосиро пешниҳод мекунем, аз ҷумла андозагирии қавси роғаи чашм ва сифати пардаи ашкӣ. Мо линзаҳои рӯзонаи якбора истифодашаванда, ивазкунии ҳармоҳа, линзаҳои торикӣ барои астигматизм ва линзаҳои мултифокалӣ пешниҳод мекунем. Таълими комил ва дастгирии доимӣ дохил карда шудааст.',
+            question6: 'Клиникаи шумо дар Душанбе дар куҷост?',
+            answer6: 'Клиникаи мо дар суроғаи кӯчаи Беҳзод 14, Душанбе, Тоҷикистон ҷойгир аст. Мо осон дастрасем бо вақти фарогирии чандир, аз ҷумла кӯмаки таъҷилии ҳамон рӯз барои фавриятҳои чашмӣ. Бо мо тамос гиред аз тариқи телефони +992 93 009 71 71.',
+            cta: 'Ҳанӯз саволҳо доред? Мо дар ин ҷо ҳастем, то кӯмак расонем.',
+            contactButton: 'Бо мо тамос гиред'
         },
         footer: {
             tagline: 'Нигоҳубини истисноии чашм аз соли 2017',
