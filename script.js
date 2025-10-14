@@ -1152,39 +1152,54 @@ document.addEventListener('DOMContentLoaded', function() {
     // ===========================
     // Service Toggle Functionality (Expand Entire Row)
     // ===========================
+
+    // Function to toggle a row
+    function toggleServiceRow(rowIndex) {
+        const rowCards = document.querySelectorAll(`.service-card-minimal[data-row="${rowIndex}"]`);
+
+        // Check current state of this row
+        const firstCard = rowCards[0];
+        const firstDescription = firstCard.querySelector('.service-description');
+        const isExpanded = firstDescription.classList.contains('expanded');
+
+        // Toggle all cards in this row
+        rowCards.forEach(card => {
+            const description = card.querySelector('.service-description');
+            const cardToggle = card.querySelector('.service-toggle');
+            const cardIcon = cardToggle.querySelector('.toggle-icon');
+            const cardText = cardToggle.querySelector('.toggle-text');
+
+            if (isExpanded) {
+                // Collapse row
+                description.classList.remove('expanded');
+                cardIcon.classList.remove('rotate-180');
+                cardText.textContent = translations[currentLang].services.readMore;
+            } else {
+                // Expand row
+                description.classList.add('expanded');
+                cardIcon.classList.add('rotate-180');
+                cardText.textContent = translations[currentLang].services.readLess;
+            }
+        });
+    }
+
+    // Add click handlers to toggle buttons
     const serviceToggles = document.querySelectorAll('.service-toggle');
-
     serviceToggles.forEach(toggle => {
-        toggle.addEventListener('click', function() {
+        toggle.addEventListener('click', function(e) {
+            e.stopPropagation(); // Prevent event bubbling
             const rowIndex = this.getAttribute('data-row');
-            const rowCards = document.querySelectorAll(`.service-card-minimal[data-row="${rowIndex}"]`);
-            const icon = this.querySelector('.toggle-icon');
-            const text = this.querySelector('.toggle-text');
+            toggleServiceRow(rowIndex);
+        });
+    });
 
-            // Check current state of this row
-            const firstCard = rowCards[0];
-            const firstDescription = firstCard.querySelector('.service-description');
-            const isExpanded = firstDescription.classList.contains('expanded');
-
-            // Toggle all cards in this row
-            rowCards.forEach(card => {
-                const description = card.querySelector('.service-description');
-                const cardToggle = card.querySelector('.service-toggle');
-                const cardIcon = cardToggle.querySelector('.toggle-icon');
-                const cardText = cardToggle.querySelector('.toggle-text');
-
-                if (isExpanded) {
-                    // Collapse row
-                    description.classList.remove('expanded');
-                    cardIcon.classList.remove('rotate-180');
-                    cardText.textContent = translations[currentLang].services.readMore;
-                } else {
-                    // Expand row
-                    description.classList.add('expanded');
-                    cardIcon.classList.add('rotate-180');
-                    cardText.textContent = translations[currentLang].services.readLess;
-                }
-            });
+    // Add click handlers to descriptions
+    const serviceDescriptions = document.querySelectorAll('.service-description');
+    serviceDescriptions.forEach(description => {
+        description.addEventListener('click', function() {
+            const card = this.closest('.service-card-minimal');
+            const rowIndex = card.getAttribute('data-row');
+            toggleServiceRow(rowIndex);
         });
     });
 

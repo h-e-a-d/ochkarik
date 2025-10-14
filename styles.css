@@ -158,7 +158,11 @@ body {
 
 /* Service Description Line Clamping */
 .service-description {
-    transition: all 0.3s ease;
+    cursor: pointer;
+    position: relative;
+    max-height: 7.5em; /* Approximately 5 lines */
+    overflow: hidden;
+    transition: max-height 0.4s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.3s ease;
 }
 
 .line-clamp-5 {
@@ -175,15 +179,23 @@ body {
     bottom: 0;
     padding-left: 1rem;
     background: linear-gradient(to right, transparent, #0a2a3d 50%);
+    transition: opacity 0.2s ease;
 }
 
 /* Expanded state - remove line clamp */
 .service-description.expanded {
     -webkit-line-clamp: unset;
+    max-height: 1000px; /* Large enough to fit any content */
 }
 
 .service-description.expanded::after {
+    opacity: 0;
     display: none;
+}
+
+/* Hover effect for descriptions */
+.service-description:hover {
+    opacity: 0.85;
 }
 
 /* Service Toggle Button */
