@@ -156,6 +156,36 @@ body {
     transition: transform 0.3s ease;
 }
 
+/* Service Description Line Clamping */
+.service-description {
+    transition: all 0.3s ease;
+}
+
+.line-clamp-5 {
+    display: -webkit-box;
+    -webkit-line-clamp: 5;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+.line-clamp-5::after {
+    content: '...';
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    padding-left: 1rem;
+    background: linear-gradient(to right, transparent, #0a2a3d 50%);
+}
+
+/* Expanded state - remove line clamp */
+.service-description.expanded {
+    -webkit-line-clamp: unset;
+}
+
+.service-description.expanded::after {
+    display: none;
+}
+
 /* Service Toggle Button */
 .service-toggle {
     cursor: pointer;

@@ -1150,31 +1150,41 @@ document.addEventListener('DOMContentLoaded', function() {
 
 
     // ===========================
-    // Service Toggle Functionality (Collapsible Descriptions)
+    // Service Toggle Functionality (Expand Entire Row)
     // ===========================
     const serviceToggles = document.querySelectorAll('.service-toggle');
 
     serviceToggles.forEach(toggle => {
         toggle.addEventListener('click', function() {
-            const card = this.closest('.service-card-minimal');
-            const details = card.querySelector('.service-details');
+            const rowIndex = this.getAttribute('data-row');
+            const rowCards = document.querySelectorAll(`.service-card-minimal[data-row="${rowIndex}"]`);
             const icon = this.querySelector('.toggle-icon');
             const text = this.querySelector('.toggle-text');
 
-            // Toggle visibility of details
-            details.classList.toggle('hidden');
+            // Check current state of this row
+            const firstCard = rowCards[0];
+            const firstDescription = firstCard.querySelector('.service-description');
+            const isExpanded = firstDescription.classList.contains('expanded');
 
-            // Rotate chevron icon
-            icon.classList.toggle('rotate-180');
+            // Toggle all cards in this row
+            rowCards.forEach(card => {
+                const description = card.querySelector('.service-description');
+                const cardToggle = card.querySelector('.service-toggle');
+                const cardIcon = cardToggle.querySelector('.toggle-icon');
+                const cardText = cardToggle.querySelector('.toggle-text');
 
-            // Update button text based on state
-            if (details.classList.contains('hidden')) {
-                // Collapsed state - show "Read More"
-                text.textContent = translations[currentLang].services.readMore;
-            } else {
-                // Expanded state - show "Read Less"
-                text.textContent = translations[currentLang].services.readLess;
-            }
+                if (isExpanded) {
+                    // Collapse row
+                    description.classList.remove('expanded');
+                    cardIcon.classList.remove('rotate-180');
+                    cardText.textContent = translations[currentLang].services.readMore;
+                } else {
+                    // Expand row
+                    description.classList.add('expanded');
+                    cardIcon.classList.add('rotate-180');
+                    cardText.textContent = translations[currentLang].services.readLess;
+                }
+            });
         });
     });
 
@@ -1182,14 +1192,14 @@ document.addEventListener('DOMContentLoaded', function() {
     document.addEventListener('languageChanged', function(e) {
         serviceToggles.forEach(toggle => {
             const card = toggle.closest('.service-card-minimal');
-            const details = card.querySelector('.service-details');
+            const description = card.querySelector('.service-description');
             const text = toggle.querySelector('.toggle-text');
 
             // Update text based on current state and new language
-            if (details.classList.contains('hidden')) {
-                text.textContent = translations[e.detail.lang].services.readMore;
-            } else {
+            if (description.classList.contains('expanded')) {
                 text.textContent = translations[e.detail.lang].services.readLess;
+            } else {
+                text.textContent = translations[e.detail.lang].services.readMore;
             }
         });
     });

@@ -516,178 +516,158 @@
 
             <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-12">
                 <!-- Service Card 1: Comprehensive Eye Examination -->
-                <div class="service-card-minimal">
+                <div class="service-card-minimal" data-row="0">
                     <div class="text-coral mb-4">
                         <i class="fas fa-eye text-4xl"></i>
                     </div>
                     <h3 class="text-xl font-medium mb-3 text-white" data-i18n="services.comprehensive.title">Comprehensive Eye Examination</h3>
-                    <p class="text-white/70 font-light mb-3" data-i18n="services.comprehensive.intro">
-                        Full eye health assessment using advanced diagnostic technologies.
-                    </p>
-
-                    <!-- Collapsible Content -->
-                    <div class="service-details hidden">
-                        <p class="text-white/70 font-light mb-2" data-i18n="services.comprehensive.diagnosticsTitle">
-                            <strong>Vision and correction diagnostics:</strong>
+                    <div class="service-description line-clamp-5">
+                        <p class="text-white/70 font-light mb-3">
+                            <span data-i18n="services.comprehensive.intro">Full eye health assessment using advanced diagnostic technologies.</span>
+                            <span data-i18n="services.comprehensive.diagnosticsTitle"><strong>Vision and correction diagnostics:</strong></span>
+                            <span data-i18n="services.comprehensive.diagnosticsList">— Visual acuity testing (visometry) — Autorefractometry — Ophthalmoscopy — Keratometry — Glasses prescription: monofocal, bifocal, and progressive — Soft contact lens fitting (spherical and toric)</span>
+                            <span data-i18n="services.comprehensive.treatmentTitle"><strong>Diagnosis and treatment of eye diseases:</strong></span>
+                            <span data-i18n="services.comprehensive.treatmentList">— Conjunctivitis — Dry eye syndrome — Accommodation spasm — Asthenopia and other functional vision disorders</span>
                         </p>
-                        <ul class="text-white/70 font-light mb-3 ml-4 space-y-1" data-i18n="services.comprehensive.diagnosticsList">
-                            <li>— Visual acuity testing (visometry)</li>
-                            <li>— Autorefractometry</li>
-                            <li>— Ophthalmoscopy</li>
-                            <li>— Keratometry</li>
-                            <li>— Glasses prescription: monofocal, bifocal, and progressive</li>
-                            <li>— Soft contact lens fitting (spherical and toric)</li>
-                        </ul>
-                        <p class="text-white/70 font-light mb-2" data-i18n="services.comprehensive.treatmentTitle">
-                            <strong>Diagnosis and treatment of eye diseases:</strong>
-                        </p>
-                        <ul class="text-white/70 font-light ml-4 space-y-1" data-i18n="services.comprehensive.treatmentList">
-                            <li>— Conjunctivitis</li>
-                            <li>— Dry eye syndrome</li>
-                            <li>— Accommodation spasm</li>
-                            <li>— Asthenopia and other functional vision disorders</li>
-                        </ul>
                     </div>
-
-                    <!-- Toggle Button -->
-                    <button class="service-toggle mt-3 text-coral hover:text-white transition-colors text-sm font-medium flex items-center">
-                        <span class="toggle-text" data-i18n-expand="services.readMore" data-i18n-collapse="services.readLess">Read More</span>
+                    <button class="service-toggle mt-3 text-coral hover:text-white transition-colors text-sm font-medium flex items-center" data-row="0">
+                        <span class="toggle-text">Read More</span>
                         <i class="fas fa-chevron-down ml-2 toggle-icon transition-transform"></i>
                     </button>
                 </div>
 
                 <!-- Service Card 2: Visual Acuity Testing -->
-                <div class="service-card-minimal">
+                <div class="service-card-minimal" data-row="0">
                     <div class="text-coral mb-4">
                         <i class="fas fa-chart-line text-4xl"></i>
                     </div>
                     <h3 class="text-xl font-medium mb-3 text-white" data-i18n="services.visometry.title">Visual Acuity Testing (Visometry)</h3>
-                    <div class="service-details hidden">
+                    <div class="service-description line-clamp-5">
                         <p class="text-white/70 font-light" data-i18n="services.visometry.description">
                             Checks how well you see at distance and near using Sivtsev, Golovin, and Landolt charts or projection systems. Conducted with and without correction (with/without glasses) to determine your precise vision level.
                         </p>
                     </div>
-                    <button class="service-toggle mt-3 text-coral hover:text-white transition-colors text-sm font-medium flex items-center">
-                        <span class="toggle-text" data-i18n-expand="services.readMore" data-i18n-collapse="services.readLess">Read More</span>
+                    <button class="service-toggle mt-3 text-coral hover:text-white transition-colors text-sm font-medium flex items-center" data-row="0">
+                        <span class="toggle-text">Read More</span>
                         <i class="fas fa-chevron-down ml-2 toggle-icon transition-transform"></i>
                     </button>
                 </div>
 
                 <!-- Service Card 3: Autorefractometry -->
-                <div class="service-card-minimal">
+                <div class="service-card-minimal" data-row="0">
                     <div class="text-coral mb-4">
                         <i class="fas fa-microscope text-4xl"></i>
                     </div>
                     <h3 class="text-xl font-medium mb-3 text-white" data-i18n="services.autorefractometry.title">Objective Refraction Determination (Autorefractometry)</h3>
-                    <div class="service-details hidden">
+                    <div class="service-description line-clamp-5">
                         <p class="text-white/70 font-light" data-i18n="services.autorefractometry.description">
                             Uses an autorefractometer to measure your eye's refractive power objectively. Determines the presence of myopia (nearsightedness), hyperopia (farsightedness), or astigmatism with precision.
                         </p>
                     </div>
-                    <button class="service-toggle mt-3 text-coral hover:text-white transition-colors text-sm font-medium flex items-center">
-                        <span class="toggle-text" data-i18n-expand="services.readMore" data-i18n-collapse="services.readLess">Read More</span>
+                    <button class="service-toggle mt-3 text-coral hover:text-white transition-colors text-sm font-medium flex items-center" data-row="0">
+                        <span class="toggle-text">Read More</span>
                         <i class="fas fa-chevron-down ml-2 toggle-icon transition-transform"></i>
                     </button>
                 </div>
 
                 <!-- Service Card 4: Glasses Prescription -->
-                <div class="service-card-minimal">
+                <div class="service-card-minimal" data-row="1">
                     <div class="text-coral mb-4">
                         <i class="fas fa-glasses text-4xl"></i>
                     </div>
                     <h3 class="text-xl font-medium mb-3 text-white" data-i18n="services.subjective.title">Subjective Refractometry (Glasses Prescription)</h3>
-                    <div class="service-details hidden">
+                    <div class="service-description line-clamp-5">
                         <p class="text-white/70 font-light" data-i18n="services.subjective.description">
                             Selection of optical lenses for maximum visual acuity using trial frames with lens sets. Our optometrist determines which diopter provides the best vision correction tailored to your unique needs.
                         </p>
                     </div>
-                    <button class="service-toggle mt-3 text-coral hover:text-white transition-colors text-sm font-medium flex items-center">
-                        <span class="toggle-text" data-i18n-expand="services.readMore" data-i18n-collapse="services.readLess">Read More</span>
+                    <button class="service-toggle mt-3 text-coral hover:text-white transition-colors text-sm font-medium flex items-center" data-row="1">
+                        <span class="toggle-text">Read More</span>
                         <i class="fas fa-chevron-down ml-2 toggle-icon transition-transform"></i>
                     </button>
                 </div>
 
                 <!-- Service Card 5: Accommodation Assessment -->
-                <div class="service-card-minimal">
+                <div class="service-card-minimal" data-row="1">
                     <div class="text-coral mb-4">
                         <i class="fas fa-expand text-4xl"></i>
                     </div>
                     <h3 class="text-xl font-medium mb-3 text-white" data-i18n="services.accommodation.title">Accommodation Assessment</h3>
-                    <div class="service-details hidden">
+                    <div class="service-description line-clamp-5">
                         <p class="text-white/70 font-light" data-i18n="services.accommodation.description">
                             Examines your eye's ability to focus at different distances. Determines accommodation reserve and stability, especially important for diagnosing eye strain, accommodation spasm, and focusing problems.
                         </p>
                     </div>
-                    <button class="service-toggle mt-3 text-coral hover:text-white transition-colors text-sm font-medium flex items-center">
-                        <span class="toggle-text" data-i18n-expand="services.readMore" data-i18n-collapse="services.readLess">Read More</span>
+                    <button class="service-toggle mt-3 text-coral hover:text-white transition-colors text-sm font-medium flex items-center" data-row="1">
+                        <span class="toggle-text">Read More</span>
                         <i class="fas fa-chevron-down ml-2 toggle-icon transition-transform"></i>
                     </button>
                 </div>
 
                 <!-- Service Card 6: Keratometry -->
-                <div class="service-card-minimal">
+                <div class="service-card-minimal" data-row="1">
                     <div class="text-coral mb-4">
                         <i class="fas fa-circle-notch text-4xl"></i>
                     </div>
                     <h3 class="text-xl font-medium mb-3 text-white" data-i18n="services.keratometry.title">Keratometry</h3>
-                    <div class="service-details hidden">
+                    <div class="service-description line-clamp-5">
                         <p class="text-white/70 font-light" data-i18n="services.keratometry.description">
                             Measures corneal curvature with precision. Essential for contact lens fitting and helps detect astigmatism or keratoconus. Provides critical data for accurate vision correction.
                         </p>
                     </div>
-                    <button class="service-toggle mt-3 text-coral hover:text-white transition-colors text-sm font-medium flex items-center">
-                        <span class="toggle-text" data-i18n-expand="services.readMore" data-i18n-collapse="services.readLess">Read More</span>
+                    <button class="service-toggle mt-3 text-coral hover:text-white transition-colors text-sm font-medium flex items-center" data-row="1">
+                        <span class="toggle-text">Read More</span>
                         <i class="fas fa-chevron-down ml-2 toggle-icon transition-transform"></i>
                     </button>
                 </div>
 
                 <!-- Service Card 7: Fundus Examination -->
-                <div class="service-card-minimal">
+                <div class="service-card-minimal" data-row="2">
                     <div class="text-coral mb-4">
                         <i class="fas fa-eye-dropper text-4xl"></i>
                     </div>
                     <h3 class="text-xl font-medium mb-3 text-white" data-i18n="services.ophthalmoscopy.title">Fundus Examination (Ophthalmoscopy)</h3>
-                    <div class="service-details hidden">
+                    <div class="service-description line-clamp-5">
                         <p class="text-white/70 font-light" data-i18n="services.ophthalmoscopy.description">
                             Determines the condition of your retina, optic nerve (optic disc), retinal vessels, and macula (yellow spot). Helps detect glaucoma, optic nerve edema or atrophy, diabetic and hypertensive retinopathy, retinal detachment, inflammation, and fundus tumors.
                         </p>
                     </div>
-                    <button class="service-toggle mt-3 text-coral hover:text-white transition-colors text-sm font-medium flex items-center">
-                        <span class="toggle-text" data-i18n-expand="services.readMore" data-i18n-collapse="services.readLess">Read More</span>
+                    <button class="service-toggle mt-3 text-coral hover:text-white transition-colors text-sm font-medium flex items-center" data-row="2">
+                        <span class="toggle-text">Read More</span>
                         <i class="fas fa-chevron-down ml-2 toggle-icon transition-transform"></i>
                     </button>
                 </div>
 
                 <!-- Service Card 8: Prescription Glasses -->
-                <div class="service-card-minimal">
+                <div class="service-card-minimal" data-row="2">
                     <div class="text-coral mb-4">
                         <i class="fas fa-store text-4xl"></i>
                     </div>
                     <h3 class="text-xl font-medium mb-3 text-white" data-i18n="services.prescriptionGlasses.title">Prescription Glasses</h3>
-                    <div class="service-details hidden">
+                    <div class="service-description line-clamp-5">
                         <p class="text-white/70 font-light" data-i18n="services.prescriptionGlasses.description">
                             Custom eyewear adapted to your vision needs and style. Wide selection of frame styles, lens types (monofocal, progressive, bifocal), and specialized coatings including anti-reflective, blue light blocking, and UV protection. Professional fitting by Dr. Karimova for all ages.
                         </p>
                     </div>
-                    <button class="service-toggle mt-3 text-coral hover:text-white transition-colors text-sm font-medium flex items-center">
-                        <span class="toggle-text" data-i18n-expand="services.readMore" data-i18n-collapse="services.readLess">Read More</span>
+                    <button class="service-toggle mt-3 text-coral hover:text-white transition-colors text-sm font-medium flex items-center" data-row="2">
+                        <span class="toggle-text">Read More</span>
                         <i class="fas fa-chevron-down ml-2 toggle-icon transition-transform"></i>
                     </button>
                 </div>
 
                 <!-- Service Card 9: Contact Lenses & Treatment -->
-                <div class="service-card-minimal">
+                <div class="service-card-minimal" data-row="2">
                     <div class="text-coral mb-4">
                         <i class="fas fa-circle-dot text-4xl"></i>
                     </div>
                     <h3 class="text-xl font-medium mb-3 text-white" data-i18n="services.contactsAndTreatment.title">Contact Lenses & Treatment</h3>
-                    <div class="service-details hidden">
+                    <div class="service-description line-clamp-5">
                         <p class="text-white/70 font-light" data-i18n="services.contactsAndTreatment.description">
                             Professional fitting and care: daily disposable, monthly replacement, toric lenses for astigmatism, multifocal lenses. Treatment and patient management for conjunctivitis, dry eye syndrome, accommodation spasm, and visual fatigue. Prevention for high visual load (computer work, driving). Complete training and medication management.
                         </p>
                     </div>
-                    <button class="service-toggle mt-3 text-coral hover:text-white transition-colors text-sm font-medium flex items-center">
-                        <span class="toggle-text" data-i18n-expand="services.readMore" data-i18n-collapse="services.readLess">Read More</span>
+                    <button class="service-toggle mt-3 text-coral hover:text-white transition-colors text-sm font-medium flex items-center" data-row="2">
+                        <span class="toggle-text">Read More</span>
                         <i class="fas fa-chevron-down ml-2 toggle-icon transition-transform"></i>
                     </button>
                 </div>
