@@ -24,47 +24,41 @@ const translations = window.translations = {
         services: {
             subtitle: 'What We Offer',
             title: 'Core Services',
-            exams: {
-                title: 'Comprehensive Eye Examinations',
-                description: 'Complete eye health evaluation using advanced diagnostic technology',
-                detail1: '<strong>What We Check:</strong> Visual acuity testing, refraction assessment, intraocular pressure measurement, retinal health evaluation, and early detection of conditions like glaucoma, cataracts, and macular degeneration.',
-                detail2: '<strong>Who Needs Regular Exams:</strong> Adults every 2 years, annual exams for those with diabetes, high blood pressure, or family history of eye disease. Essential for maintaining optimal vision health.',
-                detail3: '<strong>Duration:</strong> Approximately 45-60 minutes for first visit. Dr. Karimova personally reviews all findings and discusses treatment options with you.'
+            comprehensive: {
+                title: 'Comprehensive Eye Examination',
+                description: 'Full eye health assessment using advanced diagnostic technologies. Vision and correction diagnostics including visual acuity testing, autorefractometry, ophthalmoscopy, keratometry, glasses prescription, and soft contact lens fitting. Diagnosis and treatment of conjunctivitis, dry eye syndrome, accommodation spasm, and other functional vision disorders.'
             },
-            glasses: {
+            visometry: {
+                title: 'Visual Acuity Testing (Visometry)',
+                description: 'Checks how well you see at distance and near using Sivtsev, Golovin, and Landolt charts or projection systems. Conducted with and without correction (with/without glasses) to determine your precise vision level.'
+            },
+            autorefractometry: {
+                title: 'Objective Refraction Determination (Autorefractometry)',
+                description: 'Uses an autorefractometer to measure your eye\'s refractive power objectively. Determines the presence of myopia (nearsightedness), hyperopia (farsightedness), or astigmatism with precision.'
+            },
+            subjective: {
+                title: 'Subjective Refractometry (Glasses Prescription)',
+                description: 'Selection of optical lenses for maximum visual acuity using trial frames with lens sets. Our optometrist determines which diopter provides the best vision correction tailored to your unique needs.'
+            },
+            accommodation: {
+                title: 'Accommodation Assessment',
+                description: 'Examines your eye\'s ability to focus at different distances. Determines accommodation reserve and stability, especially important for diagnosing eye strain, accommodation spasm, and focusing problems.'
+            },
+            keratometry: {
+                title: 'Keratometry',
+                description: 'Measures corneal curvature with precision. Essential for contact lens fitting and helps detect astigmatism or keratoconus. Provides critical data for accurate vision correction.'
+            },
+            ophthalmoscopy: {
+                title: 'Fundus Examination (Ophthalmoscopy)',
+                description: 'Determines the condition of your retina, optic nerve (optic disc), retinal vessels, and macula (yellow spot). Helps detect glaucoma, optic nerve edema or atrophy, diabetic and hypertensive retinopathy, retinal detachment, inflammation, and fundus tumors.'
+            },
+            prescriptionGlasses: {
                 title: 'Prescription Glasses',
-                description: 'Custom eyewear tailored to your vision needs and style preferences',
-                detail1: '<strong>Wide Selection:</strong> Choose from a variety of frame styles, lens types (single vision, progressive, bifocal), and specialized coatings including anti-reflective, blue light blocking, and UV protection for Tajikistan\'s sunny climate.',
-                detail2: '<strong>Professional Fitting:</strong> Dr. Karimova ensures proper lens positioning, frame adjustment, and comfort. We provide guidance on lens care and maintenance for long-lasting eyewear.',
-                detail3: '<strong>For All Ages:</strong> Specialized fitting for children, adults, and seniors. Computer glasses and reading glasses also available.'
+                description: 'Custom eyewear adapted to your vision needs and style. Wide selection of frame styles, lens types (monofocal, progressive, bifocal), and specialized coatings including anti-reflective, blue light blocking, and UV protection. Professional fitting by Dr. Karimova for all ages.'
             },
-            contacts: {
-                title: 'Contact Lenses',
-                description: 'Professional fitting and care for comfortable contact lens wear',
-                detail1: '<strong>Lens Options:</strong> Daily disposable, monthly replacement, toric lenses for astigmatism, multifocal lenses for presbyopia, and specialized lenses for hard-to-fit eyes. We work with leading international brands.',
-                detail2: '<strong>Training & Support:</strong> Complete insertion and removal training, proper cleaning techniques, and ongoing support. Follow-up visits ensure optimal comfort and vision correction.',
-                detail3: '<strong>First-Time Wearers Welcome:</strong> Perfect for active lifestyles, sports, or those seeking an alternative to glasses. Most patients adjust within 3-7 days.'
-            },
-            dryeye: {
-                title: 'Dry Eye Management',
-                description: 'Effective treatments to relieve discomfort and restore eye moisture',
-                detail1: '<strong>Our Treatment Approach:</strong> Dr. Karimova performs comprehensive dry eye assessments including tear film analysis and meibomian gland evaluation. Treatment options include prescription eye drops (cyclosporine, lifitegrast), punctal plugs to retain natural tears, warm compress therapy, and lifestyle modifications.',
-                detail2: '<strong>Advanced Technology:</strong> We use TearLab osmolarity testing to measure tear film quality and identify the root cause of your dry eye symptoms, ensuring personalized treatment plans.',
-                detail3: '<strong>Who Benefits:</strong> Ideal for patients experiencing screen-related eye strain, contact lens discomfort, post-LASIK dryness, or age-related tear production decline. Most patients see improvement within 2-4 weeks.'
-            },
-            followup: {
-                title: 'Ongoing Care and Follow-Up',
-                description: 'Continuous monitoring and personalized care plans for long-term eye health',
-                detail1: '<strong>Chronic Condition Management:</strong> Specialized follow-up for glaucoma patients, diabetic retinopathy monitoring, post-surgical care, and progression tracking for myopia control in children.',
-                detail2: '<strong>Preventive Care:</strong> Regular monitoring helps detect problems early when they\'re most treatable. We maintain detailed records of your eye health history for comprehensive, coordinated care.',
-                detail3: '<strong>Convenient Scheduling:</strong> Flexible appointment times including same-day urgent care for eye emergencies. Reminder system ensures you never miss important follow-ups.'
-            },
-            pediatric: {
-                title: 'Children\'s Eye Care',
-                description: 'Gentle, specialized eye care for children',
-                detail1: '<strong>Conditions We Treat:</strong> Amblyopia (lazy eye), strabismus (crossed eyes), myopia progression control, refractive errors, and developmental vision problems. Child-friendly testing methods make exams stress-free for families.',
-                detail2: '<strong>Age-Appropriate Care:</strong> We see infants (6 months+), toddlers, school-age children, and teenagers. Specialized equipment designed for children ensures accurate diagnosis even with non-verbal patients.',
-                detail3: '<strong>Parent Education:</strong> We involve parents in every step, explaining findings clearly and providing home care instructions. Vision screening recommendations: 6 months, age 3, before school entry, then annually.'
+            contactsAndTreatment: {
+                title: 'Contact Lenses & Treatment',
+                description: 'Professional fitting and care: daily disposable, monthly replacement, toric lenses for astigmatism, multifocal lenses. Treatment and patient management for conjunctivitis, dry eye syndrome, accommodation spasm, and visual fatigue. Prevention for high visual load (computer work, driving). Complete training and medication management.'
             }
         },
         about: {
@@ -186,47 +180,41 @@ const translations = window.translations = {
         services: {
             subtitle: 'Что мы предлагаем',
             title: 'Основные услуги',
-            exams: {
+            comprehensive: {
                 title: 'Комплексное обследование глаз',
-                description: 'Полная оценка здоровья глаз с использованием передовых диагностических технологий',
-                detail1: '<strong>Что мы проверяем:</strong> Проверка остроты зрения, оценка рефракции, измерение внутриглазного давления, оценка здоровья сетчатки и раннее выявление таких заболеваний, как глаукома, катаракта и макулярная дегенерация.',
-                detail2: '<strong>Кому нужны регулярные обследования:</strong> Взрослым каждые 2 года, ежегодные обследования для тех, у кого диабет, высокое кровяное давление или семейная история глазных заболеваний. Необходимо для поддержания оптимального здоровья зрения.',
-                detail3: '<strong>Продолжительность:</strong> Примерно 45-60 минут при первом посещении. Доктор Каримова лично рассматривает все результаты и обсуждает варианты лечения с вами.'
+                description: 'Полная оценка здоровья глаз с использованием передовых диагностических технологий. Проводим диагностику и коррекцию зрения: визометрию (проверку остроты зрения), авторефрактометрию, офтальмоскопию, керотометрию, подбор очков (монофокальных, бифокальных и прогрессивных), подбор мягких контактных линз (сферических и торических). Диагностика и лечение глазных заболеваний таких как конъюнктивиты, синдром сухого глаза, спазм аккомодации, астенопия и другие функциональные нарушения зрения.'
             },
-            glasses: {
+            visometry: {
+                title: 'Определение остроты зрения (визометрия)',
+                description: 'Проверяется, насколько хорошо человек видит вдаль и вблизи. Используются таблицы Сивцева, Головина, Ландольта (или проекционные системы). Проводится с коррекцией и без неё (с очками / без очков).'
+            },
+            autorefractometry: {
+                title: 'Объективное определение рефракции (авторефрактометрия)',
+                description: 'С помощью авторефрактометра измеряется преломляющая способность глаза. Определяет, есть ли близорукость, дальнозоркость или астигматизм.'
+            },
+            subjective: {
+                title: 'Субъективная рефрактометрия (подбор очков)',
+                description: 'Подбор оптических линз для получения максимальной остроты зрения. Используются тестовые оправы с набором линз. Оптометрист уточняет, при какой диоптрии пациент видит лучше.'
+            },
+            accommodation: {
+                title: 'Определение аккомодации',
+                description: 'Исследуется способность глаза фокусироваться на разных расстояниях. Определяют запас и устойчивость аккомодации (особенно важно при усталости глаз, спазме аккомодации).'
+            },
+            keratometry: {
+                title: 'Кератометрия',
+                description: 'Измеряется кривизна роговицы. Обязательно при подборе контактных линз. Помогает выявить астигматизм или кератоконус.'
+            },
+            ophthalmoscopy: {
+                title: 'Осмотр глазного дна (офтальмоскопия)',
+                description: 'Определяет состояние сетчатки, зрительного нерва (диск зрительного нерва), сосудов сетчатки, макулы (жёлтого пятна). Этот метод помогает выявить глаукому, отёк или атрофию зрительного нерва, диабетическую и гипертоническую ретинопатию, отслоение сетчатки, воспаления и опухоли глазного дна.'
+            },
+            prescriptionGlasses: {
                 title: 'Очки по рецепту',
-                description: 'Индивидуальные очки, адаптированные к вашим потребностям зрения и стилю',
-                detail1: '<strong>Широкий выбор:</strong> Выберите из разнообразия стилей оправ, типов линз (однофокальные, прогрессивные, бифокальные) и специальных покрытий, включая антибликовое, блокирующее синий свет и УФ-защиту для солнечного климата Таджикистана.',
-                detail2: '<strong>Профессиональная подгонка:</strong> Доктор Каримова обеспечивает правильное положение линз, регулировку оправы и комфорт. Мы предоставляем рекомендации по уходу за линзами и их обслуживанию для долговечных очков.',
-                detail3: '<strong>Для всех возрастов:</strong> Специализированная подгонка для детей, взрослых и пожилых людей. Также доступны компьютерные очки и очки для чтения.'
+                description: 'Индивидуальные очки, адаптированные к вашим потребностям зрения и стилю. Широкий выбор стилей оправ, типов линз (однофокальные, прогрессивные, бифокальные) и специальных покрытий, включая антибликовое, блокирующее синий свет и УФ-защиту для солнечного климата Таджикистана. Профессиональная подгонка доктором Каримовой. Для всех возрастов, включая компьютерные очки и очки для чтения.'
             },
-            contacts: {
-                title: 'Контактные линзы',
-                description: 'Профессиональная подборка и уход за удобным ношением контактных линз',
-                detail1: '<strong>Варианты линз:</strong> Ежедневные одноразовые, ежемесячные сменные, торические линзы при астигматизме, мультифокальные линзы при пресбиопии и специализированные линзы для трудно подбираемых глаз. Мы работаем с ведущими международными брендами.',
-                detail2: '<strong>Обучение и поддержка:</strong> Полное обучение вставке и снятию, правильным методам очистки и постоянная поддержка. Последующие визиты обеспечивают оптимальный комфорт и коррекцию зрения.',
-                detail3: '<strong>Приветствуются новички:</strong> Идеально подходит для активного образа жизни, спорта или тех, кто ищет альтернативу очкам. Большинство пациентов адаптируются в течение 3-7 дней.'
-            },
-            dryeye: {
-                title: 'Лечение сухости глаз',
-                description: 'Эффективные методы лечения для снятия дискомфорта и восстановления влажности глаз',
-                detail1: '<strong>Наш подход к лечению:</strong> Доктор Каримова проводит комплексную оценку сухости глаз, включая анализ слёзной плёнки и оценку мейбомиевых желез. Варианты лечения включают рецептурные глазные капли (циклоспорин, лифитеграст), пунктальные пробки для удержания естественных слёз, терапию тёплыми компрессами и изменение образа жизни.',
-                detail2: '<strong>Передовая технология:</strong> Мы используем осмолярное тестирование TearLab для измерения качества слёзной плёнки и выявления основной причины симптомов сухости глаз, обеспечивая персонализированные планы лечения.',
-                detail3: '<strong>Кому это полезно:</strong> Идеально подходит для пациентов, испытывающих усталость глаз от экранов, дискомфорт от контактных линз, сухость после LASIK или возрастное снижение выработки слёз. Большинство пациентов видят улучшение в течение 2-4 недель.'
-            },
-            followup: {
-                title: 'Постоянный уход и наблюдение',
-                description: 'Непрерывный мониторинг и персонализированные планы ухода для долгосрочного здоровья глаз',
-                detail1: '<strong>Управление хроническими состояниями:</strong> Специализированное наблюдение за пациентами с глаукомой, мониторинг диабетической ретинопатии, послеоперационный уход и отслеживание прогрессирования для контроля миопии у детей.',
-                detail2: '<strong>Профилактический уход:</strong> Регулярный мониторинг помогает выявить проблемы на ранней стадии, когда они наиболее поддаются лечению. Мы ведём подробные записи вашей истории здоровья глаз для комплексного, скоординированного ухода.',
-                detail3: '<strong>Удобное расписание:</strong> Гибкое время приёма, включая срочную помощь в тот же день при чрезвычайных ситуациях с глазами. Система напоминаний гарантирует, что вы никогда не пропустите важные последующие визиты.'
-            },
-            pediatric: {
-                title: 'Детская офтальмология',
-                description: 'Бережный, специализированный уход за глазами детей',
-                detail1: '<strong>Заболевания, которые мы лечим:</strong> Амблиопия (ленивый глаз), косоглазие (скрещенные глаза), контроль прогрессирования миопии, рефракционные ошибки и проблемы развития зрения. Дружественные к детям методы тестирования делают обследования без стресса для семей.',
-                detail2: '<strong>Уход, соответствующий возрасту:</strong> Мы принимаем младенцев (от 6 месяцев), малышей, детей школьного возраста и подростков. Специализированное оборудование, разработанное для детей, обеспечивает точную диагностику даже у невербальных пациентов.',
-                detail3: '<strong>Образование родителей:</strong> Мы вовлекаем родителей на каждом этапе, ясно объясняя результаты и предоставляя инструкции по уходу на дому. Рекомендации по скринингу зрения: 6 месяцев, 3 года, перед школой, затем ежегодно.'
+            contactsAndTreatment: {
+                title: 'Контактные линзы и лечение',
+                description: 'Профессиональная подборка и уход: ежедневные одноразовые, ежемесячные сменные, торические линзы при астигматизме, мультифокальные линзы при пресбиопии. Лечение и ведение пациентов: конъюнктивиты (бактериальные, вирусные, аллергические), синдром сухого глаза, спазм аккомодации, зрительное переутомление. Профилактика глазных заболеваний у людей с высокой зрительной нагрузкой (работа за компьютером, телефоном, при вождении). Полное обучение и назначение медикаментозного лечения.'
             }
         },
         about: {
@@ -348,47 +336,41 @@ const translations = window.translations = {
         services: {
             subtitle: 'Он чӣ мо пешниҳод мекунем',
             title: 'Хидматҳои асосӣ',
-            exams: {
-                title: 'Санҷишҳои комили чашм',
-                description: 'Арзёбии пурраи саломатии чашм бо истифода аз технологияи ташхисии пешрафта',
-                detail1: '<strong>Он чӣ мо санҷем:</strong> Санҷиши тезии бинӣ, арзёбии рефраксия, андозагирии фишори дохилии чашм, арзёбии саломатии шабакия ва ошкорсозии ба ҳангоми бемориҳо монанди глаукома, катаракта ва дегенератсияи макулярӣ.',
-                detail2: '<strong>Ба кӣ санҷишҳои мунтазам зарур аст:</strong> Одамони калонсол ҳар 2 сол, санҷишҳои ҳарсола барои онҳое, ки диабет, фишори хуни баланд ё таърихи оилавии бемориҳои чашм доранд. Барои нигоҳ доштани саломатии бинишӣ ҳатмӣ аст.',
-                detail3: '<strong>Давомнокӣ:</strong> Тақрибан 45-60 дақиқа барои боздиди аввал. Доктор Каримова шахсан ҳамаи натиҷаҳоро санҷида, вариантҳои табобатро бо шумо муҳокима мекунад.'
+            comprehensive: {
+                title: 'Санҷиши комили чашм',
+                description: 'Арзёбии пурраи саломатии чашм бо истифода аз технологияҳои ташхисии пешрафта. Мо ташхиси бинӣ ва ислоҳи онро гузаронем: визометрия (санҷиши тезии бинӣ), авторефрактометрия, офтальмоскопия, кератометрия, интихоби айнак (монофокалӣ, бифокалӣ ва прогрессивӣ), интихоби линзаҳои тамосии нарм (сферикӣ ва торикӣ). Ташхис ва табобати бемориҳои чашмӣ монанди конъюнктивит, синдроми хушкии чашм, спазми аккомодатсия, астенопия ва дигар вайронкуниҳои функсионалии бинӣ.'
             },
-            glasses: {
+            visometry: {
+                title: 'Муайянкунии тезии бинӣ (визометрия)',
+                description: 'Санҷида мешавад, ки одам то чӣ андоза хуб дар масофа ва наздикӣ мебинад. Ҷадвалҳои Сивтсев, Головин, Ландолт (ё системаҳои проексионӣ) истифода мешаванд. Бо коррексия ва бе он гузаронида мешавад (бо айнак / бе айнак).'
+            },
+            autorefractometry: {
+                title: 'Муайянкунии объективии рефраксия (авторефрактометрия)',
+                description: 'Бо ёрии авторефрактометр қобилияти шикастанандаи чашм чен карда мешавад. Муайян мекунад, ки наздикбинӣ, дурбинӣ ё астигматизм вуҷуд дорад.'
+            },
+            subjective: {
+                title: 'Рефрактометрияи субъективӣ (интихоби айнак)',
+                description: 'Интихоби линзаҳои оптикӣ барои гирифтани тезии бинишии максималӣ. Чорчӯбаҳои санҷишӣ бо маҷмӯи линзаҳо истифода мешаванд. Оптометрист муайян мекунад, ки дар кадом диоптрия бемор беҳтар мебинад.'
+            },
+            accommodation: {
+                title: 'Муайянкунии аккомодатсия',
+                description: 'Қобилияти чашм барои фокус кардан дар масофаҳои гуногун таҳқиқ карда мешавад. Захираи аккомодатсия ва устуворӣ муайян карда мешавад (махсусан муҳим ҳангоми хастагии чашм, спазми аккомодатсия).'
+            },
+            keratometry: {
+                title: 'Кератометрия',
+                description: 'Қавси роғаи чашм чен карда мешавад. Ҳангоми интихоби линзаҳои тамосӣ ҳатмӣ аст. Барои ошкор кардани астигматизм ё кератоконус кӯмак мекунад.'
+            },
+            ophthalmoscopy: {
+                title: 'Тафтиши тағи чашм (офтальмоскопия)',
+                description: 'Ҳолати шабакия, нерви биноӣ (диски нерви биноӣ), рагҳои шабакия, макула (лаки зард) муайян карда мешавад. Ин усул барои ошкор кардани глаукома, варам ё атрофияи нерви биноӣ, ретинопатияи диабетӣ ва гипертонӣ, ҷудошавии шабакия, илтиҳоб ва ғадудҳои тағи чашм кӯмак мекунад.'
+            },
+            prescriptionGlasses: {
                 title: 'Айнаки тиббӣ',
-                description: 'Айнаки фардӣ мутобиқ ба эҳтиёҷоти бинишӣ ва услуби шумо',
-                detail1: '<strong>Интихоби васеъ:</strong> Аз услубҳои гуногуни чорчӯбаҳо, намудҳои линзаҳо (як фокус, прогрессивӣ, бифокалӣ) ва пӯшишҳои махсус, аз ҷумла зидди акси нур, манъкунии нури кабуд ва ҳифзи UV барои иқлими офтобии Тоҷикистон интихоб кунед.',
-                detail2: '<strong>Танзимоти касбӣ:</strong> Доктор Каримова мавқеи дурусти линзаҳо, танзимоти чорчӯба ва осоишро таъмин мекунад. Мо тавсияҳо оид ба нигоҳубин ва хизматрасонии линзаҳо барои айнаки дарозмуҳлат пешниҳод мекунем.',
-                detail3: '<strong>Барои ҳамаи синну солҳо:</strong> Танзимоти махсус барои кӯдакон, одамони калонсол ва пиронсолон. Инчунин айнакҳои компютерӣ ва хондан дастрасанд.'
+                description: 'Айнаки фардӣ мутобиқ ба эҳтиёҷоти бинишӣ ва услуби шумо. Интихоби васеи услубҳои чорчӯбаҳо, намудҳои линзаҳо (монофокалӣ, прогрессивӣ, бифокалӣ) ва пӯшишҳои махсус аз ҷумла зидди акси нур, манъкунии нури кабуд ва ҳифзи UV барои иқлими офтобии Тоҷикистон. Танзимоти касбӣ аз ҷониби доктор Каримова. Барои ҳамаи синну солҳо аз ҷумла айнакҳои компютерӣ ва хондан.'
             },
-            contacts: {
-                title: 'Линзаҳои тамосӣ',
-                description: 'Интихоби касбӣ ва нигоҳубин барои истифодаи бароҳати линзаҳои тамосӣ',
-                detail1: '<strong>Вариантҳои линзаҳо:</strong> Рӯзонаи якбора истифодашаванда, ивазкунии ҳармоҳа, линзаҳои торикӣ барои астигматизм, линзаҳои мултифокалӣ барои пресбиопия ва линзаҳои махсус барои чашмҳои мушкили интихобшаванда. Мо бо брендҳои пешрафтаи байналмилалӣ кор мекунем.',
-                detail2: '<strong>Таълим ва дастгирӣ:</strong> Таълими пурраи гузоштан ва баровардан, усулҳои дурусти тозакунӣ ва дастгирии доимӣ. Боздидҳои минбаъда осоиши мувофиқ ва ислоҳи бинишро таъмин мекунанд.',
-                detail3: '<strong>Истифодабарандагони нав хуш омадед:</strong> Барои тарзи ҳаёти фаъол, варзиш ё онҳое, ки алтернатива ба айнак меҷӯянд, комил аст. Аксари беморон дар давоми 3-7 рӯз мутобиқ мешаванд.'
-            },
-            dryeye: {
-                title: 'Табобати хушкии чашм',
-                description: 'Усулҳои муассир барои бартараф кардани ноароҳатӣ ва барқарор кардани намии чашм',
-                detail1: '<strong>Равиши табобатии мо:</strong> Доктор Каримова арзёбии комилии хушкии чашмро иҷро мекунад, аз ҷумла таҳлили пардаи ашкӣ ва арзёбии ғадудҳои мейбомӣ. Вариантҳои табобат шомили қатраҳои чашмии рецептӣ (циклоспорин, лифитеграст), пробкаҳои панкталӣ барои нигоҳ доштани ашки табиӣ, табобати компрессҳои гарм ва тағирдиҳии тарзи ҳаёт мебошанд.',
-                detail2: '<strong>Технологияи пешрафта:</strong> Мо санҷиши осмолярии TearLab-ро барои андозагирии сифати пардаи ашкӣ ва муайян кардани сабаби аслии аломатҳои хушкии чашм истифода мебарем, ки нақшаҳои шахсии табобатро таъмин мекунад.',
-                detail3: '<strong>Ба кӣ фоида меоварад:</strong> Барои беморони дучори хастагии чашм аз экранҳо, ноароҳатии линзаҳои тамосӣ, хушкӣ баъд аз LASIK ё кам шудани истеҳсоли ашк аз синну сол идеалӣ аст. Аксари беморон дар давоми 2-4 ҳафта беҳбудиро мебинанд.'
-            },
-            followup: {
-                title: 'Нигоҳубини доимӣ ва пайгирӣ',
-                description: 'Назорати доимӣ ва нақшаҳои фардии нигоҳубин барои саломатии дарозмуҳлати чашм',
-                detail1: '<strong>Идоракунии ҳолатҳои музмин:</strong> Пайгирии махсус барои беморони глаукома, назорати ретинопатияи диабетӣ, нигоҳубини баъд аз ҷарроҳӣ ва пайгирии пешрафт барои назорати миопия дар кӯдакон.',
-                detail2: '<strong>Нигоҳубини пешгирӣ:</strong> Назорати мунтазам барои ошкор кардани мушкилот дар марҳилаи ибтидоӣ, вақте ки онҳо беҳтарин табобат мешаванд, кӯмак мекунад. Мо сабтҳои муфассали таърихи саломатии чашми шуморо барои нигоҳубини комил ва ҳамоҳангшуда нигоҳ медорем.',
-                detail3: '<strong>Ҷадвали қулай:</strong> Вақти фарогири чандир, аз ҷумла кӯмаки таъҷилии ҳамон рӯз барои фавриятҳои чашмӣ. Системаи ёдрас кардан таъмин мекунад, ки шумо ҳеҷ гоҳ пайгириҳои муҳимро гум намекунед.'
-            },
-            pediatric: {
-                title: 'Нигоҳубини чашми кӯдакон',
-                description: 'Нигоҳубини махсус ва мулоим барои чашми кӯдакон',
-                detail1: '<strong>Бемориҳое, ки мо табобат мекунем:</strong> Амблиопия (чашми танбал), страбизм (чашмҳои қач), назорати пешравии миопия, хатоҳои рефраксионӣ ва мушкилоти рушди бинӣ. Усулҳои санҷиши мувофиқ барои кӯдакон санҷишҳоро барои оилаҳо бидуни танг мекунанд.',
-                detail2: '<strong>Нигоҳубини мувофиқ ба синну сол:</strong> Мо кӯдаконро аз кӯдакии бемазмун (аз 6 моҳа), кӯдаконро, кӯдакони синни мактабӣ ва наврасонро қабул мекунем. Таҷҳизоти махсус барои кӯдакон тарроҳишуда ташхиси дақиқро ҳатто дар беморони ғайривербалӣ низ таъмин мекунад.',
-                detail3: '<strong>Маълумот додан ба волидайн:</strong> Мо волидайнро дар ҳар қадам ҷалб карда, натиҷаҳоро возеҳ шарҳ дода, дастурҳои нигоҳубинро дар хона пешниҳод мекунем. Тавсияҳои скринингии бинӣ: 6 моҳагӣ, 3 солагӣ, пеш аз мактаб, сипас ҳар сол.'
+            contactsAndTreatment: {
+                title: 'Линзаҳои тамосӣ ва табобат',
+                description: 'Интихоби касбӣ ва нигоҳубин: рӯзонаи якбора истифодашаванда, ивазкунии ҳармоҳа, линзаҳои торикӣ барои астигматизм, линзаҳои мултифокалӣ барои пресбиопия. Табобат ва идораи беморон: конъюнктивитҳо (бактериалӣ, вирусӣ, аллергикӣ), синдроми хушкии чашм, спазми аккомодатсия, хастагии биноӣ. Пешгирии бемориҳои чашмӣ дар одамоне, ки бори бинишӣ баландро доранд (кор дар компютер, телефон, ҳангоми роннандагӣ). Таълими пурра ва таъиноти табобати медикаментозӣ.'
             }
         },
         about: {
