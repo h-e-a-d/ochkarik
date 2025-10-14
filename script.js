@@ -24,9 +24,15 @@ const translations = window.translations = {
         services: {
             subtitle: 'What We Offer',
             title: 'Core Services',
+            readMore: 'Read More',
+            readLess: 'Read Less',
             comprehensive: {
                 title: 'Comprehensive Eye Examination',
-                description: 'Full eye health assessment using advanced diagnostic technologies. Vision and correction diagnostics including visual acuity testing, autorefractometry, ophthalmoscopy, keratometry, glasses prescription, and soft contact lens fitting. Diagnosis and treatment of conjunctivitis, dry eye syndrome, accommodation spasm, and other functional vision disorders.'
+                intro: 'Full eye health assessment using advanced diagnostic technologies.',
+                diagnosticsTitle: '<strong>Vision and correction diagnostics:</strong>',
+                diagnosticsList: '<li>— Visual acuity testing (visometry)</li><li>— Autorefractometry</li><li>— Ophthalmoscopy</li><li>— Keratometry</li><li>— Glasses prescription: monofocal, bifocal, and progressive</li><li>— Soft contact lens fitting (spherical and toric)</li>',
+                treatmentTitle: '<strong>Diagnosis and treatment of eye diseases:</strong>',
+                treatmentList: '<li>— Conjunctivitis</li><li>— Dry eye syndrome</li><li>— Accommodation spasm</li><li>— Asthenopia and other functional vision disorders</li>'
             },
             visometry: {
                 title: 'Visual Acuity Testing (Visometry)',
@@ -180,9 +186,15 @@ const translations = window.translations = {
         services: {
             subtitle: 'Что мы предлагаем',
             title: 'Основные услуги',
+            readMore: 'Читать далее',
+            readLess: 'Свернуть',
             comprehensive: {
                 title: 'Комплексное обследование глаз',
-                description: 'Полная оценка здоровья глаз с использованием передовых диагностических технологий. Проводим диагностику и коррекцию зрения: визометрию (проверку остроты зрения), авторефрактометрию, офтальмоскопию, керотометрию, подбор очков (монофокальных, бифокальных и прогрессивных), подбор мягких контактных линз (сферических и торических). Диагностика и лечение глазных заболеваний таких как конъюнктивиты, синдром сухого глаза, спазм аккомодации, астенопия и другие функциональные нарушения зрения.'
+                intro: 'Полная оценка здоровья глаз с использованием передовых диагностических технологий.',
+                diagnosticsTitle: '<strong>Проводим диагностику и коррекцию зрения:</strong>',
+                diagnosticsList: '<li>— визометрию (проверку остроты зрения)</li><li>— авторефрактометрию</li><li>— офтальмоскопию</li><li>— керотометрию</li><li>— подбор очков: монофокальных, бифокальных и прогрессивных</li><li>— подбор мягких контактных линз (сферических и торических)</li>',
+                treatmentTitle: '<strong>Диагностика и лечение глазных заболеваний таких как:</strong>',
+                treatmentList: '<li>— конъюнктивиты</li><li>— синдром сухого глаза</li><li>— спазм аккомодации</li><li>— астенопия и другие функциональные нарушения зрения</li>'
             },
             visometry: {
                 title: 'Определение остроты зрения (визометрия)',
@@ -336,9 +348,15 @@ const translations = window.translations = {
         services: {
             subtitle: 'Он чӣ мо пешниҳод мекунем',
             title: 'Хидматҳои асосӣ',
+            readMore: 'Муфассалтар',
+            readLess: 'Пӯшидан',
             comprehensive: {
                 title: 'Санҷиши комили чашм',
-                description: 'Арзёбии пурраи саломатии чашм бо истифода аз технологияҳои ташхисии пешрафта. Мо ташхиси бинӣ ва ислоҳи онро гузаронем: визометрия (санҷиши тезии бинӣ), авторефрактометрия, офтальмоскопия, кератометрия, интихоби айнак (монофокалӣ, бифокалӣ ва прогрессивӣ), интихоби линзаҳои тамосии нарм (сферикӣ ва торикӣ). Ташхис ва табобати бемориҳои чашмӣ монанди конъюнктивит, синдроми хушкии чашм, спазми аккомодатсия, астенопия ва дигар вайронкуниҳои функсионалии бинӣ.'
+                intro: 'Арзёбии пурраи саломатии чашм бо истифода аз технологияҳои ташхисии пешрафта.',
+                diagnosticsTitle: '<strong>Мо ташхиси бинӣ ва ислоҳи онро гузаронем:</strong>',
+                diagnosticsList: '<li>— визометрия (санҷиши тезии бинӣ)</li><li>— авторефрактометрия</li><li>— офтальмоскопия</li><li>— кератометрия</li><li>— интихоби айнак: монофокалӣ, бифокалӣ ва прогрессивӣ</li><li>— интихоби линзаҳои тамосии нарм (сферикӣ ва торикӣ)</li>',
+                treatmentTitle: '<strong>Ташхис ва табобати бемориҳои чашмӣ монанди:</strong>',
+                treatmentList: '<li>— конъюнктивит</li><li>— синдроми хушкии чашм</li><li>— спазми аккомодатсия</li><li>— астенопия ва дигар вайронкуниҳои функсионалии бинӣ</li>'
             },
             visometry: {
                 title: 'Муайянкунии тезии бинӣ (визометрия)',
@@ -1127,6 +1145,52 @@ document.addEventListener('DOMContentLoaded', function() {
     aboutIndicators.forEach((indicator, index) => {
         indicator.addEventListener('click', () => {
             showAboutSlide(index);
+        });
+    });
+
+
+    // ===========================
+    // Service Toggle Functionality (Collapsible Descriptions)
+    // ===========================
+    const serviceToggles = document.querySelectorAll('.service-toggle');
+
+    serviceToggles.forEach(toggle => {
+        toggle.addEventListener('click', function() {
+            const card = this.closest('.service-card-minimal');
+            const details = card.querySelector('.service-details');
+            const icon = this.querySelector('.toggle-icon');
+            const text = this.querySelector('.toggle-text');
+
+            // Toggle visibility of details
+            details.classList.toggle('hidden');
+
+            // Rotate chevron icon
+            icon.classList.toggle('rotate-180');
+
+            // Update button text based on state
+            if (details.classList.contains('hidden')) {
+                // Collapsed state - show "Read More"
+                text.textContent = translations[currentLang].services.readMore;
+            } else {
+                // Expanded state - show "Read Less"
+                text.textContent = translations[currentLang].services.readLess;
+            }
+        });
+    });
+
+    // Listen for language changes to update toggle button text
+    document.addEventListener('languageChanged', function(e) {
+        serviceToggles.forEach(toggle => {
+            const card = toggle.closest('.service-card-minimal');
+            const details = card.querySelector('.service-details');
+            const text = toggle.querySelector('.toggle-text');
+
+            // Update text based on current state and new language
+            if (details.classList.contains('hidden')) {
+                text.textContent = translations[e.detail.lang].services.readMore;
+            } else {
+                text.textContent = translations[e.detail.lang].services.readLess;
+            }
         });
     });
 
