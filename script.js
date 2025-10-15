@@ -572,17 +572,6 @@ document.addEventListener('DOMContentLoaded', function() {
         // Update html lang attribute
         document.documentElement.setAttribute('lang', lang);
 
-        // Update canonical URL for SEO (language-specific canonical)
-        const canonicalUrl = document.getElementById('canonical-url');
-        if (canonicalUrl) {
-            const baseUrl = 'https://sitorakarimi.com/';
-            if (lang === 'en') {
-                canonicalUrl.setAttribute('href', baseUrl);
-            } else {
-                canonicalUrl.setAttribute('href', `${baseUrl}?lang=${lang}`);
-            }
-        }
-
         // Update browser URL without reloading (for better SEO and bookmarking)
         const url = new URL(window.location);
         if (lang === 'en') {

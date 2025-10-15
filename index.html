@@ -27,13 +27,14 @@
     <meta name="geo.position" content="38.571092;68.798550">
 
     <!-- Robots directives -->
-    <meta name="robots" content="index, follow">
+    <meta name="robots" content="index, follow, max-image-preview:large">
+    <meta name="googlebot" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1">
 
-    <!-- Canonical URL (will be updated dynamically by JavaScript based on language) -->
-    <link rel="canonical" href="https://sitorakarimi.com/" id="canonical-url">
+    <!-- Canonical URL - Always points to the base URL without language parameter -->
+    <link rel="canonical" href="https://sitorakarimi.com/">
 
     <!-- Hreflang tags for multilingual SEO -->
-    <link rel="alternate" hreflang="en" href="https://sitorakarimi.com/?lang=en">
+    <link rel="alternate" hreflang="en" href="https://sitorakarimi.com/">
     <link rel="alternate" hreflang="ru" href="https://sitorakarimi.com/?lang=ru">
     <link rel="alternate" hreflang="tg" href="https://sitorakarimi.com/?lang=tj">
     <link rel="alternate" hreflang="x-default" href="https://sitorakarimi.com/">
@@ -1165,21 +1166,10 @@
     <!-- JavaScript -->
     <script>
         // Auto-generate version from timestamp (changes every deployment)
-        window.SITE_VERSION = '1.0.2'; // Updated with SEO improvements
+        window.SITE_VERSION = '1.0.3'; // Updated with SEO canonical fixes and redirect handling
     </script>
     <script src="script.js"></script>
     <script src="vision-test.js"></script>
 
-    <!-- Service Worker unregistration script -->
-    <script>
-        // Unregister any existing service workers to disable caching
-        if ('serviceWorker' in navigator) {
-            navigator.serviceWorker.getRegistrations().then(registrations => {
-                for (let registration of registrations) {
-                    registration.unregister();
-                }
-            });
-        }
-    </script>
 </body>
 </html>

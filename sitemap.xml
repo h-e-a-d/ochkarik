@@ -2,41 +2,15 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
         xmlns:xhtml="http://www.w3.org/1999/xhtml">
 
-    <!-- English Version -->
+    <!-- Main URL with all language alternatives -->
     <url>
         <loc>https://sitorakarimi.com/</loc>
-        <lastmod>2025-10-09</lastmod>
+        <lastmod>2025-10-15</lastmod>
         <changefreq>weekly</changefreq>
         <priority>1.0</priority>
 
         <!-- Multilingual alternate versions -->
-        <xhtml:link rel="alternate" hreflang="en" href="https://sitorakarimi.com/?lang=en"/>
-        <xhtml:link rel="alternate" hreflang="ru" href="https://sitorakarimi.com/?lang=ru"/>
-        <xhtml:link rel="alternate" hreflang="tg" href="https://sitorakarimi.com/?lang=tj"/>
-        <xhtml:link rel="alternate" hreflang="x-default" href="https://sitorakarimi.com/"/>
-    </url>
-
-    <!-- Russian Version -->
-    <url>
-        <loc>https://sitorakarimi.com/?lang=ru</loc>
-        <lastmod>2025-10-09</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>1.0</priority>
-
-        <xhtml:link rel="alternate" hreflang="en" href="https://sitorakarimi.com/?lang=en"/>
-        <xhtml:link rel="alternate" hreflang="ru" href="https://sitorakarimi.com/?lang=ru"/>
-        <xhtml:link rel="alternate" hreflang="tg" href="https://sitorakarimi.com/?lang=tj"/>
-        <xhtml:link rel="alternate" hreflang="x-default" href="https://sitorakarimi.com/"/>
-    </url>
-
-    <!-- Tajik Version -->
-    <url>
-        <loc>https://sitorakarimi.com/?lang=tj</loc>
-        <lastmod>2025-10-09</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>1.0</priority>
-
-        <xhtml:link rel="alternate" hreflang="en" href="https://sitorakarimi.com/?lang=en"/>
+        <xhtml:link rel="alternate" hreflang="en" href="https://sitorakarimi.com/"/>
         <xhtml:link rel="alternate" hreflang="ru" href="https://sitorakarimi.com/?lang=ru"/>
         <xhtml:link rel="alternate" hreflang="tg" href="https://sitorakarimi.com/?lang=tj"/>
         <xhtml:link rel="alternate" hreflang="x-default" href="https://sitorakarimi.com/"/>
