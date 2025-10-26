@@ -10,12 +10,7 @@
     <!-- End Google Tag Manager -->
 
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <!-- Cache Control Headers -->
-    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
-    <meta http-equiv="Pragma" content="no-cache">
-    <meta http-equiv="Expires" content="0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes, viewport-fit=cover">
 
     <title>Comprehensive Eye Exams Dushanbe | Dr. Sitora Karimova - Expert Ophthalmologist</title>
     <meta name="description" content="Dr. Sitora Karimova offers expert ophthalmology services in Dushanbe including comprehensive eye exams and pediatric eye care. 8+ years of experience.">
@@ -84,9 +79,15 @@
     <link rel="icon" type="image/svg+xml" href="favicon.svg">
     <link rel="alternate icon" href="favicon.svg">
 
-    <!-- Font Awesome -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Preconnect to external origins -->
+    <link rel="preconnect" href="https://cdn.tailwindcss.com" crossorigin>
+    <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
+    <link rel="dns-prefetch" href="https://www.googletagmanager.com">
+    <link rel="dns-prefetch" href="https://images.unsplash.com">
 
+    <!-- Font Awesome (deferred for performance) -->
+    <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"></noscript>
 
     <!-- Custom Styles -->
     <link rel="stylesheet" href="styles.css">
@@ -476,6 +477,8 @@
             <img src="assets/images/hero.png"
                  alt="Dr. Sitora Karimova's ophthalmology practice - Professional eye care services in Dushanbe, Tajikistan"
                  loading="eager"
+                 width="1920"
+                 height="1080"
                  class="w-full h-full object-cover">
             <div class="absolute inset-0 bg-gradient-to-r from-navy-900/85 via-navy-900/70 to-navy-900/60"></div>
         </div>
@@ -763,6 +766,12 @@
                  class="w-full h-full object-cover">
         </div>
         <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+            <!-- Section Header -->
+            <div class="text-center mb-12">
+                <p class="text-sm uppercase tracking-widest mb-3 text-coral" data-i18n="testimonials.subtitle">Patient Testimonials</p>
+                <h2 class="text-4xl md:text-5xl font-light text-white mb-4" data-i18n="testimonials.heading">What Our Patients Say</h2>
+            </div>
+
             <!-- Carousel Container -->
             <div class="testimonial-carousel">
                 <!-- Review 1 -->
@@ -875,7 +884,7 @@
     <section class="py-20 bg-gray-50">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="text-center mb-12">
-                <p class="text-sm uppercase tracking-widest text-gray-500" data-i18n="partners.title">Trusted Partnerships</p>
+                <h2 class="text-2xl font-light text-gray-600 mb-6" data-i18n="partners.title">Trusted Partnerships</h2>
             </div>
             <div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-8 items-center opacity-40">
                 <div class="flex justify-center">
@@ -905,7 +914,8 @@
         <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
             <!-- Header -->
             <div class="text-center mb-12">
-                <p class="text-sm uppercase tracking-widest mb-3 text-coral" data-i18n="visionTest.subtitle">Test Your Vision</p>
+                <p class="text-sm uppercase tracking-widest mb-3 text-coral" data-i18n="visionTest.subtitle">Interactive Feature</p>
+                <h2 class="text-4xl md:text-5xl font-light text-navy-900 mb-8" data-i18n="visionTest.heading">Test Your Vision Online</h2>
             </div>
 
             <!-- Test Container -->
@@ -1081,7 +1091,7 @@
                         <a href="#contact" class="btn-navy" data-i18n="contact.bookNow">
                             Book Now
                         </a>
-                        <a href="tel:+14155550123" class="btn-outline" data-i18n="contact.callUs">
+                        <a href="tel:+992930097171" class="btn-outline" data-i18n="contact.callUs">
                             Call Us
                         </a>
                     </div>
@@ -1170,6 +1180,18 @@
     </script>
     <script src="script.js"></script>
     <script src="vision-test.js"></script>
+
+    <!-- Sticky Mobile Booking Bar -->
+    <div class="mobile-booking-bar">
+        <a href="tel:+992930097171" class="mobile-booking-btn">
+            <i class="fas fa-phone-alt"></i>
+            <span data-i18n="mobile.callNow">Call Now</span>
+        </a>
+        <a href="https://wa.me/992930097171" class="mobile-booking-btn whatsapp">
+            <i class="fab fa-whatsapp"></i>
+            <span data-i18n="mobile.bookWhatsApp">Book via WhatsApp</span>
+        </a>
+    </div>
 
 </body>
 </html>

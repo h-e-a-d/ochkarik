@@ -129,6 +129,10 @@ const translations = window.translations = {
             address1: 'Bekhzod Street 14',
             address2: 'Dushanbe, Tajikistan'
         },
+        mobile: {
+            callNow: 'Call Now',
+            bookWhatsApp: 'Book via WhatsApp'
+        },
         faq: {
             subtitle: 'Common Questions',
             title: 'Frequently Asked Questions',
@@ -291,6 +295,10 @@ const translations = window.translations = {
             address1: 'Улица Бехзода 14',
             address2: 'Душанбе, Таджикистан'
         },
+        mobile: {
+            callNow: 'Позвонить',
+            bookWhatsApp: 'WhatsApp'
+        },
         faq: {
             subtitle: 'Часто задаваемые вопросы',
             title: 'Часто задаваемые вопросы',
@@ -452,6 +460,10 @@ const translations = window.translations = {
             visitClinic: 'Клиникаи моро боздид кунед',
             address1: 'Кӯчаи Беҳзод 14',
             address2: 'Душанбе, Тоҷикистон'
+        },
+        mobile: {
+            callNow: 'Занг занед',
+            bookWhatsApp: 'WhatsApp'
         },
         faq: {
             subtitle: 'Саволҳои маъмул',
@@ -681,10 +693,22 @@ document.addEventListener('DOMContentLoaded', function() {
 
 
     // ===========================
-    // Mobile Menu Toggle
+    // Mobile Menu Toggle with Backdrop
     // ===========================
     const mobileMenuBtn = document.getElementById('mobile-menu-btn');
     const mobileMenu = document.getElementById('mobile-menu');
+
+    // Create backdrop for mobile menu
+    const backdrop = document.createElement('div');
+    backdrop.className = 'mobile-menu-backdrop';
+    document.body.appendChild(backdrop);
+
+    // Close menu when clicking backdrop
+    backdrop.addEventListener('click', () => {
+        if (!mobileMenu.classList.contains('hidden')) {
+            mobileMenuBtn.click();
+        }
+    });
 
     if (mobileMenuBtn && mobileMenu) {
         mobileMenuBtn.addEventListener('click', function() {
@@ -692,6 +716,9 @@ document.addEventListener('DOMContentLoaded', function() {
             mobileMenu.classList.toggle('hidden');
             mobileMenu.classList.toggle('open');
             mobileMenuBtn.setAttribute('aria-expanded', isHidden);
+
+            // Toggle backdrop
+            backdrop.classList.toggle('active', isHidden);
 
             // Toggle icon between bars and times
             const icon = mobileMenuBtn.querySelector('i');
@@ -710,6 +737,7 @@ document.addEventListener('DOMContentLoaded', function() {
             link.addEventListener('click', function() {
                 mobileMenu.classList.add('hidden');
                 mobileMenu.classList.remove('open');
+                backdrop.classList.remove('active');
                 const icon = mobileMenuBtn.querySelector('i');
                 icon.classList.remove('fa-times');
                 icon.classList.add('fa-bars');
@@ -770,21 +798,70 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
-    window.addEventListener('scroll', setActiveNavOnScroll);
-
-
     // ===========================
-    // Navbar Background on Scroll
+    // Consolidated Scroll Handler with RAF Throttling
     // ===========================
     const navbar = document.getElementById('navbar');
+    const heroSection = document.querySelector('#home');
+    const heroImage = heroSection?.querySelector('img');
 
-    window.addEventListener('scroll', function() {
-        if (window.scrollY > 100) {
+    // Back to Top Button
+    const backToTopButton = document.createElement('button');
+    backToTopButton.innerHTML = '<i class="fas fa-arrow-up"></i>';
+    backToTopButton.className = 'fixed bottom-8 right-8 w-14 h-14 bg-navy-900 text-white rounded-full shadow-xl hover:bg-coral transition-all duration-300 z-40 opacity-0 pointer-events-none flex items-center justify-center';
+    backToTopButton.id = 'back-to-top';
+    backToTopButton.setAttribute('aria-label', 'Back to top');
+    document.body.appendChild(backToTopButton);
+
+    backToTopButton.addEventListener('click', function() {
+        window.scrollTo({
+            top: 0,
+            behavior: 'smooth'
+        });
+    });
+
+    let scrollTicking = false;
+
+    function handleScroll() {
+        const scrollY = window.scrollY;
+
+        // Navbar background (> 100px)
+        if (scrollY > 100) {
             navbar.classList.add('scrolled');
         } else {
             navbar.classList.remove('scrolled');
         }
-    });
+
+        // Active nav highlighting
+        setActiveNavOnScroll();
+
+        // Back to top button (> 500px)
+        if (backToTopButton) {
+            if (scrollY > 500) {
+                backToTopButton.style.opacity = '1';
+                backToTopButton.style.pointerEvents = 'auto';
+            } else {
+                backToTopButton.style.opacity = '0';
+                backToTopButton.style.pointerEvents = 'none';
+            }
+        }
+
+        // Parallax (desktop only, < viewport height)
+        if (window.innerWidth > 768 && heroImage && scrollY < window.innerHeight) {
+            const parallaxSpeed = 0.3;
+            heroImage.style.transform = `translateY(${scrollY * parallaxSpeed}px)`;
+        }
+
+        scrollTicking = false;
+    }
+
+    // Single scroll listener with RAF throttling
+    window.addEventListener('scroll', () => {
+        if (!scrollTicking) {
+            window.requestAnimationFrame(handleScroll);
+            scrollTicking = true;
+        }
+    }, { passive: true });
 
 
     // ===========================
@@ -818,51 +895,6 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 
 
-    // ===========================
-    // Parallax Effect for Hero Section
-    // ===========================
-    const heroSection = document.querySelector('#home');
-    const heroImage = heroSection?.querySelector('img');
-
-    // Only enable parallax on desktop to prevent mobile jitter
-    if (window.innerWidth > 768) {
-        window.addEventListener('scroll', function() {
-            const scrollPosition = window.scrollY;
-            if (heroImage && scrollPosition < window.innerHeight) {
-                const parallaxSpeed = 0.3;
-                // Use transform on the image element instead of background position
-                heroImage.style.transform = `translateY(${scrollPosition * parallaxSpeed}px)`;
-            }
-        });
-    }
-
-
-    // ===========================
-    // Back to Top Button
-    // ===========================
-    const backToTopButton = document.createElement('button');
-    backToTopButton.innerHTML = '<i class="fas fa-arrow-up"></i>';
-    backToTopButton.className = 'fixed bottom-8 right-8 w-14 h-14 bg-navy-900 text-white rounded-full shadow-xl hover:bg-coral transition-all duration-300 z-40 opacity-0 pointer-events-none flex items-center justify-center';
-    backToTopButton.id = 'back-to-top';
-    backToTopButton.setAttribute('aria-label', 'Back to top');
-    document.body.appendChild(backToTopButton);
-
-    window.addEventListener('scroll', function() {
-        if (window.scrollY > 500) {
-            backToTopButton.style.opacity = '1';
-            backToTopButton.style.pointerEvents = 'auto';
-        } else {
-            backToTopButton.style.opacity = '0';
-            backToTopButton.style.pointerEvents = 'none';
-        }
-    });
-
-    backToTopButton.addEventListener('click', function() {
-        window.scrollTo({
-            top: 0,
-            behavior: 'smooth'
-        });
-    });
 
 
     // ===========================
@@ -934,10 +966,10 @@ document.addEventListener('DOMContentLoaded', function() {
         heroTitle.style.transform = 'translateY(30px)';
 
         setTimeout(() => {
-            heroTitle.style.transition = 'all 1s ease-out';
+            heroTitle.style.transition = 'all 0.8s ease-out';
             heroTitle.style.opacity = '1';
             heroTitle.style.transform = 'translateY(0)';
-        }, 300);
+        }, 100);
     }
 
 
@@ -976,39 +1008,35 @@ document.addEventListener('DOMContentLoaded', function() {
         };
     }
 
-    // Apply debounce to scroll-heavy functions
-    const debouncedScrollHandler = debounce(() => {
-        setActiveNavOnScroll();
-    }, 50);
-
-    window.addEventListener('scroll', debouncedScrollHandler);
-
-
     // ===========================
-    // Smooth Reveal for Elements
+    // Smooth Reveal for Elements (Optimized - Single Observer)
     // ===========================
-    sections.forEach(section => {
-        const revealElements = section.querySelectorAll('h2, p, .btn-navy, .btn-outline');
-        revealElements.forEach((element, index) => {
+    const revealElements = document.querySelectorAll('section h2, section p, .btn-navy, .btn-outline');
+
+    // Initialize elements (skip hero section for instant visibility)
+    revealElements.forEach(element => {
+        const isInHero = element.closest('#home');
+        if (!isInHero) {
             element.style.opacity = '0';
             element.style.transform = 'translateY(20px)';
-
-            const elementObserver = new IntersectionObserver((entries) => {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting) {
-                        setTimeout(() => {
-                            entry.target.style.transition = 'all 0.6s ease-out';
-                            entry.target.style.opacity = '1';
-                            entry.target.style.transform = 'translateY(0)';
-                        }, index * 50);
-                        elementObserver.unobserve(entry.target);
-                    }
-                });
-            }, { threshold: 0.1 });
-
-            elementObserver.observe(element);
-        });
+        }
     });
+
+    // Single observer for all elements
+    const elementObserver = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                // Animate immediately when visible (no artificial delay)
+                entry.target.style.transition = 'all 0.4s ease-out';
+                entry.target.style.opacity = '1';
+                entry.target.style.transform = 'translateY(0)';
+                elementObserver.unobserve(entry.target);
+            }
+        });
+    }, { threshold: 0.05 });
+
+    // Observe all elements with single observer
+    revealElements.forEach(el => elementObserver.observe(el));
 
 
     // ===========================
@@ -1210,12 +1238,27 @@ document.addEventListener('DOMContentLoaded', function() {
 
 
     // ===========================
-    // Service Worker Registration (for PWA support)
+    // Service Worker Registration (deferred for better performance)
     // ===========================
-    if ('serviceWorker' in navigator) {
-        navigator.serviceWorker.register('/sw.js')
-            .then(() => console.log('Service Worker registered successfully'))
-            .catch(err => console.log('Service Worker registration failed:', err));
-    }
+    window.addEventListener('load', () => {
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.register('/sw.js')
+                .then(registration => {
+                    console.log('Service Worker registered successfully');
+
+                    // Check for updates
+                    registration.addEventListener('updatefound', () => {
+                        const newWorker = registration.installing;
+                        newWorker.addEventListener('statechange', () => {
+                            if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
+                                // New content available, reload recommended
+                                console.log('New content available. Please refresh.');
+                            }
+                        });
+                    });
+                })
+                .catch(err => console.log('Service Worker registration failed:', err));
+        }
+    });
 
 });

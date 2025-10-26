@@ -3,7 +3,7 @@
 
 // Cache version - INCREMENT THIS when deploying updates
 // Format: 'v{major}.{minor}.{patch}'
-const CACHE_VERSION = '1.0.3'; // Updated with SEO canonical fixes
+const CACHE_VERSION = '1.0.5'; // Fixed animation delays for faster element appearance
 const CACHE_NAME = `sitorakarimi-${CACHE_VERSION}`;
 
 // Assets to cache
