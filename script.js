@@ -679,9 +679,17 @@ document.addEventListener('DOMContentLoaded', function() {
             // Close mobile menu after language change
             const mobileMenu = document.getElementById('mobile-menu');
             const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+            const backdrop = document.querySelector('.mobile-menu-backdrop');
+
             if (mobileMenu && mobileMenuBtn) {
                 mobileMenu.classList.add('hidden');
                 mobileMenu.classList.remove('open');
+
+                // Remove backdrop
+                if (backdrop) {
+                    backdrop.classList.remove('active');
+                }
+
                 const icon = mobileMenuBtn.querySelector('i');
                 if (icon) {
                     icon.classList.remove('fa-times');
