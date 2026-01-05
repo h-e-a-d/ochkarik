@@ -148,7 +148,7 @@ const translations = window.translations = {
             question5: 'Do you fit contact lenses?',
             answer5: 'Yes, we provide professional contact lens fitting including measurements of eye curvature and tear film quality. We offer daily disposable, monthly replacement, toric lenses for astigmatism, and multifocal lenses. Complete training and ongoing support are included.',
             question6: 'Where is your clinic located in Dushanbe?',
-            answer6: 'Our clinic is located at Bekhzod Street 14, Dushanbe, Tajikistan. We are easily accessible with flexible appointment times including same-day urgent care for eye emergencies. Contact us at +992 93 009 71 71.',
+            answer6: 'Our clinic is located at Bekhzod Street 14, Dushanbe, Tajikistan. We are easily accessible with flexible appointment times including same-day urgent care for eye emergencies. Contact us at +992 108 11 80 80.',
             cta: 'Still have questions? We\'re here to help.',
             contactButton: 'Contact Us'
         },
@@ -314,7 +314,7 @@ const translations = window.translations = {
             question5: 'Вы подбираете контактные линзы?',
             answer5: 'Да, мы предоставляем профессиональный подбор контактных линз, включая измерение кривизны роговицы и качества слёзной плёнки. Мы предлагаем ежедневные одноразовые, ежемесячные линзы, торические линзы при астигматизме и мультифокальные линзы. Включены полное обучение и постоянная поддержка.',
             question6: 'Где находится ваша клиника в Душанбе?',
-            answer6: 'Наша клиника расположена по адресу улица Бехзода 14, Душанбе, Таджикистан. Мы легко доступны с гибким графиком приёма, включая срочную помощь в тот же день при чрезвычайных ситуациях с глазами. Свяжитесь с нами по телефону +992 93 009 71 71.',
+            answer6: 'Наша клиника расположена по адресу улица Бехзода 14, Душанбе, Таджикистан. Мы легко доступны с гибким графиком приёма, включая срочную помощь в тот же день при чрезвычайных ситуациях с глазами. Свяжитесь с нами по телефону +992 108 11 80 80.',
             cta: 'Остались вопросы? Мы здесь, чтобы помочь.',
             contactButton: 'Связаться с нами'
         },
@@ -480,7 +480,7 @@ const translations = window.translations = {
             question5: 'Шумо линзаҳои тамосиро интихоб мекунед?',
             answer5: 'Бале, мо интихоби касбии линзаҳои тамосиро пешниҳод мекунем, аз ҷумла андозагирии қавси роғаи чашм ва сифати пардаи ашкӣ. Мо линзаҳои рӯзонаи якбора истифодашаванда, ивазкунии ҳармоҳа, линзаҳои торикӣ барои астигматизм ва линзаҳои мултифокалӣ пешниҳод мекунем. Таълими комил ва дастгирии доимӣ дохил карда шудааст.',
             question6: 'Клиникаи шумо дар Душанбе дар куҷост?',
-            answer6: 'Клиникаи мо дар суроғаи кӯчаи Беҳзод 14, Душанбе, Тоҷикистон ҷойгир аст. Мо осон дастрасем бо вақти фарогирии чандир, аз ҷумла кӯмаки таъҷилии ҳамон рӯз барои фавриятҳои чашмӣ. Бо мо тамос гиред аз тариқи телефони +992 93 009 71 71.',
+            answer6: 'Клиникаи мо дар суроғаи кӯчаи Беҳзод 14, Душанбе, Тоҷикистон ҷойгир аст. Мо осон дастрасем бо вақти фарогирии чандир, аз ҷумла кӯмаки таъҷилии ҳамон рӯз барои фавриятҳои чашмӣ. Бо мо тамос гиред аз тариқи телефони +992 108 11 80 80.',
             cta: 'Ҳанӯз саволҳо доред? Мо дар ин ҷо ҳастем, то кӯмак расонем.',
             contactButton: 'Бо мо тамос гиред'
         },
