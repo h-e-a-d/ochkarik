@@ -1,0 +1,15 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(curl -L \"https://images.unsplash.com/photo-1542038784456-1ea8e935640e?w=1200&q=85&fm=jpg\" -o \"assets/images/vision-street.jpg\")",
+      "Bash(ffmpeg -i \"/Users/matlyubakarimova/Desktop/Claude/ochkarik-main 1803/assets/images/vision-street.jpg\" \"/Users/matlyubakarimova/Desktop/Claude/ochkarik-main 1803/assets/images/vision-disorders.webp\" -y)",
+      "Bash(python3 -:*)",
+      "Bash(qlmanage -t -s 400 -o /tmp/ \"/Users/matlyubakarimova/Desktop/Claude/ochkarik-main 1803/assets/images/eyeglasses-vector.svg\")",
+      "Read(//private/tmp/**)",
+      "Bash(qlmanage -t -s 1327 -o /tmp/ \"/Users/matlyubakarimova/Desktop/Claude/ochkarik-main 1803/assets/images/eyeglasses-vector.svg\")",
+      "mcp__plugin_playwright_playwright__browser_evaluate",
+      "mcp__plugin_playwright_playwright__browser_take_screenshot",
+      "mcp__plugin_playwright_playwright__browser_navigate"
+    ]
+  }
+}

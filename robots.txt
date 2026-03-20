@@ -7,10 +7,22 @@ Allow: /
 # Sitemap location
 Sitemap: https://sitorakarimi.com/sitemap.xml
 
-# Disallow any admin or temporary files (if added in future)
+# Disallow internal and non-web files
 Disallow: /admin/
 Disallow: /temp/
 Disallow: /.git/
+Disallow: /*.md$
+Disallow: /*.txt$
+Disallow: /*.log$
+Disallow: /docs/
+Disallow: /Screenshots/
+Disallow: /.claude/
+Disallow: /.vscode/
+Disallow: /.playwright-mcp/
+Disallow: /.superpowers/
+
+# Re-allow sitemap.xml (blocked by *.txt rule above)
+Allow: /sitemap.xml
 
 # Allow all search engines to crawl images
 User-agent: Googlebot-Image
