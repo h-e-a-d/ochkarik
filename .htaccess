@@ -1,0 +1,84 @@
+# .htaccess for sitorakarimi.com
+# Technical SEO optimizations and redirect handling
+
+# Enable rewrite engine
+RewriteEngine On
+
+# Force HTTPS redirect
+RewriteCond %{HTTPS} off
+RewriteRule ^(.*)$ https://%{HTTP_HOST}/$1 [R=301,L]
+
+# Force WWW or Non-WWW (choose one - currently set to non-www)
+RewriteCond %{HTTP_HOST} ^www\.(.*)$ [NC]
+RewriteRule ^(.*)$ https://%1/$1 [R=301,L]
+
+# Redirect ?lang=en to base URL (canonical)
+RewriteCond %{QUERY_STRING} ^lang=en$ [NC]
+RewriteRule ^(.*)$ /$1? [R=301,L]
+
+# Remove trailing slashes from URLs (except for directories)
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteCond %{REQUEST_URI} (.+)/$
+RewriteRule ^ %1 [R=301,L]
+
+# Security Headers
+<IfModule mod_headers.c>
+    # X-Frame-Options: Prevent clickjacking
+    Header always set X-Frame-Options "SAMEORIGIN"
+
+    # X-Content-Type-Options: Prevent MIME type sniffing
+    Header always set X-Content-Type-Options "nosniff"
+
+    # X-XSS-Protection: Enable browser XSS protection
+    Header always set X-XSS-Protection "1; mode=block"
+
+    # Referrer-Policy: Control referrer information
+    Header always set Referrer-Policy "strict-origin-when-cross-origin"
+
+    # Permissions-Policy: Control browser features
+    Header always set Permissions-Policy "geolocation=(), microphone=(), camera=()"
+</IfModule>
+
+# Cache Control for Static Assets
+<IfModule mod_expires.c>
+    ExpiresActive On
+
+    # Images
+    ExpiresByType image/jpeg "access plus 1 year"
+    ExpiresByType image/png "access plus 1 year"
+    ExpiresByType image/webp "access plus 1 year"
+    ExpiresByType image/svg+xml "access plus 1 year"
+    ExpiresByType image/x-icon "access plus 1 year"
+
+    # CSS and JavaScript
+    ExpiresByType text/css "access plus 1 month"
+    ExpiresByType application/javascript "access plus 1 month"
+    ExpiresByType text/javascript "access plus 1 month"
+
+    # Fonts
+    ExpiresByType font/woff2 "access plus 1 year"
+    ExpiresByType font/woff "access plus 1 year"
+    ExpiresByType font/ttf "access plus 1 year"
+
+    # HTML (shorter cache for dynamic content)
+    ExpiresByType text/html "access plus 1 hour"
+</IfModule>
+
+# Compression
+<IfModule mod_deflate.c>
+    AddOutputFilterByType DEFLATE text/html text/plain text/xml text/css text/javascript application/javascript application/json
+    AddOutputFilterByType DEFLATE image/svg+xml
+</IfModule>
+
+# Error Documents
+ErrorDocument 404 /index.html
+ErrorDocument 500 /index.html
+
+# Prevent directory browsing
+Options -Indexes
+
+# Protect sensitive files
+<FilesMatch "(^\.htaccess|^\.git|composer\.json|package\.json|README\.md|CLAUDE\.md)">
+    Order allow,deny
+    Deny from all
+</FilesMatch>

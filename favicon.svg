@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+  <rect width="64" height="64" fill="#0a2a3d" rx="12"/>
+  <g transform="translate(32, 32)">
+    <!-- Eye outer shape - almond shape with pointed left/right corners -->
+    <path d="M -26,0 Q -13,-12 0,-12 Q 13,-12 26,0 Q 13,12 0,12 Q -13,12 -26,0 Z"
+          fill="none" stroke="#ffffff" stroke-width="3.5"/>
+    <!-- Iris -->
+    <circle cx="0" cy="0" r="6" fill="#FFFFFF"/>
+    <!-- Pupil -->
+    <circle cx="0" cy="0" r="3" fill="#0A2A3D"/>
+  </g>
+</svg>
