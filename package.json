@@ -1,0 +1,14 @@
+{
+  "name": "sitorakarimi-site",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Multilingual ophthalmology website for Dr. Sitora Karimova (RU/TJ/EN)",
+  "scripts": {
+    "dev": "eleventy --serve --quiet",
+    "build": "eleventy",
+    "clean": "rm -rf _site"
+  },
+  "devDependencies": {
+    "@11ty/eleventy": "^3.0.0"
+  }
+}

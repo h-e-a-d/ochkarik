@@ -3,15 +3,18 @@
 
 // Cache version - INCREMENT THIS when deploying updates
 // Format: 'v{major}.{minor}.{patch}'
-const CACHE_VERSION = '1.0.16'; // Fix: apply initial glasses transform at init to prevent size pop on entry
+const CACHE_VERSION = '1.1.0'; // Eleventy multi-locale build (/ru/ /tj/ /en/) — SEO-friendly static translations
 const CACHE_NAME = `sitorakarimi-${CACHE_VERSION}`;
 
-// Assets to cache
+// Assets to cache. Per-locale pages are listed so offline visitors see their
+// language correctly. Root "/" is intentionally omitted — it 302-redirects to /ru/.
 const ASSETS_TO_CACHE = [
-    '/',
-    '/index.html',
+    '/ru/',
+    '/tj/',
+    '/en/',
     '/script.js',
     '/vision-test.js',
+    '/vision-disorders.js',
     '/styles.css',
     '/favicon.svg',
     '/assets/images/hero.png',
@@ -19,7 +22,6 @@ const ASSETS_TO_CACHE = [
     '/assets/images/about-2.jpg',
     '/assets/images/table-ru.svg',
     '/assets/images/og-image.webp',
-    '/vision-disorders.js',
     '/assets/images/vision-disorders.webp'
 ];
 

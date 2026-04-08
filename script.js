@@ -1,569 +1,5 @@
 // JavaScript for Minimalist Ophthalmologist Website
 
-// ===========================
-// Translations Object
-// ===========================
-const translations = window.translations = {
-    en: {
-        nav: {
-            home: 'Home',
-            services: 'Services',
-            about: 'About',
-            reviews: 'Reviews',
-            faq: 'FAQ',
-            contact: 'Contact',
-            language: 'Language'
-        },
-        hero: {
-            subtitle: 'Ophthalmology Practice',
-            title: 'Exceptional eye care',
-            description: 'Experience personalized ophthalmology services designed for your unique vision needs',
-            ourServices: 'Our Services',
-            findUs: 'Find Us'
-        },
-        services: {
-            subtitle: 'What We Offer',
-            title: 'Core Services',
-            readMore: 'Read More',
-            readLess: 'Read Less',
-            comprehensive: {
-                title: 'Comprehensive Eye Examination',
-                intro: 'Full eye health assessment using advanced diagnostic technologies.',
-                diagnosticsTitle: '<strong>Vision and correction diagnostics:</strong>',
-                diagnosticsList: '<li>— Visual acuity testing (visometry)</li><li>— Autorefractometry</li><li>— Ophthalmoscopy</li><li>— Keratometry</li><li>— Glasses prescription: monofocal, bifocal, and progressive</li><li>— Soft contact lens fitting (spherical and toric)</li>',
-                treatmentTitle: '<strong>Diagnosis and treatment of eye diseases:</strong>',
-                treatmentList: '<li>— Conjunctivitis</li><li>— Dry eye syndrome</li><li>— Accommodation spasm</li><li>— Asthenopia and other functional vision disorders</li>'
-            },
-            visometry: {
-                title: 'Visual Acuity Testing (Visometry)',
-                description: 'Checks how well you see at distance and near using Sivtsev, Golovin, and Landolt charts or projection systems. Conducted with and without correction (with/without glasses) to determine your precise vision level.'
-            },
-            autorefractometry: {
-                title: 'Objective Refraction Determination (Autorefractometry)',
-                description: 'Uses an autorefractometer to measure your eye\'s refractive power objectively. Determines the presence of myopia (nearsightedness), hyperopia (farsightedness), or astigmatism with precision.'
-            },
-            subjective: {
-                title: 'Subjective Refractometry (Glasses Prescription)',
-                description: 'Selection of optical lenses for maximum visual acuity using trial frames with lens sets. Our optometrist determines which diopter provides the best vision correction tailored to your unique needs.'
-            },
-            accommodation: {
-                title: 'Accommodation Assessment',
-                description: 'Examines your eye\'s ability to focus at different distances. Determines accommodation reserve and stability, especially important for diagnosing eye strain, accommodation spasm, and focusing problems.'
-            },
-            keratometry: {
-                title: 'Keratometry',
-                description: 'Measures corneal curvature with precision. Essential for contact lens fitting and helps detect astigmatism or keratoconus. Provides critical data for accurate vision correction.'
-            },
-            ophthalmoscopy: {
-                title: 'Fundus Examination (Ophthalmoscopy)',
-                description: 'Determines the condition of your retina, optic nerve (optic disc), retinal vessels, and macula (yellow spot). Helps detect glaucoma, optic nerve edema or atrophy, diabetic and hypertensive retinopathy, retinal detachment, inflammation, and fundus tumors.'
-            },
-            prescriptionGlasses: {
-                title: 'Prescription Glasses',
-                description: 'Custom eyewear adapted to your vision needs and style. Wide selection of frame styles, lens types (monofocal, progressive, bifocal), and specialized coatings including anti-reflective, blue light blocking, and UV protection. Professional fitting by Dr. Karimova for all ages.'
-            },
-            contactsAndTreatment: {
-                title: 'Contact Lenses & Treatment',
-                description: 'Professional fitting and care: daily disposable, monthly replacement, toric lenses for astigmatism, multifocal lenses. Treatment and patient management for conjunctivitis, dry eye syndrome, accommodation spasm, and visual fatigue. Prevention for high visual load (computer work, driving). Complete training and medication management.'
-            }
-        },
-        about: {
-            subtitle: 'Meet Dr. Karimova',
-            title: 'Excellence in ophthalmology since 2017',
-            description1: 'Dr. Sitora Karimova brings 8 years of specialized experience in comprehensive eye care. Trained at Avicenna Tajik State Medical University, she combines cutting-edge technology with a patient-first philosophy.',
-            description2: 'Her practice focuses on delivering personalized consultation that address each patient\'s unique needs, ensuring optimal vision outcomes and long-term eye health.',
-            credential1: 'Board Certified Ophthalmologist',
-            credential2: 'Fellow, American Academy of Ophthalmology',
-            credential3: '8+ Years Clinical Experience'
-        },
-        stats: {
-            years: 'Years of<br>Experience'
-        },
-        testimonials: {
-            quote1: '"Dr. Karimova provided exceptional care during my eyeglasses consultation. Her attention to detail and expertise helped me find the perfect prescription. The quality of care and personalized service exceeded my expectations."',
-            name1: 'Farrukh Rahimov',
-            patient1: 'Eyeglasses Patient',
-            quote2: '"After years of struggling with contact lenses, Dr. Karimova helped me find the most comfortable lenses for my eyes. Her expertise and patience made all the difference. I can now wear them all day without any discomfort. Highly recommend!"',
-            name2: 'Dilshoda Nazarova',
-            patient2: 'Contact Lens Patient',
-            quote3: '"The glaucoma treatment I received was outstanding. Dr. Karimova took the time to explain everything and made me feel comfortable throughout the process. My vision is stable thanks to her expertise."',
-            name3: 'Rustam Shokirov',
-            patient3: 'Glaucoma Patient',
-            quote4: '"My daughter\'s vision problems were diagnosed and treated with such care and attention. Dr. Karimova has a wonderful way with children and made the whole experience stress-free for our family."',
-            name4: 'Gulnora Karimova',
-            patient4: 'Pediatric Patient Parent'
-        },
-        partners: {
-            title: 'Trusted Partnerships'
-        },
-        glassesAnim: {
-            eyeline: 'Vision that brings<br/><em>life into focus</em>',
-            tagline: 'Expert ophthalmology · Dr. Sitora Karimova'
-        },
-        visionDisorders: {
-            label: 'Interactive Demo',
-            title: 'See the World Through Different Eyes',
-            subtitle: 'Explore how common vision disorders affect everyday sight',
-            tabs: {
-                healthy: 'Healthy',
-                myopia: 'Myopia',
-                cataracts: 'Cataracts',
-                glaucoma: 'Glaucoma'
-            },
-            sliderMild: 'Mild',
-            sliderSevere: 'Severe',
-            hint: 'Try each condition and drag the slider to explore severity levels'
-        },
-        visionTest: {
-            subtitle: 'Test Your Vision',
-            title: 'Interactive Vision Test',
-            initialInstruction: 'Try our interactive vision test. Sit 50cm from the screen. Cover one eye.',
-            questionInstruction: 'Can you read all characters?',
-            startButton: 'Start Test',
-            yesButton: 'Yes',
-            noButton: 'No',
-            restartButton: 'Restart',
-            lineIndicator: 'Line',
-            of: 'of',
-            testComplete: 'Test Complete!',
-            yourVision: 'Your vision level:',
-            detailedResults: 'Detailed Results:',
-            consultationReminder: 'Please consult with Dr. Karimova for a professional eye examination.',
-            disclaimer: 'This test is for educational purposes only and does not replace a professional eye examination.'
-        },
-        contact: {
-            subtitle: 'Get In Touch',
-            title: 'Schedule your appointment',
-            address: 'Address',
-            phone: 'Phone',
-            email: 'Email',
-            hours: 'Hours',
-            monFri: 'Mon - Fri: 9:00 AM - 6:00 PM',
-            sat: 'Sat: 9:00 AM - 2:00 PM',
-            sun: 'Sun: Closed',
-            bookNow: 'Book Now',
-            callUs: 'Call Us',
-            visitClinic: 'Visit Our Clinic',
-            address1: 'Bekhzod Street 14',
-            address2: 'Dushanbe, Tajikistan',
-            locatedIn: 'Located inside Osse Optical Store',
-            osseNote: 'Prescription glasses filled same-day'
-        },
-        mobile: {
-            callNow: 'Call Now',
-            bookWhatsApp: 'Book via WhatsApp'
-        },
-        faq: {
-            subtitle: 'Common Questions',
-            title: 'Frequently Asked Questions',
-            description: 'Find answers to common questions about our eye care services in Dushanbe',
-            question1: 'How often should I get an eye exam?',
-            answer1: 'Adults with no vision problems should get comprehensive eye exams every 2 years. If you wear glasses, have diabetes, or family history of eye disease, annual exams are recommended. Children need exams at 6 months, age 3, before school, then annually.',
-            question2: 'Do you see children? At what age?',
-            answer2: 'Yes! Dr. Karimova has specialized training in pediatric ophthalmology and welcomes children from infancy through teenage years using child-friendly testing methods.',
-            question3: 'What is dry eye syndrome and how is it treated?',
-            answer3: 'Dry eye syndrome causes burning, itching, redness, and watery eyes due to insufficient tear production or poor tear quality. Treatment includes prescription eye drops, punctal plugs, warm compress therapy, and lifestyle modifications. Most patients see improvement within 2-4 weeks.',
-            question4: 'How long does a comprehensive eye exam take?',
-            answer4: 'A comprehensive eye examination takes approximately 45-60 minutes for your first visit. This includes visual acuity testing, refraction assessment, intraocular pressure measurement, retinal health evaluation, and consultation with Dr. Karimova.',
-            question5: 'Do you fit contact lenses?',
-            answer5: 'Yes, we provide professional contact lens fitting including measurements of eye curvature and tear film quality. We offer daily disposable, monthly replacement, toric lenses for astigmatism, and multifocal lenses. Complete training and ongoing support are included.',
-            question6: 'Where is your clinic located in Dushanbe?',
-            answer6: 'Our clinic is located inside Osse Optical Store at Bekhzod Street 14, Dushanbe, Tajikistan. After your appointment you can fill your prescription glasses same-day at Osse. Flexible appointment times including same-day urgent care for eye emergencies. Contact us at +992 108 11 80 80.',
-            cta: 'Still have questions? We\'re here to help.',
-            contactButton: 'Contact Us'
-        },
-        footer: {
-            tagline: 'Exceptional ophthalmology care since 2017',
-            servicesTitle: 'Services',
-            eyeExams: 'Comprehensive Eye Examinations',
-            glasses: 'Prescription Glasses',
-            contacts: 'Contact Lenses',
-            dryeye: 'Dry Eye Management',
-            followup: 'Ongoing Care and Follow-Up',
-            pediatric: 'Children\'s Eye Care',
-            infoTitle: 'Information',
-            about: 'About',
-            reviews: 'Reviews',
-            contact: 'Contact',
-            privacy: 'Privacy Policy',
-            connect: 'Connect',
-            copyright: '© 2025 Sitora Karimova Ophthalmology. All rights reserved.'
-        }
-    },
-    ru: {
-        nav: {
-            home: 'Главная',
-            services: 'Услуги',
-            about: 'О нас',
-            reviews: 'Отзывы',
-            faq: 'Вопросы',
-            contact: 'Контакты',
-            language: 'Язык'
-        },
-        hero: {
-            subtitle: 'Офтальмологическая практика',
-            title: 'Исключительный уход за зрением',
-            description: 'Персонализированные офтальмологические услуги для ваших уникальных потребностей',
-            ourServices: 'Наши услуги',
-            findUs: 'Найти нас'
-        },
-        services: {
-            subtitle: 'Что мы предлагаем',
-            title: 'Основные услуги',
-            readMore: 'Читать далее',
-            readLess: 'Свернуть',
-            comprehensive: {
-                title: 'Комплексное обследование глаз',
-                intro: 'Полная оценка здоровья глаз с использованием передовых диагностических технологий.',
-                diagnosticsTitle: '<strong>Проводим диагностику и коррекцию зрения:</strong>',
-                diagnosticsList: '<li>— визометрию (проверку остроты зрения)</li><li>— авторефрактометрию</li><li>— офтальмоскопию</li><li>— керотометрию</li><li>— подбор очков: монофокальных, бифокальных и прогрессивных</li><li>— подбор мягких контактных линз (сферических и торических)</li>',
-                treatmentTitle: '<strong>Диагностика и лечение глазных заболеваний таких как:</strong>',
-                treatmentList: '<li>— конъюнктивиты</li><li>— синдром сухого глаза</li><li>— спазм аккомодации</li><li>— астенопия и другие функциональные нарушения зрения</li>'
-            },
-            visometry: {
-                title: 'Определение остроты зрения (визометрия)',
-                description: 'Проверяется, насколько хорошо человек видит вдаль и вблизи. Используются таблицы Сивцева, Головина, Ландольта (или проекционные системы). Проводится с коррекцией и без неё (с очками / без очков).'
-            },
-            autorefractometry: {
-                title: 'Объективное определение рефракции (авторефрактометрия)',
-                description: 'С помощью авторефрактометра измеряется преломляющая способность глаза. Определяет, есть ли близорукость, дальнозоркость или астигматизм.'
-            },
-            subjective: {
-                title: 'Субъективная рефрактометрия (подбор очков)',
-                description: 'Подбор оптических линз для получения максимальной остроты зрения. Используются тестовые оправы с набором линз. Оптометрист уточняет, при какой диоптрии пациент видит лучше.'
-            },
-            accommodation: {
-                title: 'Определение аккомодации',
-                description: 'Исследуется способность глаза фокусироваться на разных расстояниях. Определяют запас и устойчивость аккомодации (особенно важно при усталости глаз, спазме аккомодации).'
-            },
-            keratometry: {
-                title: 'Кератометрия',
-                description: 'Измеряется кривизна роговицы. Обязательно при подборе контактных линз. Помогает выявить астигматизм или кератоконус.'
-            },
-            ophthalmoscopy: {
-                title: 'Осмотр глазного дна (офтальмоскопия)',
-                description: 'Определяет состояние сетчатки, зрительного нерва (диск зрительного нерва), сосудов сетчатки, макулы (жёлтого пятна). Этот метод помогает выявить глаукому, отёк или атрофию зрительного нерва, диабетическую и гипертоническую ретинопатию, отслоение сетчатки, воспаления и опухоли глазного дна.'
-            },
-            prescriptionGlasses: {
-                title: 'Очки по рецепту',
-                description: 'Индивидуальные очки, адаптированные к вашим потребностям зрения и стилю. Широкий выбор стилей оправ, типов линз (однофокальные, прогрессивные, бифокальные) и специальных покрытий, включая антибликовое, блокирующее синий свет и УФ-защиту для солнечного климата Таджикистана. Профессиональная подгонка доктором Каримовой. Для всех возрастов, включая компьютерные очки и очки для чтения.'
-            },
-            contactsAndTreatment: {
-                title: 'Контактные линзы и лечение',
-                description: 'Профессиональная подборка и уход: ежедневные одноразовые, ежемесячные сменные, торические линзы при астигматизме, мультифокальные линзы при пресбиопии. Лечение и ведение пациентов: конъюнктивиты (бактериальные, вирусные, аллергические), синдром сухого глаза, спазм аккомодации, зрительное переутомление. Профилактика глазных заболеваний у людей с высокой зрительной нагрузкой (работа за компьютером, телефоном, при вождении). Полное обучение и назначение медикаментозного лечения.'
-            }
-        },
-        about: {
-            subtitle: 'Знакомьтесь, доктор Каримова',
-            title: 'Превосходство в офтальмологии с 2017 года',
-            description1: 'Доктор Ситора Каримова имеет 8 лет специализированного опыта в комплексном уходе за глазами. Получив образование в Таджикском государственном медицинском университете имени Авиценны, она сочетает передовые технологии с философией заботы о пациентах.',
-            description2: 'Её практика фокусируется на разработке персонализированных планов лечения, которые отвечают уникальным потребностям каждого пациента, обеспечивая оптимальные результаты для зрения и долгосрочное здоровье глаз.',
-            credential1: 'Сертифицированный офтальмолог',
-            credential2: 'Член Американской академии офтальмологии',
-            credential3: '8+ лет клинического опыта'
-        },
-        stats: {
-            years: 'Лет<br>опыта'
-        },
-        testimonials: {
-            quote1: '"Доктор Каримова обеспечила исключительный уход во время консультации по подбору очков. Её внимание к деталям и опыт помогли мне найти идеальный рецепт. Качество ухода и персонализированный сервис превзошли мои ожидания."',
-            name1: 'Фаррух Рахимов',
-            patient1: 'Пациент с очками',
-            quote2: '"После многих лет сложностей с контактными линзами доктор Каримова помогла мне найти самые удобные линзы для моих глаз. Её опыт и терпение изменили всё. Теперь я могу носить их весь день без какого-либо дискомфорта. Очень рекомендую!"',
-            name2: 'Дилшода Назарова',
-            patient2: 'Пациент с контактными линзами',
-            quote3: '"Лечение глаукомы, которое я получил, было выдающимся. Доктор Каримова уделила время, чтобы всё объяснить, и я чувствовал себя комфортно на протяжении всего процесса. Моё зрение стабильно благодаря её опыту."',
-            name3: 'Рустам Шокиров',
-            patient3: 'Пациент с глаукомой',
-            quote4: '"Проблемы со зрением моей дочери были диагностированы и вылечены с такой заботой и вниманием. У доктора Каримовой прекрасный подход к детям, и весь процесс прошёл без стресса для нашей семьи."',
-            name4: 'Гульнора Каримова',
-            patient4: 'Родитель детского пациента'
-        },
-        partners: {
-            title: 'Доверенные партнёры'
-        },
-        glassesAnim: {
-            eyeline: 'Зрение, которое приносит<br/><em>жизнь в фокус</em>',
-            tagline: 'Экспертная офтальмология · Д-р Ситора Каримова'
-        },
-        visionDisorders: {
-            label: 'Интерактивный демо',
-            title: 'Увидьте мир другими глазами',
-            subtitle: 'Узнайте, как распространённые нарушения зрения влияют на повседневную жизнь',
-            tabs: {
-                healthy: 'Норма',
-                myopia: 'Близорукость',
-                cataracts: 'Катаракта',
-                glaucoma: 'Глаукома'
-            },
-            sliderMild: 'Слабая',
-            sliderSevere: 'Сильная',
-            hint: 'Выберите состояние и переместите ползунок для изучения степени тяжести'
-        },
-        visionTest: {
-            subtitle: 'Проверьте зрение',
-            title: 'Интерактивный тест зрения',
-            initialInstruction: 'Попробуйте наш интерактивный тест зрения. Сядьте на расстоянии 50 см от экрана. Закройте один глаз.',
-            questionInstruction: 'Вы можете прочитать все символы?',
-            startButton: 'Начать тест',
-            yesButton: 'Да',
-            noButton: 'Нет',
-            restartButton: 'Начать заново',
-            lineIndicator: 'Строка',
-            of: 'из',
-            testComplete: 'Тест завершён!',
-            yourVision: 'Ваш уровень зрения:',
-            detailedResults: 'Детальные результаты:',
-            consultationReminder: 'Пожалуйста, проконсультируйтесь с доктором Каримовой для профессионального обследования глаз.',
-            disclaimer: 'Этот тест предназначен только для образовательных целей и не заменяет профессионального обследования глаз.'
-        },
-        contact: {
-            subtitle: 'Свяжитесь с нами',
-            title: 'Запишитесь на приём',
-            address: 'Адрес',
-            phone: 'Телефон',
-            email: 'Эл. почта',
-            hours: 'Часы работы',
-            monFri: 'Пн - Пт: 9:00 - 18:00',
-            sat: 'Сб: 9:00 - 14:00',
-            sun: 'Вс: Закрыто',
-            bookNow: 'Записаться',
-            callUs: 'Позвонить',
-            visitClinic: 'Посетите нашу клинику',
-            address1: 'Улица Бехзода 14',
-            address2: 'Душанбе, Таджикистан',
-            locatedIn: 'Находится в оптике Osse',
-            osseNote: 'Очки по рецепту изготовим в день обращения'
-        },
-        mobile: {
-            callNow: 'Позвонить',
-            bookWhatsApp: 'WhatsApp'
-        },
-        faq: {
-            subtitle: 'Часто задаваемые вопросы',
-            title: 'Часто задаваемые вопросы',
-            description: 'Найдите ответы на распространённые вопросы о наших офтальмологических услугах в Душанбе',
-            question1: 'Как часто нужно проходить обследование глаз?',
-            answer1: 'Взрослым без проблем со зрением рекомендуется проходить комплексное обследование глаз каждые 2 года. Если вы носите очки, страдаете диабетом или имеете семейную историю глазных заболеваний, рекомендуются ежегодные обследования. Детям необходимы обследования в 6 месяцев, в 3 года, перед школой, а затем ежегодно.',
-            question2: 'Вы принимаете детей? С какого возраста?',
-            answer2: 'Да! Доктор Каримова имеет специализированную подготовку в области детской офтальмологии и принимает детей с младенчества до подросткового возраста, используя методы тестирования, адаптированные для детей.',
-            question3: 'Что такое синдром сухого глаза и как его лечат?',
-            answer3: 'Синдром сухого глаза вызывает жжение, зуд, покраснение и слезотечение из-за недостаточного производства слёз или плохого качества слёзной плёнки. Лечение включает рецептурные глазные капли, пунктальные пробки, терапию тёплыми компрессами и изменение образа жизни. Большинство пациентов видят улучшение в течение 2-4 недель.',
-            question4: 'Сколько времени занимает комплексное обследование глаз?',
-            answer4: 'Комплексное обследование глаз занимает приблизительно 45-60 минут при первом посещении. Это включает проверку остроты зрения, оценку рефракции, измерение внутриглазного давления, оценку здоровья сетчатки и консультацию с доктором Каримовой.',
-            question5: 'Вы подбираете контактные линзы?',
-            answer5: 'Да, мы предоставляем профессиональный подбор контактных линз, включая измерение кривизны роговицы и качества слёзной плёнки. Мы предлагаем ежедневные одноразовые, ежемесячные линзы, торические линзы при астигматизме и мультифокальные линзы. Включены полное обучение и постоянная поддержка.',
-            question6: 'Где находится ваша клиника в Душанбе?',
-            answer6: 'Наша клиника находится в оптике Osse по адресу улица Бехзода 14, Душанбе, Таджикистан. После приёма вы можете сразу изготовить очки по рецепту — в тот же день. Гибкий график приёма, включая срочную помощь при экстренных ситуациях. Свяжитесь с нами по телефону +992 108 11 80 80.',
-            cta: 'Остались вопросы? Мы здесь, чтобы помочь.',
-            contactButton: 'Связаться с нами'
-        },
-        footer: {
-            tagline: 'Исключительный уход за глазами с 2017 года',
-            servicesTitle: 'Услуги',
-            eyeExams: 'Комплексное обследование глаз',
-            glasses: 'Очки по рецепту',
-            contacts: 'Контактные линзы',
-            dryeye: 'Лечение сухости глаз',
-            followup: 'Постоянный уход и наблюдение',
-            pediatric: 'Детская офтальмология',
-            infoTitle: 'Информация',
-            about: 'О нас',
-            reviews: 'Отзывы',
-            contact: 'Контакты',
-            privacy: 'Политика конфиденциальности',
-            connect: 'Связаться',
-            copyright: '© 2025 Офтальмология Ситоры Каримовой. Все права защищены.'
-        }
-    },
-    tj: {
-        nav: {
-            home: 'Асосӣ',
-            services: 'Хидматҳо',
-            about: 'Дар бораи мо',
-            reviews: 'Тақризҳо',
-            faq: 'Саволҳо',
-            contact: 'Тамос',
-            language: 'Забон'
-        },
-        hero: {
-            subtitle: 'Амалиёти офтальмологӣ',
-            title: 'Нигоҳубини истисноии чашм',
-            description: 'Хидматҳои офтальмологии шахсӣ барои эҳтиёҷоти беназири бинишии шумо',
-            ourServices: 'Хидматҳои мо',
-            findUs: 'Моро ёбед'
-        },
-        services: {
-            subtitle: 'Он чӣ мо пешниҳод мекунем',
-            title: 'Хидматҳои асосӣ',
-            readMore: 'Муфассалтар',
-            readLess: 'Пӯшидан',
-            comprehensive: {
-                title: 'Санҷиши комили чашм',
-                intro: 'Арзёбии пурраи саломатии чашм бо истифода аз технологияҳои ташхисии пешрафта.',
-                diagnosticsTitle: '<strong>Мо ташхиси бинӣ ва ислоҳи онро гузаронем:</strong>',
-                diagnosticsList: '<li>— визометрия (санҷиши тезии бинӣ)</li><li>— авторефрактометрия</li><li>— офтальмоскопия</li><li>— кератометрия</li><li>— интихоби айнак: монофокалӣ, бифокалӣ ва прогрессивӣ</li><li>— интихоби линзаҳои тамосии нарм (сферикӣ ва торикӣ)</li>',
-                treatmentTitle: '<strong>Ташхис ва табобати бемориҳои чашмӣ монанди:</strong>',
-                treatmentList: '<li>— конъюнктивит</li><li>— синдроми хушкии чашм</li><li>— спазми аккомодатсия</li><li>— астенопия ва дигар вайронкуниҳои функсионалии бинӣ</li>'
-            },
-            visometry: {
-                title: 'Муайянкунии тезии бинӣ (визометрия)',
-                description: 'Санҷида мешавад, ки одам то чӣ андоза хуб дар масофа ва наздикӣ мебинад. Ҷадвалҳои Сивтсев, Головин, Ландолт (ё системаҳои проексионӣ) истифода мешаванд. Бо коррексия ва бе он гузаронида мешавад (бо айнак / бе айнак).'
-            },
-            autorefractometry: {
-                title: 'Муайянкунии объективии рефраксия (авторефрактометрия)',
-                description: 'Бо ёрии авторефрактометр қобилияти шикастанандаи чашм чен карда мешавад. Муайян мекунад, ки наздикбинӣ, дурбинӣ ё астигматизм вуҷуд дорад.'
-            },
-            subjective: {
-                title: 'Рефрактометрияи субъективӣ (интихоби айнак)',
-                description: 'Интихоби линзаҳои оптикӣ барои гирифтани тезии бинишии максималӣ. Чорчӯбаҳои санҷишӣ бо маҷмӯи линзаҳо истифода мешаванд. Оптометрист муайян мекунад, ки дар кадом диоптрия бемор беҳтар мебинад.'
-            },
-            accommodation: {
-                title: 'Муайянкунии аккомодатсия',
-                description: 'Қобилияти чашм барои фокус кардан дар масофаҳои гуногун таҳқиқ карда мешавад. Захираи аккомодатсия ва устуворӣ муайян карда мешавад (махсусан муҳим ҳангоми хастагии чашм, спазми аккомодатсия).'
-            },
-            keratometry: {
-                title: 'Кератометрия',
-                description: 'Қавси роғаи чашм чен карда мешавад. Ҳангоми интихоби линзаҳои тамосӣ ҳатмӣ аст. Барои ошкор кардани астигматизм ё кератоконус кӯмак мекунад.'
-            },
-            ophthalmoscopy: {
-                title: 'Тафтиши тағи чашм (офтальмоскопия)',
-                description: 'Ҳолати шабакия, нерви биноӣ (диски нерви биноӣ), рагҳои шабакия, макула (лаки зард) муайян карда мешавад. Ин усул барои ошкор кардани глаукома, варам ё атрофияи нерви биноӣ, ретинопатияи диабетӣ ва гипертонӣ, ҷудошавии шабакия, илтиҳоб ва ғадудҳои тағи чашм кӯмак мекунад.'
-            },
-            prescriptionGlasses: {
-                title: 'Айнаки тиббӣ',
-                description: 'Айнаки фардӣ мутобиқ ба эҳтиёҷоти бинишӣ ва услуби шумо. Интихоби васеи услубҳои чорчӯбаҳо, намудҳои линзаҳо (монофокалӣ, прогрессивӣ, бифокалӣ) ва пӯшишҳои махсус аз ҷумла зидди акси нур, манъкунии нури кабуд ва ҳифзи UV барои иқлими офтобии Тоҷикистон. Танзимоти касбӣ аз ҷониби доктор Каримова. Барои ҳамаи синну солҳо аз ҷумла айнакҳои компютерӣ ва хондан.'
-            },
-            contactsAndTreatment: {
-                title: 'Линзаҳои тамосӣ ва табобат',
-                description: 'Интихоби касбӣ ва нигоҳубин: рӯзонаи якбора истифодашаванда, ивазкунии ҳармоҳа, линзаҳои торикӣ барои астигматизм, линзаҳои мултифокалӣ барои пресбиопия. Табобат ва идораи беморон: конъюнктивитҳо (бактериалӣ, вирусӣ, аллергикӣ), синдроми хушкии чашм, спазми аккомодатсия, хастагии биноӣ. Пешгирии бемориҳои чашмӣ дар одамоне, ки бори бинишӣ баландро доранд (кор дар компютер, телефон, ҳангоми роннандагӣ). Таълими пурра ва таъиноти табобати медикаментозӣ.'
-            }
-        },
-        about: {
-            subtitle: 'Бо доктор Каримова шинос шавед',
-            title: 'Дараҷаи олӣ дар офтальмология аз соли 2017',
-            description1: 'Доктор Ситора Каримова 8 сол таҷрибаи ихтисосӣ дар нигоҳубини комили чашм дорад. Таҳсилёфтаи Донишгоҳи тиббии давлатии Тоҷикистон ба номи Абӯалӣ ибни Сино, ӯ технологияи пешрафтаро бо фалсафаи аввалан беморро муттаҳид мекунад.',
-            description2: 'Амалиёти ӯ ба таҳияи нақшаҳои шахсии табобат равона карда шудааст, ки ба эҳтиёҷоти беназири ҳар бемор ҷавобгӯ аст ва натиҷаҳои мувофиқ барои бинӣ ва саломатии дарозмуҳлати чашмро таъмин мекунад.',
-            credential1: 'Офтальмологи тасдиқшуда',
-            credential2: 'Узви Академияи Америкоии Офтальмология',
-            credential3: '8+ сол таҷрибаи клиникӣ'
-        },
-        stats: {
-            years: 'Солҳои<br>таҷриба'
-        },
-        testimonials: {
-            quote1: '"Доктор Каримова дар вақти маслиҳат барои интихоби айнак нигоҳубини беназир таъмин кард. Диққати ӯ ба тафсилот ва маҳорат ба ман кӯмак кард, то рецепти комил ёбам. Сифати нигоҳубин ва хидмати шахсӣ интизориҳои маро аз ҳад гузаронид."',
-            name1: 'Фаррух Раҳимов',
-            patient1: 'Бемори айнакӣ',
-            quote2: '"Баъд аз солҳои душворӣ бо линзаҳои тамосӣ, доктор Каримова ба ман кӯмак кард, то роҳаттарин линзаҳоро барои чашмонам ёбам. Маҳорат ва сабри ӯ ҳама чизро иваз кард. Акнун ман метавонам онҳоро тамоми рӯз бе ҳеҷ гуна ноароҳатӣ истифода барам. Пешниҳод мекунам!"',
-            name2: 'Дилшода Назарова',
-            patient2: 'Бемори линзаҳои тамосӣ',
-            quote3: '"Табобати глаукомае, ки ман гирифтам, ғоят олӣ буд. Доктор Каримова вақт гузоронд, то ҳама чизро шарҳ диҳад ва ман дар тамоми раванд худро осуда эҳсос кардам. Бинишии ман устувор аст, ташаккур ба маҳорати ӯ."',
-            name3: 'Рустам Шокиров',
-            patient3: 'Бемори глаукома',
-            quote4: '"Мушкилоти бинишии духтарам бо чунин ғамхорӣ ва диққат ташхис ва табобат карда шуд. Доктор Каримова бо кӯдакон усули ҳамоиш дорад ва тамоми раванд барои оилаи мо бидуни танг буд."',
-            name4: 'Гулнора Каримова',
-            patient4: 'Волидайни бемори кӯдак'
-        },
-        partners: {
-            title: 'Шарикони боэътимод'
-        },
-        glassesAnim: {
-            eyeline: 'Биниши, ки<br/><em>зиндагиро ба фокус меорад</em>',
-            tagline: 'Офтальмологияи касбӣ · Д-р Ситора Каримова'
-        },
-        visionDisorders: {
-            label: 'Намоиши интерактивӣ',
-            title: 'Ҷаҳонро бо чашмони дигар бинед',
-            subtitle: 'Бубинед, ки бемориҳои маъмули чашм ба зиндагии ҳаррӯза чӣ гуна таъсир мерасонанд',
-            tabs: {
-                healthy: 'Солим',
-                myopia: 'Наздикбинӣ',
-                cataracts: 'Катаракта',
-                glaucoma: 'Глаукома'
-            },
-            sliderMild: 'Сабук',
-            sliderSevere: 'Шадид',
-            hint: 'Ҳолатро интихоб кунед ва ползунро барои омӯзиши дараҷаи шиддат кашед'
-        },
-        visionTest: {
-            subtitle: 'Бинишатонро санҷед',
-            title: 'Санҷиши интерактивии бинӣ',
-            initialInstruction: 'Санҷиши интерактивии биниши моро санҷед. Дар масофаи 50 см аз экран нишинед. Як чашматонро пӯшонед.',
-            questionInstruction: 'Шумо ҳамаи аломатҳоро хонда метавонед?',
-            startButton: 'Оғози санҷиш',
-            yesButton: 'Ҳа',
-            noButton: 'Не',
-            restartButton: 'Аз нав оғоз кунед',
-            lineIndicator: 'Сатр',
-            of: 'аз',
-            testComplete: 'Санҷиш анҷом ёфт!',
-            yourVision: 'Сатҳи бинишии шумо:',
-            detailedResults: 'Натиҷаҳои муфассал:',
-            consultationReminder: 'Лутфан, бо доктор Каримова барои санҷиши касбии чашм маслиҳат кунед.',
-            disclaimer: 'Ин санҷиш танҳо барои мақсадҳои таълимӣ мебошад ва санҷиши касбии чашмро иваз намекунад.'
-        },
-        contact: {
-            subtitle: 'Бо мо тамос гиред',
-            title: 'Барои вохӯрӣ сабти ном кунед',
-            address: 'Суроға',
-            phone: 'Телефон',
-            email: 'Почтаи электронӣ',
-            hours: 'Соатҳои корӣ',
-            monFri: 'Душ - Ҷум: 9:00 - 18:00',
-            sat: 'Шан: 9:00 - 14:00',
-            sun: 'Якш: Пӯшида',
-            bookNow: 'Сабти ном',
-            callUs: 'Занг занед',
-            visitClinic: 'Клиникаи моро боздид кунед',
-            address1: 'Кӯчаи Беҳзод 14',
-            address2: 'Душанбе, Тоҷикистон',
-            locatedIn: 'Дар оптикаи Osse ҷойгир аст',
-            osseNote: 'Айнак тибқи рецепт дар ҳамон рӯз'
-        },
-        mobile: {
-            callNow: 'Занг занед',
-            bookWhatsApp: 'WhatsApp'
-        },
-        faq: {
-            subtitle: 'Саволҳои маъмул',
-            title: 'Саволҳои зиёд пурсидашаванда',
-            description: 'Ҷавобҳоро барои саволҳои маъмул дар бораи хидматҳои нигоҳубини чашми мо дар Душанбе ёбед',
-            question1: 'Чанд вақт аз чанд вақт бояд санҷиши чашм гузаронам?',
-            answer1: 'Одамони калонсол бе мушкилоти бинӣ бояд ҳар 2 сол санҷишҳои комили чашмро гузаронанд. Агар шумо айнак пӯшед, диабет дошта бошед ё таърихи оилавии бемориҳои чашм дошта бошед, санҷишҳои ҳарсола тавсия дода мешаванд. Кӯдакон бояд дар 6 моҳагӣ, 3 солагӣ, пеш аз мактаб ва баъд ҳар сол санҷиш гузаронанд.',
-            question2: 'Шумо кӯдаконро қабул мекунед? Аз кадом синну сол?',
-            answer2: 'Бале! Доктор Каримова таълими махсуси офтальмологияи кӯдакон дорад ва кӯдаконро аз кӯдакии бемазмун то синни наврасӣ бо истифода аз усулҳои санҷиши мутобиқ ба кӯдакон қабул мекунад.',
-            question3: 'Синдроми хушкии чашм чист ва чӣ тавр табобат карда мешавад?',
-            answer3: 'Синдроми хушкии чашм сӯхтори, хориш, сурхӣ ва обравии чашмро аз сабаби истеҳсоли ношоями ашк ё сифати бади пардаи ашкӣ боис мешавад. Табобат шомили қатраҳои чашмии рецептӣ, пробкаҳои панкталӣ, табобати компрессҳои гарм ва тағирдиҳои тарзи ҳаёт мебошад. Аксари беморон дар давоми 2-4 ҳафта беҳтаршавиро мебинанд.',
-            question4: 'Санҷиши комили чашм чанд вақт давом мекунад?',
-            answer4: 'Санҷиши комили чашм тақрибан 45-60 дақиқа барои боздиди аввали шумо давом мекунад. Ин шомили санҷиши тезии бинӣ, арзёбии рефраксия, андозагирии фишори дохилии чашм, арзёбии саломатии шабакия ва маслиҳат бо доктор Каримова мебошад.',
-            question5: 'Шумо линзаҳои тамосиро интихоб мекунед?',
-            answer5: 'Бале, мо интихоби касбии линзаҳои тамосиро пешниҳод мекунем, аз ҷумла андозагирии қавси роғаи чашм ва сифати пардаи ашкӣ. Мо линзаҳои рӯзонаи якбора истифодашаванда, ивазкунии ҳармоҳа, линзаҳои торикӣ барои астигматизм ва линзаҳои мултифокалӣ пешниҳод мекунем. Таълими комил ва дастгирии доимӣ дохил карда шудааст.',
-            question6: 'Клиникаи шумо дар Душанбе дар куҷост?',
-            answer6: 'Клиникаи мо дар оптикаи Osse, кӯчаи Беҳзод 14, Душанбе, Тоҷикистон ҷойгир аст. Пас аз қабул шумо метавонед айнакро тибқи рецепт дар ҳамон рӯз дар Osse созонед. Вақти чандири қабул, аз ҷумла кӯмаки таъҷилии ҳамон рӯз. Бо мо тамос гиред аз тариқи телефони +992 108 11 80 80.',
-            cta: 'Ҳанӯз саволҳо доред? Мо дар ин ҷо ҳастем, то кӯмак расонем.',
-            contactButton: 'Бо мо тамос гиред'
-        },
-        footer: {
-            tagline: 'Нигоҳубини истисноии чашм аз соли 2017',
-            servicesTitle: 'Хидматҳо',
-            eyeExams: 'Санҷишҳои комили чашм',
-            glasses: 'Айнаки тиббӣ',
-            contacts: 'Линзаҳои тамосӣ',
-            dryeye: 'Табобати хушкии чашм',
-            followup: 'Нигоҳубини доимӣ ва пайгирӣ',
-            pediatric: 'Нигоҳубини чашми кӯдакон',
-            infoTitle: 'Маълумот',
-            about: 'Дар бораи мо',
-            reviews: 'Тақризҳо',
-            contact: 'Тамос',
-            privacy: 'Сиёсати махфият',
-            connect: 'Пайваст',
-            copyright: '© 2025 Офтальмологияи Ситора Каримова. Ҳамаи ҳуқуқҳо маҳфузанд.'
-        }
-    }
-};
-
 // Wait for DOM to be fully loaded
 document.addEventListener('DOMContentLoaded', function() {
 
@@ -592,173 +28,56 @@ document.addEventListener('DOMContentLoaded', function() {
 
 
     // ===========================
-    // Language Switching System
+    // Language Switcher (navigation only — content is rendered server-side by Eleventy)
     // ===========================
-    // Detect language from URL parameter or localStorage or default to 'en'
-    const urlParams = new URLSearchParams(window.location.search);
-    const urlLang = urlParams.get('lang');
-    let currentLang = urlLang || localStorage.getItem('language') || 'en';
+    (function () {
+        const currentLang = document.documentElement.lang || 'ru';
+        const langMap = { en: 'EN', ru: 'RU', tg: 'RU', tj: 'TJ' };
 
-    // Validate language code (only allow en, ru, tj)
-    if (!['en', 'ru', 'tj'].includes(currentLang)) {
-        currentLang = 'en';
-    }
-
-    // Function to get nested translation value
-    function getTranslation(lang, key) {
-        const keys = key.split('.');
-        let value = translations[lang];
-
-        for (let k of keys) {
-            if (value && value[k] !== undefined) {
-                value = value[k];
-            } else {
-                return null;
-            }
-        }
-        return value;
-    }
-
-    // Function to update page language
-    function updateLanguage(lang) {
-        currentLang = lang;
-        localStorage.setItem('language', lang);
-
-        // Update all elements with data-i18n attribute
-        document.querySelectorAll('[data-i18n]').forEach(element => {
-            const key = element.getAttribute('data-i18n');
-            const translation = getTranslation(lang, key);
-
-            if (translation) {
-                element.innerHTML = translation;
-            }
-        });
-
-        // Update current language display
-        const langMap = { en: 'EN', ru: 'RU', tj: 'TJ' };
+        // Update the "current language" badge in the nav
         const currentLangDisplay = document.getElementById('current-lang');
         if (currentLangDisplay) {
-            currentLangDisplay.textContent = langMap[lang];
+            currentLangDisplay.textContent = langMap[currentLang] || currentLang.toUpperCase();
         }
 
-        // Update html lang attribute
-        document.documentElement.setAttribute('lang', lang);
-
-        // Update browser URL without reloading (for better SEO and bookmarking)
-        const url = new URL(window.location);
-        if (lang === 'en') {
-            url.searchParams.delete('lang');
-        } else {
-            url.searchParams.set('lang', lang);
+        // Clicking a lang option navigates to the sibling locale page.
+        // The URL structure is /<lang>/, so we replace the first path segment.
+        function navigateToLang(target) {
+            if (!target) return;
+            const parts = window.location.pathname.split('/').filter(Boolean);
+            if (['en', 'ru', 'tj'].includes(parts[0])) {
+                parts[0] = target;
+            } else {
+                parts.unshift(target);
+            }
+            window.location.href = '/' + parts.join('/') + (parts.length === 1 ? '/' : '');
         }
-        window.history.replaceState({}, '', url);
 
-        // Dispatch custom event for other modules (like vision test)
-        document.dispatchEvent(new CustomEvent('languageChanged', { detail: { lang } }));
-    }
-
-    // Initialize language on page load
-    updateLanguage(currentLang);
-
-    // Desktop language switcher
-    const langBtn = document.getElementById('lang-btn');
-    const langMenu = document.getElementById('lang-menu');
-
-    if (langBtn && langMenu) {
-        langBtn.addEventListener('click', function(e) {
-            e.stopPropagation();
-            const isHidden = langMenu.classList.contains('hidden');
-            langMenu.classList.toggle('hidden');
-            langBtn.setAttribute('aria-expanded', !isHidden);
-        });
-
-        // Keyboard navigation for language menu
-        langBtn.addEventListener('keydown', function(e) {
-            if (e.key === 'Enter' || e.key === ' ') {
+        document.querySelectorAll('.lang-option, .lang-option-mobile').forEach(el => {
+            el.addEventListener('click', function (e) {
                 e.preventDefault();
-                langBtn.click();
-            } else if (e.key === 'ArrowDown') {
-                e.preventDefault();
-                langMenu.classList.remove('hidden');
-                langBtn.setAttribute('aria-expanded', 'true');
-                const firstOption = langMenu.querySelector('.lang-option');
-                if (firstOption) firstOption.focus();
-            }
-        });
-
-        // Close dropdown when clicking outside
-        document.addEventListener('click', function(e) {
-            if (!langBtn.contains(e.target) && !langMenu.contains(e.target)) {
-                langMenu.classList.add('hidden');
-                langBtn.setAttribute('aria-expanded', 'false');
-            }
-        });
-
-        // Language option clicks
-        const langOptions = document.querySelectorAll('.lang-option');
-        langOptions.forEach((option, index) => {
-            option.addEventListener('click', function() {
-                const selectedLang = this.getAttribute('data-lang');
-                updateLanguage(selectedLang);
-                langMenu.classList.add('hidden');
-                langBtn.setAttribute('aria-expanded', 'false');
-                langBtn.focus();
+                navigateToLang(this.getAttribute('data-lang'));
             });
+        });
 
-            // Keyboard navigation within dropdown
-            option.addEventListener('keydown', function(e) {
-                if (e.key === 'ArrowDown') {
-                    e.preventDefault();
-                    const next = langOptions[index + 1];
-                    if (next) next.focus();
-                } else if (e.key === 'ArrowUp') {
-                    e.preventDefault();
-                    if (index === 0) {
-                        langBtn.focus();
-                        langMenu.classList.add('hidden');
-                        langBtn.setAttribute('aria-expanded', 'false');
-                    } else {
-                        langOptions[index - 1].focus();
-                    }
-                } else if (e.key === 'Escape') {
+        // Desktop dropdown open/close (visual only)
+        const langBtn = document.getElementById('lang-btn');
+        const langMenu = document.getElementById('lang-menu');
+        if (langBtn && langMenu) {
+            langBtn.addEventListener('click', function (e) {
+                e.stopPropagation();
+                const isHidden = langMenu.classList.contains('hidden');
+                langMenu.classList.toggle('hidden');
+                langBtn.setAttribute('aria-expanded', String(isHidden));
+            });
+            document.addEventListener('click', function (e) {
+                if (!langBtn.contains(e.target) && !langMenu.contains(e.target)) {
                     langMenu.classList.add('hidden');
                     langBtn.setAttribute('aria-expanded', 'false');
-                    langBtn.focus();
                 }
             });
-        });
-    }
-
-    // Mobile language switcher
-    const mobileLangOptions = document.querySelectorAll('.lang-option-mobile');
-    mobileLangOptions.forEach(option => {
-        option.addEventListener('click', function() {
-            const selectedLang = this.getAttribute('data-lang');
-            updateLanguage(selectedLang);
-
-            // Close mobile menu after language change
-            const mobileMenu = document.getElementById('mobile-menu');
-            const mobileMenuBtn = document.getElementById('mobile-menu-btn');
-            const backdrop = document.querySelector('.mobile-menu-backdrop');
-
-            if (mobileMenu && mobileMenuBtn) {
-                mobileMenu.classList.add('hidden');
-                mobileMenu.classList.remove('open');
-
-                // Remove backdrop
-                if (backdrop) {
-                    backdrop.classList.remove('active');
-                }
-
-                const icon = mobileMenuBtn.querySelector('i');
-                if (icon) {
-                    icon.classList.remove('fa-times');
-                    icon.classList.add('fa-bars');
-                }
-            }
-        });
-    });
-
+        }
+    })();
 
     // ===========================
     // Mobile Menu Toggle with Backdrop
@@ -1301,12 +620,12 @@ document.addEventListener('DOMContentLoaded', function() {
                 // Collapse row
                 description.classList.remove('expanded');
                 cardIcon.classList.remove('rotate-180');
-                cardText.textContent = translations[currentLang].services.readMore;
+                cardText.textContent = (window.__T__ && window.__T__.services.readMore);
             } else {
                 // Expand row
                 description.classList.add('expanded');
                 cardIcon.classList.add('rotate-180');
-                cardText.textContent = translations[currentLang].services.readLess;
+                cardText.textContent = (window.__T__ && window.__T__.services.readLess);
             }
         });
     }
@@ -1328,22 +647,6 @@ document.addEventListener('DOMContentLoaded', function() {
             const card = this.closest('.service-card-minimal');
             const rowIndex = card.getAttribute('data-row');
             toggleServiceRow(rowIndex);
-        });
-    });
-
-    // Listen for language changes to update toggle button text
-    document.addEventListener('languageChanged', function(e) {
-        serviceToggles.forEach(toggle => {
-            const card = toggle.closest('.service-card-minimal');
-            const description = card.querySelector('.service-description');
-            const text = toggle.querySelector('.toggle-text');
-
-            // Update text based on current state and new language
-            if (description.classList.contains('expanded')) {
-                text.textContent = translations[e.detail.lang].services.readLess;
-            } else {
-                text.textContent = translations[e.detail.lang].services.readMore;
-            }
         });
     });
 

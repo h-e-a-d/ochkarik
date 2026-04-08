@@ -6,3 +6,7 @@
 .playwright-mcp/
 .superpowers/
 .vscode/
+
+# Node / Eleventy
+node_modules/
+_site/

@@ -1,5 +1,15 @@
+---
+pagination:
+  data: locales
+  size: 1
+  alias: lang
+permalink: "/{{ lang }}/index.html"
+eleventyComputed:
+  title: "{{ locales[lang].strings.meta.title }}"
+---
+{%- set t = locales[lang].strings -%}
 <!DOCTYPE html>
-<html lang="en">
+<html lang="{{ locales[lang].htmlLang }}">
 <head>
     <!-- Google Tag Manager -->
     <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
@@ -12,8 +22,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes, viewport-fit=cover">
 
-    <title>Comprehensive Eye Exams Dushanbe | Dr. Sitora Karimova - Expert Ophthalmologist</title>
-    <meta name="description" content="Dr. Sitora Karimova — ophthalmologist in Dushanbe at Osse Optical Store. Eye exams, prescription glasses &amp; contact lenses. Fill your prescription same-day. 8+ years experience.">
+    <title>{{ t.meta.title }}</title>
+    <meta name="description" content="{{ t.meta.description }}">
     <meta name="author" content="Dr. Sitora Karimova">
 
     <!-- Geo targeting -->
@@ -26,32 +36,32 @@
     <meta name="googlebot" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1">
 
     <!-- Canonical URL - Always points to the base URL without language parameter -->
-    <link rel="canonical" href="https://sitorakarimi.com/">
+    <link rel="canonical" href="https://sitorakarimi.com/{{ lang }}/">
 
     <!-- Hreflang tags for multilingual SEO -->
-    <link rel="alternate" hreflang="en" href="https://sitorakarimi.com/">
-    <link rel="alternate" hreflang="ru" href="https://sitorakarimi.com/?lang=ru">
-    <link rel="alternate" hreflang="tg" href="https://sitorakarimi.com/?lang=tj">
-    <link rel="alternate" hreflang="x-default" href="https://sitorakarimi.com/">
+    {%- for code, loc in locales %}
+    <link rel="alternate" hreflang="{{ loc.hreflang }}" href="https://sitorakarimi.com/{{ code }}/">
+    {%- endfor %}
+    <link rel="alternate" hreflang="x-default" href="https://sitorakarimi.com/ru/">
 
     <!-- Open Graph / Facebook -->
     <meta property="og:type" content="website">
-    <meta property="og:url" content="https://sitorakarimi.com/">
+    <meta property="og:url" content="https://sitorakarimi.com/{{ lang }}/">
     <meta property="og:site_name" content="Dr. Sitora Karimova Ophthalmology">
-    <meta property="og:title" content="Dr. Sitora Karimova - Expert Ophthalmologist in Dushanbe">
-    <meta property="og:description" content="Dr. Sitora Karimova — ophthalmologist in Dushanbe at Osse Optical Store. Eye exams, prescription glasses &amp; contact lenses. Fill your prescription same-day. 8+ years experience.">
+    <meta property="og:title" content="{{ t.meta.ogTitle or t.meta.title }}">
+    <meta property="og:description" content="{{ t.meta.description }}">
     <meta property="og:image" content="https://sitorakarimi.com/assets/images/og-image.webp">
     <meta property="og:image:width" content="1200">
     <meta property="og:image:height" content="630">
-    <meta property="og:locale" content="en_US">
+    <meta property="og:locale" content="{{ locales[lang].htmlLang }}">
     <meta property="og:locale:alternate" content="ru_RU">
     <meta property="og:locale:alternate" content="tg_TJ">
 
     <!-- Twitter -->
     <meta property="twitter:card" content="summary_large_image">
     <meta property="twitter:url" content="https://sitorakarimi.com/">
-    <meta property="twitter:title" content="Dr. Sitora Karimova - Expert Ophthalmologist in Dushanbe">
-    <meta property="twitter:description" content="Dr. Sitora Karimova — ophthalmologist in Dushanbe at Osse Optical Store. Eye exams, prescription glasses &amp; contact lenses. Fill your prescription same-day. 8+ years experience.">
+    <meta property="twitter:title" content="{{ t.meta.ogTitle or t.meta.title }}">
+    <meta property="twitter:description" content="{{ t.meta.description }}">
     <meta property="twitter:image" content="https://sitorakarimi.com/assets/images/og-image.webp">
 
     <!-- Tailwind CSS -->
@@ -76,8 +86,8 @@
     </script>
 
     <!-- Favicon -->
-    <link rel="icon" type="image/svg+xml" href="favicon.svg">
-    <link rel="alternate icon" href="favicon.svg">
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+    <link rel="alternate icon" href="/favicon.svg">
 
     <!-- Preconnect to external origins -->
     <link rel="preconnect" href="https://cdn.tailwindcss.com" crossorigin>
@@ -90,7 +100,7 @@
     <noscript><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"></noscript>
 
     <!-- Custom Styles -->
-    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="/styles.css">
 
     <!-- Schema.org Structured Data - Enhanced with LocalBusiness and Reviews -->
     <script type="application/ld+json">
@@ -433,12 +443,12 @@
                     <span class="font-semibold text-lg text-white">Dr. Sitora Karimova</span>
                 </div>
                 <div class="hidden md:flex items-center space-x-8">
-                    <a href="#home" class="nav-link-light" data-i18n="nav.home">Home</a>
-                    <a href="#services" class="nav-link-light" data-i18n="nav.services">Services</a>
-                    <a href="#about" class="nav-link-light" data-i18n="nav.about">About</a>
-                    <a href="#testimonials" class="nav-link-light" data-i18n="nav.reviews">Reviews</a>
-                    <a href="#faq" class="nav-link-light" data-i18n="nav.faq">FAQ</a>
-                    <a href="#contact" class="nav-link-light" data-i18n="nav.contact">Contact</a>
+                    <a href="#home" class="nav-link-light" data-i18n="nav.home">{{ t.nav.home | safe }}</a>
+                    <a href="#services" class="nav-link-light" data-i18n="nav.services">{{ t.nav.services | safe }}</a>
+                    <a href="#about" class="nav-link-light" data-i18n="nav.about">{{ t.nav.about | safe }}</a>
+                    <a href="#testimonials" class="nav-link-light" data-i18n="nav.reviews">{{ t.nav.reviews | safe }}</a>
+                    <a href="#faq" class="nav-link-light" data-i18n="nav.faq">{{ t.nav.faq | safe }}</a>
+                    <a href="#contact" class="nav-link-light" data-i18n="nav.contact">{{ t.nav.contact | safe }}</a>
 
                     <!-- Language Switcher -->
                     <div class="relative language-switcher">
@@ -462,16 +472,16 @@
         <!-- Mobile Menu -->
         <div id="mobile-menu" class="hidden md:hidden bg-navy-900 border-t border-white/10">
             <div class="px-4 py-3 space-y-3">
-                <a href="#home" class="block nav-link-light" data-i18n="nav.home">Home</a>
-                <a href="#services" class="block nav-link-light" data-i18n="nav.services">Services</a>
-                <a href="#about" class="block nav-link-light" data-i18n="nav.about">About</a>
-                <a href="#testimonials" class="block nav-link-light" data-i18n="nav.reviews">Reviews</a>
-                <a href="#faq" class="block nav-link-light" data-i18n="nav.faq">FAQ</a>
-                <a href="#contact" class="block nav-link-light" data-i18n="nav.contact">Contact</a>
+                <a href="#home" class="block nav-link-light" data-i18n="nav.home">{{ t.nav.home | safe }}</a>
+                <a href="#services" class="block nav-link-light" data-i18n="nav.services">{{ t.nav.services | safe }}</a>
+                <a href="#about" class="block nav-link-light" data-i18n="nav.about">{{ t.nav.about | safe }}</a>
+                <a href="#testimonials" class="block nav-link-light" data-i18n="nav.reviews">{{ t.nav.reviews | safe }}</a>
+                <a href="#faq" class="block nav-link-light" data-i18n="nav.faq">{{ t.nav.faq | safe }}</a>
+                <a href="#contact" class="block nav-link-light" data-i18n="nav.contact">{{ t.nav.contact | safe }}</a>
 
                 <!-- Mobile Language Switcher -->
                 <div class="pt-3 border-t border-white/10">
-                    <p class="text-xs uppercase tracking-widest text-white/60 mb-2" data-i18n="nav.language">Language</p>
+                    <p class="text-xs uppercase tracking-widest text-white/60 mb-2" data-i18n="nav.language">{{ t.nav.language | safe }}</p>
                     <div class="flex gap-2">
                         <button data-lang="en" class="lang-option-mobile flex-1 px-3 py-2 text-sm text-white bg-white/10 rounded hover:bg-coral transition-colors">EN</button>
                         <button data-lang="ru" class="lang-option-mobile flex-1 px-3 py-2 text-sm text-white bg-white/10 rounded hover:bg-coral transition-colors">RU</button>
@@ -487,7 +497,7 @@
         <div id="main-content"></div>
         <!-- Background Image -->
         <div class="absolute inset-0 z-0">
-            <img src="assets/images/hero.png"
+            <img src="/assets/images/hero.png"
                  alt="Dr. Sitora Karimova's ophthalmology practice - Professional eye care services in Dushanbe, Tajikistan"
                  loading="eager"
                  width="1920"
@@ -499,20 +509,12 @@
         <!-- Hero Content -->
         <div class="relative z-10 w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="max-w-xl mr-auto ml-0 lg:ml-24 text-left text-white hero-text-enhanced">
-                <p class="text-sm uppercase tracking-widest mb-4 text-white/95" data-i18n="hero.subtitle" style="text-shadow: 0 2px 8px rgba(0,0,0,0.3);">Ophthalmology Practice</p>
-                <h1 class="text-4xl md:text-6xl font-light mb-6 leading-tight text-white" data-i18n="hero.title" style="text-shadow: 0 4px 12px rgba(0,0,0,0.4);">
-                    Board-Certified Ophthalmologist in Dushanbe, Tajikistan
-                </h1>
-                <p class="text-lg md:text-xl mb-12 text-white/95 font-light" data-i18n="hero.description" style="text-shadow: 0 2px 8px rgba(0,0,0,0.3);">
-                    Experience personalized <a href="#services" class="underline hover:text-coral transition-colors">eye care services</a> designed for your unique vision needs. <a href="#services" class="underline hover:text-coral transition-colors">Comprehensive eye exams</a> near me, serving Dushanbe and all of Tajikistan.
-                </p>
+                <p class="text-sm uppercase tracking-widest mb-4 text-white/95" data-i18n="hero.subtitle" style="text-shadow: 0 2px 8px rgba(0,0,0,0.3);">{{ t.hero.subtitle | safe }}</p>
+                <h1 class="text-4xl md:text-6xl font-light mb-6 leading-tight text-white" data-i18n="hero.title" style="text-shadow: 0 4px 12px rgba(0,0,0,0.4);">{{ t.hero.title | safe }}</h1>
+                <p class="text-lg md:text-xl mb-12 text-white/95 font-light" data-i18n="hero.description" style="text-shadow: 0 2px 8px rgba(0,0,0,0.3);">{{ t.hero.description | safe }}</p>
                 <div class="flex flex-col sm:flex-row gap-4">
-                    <a href="#services" class="btn-navy" data-i18n="hero.ourServices">
-                        Our Services
-                    </a>
-                    <a href="#contact" class="btn-outline-white" data-i18n="hero.findUs">
-                        Find Us
-                    </a>
+                    <a href="#services" class="btn-navy" data-i18n="hero.ourServices">{{ t.hero.ourServices | safe }}</a>
+                    <a href="#contact" class="btn-outline-white" data-i18n="hero.findUs">{{ t.hero.findUs | safe }}</a>
                 </div>
             </div>
         </div>
@@ -527,8 +529,8 @@
     <section id="services" class="py-24 bg-navy-900">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="text-center mb-20">
-                <p class="text-sm uppercase tracking-widest mb-3 text-coral" data-i18n="services.subtitle">What We Offer</p>
-                <h2 class="text-4xl md:text-5xl font-light text-white mb-4" data-i18n="services.title">Core Services</h2>
+                <p class="text-sm uppercase tracking-widest mb-3 text-coral" data-i18n="services.subtitle">{{ t.services.subtitle | safe }}</p>
+                <h2 class="text-4xl md:text-5xl font-light text-white mb-4" data-i18n="services.title">{{ t.services.title | safe }}</h2>
             </div>
 
             <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-12">
@@ -537,14 +539,14 @@
                     <div class="text-coral mb-4">
                         <i class="fas fa-eye text-4xl"></i>
                     </div>
-                    <h3 class="text-xl font-medium mb-3 text-white" data-i18n="services.comprehensive.title">Comprehensive Eye Examination</h3>
+                    <h3 class="text-xl font-medium mb-3 text-white" data-i18n="services.comprehensive.title">{{ t.services.comprehensive.title | safe }}</h3>
                     <div class="service-description line-clamp-5">
                         <p class="text-white/70 font-light mb-3">
-                            <span data-i18n="services.comprehensive.intro">Full eye health assessment using advanced diagnostic technologies.</span>
-                            <span data-i18n="services.comprehensive.diagnosticsTitle"><strong>Vision and correction diagnostics:</strong></span>
-                            <span data-i18n="services.comprehensive.diagnosticsList">— Visual acuity testing (visometry) — Autorefractometry — Ophthalmoscopy — Keratometry — Glasses prescription: monofocal, bifocal, and progressive — Soft contact lens fitting (spherical and toric)</span>
-                            <span data-i18n="services.comprehensive.treatmentTitle"><strong>Diagnosis and treatment of eye diseases:</strong></span>
-                            <span data-i18n="services.comprehensive.treatmentList">— Conjunctivitis — Dry eye syndrome — Accommodation spasm — Asthenopia and other functional vision disorders</span>
+                            <span data-i18n="services.comprehensive.intro">{{ t.services.comprehensive.intro | safe }}</span>
+                            <span data-i18n="services.comprehensive.diagnosticsTitle">{{ t.services.comprehensive.diagnosticsTitle | safe }}</span>
+                            <span data-i18n="services.comprehensive.diagnosticsList">{{ t.services.comprehensive.diagnosticsList | safe }}</span>
+                            <span data-i18n="services.comprehensive.treatmentTitle">{{ t.services.comprehensive.treatmentTitle | safe }}</span>
+                            <span data-i18n="services.comprehensive.treatmentList">{{ t.services.comprehensive.treatmentList | safe }}</span>
                         </p>
                     </div>
                     <button class="service-toggle mt-3 text-coral hover:text-white transition-colors text-sm font-medium flex items-center" data-row="0">
@@ -558,11 +560,9 @@
                     <div class="text-coral mb-4">
                         <i class="fas fa-chart-line text-4xl"></i>
                     </div>
-                    <h3 class="text-xl font-medium mb-3 text-white" data-i18n="services.visometry.title">Visual Acuity Testing (Visometry)</h3>
+                    <h3 class="text-xl font-medium mb-3 text-white" data-i18n="services.visometry.title">{{ t.services.visometry.title | safe }}</h3>
                     <div class="service-description line-clamp-5">
-                        <p class="text-white/70 font-light" data-i18n="services.visometry.description">
-                            Checks how well you see at distance and near using Sivtsev, Golovin, and Landolt charts or projection systems. Conducted with and without correction (with/without glasses) to determine your precise vision level.
-                        </p>
+                        <p class="text-white/70 font-light" data-i18n="services.visometry.description">{{ t.services.visometry.description | safe }}</p>
                     </div>
                     <button class="service-toggle mt-3 text-coral hover:text-white transition-colors text-sm font-medium flex items-center" data-row="0">
                         <span class="toggle-text">Read More</span>
@@ -575,11 +575,9 @@
                     <div class="text-coral mb-4">
                         <i class="fas fa-microscope text-4xl"></i>
                     </div>
-                    <h3 class="text-xl font-medium mb-3 text-white" data-i18n="services.autorefractometry.title">Objective Refraction Determination (Autorefractometry)</h3>
+                    <h3 class="text-xl font-medium mb-3 text-white" data-i18n="services.autorefractometry.title">{{ t.services.autorefractometry.title | safe }}</h3>
                     <div class="service-description line-clamp-5">
-                        <p class="text-white/70 font-light" data-i18n="services.autorefractometry.description">
-                            Uses an autorefractometer to measure your eye's refractive power objectively. Determines the presence of myopia (nearsightedness), hyperopia (farsightedness), or astigmatism with precision.
-                        </p>
+                        <p class="text-white/70 font-light" data-i18n="services.autorefractometry.description">{{ t.services.autorefractometry.description | safe }}</p>
                     </div>
                     <button class="service-toggle mt-3 text-coral hover:text-white transition-colors text-sm font-medium flex items-center" data-row="0">
                         <span class="toggle-text">Read More</span>
@@ -592,11 +590,9 @@
                     <div class="text-coral mb-4">
                         <i class="fas fa-glasses text-4xl"></i>
                     </div>
-                    <h3 class="text-xl font-medium mb-3 text-white" data-i18n="services.subjective.title">Subjective Refractometry (Glasses Prescription)</h3>
+                    <h3 class="text-xl font-medium mb-3 text-white" data-i18n="services.subjective.title">{{ t.services.subjective.title | safe }}</h3>
                     <div class="service-description line-clamp-5">
-                        <p class="text-white/70 font-light" data-i18n="services.subjective.description">
-                            Selection of optical lenses for maximum visual acuity using trial frames with lens sets. Our optometrist determines which diopter provides the best vision correction tailored to your unique needs.
-                        </p>
+                        <p class="text-white/70 font-light" data-i18n="services.subjective.description">{{ t.services.subjective.description | safe }}</p>
                     </div>
                     <button class="service-toggle mt-3 text-coral hover:text-white transition-colors text-sm font-medium flex items-center" data-row="1">
                         <span class="toggle-text">Read More</span>
@@ -609,11 +605,9 @@
                     <div class="text-coral mb-4">
                         <i class="fas fa-expand text-4xl"></i>
                     </div>
-                    <h3 class="text-xl font-medium mb-3 text-white" data-i18n="services.accommodation.title">Accommodation Assessment</h3>
+                    <h3 class="text-xl font-medium mb-3 text-white" data-i18n="services.accommodation.title">{{ t.services.accommodation.title | safe }}</h3>
                     <div class="service-description line-clamp-5">
-                        <p class="text-white/70 font-light" data-i18n="services.accommodation.description">
-                            Examines your eye's ability to focus at different distances. Determines accommodation reserve and stability, especially important for diagnosing eye strain, accommodation spasm, and focusing problems.
-                        </p>
+                        <p class="text-white/70 font-light" data-i18n="services.accommodation.description">{{ t.services.accommodation.description | safe }}</p>
                     </div>
                     <button class="service-toggle mt-3 text-coral hover:text-white transition-colors text-sm font-medium flex items-center" data-row="1">
                         <span class="toggle-text">Read More</span>
@@ -626,11 +620,9 @@
                     <div class="text-coral mb-4">
                         <i class="fas fa-circle-notch text-4xl"></i>
                     </div>
-                    <h3 class="text-xl font-medium mb-3 text-white" data-i18n="services.keratometry.title">Keratometry</h3>
+                    <h3 class="text-xl font-medium mb-3 text-white" data-i18n="services.keratometry.title">{{ t.services.keratometry.title | safe }}</h3>
                     <div class="service-description line-clamp-5">
-                        <p class="text-white/70 font-light" data-i18n="services.keratometry.description">
-                            Measures corneal curvature with precision. Essential for contact lens fitting and helps detect astigmatism or keratoconus. Provides critical data for accurate vision correction.
-                        </p>
+                        <p class="text-white/70 font-light" data-i18n="services.keratometry.description">{{ t.services.keratometry.description | safe }}</p>
                     </div>
                     <button class="service-toggle mt-3 text-coral hover:text-white transition-colors text-sm font-medium flex items-center" data-row="1">
                         <span class="toggle-text">Read More</span>
@@ -643,11 +635,9 @@
                     <div class="text-coral mb-4">
                         <i class="fas fa-eye-dropper text-4xl"></i>
                     </div>
-                    <h3 class="text-xl font-medium mb-3 text-white" data-i18n="services.ophthalmoscopy.title">Fundus Examination (Ophthalmoscopy)</h3>
+                    <h3 class="text-xl font-medium mb-3 text-white" data-i18n="services.ophthalmoscopy.title">{{ t.services.ophthalmoscopy.title | safe }}</h3>
                     <div class="service-description line-clamp-5">
-                        <p class="text-white/70 font-light" data-i18n="services.ophthalmoscopy.description">
-                            Determines the condition of your retina, optic nerve (optic disc), retinal vessels, and macula (yellow spot). Helps detect glaucoma, optic nerve edema or atrophy, diabetic and hypertensive retinopathy, retinal detachment, inflammation, and fundus tumors.
-                        </p>
+                        <p class="text-white/70 font-light" data-i18n="services.ophthalmoscopy.description">{{ t.services.ophthalmoscopy.description | safe }}</p>
                     </div>
                     <button class="service-toggle mt-3 text-coral hover:text-white transition-colors text-sm font-medium flex items-center" data-row="2">
                         <span class="toggle-text">Read More</span>
@@ -660,11 +650,9 @@
                     <div class="text-coral mb-4">
                         <i class="fas fa-store text-4xl"></i>
                     </div>
-                    <h3 class="text-xl font-medium mb-3 text-white" data-i18n="services.prescriptionGlasses.title">Prescription Glasses</h3>
+                    <h3 class="text-xl font-medium mb-3 text-white" data-i18n="services.prescriptionGlasses.title">{{ t.services.prescriptionGlasses.title | safe }}</h3>
                     <div class="service-description line-clamp-5">
-                        <p class="text-white/70 font-light" data-i18n="services.prescriptionGlasses.description">
-                            Custom eyewear adapted to your vision needs and style. Wide selection of frame styles, lens types (monofocal, progressive, bifocal), and specialized coatings including anti-reflective, blue light blocking, and UV protection. Professional fitting by Dr. Karimova for all ages.
-                        </p>
+                        <p class="text-white/70 font-light" data-i18n="services.prescriptionGlasses.description">{{ t.services.prescriptionGlasses.description | safe }}</p>
                     </div>
                     <button class="service-toggle mt-3 text-coral hover:text-white transition-colors text-sm font-medium flex items-center" data-row="2">
                         <span class="toggle-text">Read More</span>
@@ -677,11 +665,9 @@
                     <div class="text-coral mb-4">
                         <i class="fas fa-circle-dot text-4xl"></i>
                     </div>
-                    <h3 class="text-xl font-medium mb-3 text-white" data-i18n="services.contactsAndTreatment.title">Contact Lenses & Treatment</h3>
+                    <h3 class="text-xl font-medium mb-3 text-white" data-i18n="services.contactsAndTreatment.title">{{ t.services.contactsAndTreatment.title | safe }}</h3>
                     <div class="service-description line-clamp-5">
-                        <p class="text-white/70 font-light" data-i18n="services.contactsAndTreatment.description">
-                            Professional fitting and care: daily disposable, monthly replacement, toric lenses for astigmatism, multifocal lenses. Treatment and patient management for conjunctivitis, dry eye syndrome, accommodation spasm, and visual fatigue. Prevention for high visual load (computer work, driving). Complete training and medication management.
-                        </p>
+                        <p class="text-white/70 font-light" data-i18n="services.contactsAndTreatment.description">{{ t.services.contactsAndTreatment.description | safe }}</p>
                     </div>
                     <button class="service-toggle mt-3 text-coral hover:text-white transition-colors text-sm font-medium flex items-center" data-row="2">
                         <span class="toggle-text">Read More</span>
@@ -698,28 +684,24 @@
             <!-- Left: Content -->
             <div class="flex items-center justify-center py-24 px-4 sm:px-6 lg:px-16">
                 <div class="max-w-xl">
-                    <p class="text-sm uppercase tracking-widest mb-3 text-coral" data-i18n="about.subtitle">Meet Dr. Karimova</p>
-                    <h2 class="text-4xl md:text-5xl font-light mb-6 text-navy-900" data-i18n="about.title">Excellence in ophthalmology since 2017</h2>
-                    <p class="text-lg text-gray-600 mb-6 font-light leading-relaxed" data-i18n="about.description1">
-                        Dr. Sitora Karimova brings 8 years of specialized experience in comprehensive eye care. Trained at Avicenna Tajik State Medical University, she combines cutting-edge technology with a patient-first philosophy.
-                    </p>
-                    <p class="text-lg text-gray-600 mb-6 font-light leading-relaxed" data-i18n="about.description2">
-                        Her practice focuses on delivering personalized consultation that address each patient's unique needs, from <a href="#services" class="text-coral hover:underline">prescription glasses</a> to <a href="#services" class="text-coral hover:underline">contact lens fitting</a>, ensuring optimal vision outcomes and long-term eye health.
-                    </p>
+                    <p class="text-sm uppercase tracking-widest mb-3 text-coral" data-i18n="about.subtitle">{{ t.about.subtitle | safe }}</p>
+                    <h2 class="text-4xl md:text-5xl font-light mb-6 text-navy-900" data-i18n="about.title">{{ t.about.title | safe }}</h2>
+                    <p class="text-lg text-gray-600 mb-6 font-light leading-relaxed" data-i18n="about.description1">{{ t.about.description1 | safe }}</p>
+                    <p class="text-lg text-gray-600 mb-6 font-light leading-relaxed" data-i18n="about.description2">{{ t.about.description2 | safe }}</p>
 
                     <!-- Credentials -->
                     <div class="space-y-3 mb-8">
                         <div class="flex items-center text-gray-700">
                             <div class="w-1 h-1 bg-coral rounded-full mr-3"></div>
-                            <span class="font-light" data-i18n="about.credential1">Certified Ophthalmologist</span>
+                            <span class="font-light" data-i18n="about.credential1">{{ t.about.credential1 | safe }}</span>
                         </div>
                         <div class="flex items-center text-gray-700">
                             <div class="w-1 h-1 bg-coral rounded-full mr-3"></div>
-                            <span class="font-light" data-i18n="about.credential2">Fellow, American Academy of Ophthalmology</span>
+                            <span class="font-light" data-i18n="about.credential2">{{ t.about.credential2 | safe }}</span>
                         </div>
                         <div class="flex items-center text-gray-700">
                             <div class="w-1 h-1 bg-coral rounded-full mr-3"></div>
-                            <span class="font-light" data-i18n="about.credential3">8+ Years Clinical Experience</span>
+                            <span class="font-light" data-i18n="about.credential3">{{ t.about.credential3 | safe }}</span>
                         </div>
                     </div>
                 </div>
@@ -729,13 +711,13 @@
             <div class="relative h-full min-h-[600px] about-carousel">
                 <!-- Carousel Images -->
                 <div class="carousel-track absolute inset-0">
-                    <img src="assets/images/about-1.jpg"
+                    <img src="/assets/images/about-1.jpg"
                          alt="Dr. Sitora Karimova - Board certified ophthalmologist with 8 years experience at her Dushanbe eye care clinic"
                          loading="lazy"
                          width="800"
                          height="600"
                          class="carousel-slide active absolute inset-0 w-full h-full object-cover transition-opacity duration-700">
-                    <img src="assets/images/about-2.jpg"
+                    <img src="/assets/images/about-2.jpg"
                          alt="Dr. Karimova conducting comprehensive eye examination with modern diagnostic equipment in Dushanbe"
                          loading="lazy"
                          width="800"
@@ -760,8 +742,8 @@
 
           <!-- Blurry text layer (full screen, constant blur) -->
           <div class="glasses-anim-text-layer" id="glasses-anim-blurry">
-            <div class="glasses-anim-eyeline" data-i18n="glassesAnim.eyeline">Vision that brings<br/><em>life into focus</em></div>
-            <div class="glasses-anim-tagline" data-i18n="glassesAnim.tagline">Expert ophthalmology · Dr. Sitora Karimova</div>
+            <div class="glasses-anim-eyeline" data-i18n="glassesAnim.eyeline">{{ t.glassesAnim.eyeline | safe }}</div>
+            <div class="glasses-anim-tagline" data-i18n="glassesAnim.tagline">{{ t.glassesAnim.tagline | safe }}</div>
           </div>
 
           <!-- White lens masks (one per lens, CSS clip-path ellipse) -->
@@ -770,18 +752,18 @@
 
           <!-- Sharp text layers (one per lens, CSS clip-path ellipse) -->
           <div class="glasses-anim-text-layer glasses-sharp-lens" id="glasses-anim-sharp-left" style="z-index:4;">
-            <div class="glasses-anim-eyeline" data-i18n="glassesAnim.eyeline">Vision that brings<br/><em>life into focus</em></div>
-            <div class="glasses-anim-tagline" data-i18n="glassesAnim.tagline">Expert ophthalmology · Dr. Sitora Karimova</div>
+            <div class="glasses-anim-eyeline" data-i18n="glassesAnim.eyeline">{{ t.glassesAnim.eyeline | safe }}</div>
+            <div class="glasses-anim-tagline" data-i18n="glassesAnim.tagline">{{ t.glassesAnim.tagline | safe }}</div>
           </div>
           <div class="glasses-anim-text-layer glasses-sharp-lens" id="glasses-anim-sharp-right" style="z-index:4;">
-            <div class="glasses-anim-eyeline" data-i18n="glassesAnim.eyeline">Vision that brings<br/><em>life into focus</em></div>
-            <div class="glasses-anim-tagline" data-i18n="glassesAnim.tagline">Expert ophthalmology · Dr. Sitora Karimova</div>
+            <div class="glasses-anim-eyeline" data-i18n="glassesAnim.eyeline">{{ t.glassesAnim.eyeline | safe }}</div>
+            <div class="glasses-anim-tagline" data-i18n="glassesAnim.tagline">{{ t.glassesAnim.tagline | safe }}</div>
           </div>
 
           <!-- Glasses on top -->
           <div class="glasses-anim-wrap" id="glasses-anim-wrap">
             <img
-              src="assets/images/eyeglasses-vector-small.svg"
+              src="/assets/images/eyeglasses-vector-small.svg"
               class="glasses-anim-img"
               id="glasses-anim-img"
               draggable="false"
@@ -801,7 +783,7 @@
                     <div class="w-64 h-64 bg-navy-900 rounded-full flex items-center justify-center">
                         <div class="text-center text-white">
                             <div class="text-5xl font-light mb-2">8+</div>
-                            <div class="text-sm uppercase tracking-wider text-white/70" data-i18n="stats.years">Years of<br>Experience</div>
+                            <div class="text-sm uppercase tracking-wider text-white/70" data-i18n="stats.years">{{ t.stats.years | safe }}</div>
                         </div>
                     </div>
                 </div>
@@ -822,8 +804,8 @@
         <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
             <!-- Section Header -->
             <div class="text-center mb-12">
-                <p class="text-sm uppercase tracking-widest mb-3 text-coral" data-i18n="testimonials.subtitle">Patient Testimonials</p>
-                <h2 class="text-4xl md:text-5xl font-light text-white mb-4" data-i18n="testimonials.heading">What Our Patients Say</h2>
+                <p class="text-sm uppercase tracking-widest mb-3 text-coral" data-i18n="testimonials.subtitle">{{ t.testimonials.subtitle | safe }}</p>
+                <h2 class="text-4xl md:text-5xl font-light text-white mb-4" data-i18n="testimonials.heading">{{ t.testimonials.heading | safe }}</h2>
             </div>
 
             <!-- Carousel Container -->
@@ -834,9 +816,7 @@
                         <div class="flex justify-center mb-4">
                             <i class="fas fa-quote-left text-4xl text-coral"></i>
                         </div>
-                        <blockquote class="text-2xl md:text-4xl font-light text-white mb-8 leading-relaxed" data-i18n="testimonials.quote1">
-                            "Dr. Karimova provided exceptional care during my eyeglasses consultation. Her attention to detail and expertise helped me find the perfect prescription. The quality of care and personalized service exceeded my expectations."
-                        </blockquote>
+                        <blockquote class="text-2xl md:text-4xl font-light text-white mb-8 leading-relaxed" data-i18n="testimonials.quote1">{{ t.testimonials.quote1 | safe }}</blockquote>
                         <div class="flex items-center justify-center space-x-1 mb-6">
                             <i class="fas fa-star text-coral text-xl"></i>
                             <i class="fas fa-star text-coral text-xl"></i>
@@ -845,8 +825,8 @@
                             <i class="fas fa-star text-coral text-xl"></i>
                         </div>
                         <div class="text-white/80 font-light">
-                            <p class="text-lg" data-i18n="testimonials.name1">Farrukh Rahimov</p>
-                            <p class="text-sm" data-i18n="testimonials.patient1">Eyeglasses Patient</p>
+                            <p class="text-lg" data-i18n="testimonials.name1">{{ t.testimonials.name1 | safe }}</p>
+                            <p class="text-sm" data-i18n="testimonials.patient1">{{ t.testimonials.patient1 | safe }}</p>
                         </div>
                     </div>
                 </div>
@@ -857,9 +837,7 @@
                         <div class="flex justify-center mb-4">
                             <i class="fas fa-quote-left text-4xl text-coral"></i>
                         </div>
-                        <blockquote class="text-2xl md:text-4xl font-light text-white mb-8 leading-relaxed" data-i18n="testimonials.quote2">
-                            "After years of struggling with contact lenses, Dr. Karimova helped me find the most comfortable lenses for my eyes. Her expertise and patience made all the difference. I can now wear them all day without any discomfort. Highly recommend!"
-                        </blockquote>
+                        <blockquote class="text-2xl md:text-4xl font-light text-white mb-8 leading-relaxed" data-i18n="testimonials.quote2">{{ t.testimonials.quote2 | safe }}</blockquote>
                         <div class="flex items-center justify-center space-x-1 mb-6">
                             <i class="fas fa-star text-coral text-xl"></i>
                             <i class="fas fa-star text-coral text-xl"></i>
@@ -868,8 +846,8 @@
                             <i class="fas fa-star text-coral text-xl"></i>
                         </div>
                         <div class="text-white/80 font-light">
-                            <p class="text-lg" data-i18n="testimonials.name2">Dilshoda Nazarova</p>
-                            <p class="text-sm" data-i18n="testimonials.patient2">Contact Lens Patient</p>
+                            <p class="text-lg" data-i18n="testimonials.name2">{{ t.testimonials.name2 | safe }}</p>
+                            <p class="text-sm" data-i18n="testimonials.patient2">{{ t.testimonials.patient2 | safe }}</p>
                         </div>
                     </div>
                 </div>
@@ -880,9 +858,7 @@
                         <div class="flex justify-center mb-4">
                             <i class="fas fa-quote-left text-4xl text-coral"></i>
                         </div>
-                        <blockquote class="text-2xl md:text-4xl font-light text-white mb-8 leading-relaxed" data-i18n="testimonials.quote3">
-                            "The glaucoma treatment I received was outstanding. Dr. Karimova took the time to explain everything and made me feel comfortable throughout the process. My vision is stable thanks to her expertise."
-                        </blockquote>
+                        <blockquote class="text-2xl md:text-4xl font-light text-white mb-8 leading-relaxed" data-i18n="testimonials.quote3">{{ t.testimonials.quote3 | safe }}</blockquote>
                         <div class="flex items-center justify-center space-x-1 mb-6">
                             <i class="fas fa-star text-coral text-xl"></i>
                             <i class="fas fa-star text-coral text-xl"></i>
@@ -891,8 +867,8 @@
                             <i class="fas fa-star text-coral text-xl"></i>
                         </div>
                         <div class="text-white/80 font-light">
-                            <p class="text-lg" data-i18n="testimonials.name3">Rustam Shokirov</p>
-                            <p class="text-sm" data-i18n="testimonials.patient3">Glaucoma Patient</p>
+                            <p class="text-lg" data-i18n="testimonials.name3">{{ t.testimonials.name3 | safe }}</p>
+                            <p class="text-sm" data-i18n="testimonials.patient3">{{ t.testimonials.patient3 | safe }}</p>
                         </div>
                     </div>
                 </div>
@@ -903,9 +879,7 @@
                         <div class="flex justify-center mb-4">
                             <i class="fas fa-quote-left text-4xl text-coral"></i>
                         </div>
-                        <blockquote class="text-2xl md:text-4xl font-light text-white mb-8 leading-relaxed" data-i18n="testimonials.quote4">
-                            "My daughter's vision problems were diagnosed and treated with such care and attention. Dr. Karimova has a wonderful way with children and made the whole experience stress-free for our family."
-                        </blockquote>
+                        <blockquote class="text-2xl md:text-4xl font-light text-white mb-8 leading-relaxed" data-i18n="testimonials.quote4">{{ t.testimonials.quote4 | safe }}</blockquote>
                         <div class="flex items-center justify-center space-x-1 mb-6">
                             <i class="fas fa-star text-coral text-xl"></i>
                             <i class="fas fa-star text-coral text-xl"></i>
@@ -914,8 +888,8 @@
                             <i class="fas fa-star text-coral text-xl"></i>
                         </div>
                         <div class="text-white/80 font-light">
-                            <p class="text-lg" data-i18n="testimonials.name4">Gulnora Karimova</p>
-                            <p class="text-sm" data-i18n="testimonials.patient4">Pediatric Patient Parent</p>
+                            <p class="text-lg" data-i18n="testimonials.name4">{{ t.testimonials.name4 | safe }}</p>
+                            <p class="text-sm" data-i18n="testimonials.patient4">{{ t.testimonials.patient4 | safe }}</p>
                         </div>
                     </div>
                 </div>
@@ -938,7 +912,7 @@
     <section class="py-20 bg-gray-50">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="text-center mb-12">
-                <h2 class="text-2xl font-light text-gray-600 mb-6" data-i18n="partners.title">Trusted Partnerships</h2>
+                <h2 class="text-2xl font-light text-gray-600 mb-6" data-i18n="partners.title">{{ t.partners.title | safe }}</h2>
             </div>
             <div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-8 items-center opacity-40">
                 <div class="flex justify-center">
@@ -966,29 +940,29 @@
     <!-- Vision Disorders Section -->
     <section id="vision-disorders" class="vision-disorders-section">
         <div class="vision-disorders-inner">
-            <p class="vd-label" data-i18n="visionDisorders.label">Interactive Demo</p>
-            <h2 class="vd-title" data-i18n="visionDisorders.title">See the World Through Different Eyes</h2>
-            <p class="vd-subtitle" data-i18n="visionDisorders.subtitle">Explore how common vision disorders affect everyday sight</p>
+            <p class="vd-label" data-i18n="visionDisorders.label">{{ t.visionDisorders.label | safe }}</p>
+            <h2 class="vd-title" data-i18n="visionDisorders.title">{{ t.visionDisorders.title | safe }}</h2>
+            <p class="vd-subtitle" data-i18n="visionDisorders.subtitle">{{ t.visionDisorders.subtitle | safe }}</p>
 
             <div class="vd-tabs" role="tablist">
-                <button class="vd-tab active" role="tab" aria-selected="true" data-condition="healthy" data-i18n="visionDisorders.tabs.healthy">Healthy</button>
-                <button class="vd-tab" role="tab" aria-selected="false" data-condition="myopia" data-i18n="visionDisorders.tabs.myopia">Myopia</button>
-                <button class="vd-tab" role="tab" aria-selected="false" data-condition="cataracts" data-i18n="visionDisorders.tabs.cataracts">Cataracts</button>
-                <button class="vd-tab" role="tab" aria-selected="false" data-condition="glaucoma" data-i18n="visionDisorders.tabs.glaucoma">Glaucoma</button>
+                <button class="vd-tab active" role="tab" aria-selected="true" data-condition="healthy" data-i18n="visionDisorders.tabs.healthy">{{ t.visionDisorders.tabs.healthy | safe }}</button>
+                <button class="vd-tab" role="tab" aria-selected="false" data-condition="myopia" data-i18n="visionDisorders.tabs.myopia">{{ t.visionDisorders.tabs.myopia | safe }}</button>
+                <button class="vd-tab" role="tab" aria-selected="false" data-condition="cataracts" data-i18n="visionDisorders.tabs.cataracts">{{ t.visionDisorders.tabs.cataracts | safe }}</button>
+                <button class="vd-tab" role="tab" aria-selected="false" data-condition="glaucoma" data-i18n="visionDisorders.tabs.glaucoma">{{ t.visionDisorders.tabs.glaucoma | safe }}</button>
             </div>
 
             <div class="vd-image-container">
-                <img id="vd-image" src="assets/images/vision-disorders.webp" alt="Street scene used to demonstrate vision disorder simulation" />
+                <img id="vd-image" src="/assets/images/vision-disorders.webp" alt="Street scene used to demonstrate vision disorder simulation" />
                 <div id="vd-overlay" aria-hidden="true"></div>
             </div>
 
             <div class="vd-slider-row" id="vd-slider-row">
-                <span class="vd-slider-label" data-i18n="visionDisorders.sliderMild">Mild</span>
+                <span class="vd-slider-label" data-i18n="visionDisorders.sliderMild">{{ t.visionDisorders.sliderMild | safe }}</span>
                 <input type="range" id="vd-slider" min="0" max="100" value="50" aria-label="Severity" />
-                <span class="vd-slider-label" data-i18n="visionDisorders.sliderSevere">Severe</span>
+                <span class="vd-slider-label" data-i18n="visionDisorders.sliderSevere">{{ t.visionDisorders.sliderSevere | safe }}</span>
             </div>
 
-            <p class="vd-hint" data-i18n="visionDisorders.hint">Try each condition and drag the slider to explore severity levels</p>
+            <p class="vd-hint" data-i18n="visionDisorders.hint">{{ t.visionDisorders.hint | safe }}</p>
         </div>
     </section>
 
@@ -997,8 +971,8 @@
         <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
             <!-- Header -->
             <div class="text-center mb-12">
-                <p class="text-sm uppercase tracking-widest mb-3 text-coral" data-i18n="visionTest.subtitle">Interactive Feature</p>
-                <h2 class="text-4xl md:text-5xl font-light text-navy-900 mb-8" data-i18n="visionTest.heading">Test Your Vision Online</h2>
+                <p class="text-sm uppercase tracking-widest mb-3 text-coral" data-i18n="visionTest.subtitle">{{ t.visionTest.subtitle | safe }}</p>
+                <h2 class="text-4xl md:text-5xl font-light text-navy-900 mb-8" data-i18n="visionTest.heading">{{ t.visionTest.heading | safe }}</h2>
             </div>
 
             <!-- Test Container -->
@@ -1007,7 +981,7 @@
                 <div class="vision-chart-container mb-4 flex flex-col justify-center items-center min-h-[350px] md:min-h-[400px] bg-white rounded-lg relative">
                     <!-- Background SVG Image (shown in initial state) -->
                     <div id="vision-chart-bg" class="absolute inset-0 flex items-center justify-center p-4 md:p-8">
-                        <img src="assets/images/table-ru.svg"
+                        <img src="/assets/images/table-ru.svg"
                              alt="Russian Snellen Vision Chart"
                              class="max-w-full max-h-full object-contain opacity-30">
                     </div>
@@ -1029,16 +1003,14 @@
 
                     <!-- Instruction Text - at bottom of white box -->
                     <div class="vision-instruction-bottom absolute bottom-4 left-4 right-4 text-center z-10">
-                        <p id="vision-instruction" class="text-sm md:text-lg text-gray-700 font-light" data-i18n="visionTest.initialInstruction">
-                            Try our interactive vision test. Sit 50cm from the screen. Cover one eye.
-                        </p>
+                        <p id="vision-instruction" class="text-sm md:text-lg text-gray-700 font-light" data-i18n="visionTest.initialInstruction">{{ t.visionTest.initialInstruction | safe }}</p>
                     </div>
                 </div>
 
                 <!-- Controls - Initial State -->
                 <div class="vision-controls-initial text-center">
                     <button id="vision-start-btn" class="btn-navy">
-                        <span data-i18n="visionTest.startButton">Start Test</span>
+                        <span data-i18n="visionTest.startButton">{{ t.visionTest.startButton | safe }}</span>
                     </button>
                 </div>
 
@@ -1046,22 +1018,20 @@
                 <div class="vision-controls-test hidden text-center">
                     <div class="flex justify-center gap-4 mb-4">
                         <button id="vision-yes-btn" class="btn-green">
-                            <span data-i18n="visionTest.yesButton">Yes</span>
+                            <span data-i18n="visionTest.yesButton">{{ t.visionTest.yesButton | safe }}</span>
                         </button>
                         <button id="vision-no-btn" class="btn-outline">
-                            <span data-i18n="visionTest.noButton">No</span>
+                            <span data-i18n="visionTest.noButton">{{ t.visionTest.noButton | safe }}</span>
                         </button>
                     </div>
                     <button id="vision-restart-btn" class="btn-outline text-sm">
-                        <span data-i18n="visionTest.restartButton">Restart</span>
+                        <span data-i18n="visionTest.restartButton">{{ t.visionTest.restartButton | safe }}</span>
                     </button>
                 </div>
 
                 <!-- Disclaimer -->
                 <div class="mt-8 text-center">
-                    <p class="text-xs text-gray-500 font-light" data-i18n="visionTest.disclaimer">
-                        This test is for educational purposes only and does not replace a professional eye examination.
-                    </p>
+                    <p class="text-xs text-gray-500 font-light" data-i18n="visionTest.disclaimer">{{ t.visionTest.disclaimer | safe }}</p>
                 </div>
             </div>
         </div>
@@ -1071,65 +1041,53 @@
     <section id="faq" class="py-24 bg-gray-50">
         <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="text-center mb-16">
-                <p class="text-sm uppercase tracking-widest mb-3 text-coral" data-i18n="faq.subtitle">Common Questions</p>
-                <h2 class="text-4xl md:text-5xl font-light text-navy-900 mb-4" data-i18n="faq.title">Frequently Asked Questions</h2>
-                <p class="text-lg text-gray-600 font-light" data-i18n="faq.description">Find answers to common questions about our eye care services in Dushanbe</p>
+                <p class="text-sm uppercase tracking-widest mb-3 text-coral" data-i18n="faq.subtitle">{{ t.faq.subtitle | safe }}</p>
+                <h2 class="text-4xl md:text-5xl font-light text-navy-900 mb-4" data-i18n="faq.title">{{ t.faq.title | safe }}</h2>
+                <p class="text-lg text-gray-600 font-light" data-i18n="faq.description">{{ t.faq.description | safe }}</p>
             </div>
 
             <div class="space-y-6">
                 <!-- FAQ Item 1 -->
                 <div class="faq-item bg-white rounded-lg shadow-sm p-6 hover:shadow-md transition-shadow">
-                    <h3 class="text-xl font-medium text-navy-900 mb-3" data-i18n="faq.question1">How often should I get an eye exam?</h3>
-                    <p class="text-gray-600 font-light leading-relaxed" data-i18n="faq.answer1">
-                        Adults with no vision problems should get <a href="#services" class="text-coral hover:underline">comprehensive eye exams</a> every 2 years. If you wear <a href="#services" class="text-coral hover:underline">glasses</a>, have diabetes, or family history of eye disease, annual exams are recommended. Children need exams at 6 months, age 3, before school, then annually.
-                    </p>
+                    <h3 class="text-xl font-medium text-navy-900 mb-3" data-i18n="faq.question1">{{ t.faq.question1 | safe }}</h3>
+                    <p class="text-gray-600 font-light leading-relaxed" data-i18n="faq.answer1">{{ t.faq.answer1 | safe }}</p>
                 </div>
 
                 <!-- FAQ Item 2 -->
                 <div class="faq-item bg-white rounded-lg shadow-sm p-6 hover:shadow-md transition-shadow">
-                    <h3 class="text-xl font-medium text-navy-900 mb-3" data-i18n="faq.question2">Do you see children? At what age?</h3>
-                    <p class="text-gray-600 font-light leading-relaxed" data-i18n="faq.answer2">
-                        Yes! Dr. Karimova has specialized training in <a href="#services" class="text-coral hover:underline">pediatric ophthalmology</a> and welcomes children from infancy through teenage years using child-friendly testing methods.
-                    </p>
+                    <h3 class="text-xl font-medium text-navy-900 mb-3" data-i18n="faq.question2">{{ t.faq.question2 | safe }}</h3>
+                    <p class="text-gray-600 font-light leading-relaxed" data-i18n="faq.answer2">{{ t.faq.answer2 | safe }}</p>
                 </div>
 
                 <!-- FAQ Item 3 -->
                 <div class="faq-item bg-white rounded-lg shadow-sm p-6 hover:shadow-md transition-shadow">
-                    <h3 class="text-xl font-medium text-navy-900 mb-3" data-i18n="faq.question3">What is dry eye syndrome and how is it treated?</h3>
-                    <p class="text-gray-600 font-light leading-relaxed" data-i18n="faq.answer3">
-                        <a href="#services" class="text-coral hover:underline">Dry eye syndrome</a> causes burning, itching, redness, and watery eyes due to insufficient tear production or poor tear quality. Treatment includes prescription eye drops, punctal plugs, warm compress therapy, and lifestyle modifications. Most patients see improvement within 2-4 weeks.
-                    </p>
+                    <h3 class="text-xl font-medium text-navy-900 mb-3" data-i18n="faq.question3">{{ t.faq.question3 | safe }}</h3>
+                    <p class="text-gray-600 font-light leading-relaxed" data-i18n="faq.answer3">{{ t.faq.answer3 | safe }}</p>
                 </div>
 
                 <!-- FAQ Item 4 -->
                 <div class="faq-item bg-white rounded-lg shadow-sm p-6 hover:shadow-md transition-shadow">
-                    <h3 class="text-xl font-medium text-navy-900 mb-3" data-i18n="faq.question4">How long does a comprehensive eye exam take?</h3>
-                    <p class="text-gray-600 font-light leading-relaxed" data-i18n="faq.answer4">
-                        A <a href="#services" class="text-coral hover:underline">comprehensive eye examination</a> takes approximately 45-60 minutes for your first visit. This includes visual acuity testing, refraction assessment, intraocular pressure measurement, retinal health evaluation, and consultation with Dr. Karimova.
-                    </p>
+                    <h3 class="text-xl font-medium text-navy-900 mb-3" data-i18n="faq.question4">{{ t.faq.question4 | safe }}</h3>
+                    <p class="text-gray-600 font-light leading-relaxed" data-i18n="faq.answer4">{{ t.faq.answer4 | safe }}</p>
                 </div>
 
                 <!-- FAQ Item 5 -->
                 <div class="faq-item bg-white rounded-lg shadow-sm p-6 hover:shadow-md transition-shadow">
-                    <h3 class="text-xl font-medium text-navy-900 mb-3" data-i18n="faq.question5">Do you fit contact lenses?</h3>
-                    <p class="text-gray-600 font-light leading-relaxed" data-i18n="faq.answer5">
-                        Yes, we provide professional <a href="#services" class="text-coral hover:underline">contact lens fitting</a> including measurements of eye curvature and tear film quality. We offer daily disposable, monthly replacement, toric lenses for astigmatism, and multifocal lenses. Complete training and ongoing support are included.
-                    </p>
+                    <h3 class="text-xl font-medium text-navy-900 mb-3" data-i18n="faq.question5">{{ t.faq.question5 | safe }}</h3>
+                    <p class="text-gray-600 font-light leading-relaxed" data-i18n="faq.answer5">{{ t.faq.answer5 | safe }}</p>
                 </div>
 
                 <!-- FAQ Item 6 -->
                 <div class="faq-item bg-white rounded-lg shadow-sm p-6 hover:shadow-md transition-shadow">
-                    <h3 class="text-xl font-medium text-navy-900 mb-3" data-i18n="faq.question6">Where is your clinic located in Dushanbe?</h3>
-                    <p class="text-gray-600 font-light leading-relaxed" data-i18n="faq.answer6">
-                        Our clinic is located at Bekhzod Street 14, Dushanbe, Tajikistan. We are easily accessible with flexible appointment times including same-day urgent care for eye emergencies. Contact us at +992 93 009 71 71.
-                    </p>
+                    <h3 class="text-xl font-medium text-navy-900 mb-3" data-i18n="faq.question6">{{ t.faq.question6 | safe }}</h3>
+                    <p class="text-gray-600 font-light leading-relaxed" data-i18n="faq.answer6">{{ t.faq.answer6 | safe }}</p>
                 </div>
             </div>
 
             <!-- CTA -->
             <div class="text-center mt-12">
-                <p class="text-gray-600 mb-6 font-light" data-i18n="faq.cta">Still have questions? We're here to help.</p>
-                <a href="#contact" class="btn-navy" data-i18n="faq.contactButton">Contact Us</a>
+                <p class="text-gray-600 mb-6 font-light" data-i18n="faq.cta">{{ t.faq.cta | safe }}</p>
+                <a href="#contact" class="btn-navy" data-i18n="faq.contactButton">{{ t.faq.contactButton | safe }}</a>
             </div>
         </div>
     </section>
@@ -1140,45 +1098,41 @@
             <!-- Left: Contact Info -->
             <div class="flex items-center justify-center py-24 px-4 sm:px-6 lg:px-16">
                 <div class="max-w-xl">
-                    <p class="text-sm uppercase tracking-widest mb-2 text-coral" data-i18n="contact.subtitle">Get In Touch</p>
-                    <h2 class="text-4xl md:text-5xl font-light mb-8 text-navy-900" data-i18n="contact.title">Schedule your appointment</h2>
+                    <p class="text-sm uppercase tracking-widest mb-2 text-coral" data-i18n="contact.subtitle">{{ t.contact.subtitle | safe }}</p>
+                    <h2 class="text-4xl md:text-5xl font-light mb-8 text-navy-900" data-i18n="contact.title">{{ t.contact.title | safe }}</h2>
 
                     <div class="space-y-5 mb-8">
                         <div>
-                            <p class="text-sm uppercase tracking-widest text-gray-500 mb-1" data-i18n="contact.address">Address</p>
-                            <p class="text-2xl font-light text-navy-900" data-i18n="contact.address1">Bekhzod Street 14</p>
-                            <p class="text-2xl font-light text-navy-900" data-i18n="contact.address2">Dushanbe, Tajikistan</p>
-                            <p class="text-sm font-light text-coral mt-2" data-i18n="contact.locatedIn">Located inside Osse Optical Store</p>
-                            <p class="text-sm font-light text-gray-500" data-i18n="contact.osseNote">Prescription glasses filled same-day</p>
+                            <p class="text-sm uppercase tracking-widest text-gray-500 mb-1" data-i18n="contact.address">{{ t.contact.address | safe }}</p>
+                            <p class="text-2xl font-light text-navy-900" data-i18n="contact.address1">{{ t.contact.address1 | safe }}</p>
+                            <p class="text-2xl font-light text-navy-900" data-i18n="contact.address2">{{ t.contact.address2 | safe }}</p>
+                            <p class="text-sm font-light text-coral mt-2" data-i18n="contact.locatedIn">{{ t.contact.locatedIn | safe }}</p>
+                            <p class="text-sm font-light text-gray-500" data-i18n="contact.osseNote">{{ t.contact.osseNote | safe }}</p>
                         </div>
 
                         <div>
-                            <p class="text-sm uppercase tracking-widest text-gray-500 mb-1" data-i18n="contact.phone">Phone</p>
+                            <p class="text-sm uppercase tracking-widest text-gray-500 mb-1" data-i18n="contact.phone">{{ t.contact.phone | safe }}</p>
                             <p class="text-2xl font-light text-navy-900">
                                 <a href="tel:+992108118080">+992 108 11 80 80</a>
                             </p>
                         </div>
 
                         <div>
-                            <p class="text-sm uppercase tracking-widest text-gray-500 mb-1" data-i18n="contact.email">Email</p>
+                            <p class="text-sm uppercase tracking-widest text-gray-500 mb-1" data-i18n="contact.email">{{ t.contact.email | safe }}</p>
                             <p class="text-2xl font-light text-navy-900">info@sitorakarimi.com</p>
                         </div>
 
                         <div>
-                            <p class="text-sm uppercase tracking-widest text-gray-500 mb-1" data-i18n="contact.hours">Hours</p>
+                            <p class="text-sm uppercase tracking-widest text-gray-500 mb-1" data-i18n="contact.hours">{{ t.contact.hours | safe }}</p>
                             <div class="text-lg font-light text-gray-700">
-                                <p data-i18n="contact.monFri">Mon - Fri: 9:00 AM - 6:00 PM</p>
+                                <p data-i18n="contact.monFri">{{ t.contact.monFri | safe }}</p>
                             </div>
                         </div>
                     </div>
 
                     <div class="flex gap-4">
-                        <a href="#contact" class="btn-navy" data-i18n="contact.bookNow">
-                            Book Now
-                        </a>
-                        <a href="tel:+992108118080" class="btn-outline" data-i18n="contact.callUs">
-                            Call Us
-                        </a>
+                        <a href="#contact" class="btn-navy" data-i18n="contact.bookNow">{{ t.contact.bookNow | safe }}</a>
+                        <a href="tel:+992108118080" class="btn-outline" data-i18n="contact.callUs">{{ t.contact.callUs | safe }}</a>
                     </div>
                 </div>
             </div>
@@ -1205,36 +1159,36 @@
                 <!-- Column 1 -->
                 <div>
                     <h4 class="font-medium text-navy-900 mb-4">Sitora Karimova</h4>
-                    <p class="text-sm font-light" data-i18n="footer.tagline">Exceptional ophthalmology care since 2017</p>
+                    <p class="text-sm font-light" data-i18n="footer.tagline">{{ t.footer.tagline | safe }}</p>
                 </div>
 
                 <!-- Column 2 -->
                 <div>
-                    <h4 class="font-medium text-navy-900 mb-4" data-i18n="footer.servicesTitle">Services</h4>
+                    <h4 class="font-medium text-navy-900 mb-4" data-i18n="footer.servicesTitle">{{ t.footer.servicesTitle | safe }}</h4>
                     <ul class="space-y-2 text-sm font-light">
-                        <li><a href="#services" class="hover:text-coral transition-colors" data-i18n="footer.eyeExams">Comprehensive Eye Examinations</a></li>
-                        <li><a href="#services" class="hover:text-coral transition-colors" data-i18n="footer.glasses">Prescription Glasses</a></li>
-                        <li><a href="#services" class="hover:text-coral transition-colors" data-i18n="footer.contacts">Contact Lenses</a></li>
-                        <li><a href="#services" class="hover:text-coral transition-colors" data-i18n="footer.dryeye">Dry Eye Management</a></li>
-                        <li><a href="#services" class="hover:text-coral transition-colors" data-i18n="footer.followup">Ongoing Care and Follow-Up</a></li>
-                        <li><a href="#services" class="hover:text-coral transition-colors" data-i18n="footer.pediatric">Children's Eye Care</a></li>
+                        <li><a href="#services" class="hover:text-coral transition-colors" data-i18n="footer.eyeExams">{{ t.footer.eyeExams | safe }}</a></li>
+                        <li><a href="#services" class="hover:text-coral transition-colors" data-i18n="footer.glasses">{{ t.footer.glasses | safe }}</a></li>
+                        <li><a href="#services" class="hover:text-coral transition-colors" data-i18n="footer.contacts">{{ t.footer.contacts | safe }}</a></li>
+                        <li><a href="#services" class="hover:text-coral transition-colors" data-i18n="footer.dryeye">{{ t.footer.dryeye | safe }}</a></li>
+                        <li><a href="#services" class="hover:text-coral transition-colors" data-i18n="footer.followup">{{ t.footer.followup | safe }}</a></li>
+                        <li><a href="#services" class="hover:text-coral transition-colors" data-i18n="footer.pediatric">{{ t.footer.pediatric | safe }}</a></li>
                     </ul>
                 </div>
 
                 <!-- Column 3 -->
                 <div>
-                    <h4 class="font-medium text-navy-900 mb-4" data-i18n="footer.infoTitle">Information</h4>
+                    <h4 class="font-medium text-navy-900 mb-4" data-i18n="footer.infoTitle">{{ t.footer.infoTitle | safe }}</h4>
                     <ul class="space-y-2 text-sm font-light">
-                        <li><a href="#about" class="hover:text-coral transition-colors" data-i18n="footer.about">About</a></li>
-                        <li><a href="#testimonials" class="hover:text-coral transition-colors" data-i18n="footer.reviews">Reviews</a></li>
-                        <li><a href="#contact" class="hover:text-coral transition-colors" data-i18n="footer.contact">Contact</a></li>
-                        <li><a href="#" class="hover:text-coral transition-colors" data-i18n="footer.privacy">Privacy Policy</a></li>
+                        <li><a href="#about" class="hover:text-coral transition-colors" data-i18n="footer.about">{{ t.footer.about | safe }}</a></li>
+                        <li><a href="#testimonials" class="hover:text-coral transition-colors" data-i18n="footer.reviews">{{ t.footer.reviews | safe }}</a></li>
+                        <li><a href="#contact" class="hover:text-coral transition-colors" data-i18n="footer.contact">{{ t.footer.contact | safe }}</a></li>
+                        <li><a href="#" class="hover:text-coral transition-colors" data-i18n="footer.privacy">{{ t.footer.privacy | safe }}</a></li>
                     </ul>
                 </div>
 
                 <!-- Column 4 -->
                 <div>
-                    <h4 class="font-medium text-navy-900 mb-4" data-i18n="footer.connect">Connect</h4>
+                    <h4 class="font-medium text-navy-900 mb-4" data-i18n="footer.connect">{{ t.footer.connect | safe }}</h4>
                     <div class="flex space-x-4">
                         <a href="#" class="text-gray-400 hover:text-coral transition-colors">
                             <i class="fab fa-facebook text-xl"></i>
@@ -1253,7 +1207,7 @@
             </div>
 
             <div class="border-t border-gray-200 pt-8">
-                <p class="text-sm text-center font-light" data-i18n="footer.copyright">&copy; 2025 Sitora Karimova Ophthalmology. All rights reserved.</p>
+                <p class="text-sm text-center font-light" data-i18n="footer.copyright">{{ t.footer.copyright | safe }}</p>
             </div>
         </div>
     </footer>
@@ -1263,9 +1217,10 @@
         // Auto-generate version from timestamp (changes every deployment)
         window.SITE_VERSION = '1.0.8'; // Fix glasses section blink
     </script>
-    <script src="script.js?v=1.0.8"></script>
-    <script src="vision-test.js"></script>
-    <script src="vision-disorders.js"></script>
+    <script>window.__T__ = {{ t | dump | safe }}; window.__LANG__ = "{{ lang }}";</script>
+    <script src="/script.js?v=1.1.0"></script>
+    <script src="/vision-test.js?v=1.1.0"></script>
+    <script src="/vision-disorders.js?v=1.1.0"></script>
 
     <script>
     (function () {

@@ -1,0 +1,191 @@
+{
+  "meta": {
+    "title": "Ophthalmologist in Dushanbe — Dr. Sitora Karimova",
+    "description": "Comprehensive eye exams, prescription glasses and contact lenses in Dushanbe. 8+ years experience. Located inside Osse Optical, Bekhzod Street 14. +992 108 11 80 80",
+    "ogTitle": "Dr. Sitora Karimova — Ophthalmologist in Dushanbe"
+  },
+  "nav": {
+    "home": "Home",
+    "services": "Services",
+    "about": "About",
+    "reviews": "Reviews",
+    "faq": "FAQ",
+    "contact": "Contact",
+    "language": "Language"
+  },
+  "hero": {
+    "subtitle": "Ophthalmology Practice",
+    "title": "Exceptional eye care",
+    "description": "Experience personalized ophthalmology services designed for your unique vision needs",
+    "ourServices": "Our Services",
+    "findUs": "Find Us"
+  },
+  "services": {
+    "subtitle": "What We Offer",
+    "title": "Core Services",
+    "readMore": "Read More",
+    "readLess": "Read Less",
+    "comprehensive": {
+      "title": "Comprehensive Eye Examination",
+      "intro": "Full eye health assessment using advanced diagnostic technologies.",
+      "diagnosticsTitle": "<strong>Vision and correction diagnostics:</strong>",
+      "diagnosticsList": "<li>— Visual acuity testing (visometry)</li><li>— Autorefractometry</li><li>— Ophthalmoscopy</li><li>— Keratometry</li><li>— Glasses prescription: monofocal, bifocal, and progressive</li><li>— Soft contact lens fitting (spherical and toric)</li>",
+      "treatmentTitle": "<strong>Diagnosis and treatment of eye diseases:</strong>",
+      "treatmentList": "<li>— Conjunctivitis</li><li>— Dry eye syndrome</li><li>— Accommodation spasm</li><li>— Asthenopia and other functional vision disorders</li>"
+    },
+    "visometry": {
+      "title": "Visual Acuity Testing (Visometry)",
+      "description": "Checks how well you see at distance and near using Sivtsev, Golovin, and Landolt charts or projection systems. Conducted with and without correction (with/without glasses) to determine your precise vision level."
+    },
+    "autorefractometry": {
+      "title": "Objective Refraction Determination (Autorefractometry)",
+      "description": "Uses an autorefractometer to measure your eye's refractive power objectively. Determines the presence of myopia (nearsightedness), hyperopia (farsightedness), or astigmatism with precision."
+    },
+    "subjective": {
+      "title": "Subjective Refractometry (Glasses Prescription)",
+      "description": "Selection of optical lenses for maximum visual acuity using trial frames with lens sets. Our optometrist determines which diopter provides the best vision correction tailored to your unique needs."
+    },
+    "accommodation": {
+      "title": "Accommodation Assessment",
+      "description": "Examines your eye's ability to focus at different distances. Determines accommodation reserve and stability, especially important for diagnosing eye strain, accommodation spasm, and focusing problems."
+    },
+    "keratometry": {
+      "title": "Keratometry",
+      "description": "Measures corneal curvature with precision. Essential for contact lens fitting and helps detect astigmatism or keratoconus. Provides critical data for accurate vision correction."
+    },
+    "ophthalmoscopy": {
+      "title": "Fundus Examination (Ophthalmoscopy)",
+      "description": "Determines the condition of your retina, optic nerve (optic disc), retinal vessels, and macula (yellow spot). Helps detect glaucoma, optic nerve edema or atrophy, diabetic and hypertensive retinopathy, retinal detachment, inflammation, and fundus tumors."
+    },
+    "prescriptionGlasses": {
+      "title": "Prescription Glasses",
+      "description": "Custom eyewear adapted to your vision needs and style. Wide selection of frame styles, lens types (monofocal, progressive, bifocal), and specialized coatings including anti-reflective, blue light blocking, and UV protection. Professional fitting by Dr. Karimova for all ages."
+    },
+    "contactsAndTreatment": {
+      "title": "Contact Lenses & Treatment",
+      "description": "Professional fitting and care: daily disposable, monthly replacement, toric lenses for astigmatism, multifocal lenses. Treatment and patient management for conjunctivitis, dry eye syndrome, accommodation spasm, and visual fatigue. Prevention for high visual load (computer work, driving). Complete training and medication management."
+    }
+  },
+  "about": {
+    "subtitle": "Meet Dr. Karimova",
+    "title": "Excellence in ophthalmology since 2017",
+    "description1": "Dr. Sitora Karimova brings 8 years of specialized experience in comprehensive eye care. Trained at Avicenna Tajik State Medical University, she combines cutting-edge technology with a patient-first philosophy.",
+    "description2": "Her practice focuses on delivering personalized consultation that address each patient's unique needs, ensuring optimal vision outcomes and long-term eye health.",
+    "credential1": "Board Certified Ophthalmologist",
+    "credential2": "Fellow, American Academy of Ophthalmology",
+    "credential3": "8+ Years Clinical Experience"
+  },
+  "stats": {
+    "years": "Years of<br>Experience"
+  },
+  "testimonials": {
+    "quote1": "\"Dr. Karimova provided exceptional care during my eyeglasses consultation. Her attention to detail and expertise helped me find the perfect prescription. The quality of care and personalized service exceeded my expectations.\"",
+    "name1": "Farrukh Rahimov",
+    "patient1": "Eyeglasses Patient",
+    "quote2": "\"After years of struggling with contact lenses, Dr. Karimova helped me find the most comfortable lenses for my eyes. Her expertise and patience made all the difference. I can now wear them all day without any discomfort. Highly recommend!\"",
+    "name2": "Dilshoda Nazarova",
+    "patient2": "Contact Lens Patient",
+    "quote3": "\"The glaucoma treatment I received was outstanding. Dr. Karimova took the time to explain everything and made me feel comfortable throughout the process. My vision is stable thanks to her expertise.\"",
+    "name3": "Rustam Shokirov",
+    "patient3": "Glaucoma Patient",
+    "quote4": "\"My daughter's vision problems were diagnosed and treated with such care and attention. Dr. Karimova has a wonderful way with children and made the whole experience stress-free for our family.\"",
+    "name4": "Gulnora Karimova",
+    "patient4": "Pediatric Patient Parent"
+  },
+  "partners": {
+    "title": "Trusted Partnerships"
+  },
+  "glassesAnim": {
+    "eyeline": "Vision that brings<br/><em>life into focus</em>",
+    "tagline": "Expert ophthalmology · Dr. Sitora Karimova"
+  },
+  "visionDisorders": {
+    "label": "Interactive Demo",
+    "title": "See the World Through Different Eyes",
+    "subtitle": "Explore how common vision disorders affect everyday sight",
+    "tabs": {
+      "healthy": "Healthy",
+      "myopia": "Myopia",
+      "cataracts": "Cataracts",
+      "glaucoma": "Glaucoma"
+    },
+    "sliderMild": "Mild",
+    "sliderSevere": "Severe",
+    "hint": "Try each condition and drag the slider to explore severity levels"
+  },
+  "visionTest": {
+    "subtitle": "Test Your Vision",
+    "title": "Interactive Vision Test",
+    "initialInstruction": "Try our interactive vision test. Sit 50cm from the screen. Cover one eye.",
+    "questionInstruction": "Can you read all characters?",
+    "startButton": "Start Test",
+    "yesButton": "Yes",
+    "noButton": "No",
+    "restartButton": "Restart",
+    "lineIndicator": "Line",
+    "of": "of",
+    "testComplete": "Test Complete!",
+    "yourVision": "Your vision level:",
+    "detailedResults": "Detailed Results:",
+    "consultationReminder": "Please consult with Dr. Karimova for a professional eye examination.",
+    "disclaimer": "This test is for educational purposes only and does not replace a professional eye examination."
+  },
+  "contact": {
+    "subtitle": "Get In Touch",
+    "title": "Schedule your appointment",
+    "address": "Address",
+    "phone": "Phone",
+    "email": "Email",
+    "hours": "Hours",
+    "monFri": "Mon - Fri: 9:00 AM - 6:00 PM",
+    "sat": "Sat: 9:00 AM - 2:00 PM",
+    "sun": "Sun: Closed",
+    "bookNow": "Book Now",
+    "callUs": "Call Us",
+    "visitClinic": "Visit Our Clinic",
+    "address1": "Bekhzod Street 14",
+    "address2": "Dushanbe, Tajikistan",
+    "locatedIn": "Located inside Osse Optical Store",
+    "osseNote": "Prescription glasses filled same-day"
+  },
+  "mobile": {
+    "callNow": "Call Now",
+    "bookWhatsApp": "Book via WhatsApp"
+  },
+  "faq": {
+    "subtitle": "Common Questions",
+    "title": "Frequently Asked Questions",
+    "description": "Find answers to common questions about our eye care services in Dushanbe",
+    "question1": "How often should I get an eye exam?",
+    "answer1": "Adults with no vision problems should get comprehensive eye exams every 2 years. If you wear glasses, have diabetes, or family history of eye disease, annual exams are recommended. Children need exams at 6 months, age 3, before school, then annually.",
+    "question2": "Do you see children? At what age?",
+    "answer2": "Yes! Dr. Karimova has specialized training in pediatric ophthalmology and welcomes children from infancy through teenage years using child-friendly testing methods.",
+    "question3": "What is dry eye syndrome and how is it treated?",
+    "answer3": "Dry eye syndrome causes burning, itching, redness, and watery eyes due to insufficient tear production or poor tear quality. Treatment includes prescription eye drops, punctal plugs, warm compress therapy, and lifestyle modifications. Most patients see improvement within 2-4 weeks.",
+    "question4": "How long does a comprehensive eye exam take?",
+    "answer4": "A comprehensive eye examination takes approximately 45-60 minutes for your first visit. This includes visual acuity testing, refraction assessment, intraocular pressure measurement, retinal health evaluation, and consultation with Dr. Karimova.",
+    "question5": "Do you fit contact lenses?",
+    "answer5": "Yes, we provide professional contact lens fitting including measurements of eye curvature and tear film quality. We offer daily disposable, monthly replacement, toric lenses for astigmatism, and multifocal lenses. Complete training and ongoing support are included.",
+    "question6": "Where is your clinic located in Dushanbe?",
+    "answer6": "Our clinic is located inside Osse Optical Store at Bekhzod Street 14, Dushanbe, Tajikistan. After your appointment you can fill your prescription glasses same-day at Osse. Flexible appointment times including same-day urgent care for eye emergencies. Contact us at +992 108 11 80 80.",
+    "cta": "Still have questions? We're here to help.",
+    "contactButton": "Contact Us"
+  },
+  "footer": {
+    "tagline": "Exceptional ophthalmology care since 2017",
+    "servicesTitle": "Services",
+    "eyeExams": "Comprehensive Eye Examinations",
+    "glasses": "Prescription Glasses",
+    "contacts": "Contact Lenses",
+    "dryeye": "Dry Eye Management",
+    "followup": "Ongoing Care and Follow-Up",
+    "pediatric": "Children's Eye Care",
+    "infoTitle": "Information",
+    "about": "About",
+    "reviews": "Reviews",
+    "contact": "Contact",
+    "privacy": "Privacy Policy",
+    "connect": "Connect",
+    "copyright": "© 2025 Sitora Karimova Ophthalmology. All rights reserved."
+  }
+}
