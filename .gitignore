@@ -1,0 +1,8 @@
+# macOS
+.DS_Store
+
+# Dot folders (Claude, Playwright, Superpowers, VSCode local settings)
+.claude/
+.playwright-mcp/
+.superpowers/
+.vscode/
