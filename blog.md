@@ -26,6 +26,10 @@ Project Root
 │               └── YYYY-MM-DD-slug.json
 │
 └── assets/images/blog/            # Blog post images
+                                   # Naming convention: YYYY-MM-DD-slug.webp
+                                   # Must match the post JSON filename exactly
+                                   # Format: WebP, recommended 1200×630px (16:9, OG-optimized)
+                                   # Example: 2026-04-09-outdoor-time-myopia-children.webp
 ```
 
 ### Design Decisions

@@ -1,0 +1,15 @@
+{
+  "mcpServers": {
+    "rss": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "rss-feeds-mcp",
+        "https://www.sciencedaily.com/rss/health_medicine/eye_care.xml",
+        "https://www.ophthalmologytimes.com/rss.xml",
+        "https://bjo.bmj.com/rss/current.xml",
+        "https://jamanetwork.com/journals/jamaophthalmology#:~:text=MOST-,VIEWED,-(30%20DAYS)"
+      ]
+    }
+  }
+}
