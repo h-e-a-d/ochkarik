@@ -218,6 +218,16 @@ Claude should **rewrite** (not copy) the article:
 - Use clear, patient-friendly language (avoid medical jargon without explanation)
 - Structure with `## Headings` for scannability
 
+**Standard CTA footer (use exactly, all 3 languages):**
+
+```
+EN: *[Your intro sentence]. Call [+992 108 11 80 80](tel:+992108118080).*
+RU: *[Вводная фраза]. Телефон: [+992 108 11 80 80](tel:+992108118080).*
+TJ: *[Ҷумлаи ибтидоӣ]. Телефон: [+992 108 11 80 80](tel:+992108118080).*
+```
+
+Always use the markdown link format `[+992 108 11 80 80](tel:+992108118080)` — never plain text. Mobile browsers auto-detect phone numbers but misparse the spaced format, cutting off the last digits.
+
 #### 4. Translation to RU and TJ
 
 After the English version is finalized:
