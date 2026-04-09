@@ -3,7 +3,7 @@
 
 // Cache version - INCREMENT THIS when deploying updates
 // Format: 'v{major}.{minor}.{patch}'
-const CACHE_VERSION = '1.1.0'; // Eleventy multi-locale build (/ru/ /tj/ /en/) — SEO-friendly static translations
+const CACHE_VERSION = '1.2.0'; // Add blog system with multilingual support
 const CACHE_NAME = `sitorakarimi-${CACHE_VERSION}`;
 
 // Assets to cache. Per-locale pages are listed so offline visitors see their
@@ -22,7 +22,12 @@ const ASSETS_TO_CACHE = [
     '/assets/images/about-2.jpg',
     '/assets/images/table-ru.svg',
     '/assets/images/og-image.webp',
-    '/assets/images/vision-disorders.webp'
+    '/assets/images/vision-disorders.webp',
+    '/blog/blog.css',
+    '/blog/blog.js',
+    '/ru/blog/',
+    '/tj/blog/',
+    '/en/blog/'
 ];
 
 // Install event - cache assets

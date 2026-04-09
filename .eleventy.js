@@ -10,8 +10,13 @@ module.exports = function (eleventyConfig) {
   eleventyConfig.addPassthroughCopy({ "robots.txt": "robots.txt" });
   eleventyConfig.addPassthroughCopy({ "_redirects": "_redirects" });
 
+  // Blog static assets
+  eleventyConfig.addPassthroughCopy({ "blog/blog.css": "blog/blog.css" });
+  eleventyConfig.addPassthroughCopy({ "blog/blog.js": "blog/blog.js" });
+
   // Watch locale JSON for hot reload.
   eleventyConfig.addWatchTarget("./src/_data/locales/");
+  eleventyConfig.addWatchTarget("./src/_data/blog/posts/");
 
   return {
     dir: {

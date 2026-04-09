@@ -449,6 +449,7 @@ eleventyComputed:
                     <a href="#testimonials" class="nav-link-light" data-i18n="nav.reviews">{{ t.nav.reviews | safe }}</a>
                     <a href="#faq" class="nav-link-light" data-i18n="nav.faq">{{ t.nav.faq | safe }}</a>
                     <a href="#contact" class="nav-link-light" data-i18n="nav.contact">{{ t.nav.contact | safe }}</a>
+                    <a href="/{{ lang }}/blog/" class="nav-link-light" data-i18n="nav.blog">{{ t.nav.blog | safe }}</a>
 
                     <!-- Language Switcher -->
                     <div class="relative language-switcher">
@@ -478,6 +479,7 @@ eleventyComputed:
                 <a href="#testimonials" class="block nav-link-light" data-i18n="nav.reviews">{{ t.nav.reviews | safe }}</a>
                 <a href="#faq" class="block nav-link-light" data-i18n="nav.faq">{{ t.nav.faq | safe }}</a>
                 <a href="#contact" class="block nav-link-light" data-i18n="nav.contact">{{ t.nav.contact | safe }}</a>
+                <a href="/{{ lang }}/blog/" class="block nav-link-light" data-i18n="nav.blog">{{ t.nav.blog | safe }}</a>
 
                 <!-- Mobile Language Switcher -->
                 <div class="pt-3 border-t border-white/10">
@@ -1181,6 +1183,7 @@ eleventyComputed:
                     <ul class="space-y-2 text-sm font-light">
                         <li><a href="#about" class="hover:text-coral transition-colors" data-i18n="footer.about">{{ t.footer.about | safe }}</a></li>
                         <li><a href="#testimonials" class="hover:text-coral transition-colors" data-i18n="footer.reviews">{{ t.footer.reviews | safe }}</a></li>
+                        <li><a href="/{{ lang }}/blog/" class="hover:text-coral transition-colors" data-i18n="nav.blog">{{ t.nav.blog | safe }}</a></li>
                         <li><a href="#contact" class="hover:text-coral transition-colors" data-i18n="footer.contact">{{ t.footer.contact | safe }}</a></li>
                         <li><a href="#" class="hover:text-coral transition-colors" data-i18n="footer.privacy">{{ t.footer.privacy | safe }}</a></li>
                     </ul>

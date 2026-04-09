@@ -1,0 +1,269 @@
+---
+pagination:
+  data: locales
+  size: 1
+  alias: lang
+permalink: "/{{ lang }}/blog/index.html"
+eleventyComputed:
+  title: "{{ locales[lang].strings.blog.metaTitle }}"
+---
+{%- set t = locales[lang].strings -%}
+{%- set posts = blogPosts -%}
+<!DOCTYPE html>
+<html lang="{{ locales[lang].htmlLang }}">
+<head>
+    <!-- Google Tag Manager -->
+    <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+    new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+    j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+    'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+    })(window,document,'script','dataLayer','GTM-TBKDQH2B');</script>
+    <!-- End Google Tag Manager -->
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes, viewport-fit=cover">
+
+    <title>{{ t.blog.metaTitle }}</title>
+    <meta name="description" content="{{ t.blog.metaDescription }}">
+    <meta name="author" content="Dr. Sitora Karimova">
+
+    <!-- Robots directives -->
+    <meta name="robots" content="index, follow, max-image-preview:large">
+
+    <!-- Canonical URL -->
+    <link rel="canonical" href="https://sitorakarimi.com/{{ lang }}/blog/">
+
+    <!-- Hreflang tags -->
+    {%- for code, loc in locales %}
+    <link rel="alternate" hreflang="{{ loc.hreflang }}" href="https://sitorakarimi.com/{{ code }}/blog/">
+    {%- endfor %}
+    <link rel="alternate" hreflang="x-default" href="https://sitorakarimi.com/ru/blog/">
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://sitorakarimi.com/{{ lang }}/blog/">
+    <meta property="og:site_name" content="Dr. Sitora Karimova Ophthalmology">
+    <meta property="og:title" content="{{ t.blog.metaTitle }}">
+    <meta property="og:description" content="{{ t.blog.metaDescription }}">
+    <meta property="og:locale" content="{{ locales[lang].htmlLang }}">
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="{{ t.blog.metaTitle }}">
+    <meta name="twitter:description" content="{{ t.blog.metaDescription }}">
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'navy-900': '#0a2a3d',
+                        'navy-800': '#0f3d56',
+                        'coral': '#ff6b4a',
+                    },
+                    fontFamily: {
+                        'poppins': ['Poppins', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+
+    <!-- Styles -->
+    <link rel="stylesheet" href="/styles.css">
+    <link rel="stylesheet" href="/blog/blog.css">
+
+    <!-- Structured Data: Blog -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "Blog",
+        "name": "{{ t.blog.metaTitle }}",
+        "description": "{{ t.blog.metaDescription }}",
+        "url": "https://sitorakarimi.com/{{ lang }}/blog/",
+        "inLanguage": "{{ locales[lang].htmlLang }}",
+        "publisher": {
+            "@type": "Person",
+            "name": "Dr. Sitora Karimova",
+            "jobTitle": "Ophthalmologist",
+            "url": "https://sitorakarimi.com/{{ lang }}/"
+        }
+    }
+    </script>
+</head>
+<body class="font-poppins font-light text-gray-700 bg-white" data-lang="{{ lang }}">
+    <!-- Google Tag Manager (noscript) -->
+    <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-TBKDQH2B"
+    height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+
+    <!-- Navigation -->
+    <nav class="fixed top-0 w-full bg-navy-900 z-50 transition-all shadow-lg" id="navbar">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-20">
+                <a href="/{{ lang }}/" class="flex items-center space-x-2 hover:opacity-90 transition-opacity">
+                    <div class="w-10 h-10 bg-white rounded-full flex items-center justify-center">
+                        <i class="fas fa-eye text-navy-900 text-xl"></i>
+                    </div>
+                    <span class="font-semibold text-lg text-white">Dr. Sitora Karimova</span>
+                </a>
+                <div class="hidden md:flex items-center space-x-8">
+                    <a href="/{{ lang }}/" class="nav-link-light">{{ t.nav.home | safe }}</a>
+                    <a href="/{{ lang }}/#services" class="nav-link-light">{{ t.nav.services | safe }}</a>
+                    <a href="/{{ lang }}/#about" class="nav-link-light">{{ t.nav.about | safe }}</a>
+                    <a href="/{{ lang }}/blog/" class="nav-link-light active">{{ t.nav.blog | safe }}</a>
+                    <a href="/{{ lang }}/#contact" class="nav-link-light">{{ t.nav.contact | safe }}</a>
+
+                    <!-- Language Switcher -->
+                    <div class="relative language-switcher">
+                        <button id="lang-btn" class="flex items-center space-x-2 text-white hover:text-coral transition-colors" aria-label="Language selector" aria-haspopup="true" aria-expanded="false">
+                            <i class="fas fa-globe text-lg" aria-hidden="true"></i>
+                            <span id="current-lang" class="text-sm font-medium">{{ lang | upper }}</span>
+                            <i class="fas fa-chevron-down text-xs" aria-hidden="true"></i>
+                        </button>
+                        <div id="lang-menu" class="hidden absolute right-0 mt-2 w-32 bg-white rounded-lg shadow-xl overflow-hidden z-50" role="menu">
+                            <button data-lang="en" class="lang-option w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-coral hover:text-white transition-colors" role="menuitem">English</button>
+                            <button data-lang="ru" class="lang-option w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-coral hover:text-white transition-colors" role="menuitem">Русский</button>
+                            <button data-lang="tj" class="lang-option w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-coral hover:text-white transition-colors" role="menuitem">Тоҷикӣ</button>
+                        </div>
+                    </div>
+                </div>
+                <button class="md:hidden text-white" id="mobile-menu-btn" aria-label="Toggle mobile menu" aria-expanded="false">
+                    <i class="fas fa-bars text-2xl" aria-hidden="true"></i>
+                </button>
+            </div>
+        </div>
+        <!-- Mobile Menu -->
+        <div id="mobile-menu" class="hidden md:hidden bg-navy-900 border-t border-white/10">
+            <div class="px-4 py-3 space-y-3">
+                <a href="/{{ lang }}/" class="block nav-link-light">{{ t.nav.home | safe }}</a>
+                <a href="/{{ lang }}/#services" class="block nav-link-light">{{ t.nav.services | safe }}</a>
+                <a href="/{{ lang }}/#about" class="block nav-link-light">{{ t.nav.about | safe }}</a>
+                <a href="/{{ lang }}/blog/" class="block nav-link-light active">{{ t.nav.blog | safe }}</a>
+                <a href="/{{ lang }}/#contact" class="block nav-link-light">{{ t.nav.contact | safe }}</a>
+
+                <!-- Mobile Language Switcher -->
+                <div class="pt-3 border-t border-white/10">
+                    <p class="text-xs uppercase tracking-widest text-white/60 mb-2">{{ t.nav.language | safe }}</p>
+                    <div class="flex gap-2">
+                        <button data-lang="en" class="lang-option-mobile flex-1 px-3 py-2 text-sm text-white bg-white/10 rounded hover:bg-coral transition-colors">EN</button>
+                        <button data-lang="ru" class="lang-option-mobile flex-1 px-3 py-2 text-sm text-white bg-white/10 rounded hover:bg-coral transition-colors">RU</button>
+                        <button data-lang="tj" class="lang-option-mobile flex-1 px-3 py-2 text-sm text-white bg-white/10 rounded hover:bg-coral transition-colors">TJ</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Blog Header -->
+    <section class="pt-32 pb-12 bg-gradient-to-b from-navy-900 to-navy-800">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <p class="text-coral text-sm uppercase tracking-widest mb-3 font-medium">{{ t.blog.subtitle | safe }}</p>
+            <h1 class="text-4xl md:text-5xl font-semibold text-white mb-4">{{ t.blog.title | safe }}</h1>
+            <p class="text-white/70 text-lg max-w-2xl mx-auto font-light">{{ t.blog.description | safe }}</p>
+        </div>
+    </section>
+
+    <!-- Blog Posts Grid -->
+    <section class="py-16 bg-gray-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            {%- if posts.length > 0 %}
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                {%- for post in posts %}
+                {%- if post[lang] %}
+                {%- set p = post[lang] %}
+                <article class="blog-card bg-white rounded-lg overflow-hidden shadow-sm hover:shadow-lg transition-all duration-300">
+                    {%- if post.image %}
+                    <a href="/{{ lang }}/blog/{{ post.slug }}/" class="block overflow-hidden">
+                        <div class="blog-card-image aspect-[16/10] bg-gray-100 flex items-center justify-center">
+                            <img src="{{ post.image }}" alt="{{ p.title }}" class="w-full h-full object-cover" loading="lazy"
+                                 onerror="this.parentElement.innerHTML='<div class=\'flex items-center justify-center w-full h-full bg-gradient-to-br from-navy-900/5 to-coral/5\'><i class=\'fas fa-newspaper text-4xl text-navy-900/20\'></i></div>'">
+                        </div>
+                    </a>
+                    {%- endif %}
+                    <div class="p-6">
+                        <div class="flex items-center gap-3 mb-3">
+                            {%- if post.category %}
+                            <span class="blog-category text-xs uppercase tracking-wider font-medium text-coral">{{ t.blog.categories[post.category] | default(post.category) | safe }}</span>
+                            {%- endif %}
+                            <span class="text-xs text-gray-400">{{ post.date }}</span>
+                            {%- if post.readingTime %}
+                            <span class="text-xs text-gray-400"><i class="far fa-clock"></i> {{ post.readingTime }} {{ t.blog.minRead | safe }}</span>
+                            {%- endif %}
+                        </div>
+                        <h2 class="text-lg font-medium text-navy-900 mb-2 leading-snug">
+                            <a href="/{{ lang }}/blog/{{ post.slug }}/" class="hover:text-coral transition-colors">{{ p.title | safe }}</a>
+                        </h2>
+                        <p class="text-sm text-gray-500 font-light line-clamp-3 mb-4">{{ p.excerpt | safe }}</p>
+                        <a href="/{{ lang }}/blog/{{ post.slug }}/" class="inline-flex items-center text-sm font-medium text-coral hover:text-navy-900 transition-colors">
+                            {{ t.blog.readMore | safe }} <i class="fas fa-arrow-right ml-2 text-xs"></i>
+                        </a>
+                    </div>
+                </article>
+                {%- endif %}
+                {%- endfor %}
+            </div>
+            {%- else %}
+            <div class="text-center py-16">
+                <i class="fas fa-newspaper text-5xl text-gray-300 mb-4"></i>
+                <p class="text-gray-400 text-lg">{{ t.blog.noPosts | safe }}</p>
+            </div>
+            {%- endif %}
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-gray-50 text-gray-600 py-16 border-t border-gray-200">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid md:grid-cols-4 gap-12 mb-12">
+                <div>
+                    <h4 class="font-medium text-navy-900 mb-4">Sitora Karimova</h4>
+                    <p class="text-sm font-light">{{ t.footer.tagline | safe }}</p>
+                </div>
+                <div>
+                    <h4 class="font-medium text-navy-900 mb-4">{{ t.footer.servicesTitle | safe }}</h4>
+                    <ul class="space-y-2 text-sm font-light">
+                        <li><a href="/{{ lang }}/#services" class="hover:text-coral transition-colors">{{ t.footer.eyeExams | safe }}</a></li>
+                        <li><a href="/{{ lang }}/#services" class="hover:text-coral transition-colors">{{ t.footer.glasses | safe }}</a></li>
+                        <li><a href="/{{ lang }}/#services" class="hover:text-coral transition-colors">{{ t.footer.contacts | safe }}</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="font-medium text-navy-900 mb-4">{{ t.footer.infoTitle | safe }}</h4>
+                    <ul class="space-y-2 text-sm font-light">
+                        <li><a href="/{{ lang }}/#about" class="hover:text-coral transition-colors">{{ t.footer.about | safe }}</a></li>
+                        <li><a href="/{{ lang }}/blog/" class="hover:text-coral transition-colors">{{ t.nav.blog | safe }}</a></li>
+                        <li><a href="/{{ lang }}/#contact" class="hover:text-coral transition-colors">{{ t.footer.contact | safe }}</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="font-medium text-navy-900 mb-4">{{ t.footer.connect | safe }}</h4>
+                    <div class="flex space-x-4">
+                        <a href="#" class="text-gray-400 hover:text-coral transition-colors"><i class="fab fa-facebook text-xl"></i></a>
+                        <a href="#" class="text-gray-400 hover:text-coral transition-colors"><i class="fab fa-instagram text-xl"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="border-t border-gray-200 pt-8">
+                <p class="text-sm text-center font-light">{{ t.footer.copyright | safe }}</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- JavaScript -->
+    <script>window.__T__ = {{ t | dump | safe }}; window.__LANG__ = "{{ lang }}";</script>
+    <script src="/blog/blog.js"></script>
+</body>
+</html>

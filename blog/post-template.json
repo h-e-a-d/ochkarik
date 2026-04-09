@@ -1,0 +1,34 @@
+{
+  "id": "YYYY-MM-DD-slug-here",
+  "slug": "slug-here",
+  "date": "YYYY-MM-DD",
+  "image": "/assets/images/blog/slug-here.webp",
+  "category": "research|treatments|prevention|pediatric|technology|lifestyle",
+  "tags": ["tag1", "tag2"],
+  "author": "Dr. Sitora Karimova",
+  "readingTime": 5,
+  "source": {
+    "url": "https://original-source-url.com/article",
+    "name": "Source Publication Name",
+    "date": "YYYY-MM-DD"
+  },
+  "aiTranslated": ["ru", "tj"],
+  "en": {
+    "title": "Article Title in English",
+    "excerpt": "1-2 sentence summary for blog listing cards and social sharing.",
+    "metaDescription": "SEO-optimized description under 160 characters for search results.",
+    "content": "Full article content in markdown format.\n\n## Section Heading\n\nParagraph text here.\n\n- List item 1\n- List item 2\n\n**Bold text** and *italic text*.\n\n---\n\n*Schedule an appointment at our clinic on Bekhzod Street 14, inside Osse Optical. Call +992 108 11 80 80.*"
+  },
+  "ru": {
+    "title": "Заголовок статьи на русском",
+    "excerpt": "Краткое описание для карточек блога и соцсетей.",
+    "metaDescription": "SEO-описание до 160 символов.",
+    "content": "Полный текст статьи в формате markdown."
+  },
+  "tj": {
+    "title": "Унвони мақола бо забони тоҷикӣ",
+    "excerpt": "Шарҳи кӯтоҳ барои корточкаҳои блог ва шабакаҳои иҷтимоӣ.",
+    "metaDescription": "Тавсифи SEO то 160 аломат.",
+    "content": "Матни пурраи мақола дар формати markdown."
+  }
+}

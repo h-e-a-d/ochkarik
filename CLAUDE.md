@@ -24,6 +24,12 @@ This is a single-page ophthalmologist website for Dr. Sitora Karimova (sitorakar
 - `styles.css` - Custom CSS for animations, transitions, and design enhancements
 - `website.png` - Reference design file (6MB PNG for UX/UI reference)
 - `assets/images/table-ru.svg` - Russian Snellen vision chart for the vision test feature
+- `blog/` - Blog static assets (blog.css, blog.js, post-template.json)
+- `src/blog/` - Blog Nunjucks templates (index.njk for listing, post.njk for posts)
+- `src/_data/blog/posts/` - Blog post JSON files (one per article, all languages)
+- `src/_data/blogPosts.js` - Blog post data loader
+- `src/_data/blogPages.js` - Locale × post page generator
+- `blog.md` - **Comprehensive blog system documentation and content engine workflow**
 
 ### Design System
 

@@ -11,6 +11,7 @@
     "reviews": "Reviews",
     "faq": "FAQ",
     "contact": "Contact",
+    "blog": "Blog",
     "language": "Language"
   },
   "hero": {
@@ -187,5 +188,28 @@
     "privacy": "Privacy Policy",
     "connect": "Connect",
     "copyright": "© 2025 Sitora Karimova Ophthalmology. All rights reserved."
+  },
+  "blog": {
+    "metaTitle": "Eye Health Blog — Dr. Sitora Karimova",
+    "metaDescription": "Latest news and insights on ophthalmology, eye health, and vision care from Dr. Sitora Karimova in Dushanbe.",
+    "subtitle": "Eye Health Insights",
+    "title": "Blog",
+    "description": "Expert insights on eye health, vision care, and the latest in ophthalmology",
+    "readMore": "Read More",
+    "backToBlog": "Back to Blog",
+    "minRead": "min read",
+    "noPosts": "No articles published yet. Check back soon!",
+    "share": "Share",
+    "sourceLabel": "Source",
+    "aiTranslatedBanner": "This article was translated with AI.",
+    "viewOriginal": "View original (English)",
+    "categories": {
+      "research": "Research",
+      "treatments": "Treatments",
+      "prevention": "Prevention",
+      "pediatric": "Pediatric",
+      "technology": "Technology",
+      "lifestyle": "Lifestyle"
+    }
   }
 }
