@@ -3,7 +3,7 @@
 
 // Cache version - INCREMENT THIS when deploying updates
 // Format: 'v{major}.{minor}.{patch}'
-const CACHE_VERSION = '1.2.7';
+const CACHE_VERSION = '1.2.8';
 const CACHE_NAME = `sitorakarimi-${CACHE_VERSION}`;
 
 // Assets to cache. Per-locale pages are listed so offline visitors see their
@@ -75,7 +75,18 @@ self.addEventListener('activate', (event) => {
     );
 });
 
-// Fetch event - serve from cache, fallback to network
+// Fetch event - two strategies depending on resource type:
+//
+// HTML pages (locale pages like /ru/, /en/, /tj/):
+//   Network-FIRST — always fetch fresh HTML from the server, fall back to
+//   cache only when offline. This prevents stale-while-revalidate from
+//   serving old HTML to language-switch navigations: the SW refreshes only
+//   the page currently loaded; sibling locales can stay at their SW-install
+//   vintage indefinitely under the old cache-first strategy.
+//
+// All other assets (JS, CSS, images, etc.):
+//   Cache-FIRST — serve pre-cached assets instantly, fetch from network
+//   only on a cache miss, and cache the result for future visits.
 self.addEventListener('fetch', (event) => {
     // Skip non-GET requests
     if (event.request.method !== 'GET') {
@@ -87,61 +98,62 @@ self.addEventListener('fetch', (event) => {
         return;
     }
 
-    event.respondWith(
-        caches.match(event.request)
-            .then((cachedResponse) => {
-                // Return cached response if found
-                if (cachedResponse) {
-                    // For HTML, also fetch from network in background to update cache
-                    if (event.request.headers.get('accept').includes('text/html')) {
-                        event.waitUntil(
-                            fetch(event.request)
-                                .then((response) => {
-                                    return caches.open(CACHE_NAME).then((cache) => {
-                                        cache.put(event.request, response.clone());
-                                        return response;
-                                    });
-                                })
-                                .catch(() => {
-                                    // Network failed, keep using cache
-                                })
-                        );
+    const isHTML = event.request.headers.get('accept') &&
+                   event.request.headers.get('accept').includes('text/html');
+
+    if (isHTML) {
+        // ── Network-first for HTML ──────────────────────────────────────────
+        // Locale pages are small static documents served from Netlify's CDN
+        // edge — network round-trips are fast (< 100 ms on a good connection).
+        // Always fetching fresh ensures language-switch navigations never see
+        // a stale IIFE or stale markup.
+        event.respondWith(
+            fetch(event.request)
+                .then((response) => {
+                    // Cache the fresh response for offline fallback
+                    if (response && response.status === 200) {
+                        const responseToCache = response.clone();
+                        caches.open(CACHE_NAME).then((cache) => {
+                            cache.put(event.request, responseToCache);
+                        });
+                    }
+                    return response;
+                })
+                .catch(() => {
+                    // Offline: serve from cache, last resort fall back to root
+                    return caches.match(event.request)
+                        .then((cached) => cached || caches.match('/ru/'));
+                })
+        );
+    } else {
+        // ── Cache-first for assets ──────────────────────────────────────────
+        event.respondWith(
+            caches.match(event.request)
+                .then((cachedResponse) => {
+                    if (cachedResponse) {
+                        return cachedResponse;
                     }
 
-                    return cachedResponse;
-                }
+                    return fetch(event.request)
+                        .then((response) => {
+                            if (!response || response.status !== 200 || response.type === 'error') {
+                                return response;
+                            }
 
-                // If not in cache, fetch from network
-                return fetch(event.request)
-                    .then((response) => {
-                        // Don't cache non-successful responses
-                        if (!response || response.status !== 200 || response.type === 'error') {
-                            return response;
-                        }
-
-                        // Clone the response before caching
-                        const responseToCache = response.clone();
-
-                        caches.open(CACHE_NAME)
-                            .then((cache) => {
+                            const responseToCache = response.clone();
+                            caches.open(CACHE_NAME).then((cache) => {
                                 cache.put(event.request, responseToCache);
                             });
 
-                        return response;
-                    })
-                    .catch((error) => {
-                        console.error('[Service Worker] Fetch failed:', error);
-
-                        // Return offline page if available
-                        if (event.request.headers.get('accept').includes('text/html')) {
-                            return caches.match('/');
-                        }
-
-                        // For other resources, just fail
-                        throw error;
-                    });
-            })
-    );
+                            return response;
+                        })
+                        .catch((error) => {
+                            console.error('[Service Worker] Fetch failed:', error);
+                            throw error;
+                        });
+                })
+        );
+    }
 });
 
 // Message event - allow clients to trigger cache refresh
