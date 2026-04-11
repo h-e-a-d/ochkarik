@@ -1420,6 +1420,12 @@ eleventyComputed:
         scrollAttached = false;
         window.removeEventListener('scroll', onScroll);
         sticky.classList.remove('glasses-active');
+        // Reset so the next attachScroll() → update() always renders fresh.
+        // Without this, lastProgress retains whatever value the early-exit
+        // wrote (0 or 1), and if the section re-enters at the same idle
+        // progress the `if (progress === lastProgress) return` check fires
+        // and skips the render — leaving clip-paths / opacities stale.
+        lastProgress = -1;
       }
 
       function init() {
