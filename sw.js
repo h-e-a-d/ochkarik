@@ -3,7 +3,7 @@
 
 // Cache version - INCREMENT THIS when deploying updates
 // Format: 'v{major}.{minor}.{patch}'
-const CACHE_VERSION = '1.2.4';
+const CACHE_VERSION = '1.2.5';
 const CACHE_NAME = `sitorakarimi-${CACHE_VERSION}`;
 
 // Assets to cache. Per-locale pages are listed so offline visitors see their
