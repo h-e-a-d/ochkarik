@@ -329,11 +329,12 @@ blockquote::before {
 #mobile-menu {
     max-height: 0;
     overflow: hidden;
-    transition: max-height 0.3s ease-out;
+    transition: max-height 0.35s ease-out;
 }
 
 #mobile-menu.open {
-    max-height: 500px;
+    max-height: calc(100vh - 80px);
+    overflow-y: auto;
 }
 
 /* Typography Enhancements */
@@ -941,11 +942,11 @@ body.loading {
    TOUCH TARGET IMPROVEMENTS
    =========================== */
 
-@media (max-width: 768px) {
+@media (max-width: 1024px) {
     /* Navigation touch targets */
     #mobile-menu a {
-        padding: 16px 0;
-        min-height: 52px;
+        padding: 10px 0;
+        min-height: 44px;
         display: flex;
         align-items: center;
     }
