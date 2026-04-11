@@ -7,6 +7,10 @@
 .superpowers/
 .vscode/
 
+# Tool artifacts
+.kie/
+tasks.db
+
 # Node / Eleventy
 node_modules/
 _site/
