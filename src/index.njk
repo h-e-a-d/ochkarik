@@ -1218,7 +1218,7 @@ eleventyComputed:
     <!-- JavaScript -->
     <script>
         // Auto-generate version from timestamp (changes every deployment)
-        window.SITE_VERSION = '1.0.8'; // Fix glasses section blink
+        window.SITE_VERSION = '1.0.9'; // Fix glasses anim on language switch (SVG load race)
     </script>
     <script>window.__T__ = {{ t | dump | safe }}; window.__LANG__ = "{{ lang }}";</script>
     <script src="/script.js?v=1.1.0"></script>
@@ -1315,6 +1315,13 @@ eleventyComputed:
         const imgW       = img.offsetWidth;
         const imgH       = img.offsetHeight;
         const vpW        = window.innerWidth;
+
+        // Guard: SVG not yet decoded — offsetHeight is 0 when height:auto
+        // can't compute without the image's natural dimensions. Returning
+        // here prevents broken 0-height clip-path ellipses. The img.onload
+        // handler set up in init() will reset lastProgress and re-call
+        // update() once the image is ready.
+        if (imgH === 0) return;
 
         // ── Calculate everything ──────────────────────────────────────────
         const progress = clamp01(-stageTop / (stageH - vpH));
@@ -1439,6 +1446,20 @@ eleventyComputed:
         // first frame after the IntersectionObserver attaches the scroll
         // handler.
         wrap.style.transform = 'translate(0px,0px) scale(0.5)';
+
+        // On production the glasses SVG may arrive from the network after
+        // the first update() call (it is not in ASSETS_TO_CACHE by default
+        // and may not yet be in the SW dynamic cache on first language-switch).
+        // When height:auto cannot compute without natural dimensions,
+        // img.offsetHeight is 0 and update() returns early (see guard above).
+        // Re-trigger a render once the image is decoded so the animation
+        // starts correctly without requiring a scroll event.
+        if (!img.complete || img.naturalHeight === 0) {
+          img.addEventListener('load', function () {
+            lastProgress = -1; // bypass the progress-equality short-circuit
+            if (scrollAttached) update();
+          }, { once: true });
+        }
 
         // Only run the scroll handler (and only promote compositor layers)
         // while the section is within ~one viewport of the visible area.

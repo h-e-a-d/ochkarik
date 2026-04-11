@@ -3,7 +3,7 @@
 
 // Cache version - INCREMENT THIS when deploying updates
 // Format: 'v{major}.{minor}.{patch}'
-const CACHE_VERSION = '1.2.6';
+const CACHE_VERSION = '1.2.7';
 const CACHE_NAME = `sitorakarimi-${CACHE_VERSION}`;
 
 // Assets to cache. Per-locale pages are listed so offline visitors see their
@@ -20,6 +20,7 @@ const ASSETS_TO_CACHE = [
     '/assets/images/hero.png',
     '/assets/images/about-1.jpg',
     '/assets/images/about-2.jpg',
+    '/assets/images/eyeglasses-vector-small.svg',
     '/assets/images/table-ru.svg',
     '/assets/images/og-image.webp',
     '/assets/images/vision-disorders.webp',
