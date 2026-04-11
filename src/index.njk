@@ -1438,7 +1438,12 @@ eleventyComputed:
       function init() {
         blurryText.style.opacity = '0';
         // Blur is intentionally constant — see note in update().
-        blurryText.style.filter  = 'blur(10px)';
+        // Use a smaller radius on mobile: the blur is applied to a
+        // full-viewport element and processed by the GPU every composite
+        // frame. 10px on a ~390px-wide mobile viewport taxes the GPU enough
+        // to cause visible scroll stutter; 4px gives the same visual
+        // contrast between blurry/sharp while halving the blur kernel cost.
+        blurryText.style.filter  = window.innerWidth > 768 ? 'blur(10px)' : 'blur(4px)';
         sharpLeft.style.opacity  = '0';
         sharpRight.style.opacity = '0';
         // Apply the animation's starting transform immediately so the
