@@ -1,5 +1,11 @@
 // JavaScript for Minimalist Ophthalmologist Website
 
+// Prevent browsers from restoring a stale scroll position after
+// language-switch navigation (bfcache or same-origin restore).
+if ('scrollRestoration' in history) {
+    history.scrollRestoration = 'manual';
+}
+
 // Wait for DOM to be fully loaded
 document.addEventListener('DOMContentLoaded', function() {
 
@@ -7,6 +13,15 @@ document.addEventListener('DOMContentLoaded', function() {
     // Page Loader
     // ===========================
     const pageLoader = document.getElementById('page-loader');
+
+    // When bfcache restores a page, DOMContentLoaded doesn't re-fire
+    // but pageshow does. Ensure the page loader is hidden.
+    window.addEventListener('pageshow', function(e) {
+        if (e.persisted && pageLoader) {
+            pageLoader.classList.add('hidden');
+            document.body.classList.remove('loading');
+        }
+    });
 
     // Hide loader when page is fully loaded
     window.addEventListener('load', function() {

@@ -1455,6 +1455,40 @@ eleventyComputed:
         window.addEventListener('resize', () => { if (scrollAttached) update(); });
       }
 
+      // ── bfcache / pageshow handling ────────────────────────────────────
+      // When the browser restores this page from bfcache (back/forward
+      // navigation after a language switch), the IIFE does NOT re-run —
+      // JS state is frozen and restored. Inline styles on animation
+      // elements may be cleared or stale, and `lastProgress` prevents
+      // update() from re-rendering. Force a full re-init on restore.
+      window.addEventListener('pageshow', function (e) {
+        if (e.persisted) {
+          lastProgress = -1;
+          // Re-apply init styles in case the browser cleared them
+          blurryText.style.opacity = '0';
+          blurryText.style.filter  = 'blur(10px)';
+          sharpLeft.style.opacity  = '0';
+          sharpRight.style.opacity = '0';
+          wrap.style.transform = 'translate(0px,0px) scale(0.5)';
+          img.style.opacity = '1';
+          maskLeft.style.clipPath  = '';
+          maskRight.style.clipPath = '';
+          sharpLeft.style.clipPath  = '';
+          sharpRight.style.clipPath = '';
+          // Force immediate recalculation
+          if (scrollAttached) {
+            update();
+          }
+        }
+      });
+
+      // Prevent browsers from restoring a stale scroll position after
+      // language-switch navigation, which would cause the animation to
+      // jump to a mid-progress state on the first frame.
+      if ('scrollRestoration' in history) {
+        history.scrollRestoration = 'manual';
+      }
+
       if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init);
       else init();
     })();
