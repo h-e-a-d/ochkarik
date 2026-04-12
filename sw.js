@@ -3,11 +3,18 @@
 
 // Cache version - INCREMENT THIS when deploying updates
 // Format: 'v{major}.{minor}.{patch}'
-const CACHE_VERSION = '1.2.9';
+const CACHE_VERSION = '1.3.0';
 const CACHE_NAME = `sitorakarimi-${CACHE_VERSION}`;
+
+// CSS version — must match the ?v= query string on /styles.css in index.njk.
+// Update BOTH values whenever styles.css changes, then bump CACHE_VERSION.
+const CSS_VERSION = '1.3.0';
 
 // Assets to cache. Per-locale pages are listed so offline visitors see their
 // language correctly. Root "/" is intentionally omitted — it 302-redirects to /ru/.
+// NOTE: styles.css is versioned (?v=CSS_VERSION) so that when the file changes
+// and we bump CSS_VERSION, the new URL is fetched fresh instead of the SW
+// serving a stale copy from the browser's HTTP cache.
 const ASSETS_TO_CACHE = [
     '/ru/',
     '/tj/',
@@ -15,7 +22,7 @@ const ASSETS_TO_CACHE = [
     '/script.js',
     '/vision-test.js',
     '/vision-disorders.js',
-    '/styles.css',
+    `/styles.css?v=${CSS_VERSION}`,
     '/favicon.svg',
     '/assets/images/hero.png',
     '/assets/images/about-1.jpg',
@@ -39,7 +46,16 @@ self.addEventListener('install', (event) => {
         caches.open(CACHE_NAME)
             .then((cache) => {
                 console.log('[Service Worker] Caching assets');
-                return cache.addAll(ASSETS_TO_CACHE);
+                // Use cache:'reload' so each fetch bypasses the browser's HTTP
+                // cache and always pulls fresh bytes from the network.
+                // Without this, cache.addAll() can store a stale response that
+                // the browser's HTTP cache served (e.g. an old styles.css that
+                // predates the glasses animation section), causing the SW to
+                // serve that stale version on every subsequent language switch.
+                const requests = ASSETS_TO_CACHE.map(
+                    url => new Request(url, { cache: 'reload' })
+                );
+                return cache.addAll(requests);
             })
             .then(() => {
                 // Force the waiting service worker to become the active service worker

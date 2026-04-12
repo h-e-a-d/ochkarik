@@ -100,7 +100,8 @@ eleventyComputed:
     <noscript><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"></noscript>
 
     <!-- Custom Styles -->
-    <link rel="stylesheet" href="/styles.css">
+    <!-- Version matches CSS_VERSION in sw.js — update both when styles.css changes -->
+    <link rel="stylesheet" href="/styles.css?v=1.3.0">
 
     <!-- Schema.org Structured Data - Enhanced with LocalBusiness and Reviews -->
     <script type="application/ld+json">
@@ -1218,7 +1219,7 @@ eleventyComputed:
     <!-- JavaScript -->
     <script>
         // Auto-generate version from timestamp (changes every deployment)
-        window.SITE_VERSION = '1.1.0'; // Add glasses anim diagnostics for language-switch debugging
+        window.SITE_VERSION = '1.1.1'; // Fix: version styles.css URL + SW cache:reload to prevent stale CSS
     </script>
     <script>window.__T__ = {{ t | dump | safe }}; window.__LANG__ = "{{ lang }}";</script>
     <script src="/script.js?v=1.1.0"></script>
@@ -1294,7 +1295,9 @@ eleventyComputed:
         const eyeline  = stage.querySelector('.glasses-anim-eyeline');
         const elineCol = eyeline ? cs(eyeline).color : 'n/a'; // expected: rgb(10,42,61)
         const elineW   = eyeline ? cs(eyeline).fontWeight : 'n/a'; // expected: '300'
-        const cssOk    = stageH > 500 && wrapPos === 'absolute';
+        // stage should be 500vh — on any real viewport that's many times the
+        // viewport height. If stageH ≈ 1×vpH it means height:500vh didn't apply.
+        const cssOk    = stageH > window.innerHeight * 3 && wrapPos === 'absolute';
 
         const imgComplete    = img.complete;
         const imgNatH        = img.naturalHeight;
