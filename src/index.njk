@@ -1218,7 +1218,7 @@ eleventyComputed:
     <!-- JavaScript -->
     <script>
         // Auto-generate version from timestamp (changes every deployment)
-        window.SITE_VERSION = '1.0.9'; // Fix glasses anim on language switch (SVG load race)
+        window.SITE_VERSION = '1.1.0'; // Add glasses anim diagnostics for language-switch debugging
     </script>
     <script>window.__T__ = {{ t | dump | safe }}; window.__LANG__ = "{{ lang }}";</script>
     <script src="/script.js?v=1.1.0"></script>
@@ -1258,6 +1258,7 @@ eleventyComputed:
 
       // ── Diagnostics ─────────────────────────────────────────────────────
       // Toggle via URL: ?glassesdebug or localStorage.glassesDebug = '1'
+      // Quick enable from DevTools console: localStorage.glassesDebug='1'; location.reload()
       const DEBUG = /[?&]glassesdebug\b/.test(location.search) ||
                     (typeof localStorage !== 'undefined' && localStorage.glassesDebug === '1');
       const dbg = {
@@ -1277,6 +1278,92 @@ eleventyComputed:
           `maxUpdate=${dbg.maxUpdateMs.toFixed(2)}ms maxScale=${dbg.maxScale.toFixed(2)} ` +
           `maxRaster=${dbg.maxRasterPx.toFixed(0)}px`
         );
+      }
+
+      // ── diagnose() — runs on init and pageshow, always logs critical failures,
+      //    verbose detail only when DEBUG is on.
+      //    Checks four root-cause candidates:
+      //      1. CSS not loaded (stage height, wrap position, eyeline color)
+      //      2. SVG not ready (complete, naturalHeight, offsetHeight)
+      //      3. Stale scroll position (scrollY > 0 at page load)
+      //      4. Service Worker cache info (which SW cache version is active)
+      function diagnose(trigger) {
+        const cs  = window.getComputedStyle;
+        const stageH   = stage.offsetHeight;
+        const wrapPos  = cs(wrap).position;         // expected: 'absolute'
+        const eyeline  = stage.querySelector('.glasses-anim-eyeline');
+        const elineCol = eyeline ? cs(eyeline).color : 'n/a'; // expected: rgb(10,42,61)
+        const elineW   = eyeline ? cs(eyeline).fontWeight : 'n/a'; // expected: '300'
+        const cssOk    = stageH > 500 && wrapPos === 'absolute';
+
+        const imgComplete    = img.complete;
+        const imgNatH        = img.naturalHeight;
+        const imgOffH        = img.offsetHeight;
+        const svgOk          = imgComplete && imgOffH > 0;
+
+        const scrollY        = window.scrollY;
+        const lang           = document.documentElement.lang || 'unknown';
+        const readyState     = document.readyState;
+
+        // ── Always-on warnings (visible in production DevTools) ──────────
+        if (!cssOk) {
+          console.warn(
+            `[glasses] ⚠ CSS NOT APPLIED on ${trigger} (lang=${lang}). ` +
+            `stage.offsetHeight=${stageH} (expect >500), wrap.position='${wrapPos}' (expect 'absolute'). ` +
+            `Likely cause: styles.css not loaded or SW serving stale cache. ` +
+            `Check: Network > styles.css response headers & SW cache storage.`
+          );
+        }
+        if (!svgOk) {
+          console.warn(
+            `[glasses] ⚠ SVG NOT READY on ${trigger} (lang=${lang}). ` +
+            `img.complete=${imgComplete} naturalHeight=${imgNatH} offsetHeight=${imgOffH}. ` +
+            `The load-event listener should recover this automatically.`
+          );
+        }
+        if (scrollY > 100) {
+          console.warn(
+            `[glasses] ⚠ NON-ZERO SCROLL on ${trigger}: scrollY=${scrollY}. ` +
+            `history.scrollRestoration='${history.scrollRestoration}'. ` +
+            `The animation may start mid-progress instead of scale(0.5).`
+          );
+        }
+
+        // ── Verbose detail only when DEBUG is on ─────────────────────────
+        if (!DEBUG) return;
+        console.groupCollapsed(`[glasses] diagnose(${trigger}) lang=${lang} t=${performance.now().toFixed(0)}ms`);
+        console.log('readyState       :', readyState);
+        console.log('scrollY          :', scrollY);
+        console.log('scrollRestoration:', history.scrollRestoration);
+        console.log('--- CSS ---');
+        console.log('stage.offsetHeight :', stageH, cssOk ? '✓' : '✗ BROKEN');
+        console.log('wrap.position      :', wrapPos, wrapPos === 'absolute' ? '✓' : '✗ BROKEN');
+        console.log('eyeline color      :', elineCol, '(expect rgb(10,42,61))');
+        console.log('eyeline fontWeight :', elineW,   '(expect 300)');
+        console.log('--- SVG ---');
+        console.log('img.complete       :', imgComplete);
+        console.log('img.naturalHeight  :', imgNatH);
+        console.log('img.offsetHeight   :', imgOffH, svgOk ? '✓' : '⏳ will retry on load');
+        console.log('img.currentSrc     :', img.currentSrc);
+        console.log('--- JS state ---');
+        console.log('lastProgress       :', lastProgress);
+        console.log('scrollAttached     :', scrollAttached);
+        console.log('ticking            :', ticking);
+        console.log('wrap.style.transform:', wrap.style.transform);
+        // Check stylesheets to see if styles.css is in the document
+        const sheets = Array.from(document.styleSheets).map(s => {
+          try { return s.href || '(inline)'; } catch(e) { return '(cross-origin)'; }
+        });
+        console.log('loaded stylesheets :', sheets);
+        // SW cache version if available
+        if ('serviceWorker' in navigator && navigator.serviceWorker.controller) {
+          const sw = navigator.serviceWorker.controller;
+          console.log('SW scriptURL       :', sw.scriptURL);
+          console.log('SW state           :', sw.state);
+        } else {
+          console.log('SW controller      : none (page not controlled by SW)');
+        }
+        console.groupEnd();
       }
 
       function onScroll() {
@@ -1321,7 +1408,10 @@ eleventyComputed:
         // here prevents broken 0-height clip-path ellipses. The img.onload
         // handler set up in init() will reset lastProgress and re-call
         // update() once the image is ready.
-        if (imgH === 0) return;
+        if (imgH === 0) {
+          if (DEBUG) console.log('[glasses] update: imgH=0, waiting for SVG load event');
+          return;
+        }
 
         // ── Calculate everything ──────────────────────────────────────────
         const progress = clamp01(-stageTop / (stageH - vpH));
@@ -1420,6 +1510,7 @@ eleventyComputed:
         scrollAttached = true;
         window.addEventListener('scroll', onScroll, { passive: true });
         sticky.classList.add('glasses-active');
+        if (DEBUG) console.log(`[glasses] IO → attachScroll() scrollY=${window.scrollY} lastProgress=${lastProgress}`);
         update();
       }
       function detachScroll() {
@@ -1433,6 +1524,7 @@ eleventyComputed:
         // progress the `if (progress === lastProgress) return` check fires
         // and skips the render — leaving clip-paths / opacities stale.
         lastProgress = -1;
+        if (DEBUG) console.log(`[glasses] IO → detachScroll() scrollY=${window.scrollY}`);
       }
 
       function init() {
@@ -1443,7 +1535,8 @@ eleventyComputed:
         // frame. 10px on a ~390px-wide mobile viewport taxes the GPU enough
         // to cause visible scroll stutter; 4px gives the same visual
         // contrast between blurry/sharp while halving the blur kernel cost.
-        blurryText.style.filter  = window.innerWidth > 768 ? 'blur(10px)' : 'blur(4px)';
+        const blurVal = window.innerWidth > 768 ? 'blur(10px)' : 'blur(4px)';
+        blurryText.style.filter  = blurVal;
         sharpLeft.style.opacity  = '0';
         sharpRight.style.opacity = '0';
         // Apply the animation's starting transform immediately so the
@@ -1451,6 +1544,9 @@ eleventyComputed:
         // first frame after the IntersectionObserver attaches the scroll
         // handler.
         wrap.style.transform = 'translate(0px,0px) scale(0.5)';
+
+        // Run diagnostics — will warn loudly in console if CSS or SVG is broken.
+        diagnose('init');
 
         // On production the glasses SVG may arrive from the network after
         // the first update() call (it is not in ASSETS_TO_CACHE by default
@@ -1460,8 +1556,10 @@ eleventyComputed:
         // Re-trigger a render once the image is decoded so the animation
         // starts correctly without requiring a scroll event.
         if (!img.complete || img.naturalHeight === 0) {
+          if (DEBUG) console.log('[glasses] init: SVG not yet decoded — added load listener');
           img.addEventListener('load', function () {
             lastProgress = -1; // bypass the progress-equality short-circuit
+            if (DEBUG) console.log(`[glasses] img.load fired: naturalHeight=${img.naturalHeight} offsetHeight=${img.offsetHeight} scrollAttached=${scrollAttached}`);
             if (scrollAttached) update();
           }, { once: true });
         }
@@ -1475,6 +1573,7 @@ eleventyComputed:
         if ('IntersectionObserver' in window) {
           const io = new IntersectionObserver((entries) => {
             for (const e of entries) {
+              if (DEBUG) console.log(`[glasses] IntersectionObserver: isIntersecting=${e.isIntersecting} intersectionRatio=${e.intersectionRatio.toFixed(3)}`);
               if (e.isIntersecting) attachScroll();
               else detachScroll();
             }
@@ -1505,14 +1604,16 @@ eleventyComputed:
       //    The IntersectionObserver is still live and will call detachScroll()
       //    again if the section is out of the extended viewport — that is fine.
       window.addEventListener('pageshow', function (e) {
+        if (DEBUG) console.log(`[glasses] pageshow: persisted=${e.persisted} lang=${document.documentElement.lang} scrollY=${window.scrollY}`);
         if (e.persisted) {
           // Reset scheduler state so the next scroll / RAF cycle is unblocked
           ticking      = false;
           lastProgress = -1;
 
-          // Re-apply init styles in case the browser cleared them
+          // Re-apply init styles in case the browser cleared them.
+          // Use mobile-responsive blur (same logic as init).
           blurryText.style.opacity = '0';
-          blurryText.style.filter  = 'blur(10px)';
+          blurryText.style.filter  = window.innerWidth > 768 ? 'blur(10px)' : 'blur(4px)';
           sharpLeft.style.opacity  = '0';
           sharpRight.style.opacity = '0';
           wrap.style.transform = 'translate(0px,0px) scale(0.5)';
@@ -1521,6 +1622,9 @@ eleventyComputed:
           maskRight.style.clipPath = '';
           sharpLeft.style.clipPath  = '';
           sharpRight.style.clipPath = '';
+
+          // Run diagnostics for the bfcache-restore path.
+          diagnose('pageshow-persisted');
 
           // Force re-attachment regardless of whether scrollAttached is true or
           // false — reset first so attachScroll()'s guard doesn't short-circuit.
