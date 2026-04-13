@@ -3,7 +3,7 @@
 
 // Cache version - INCREMENT THIS when deploying updates
 // Format: 'v{major}.{minor}.{patch}'
-const CACHE_VERSION = '1.3.2';
+const CACHE_VERSION = '1.3.3';
 const CACHE_NAME = `sitorakarimi-${CACHE_VERSION}`;
 
 // CSS version — must match the ?v= query string on /styles.css in index.njk.
@@ -26,7 +26,6 @@ const ASSETS_TO_CACHE = [
     '/script.js',
     '/vision-test.js',
     '/vision-disorders.js',
-    '/glasses-anim.js',
     `/styles.css?v=${CSS_VERSION}`,
     '/favicon.svg',
     '/assets/images/hero.webp',
