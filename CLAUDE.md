@@ -125,34 +125,43 @@ Visit `http://localhost:8000` in your browser.
 
 When preparing a release or making significant updates to the site:
 
-**IMPORTANT: Always increment the Service Worker cache version in `sw.js`:**
+**IMPORTANT: Three things must always be updated together when `styles.css` changes:**
 
-1. Open `sw.js` (Service Worker file)
-2. Update the `CACHE_VERSION` constant on line 6
-3. Follow semantic versioning (e.g., `1.0.1` → `1.0.2` for patches, `1.1.0` for features, `2.0.0` for breaking changes)
-4. This ensures all users receive the latest version of cached assets
+1. `sw.js` → `CSS_VERSION` constant
+2. `sw.js` → `CACHE_VERSION` constant (same value — also invalidates the full SW cache for all users)
+3. `src/index.njk` → `?v=` query string on the `<link rel="stylesheet" href="/styles.css?v=...">` tag
 
-**Example:**
+**Example — bumping for a CSS change:**
 ```javascript
-// Before
-const CACHE_VERSION = '1.0.1';
+// sw.js (before)
+const CACHE_VERSION = '1.3.0';
+const CSS_VERSION   = '1.3.0';
 
-// After (patch release)
-const CACHE_VERSION = '1.0.2';
+// sw.js (after)
+const CACHE_VERSION = '1.3.1';
+const CSS_VERSION   = '1.3.1';
+```
+```html
+<!-- src/index.njk (before) -->
+<link rel="stylesheet" href="/styles.css?v=1.3.0">
+
+<!-- src/index.njk (after) -->
+<link rel="stylesheet" href="/styles.css?v=1.3.1">
 ```
 
-**Why this matters:**
-- The Service Worker caches static assets (HTML, CSS, JS) for offline support
-- Without updating the version, users may see old cached content
-- The new cache version forces all users to fetch fresh assets
-- Old cache versions are automatically deleted on Service Worker activation
+**Why all three matter:**
+- The Service Worker serves `styles.css` from its cache on language switches (cache-first strategy)
+- Without a versioned URL, the SW re-caches whatever the browser's HTTP cache provides — which can be a stale pre-edit version
+- This caused the glasses animation to break on language switch: the SW was serving an old `styles.css` that predated the glasses animation section (lines 1359+), so all `.glasses-anim-*` rules were missing
+- The `?v=` URL makes the cached entry unique per version; the old stale entry is never matched
 
-**When to increment:**
-- Major content changes to `index.html`
-- CSS updates in `styles.css`
-- JavaScript changes in `script.js` or `vision-test.js`
+**When to bump (all three):**
+- Any edit to `styles.css`
 - Before deploying to production
-- When fixing bugs or adding features
+
+**For other assets (JS, images, HTML):**
+- Bumping `CACHE_VERSION` deletes the old cache and forces a fresh install for all assets
+- JS files (`script.js`, `vision-test.js`, `vision-disorders.js`) use `?v=` in the HTML **and are listed in `ASSETS_TO_CACHE`** — they are cached by the SW with a cache-first strategy. Always bump `CACHE_VERSION` when JS files change.
 
 ### Important Implementation Details
 
@@ -270,6 +279,23 @@ The main `handleScroll()` in `script.js` uses `.contains()` guards before every 
 ### Enabling / Disabling
 
 The entire feature is self-contained. To disable: comment out or delete the `#glasses-animation-section` block in `index.html` and the inline `<script>` IIFE immediately before `</body>`. The `.glasses-anim-*` CSS rules in `styles.css` can be left in place — they have no effect without the HTML.
+
+### Debugging the Animation
+
+The IIFE has a built-in diagnostic system. Enable verbose mode in one of two ways:
+
+- Append `?glassesdebug` to any URL: `https://sitorakarimi.com/ru/?glassesdebug`
+- Or run in DevTools console, then reload: `localStorage.glassesDebug = '1'; location.reload()`
+
+**Always-on warnings** (visible without debug mode, appear in any browser's DevTools):
+
+| Warning | What it means |
+|---|---|
+| `⚠ CSS NOT APPLIED` | `styles.css` not loaded or SW serving stale cache. Check that `CSS_VERSION` and `?v=` were bumped after the last CSS edit. |
+| `⚠ SVG NOT READY` | Glasses SVG has `offsetHeight=0` at init — auto-recovers via `img.load` event. |
+| `⚠ NON-ZERO SCROLL` | Page started at non-zero scroll position — animation may jump to mid-progress. |
+
+**Verbose mode** additionally logs: computed CSS values, full stylesheet list, SW controller URL, SVG dimensions, IntersectionObserver fires, and `img.load` events — all grouped under `[glasses] diagnose(init)`.
 
 ---
 

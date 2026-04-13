@@ -42,7 +42,7 @@ eleventyComputed:
     {%- for code, loc in locales %}
     <link rel="alternate" hreflang="{{ loc.hreflang }}" href="https://sitorakarimi.com/{{ code }}/">
     {%- endfor %}
-    <link rel="alternate" hreflang="x-default" href="https://sitorakarimi.com/ru/">
+    <link rel="alternate" hreflang="x-default" href="https://sitorakarimi.com/en/">
 
     <!-- Open Graph / Facebook -->
     <meta property="og:type" content="website">
@@ -53,13 +53,16 @@ eleventyComputed:
     <meta property="og:image" content="https://sitorakarimi.com/assets/images/og-image.webp">
     <meta property="og:image:width" content="1200">
     <meta property="og:image:height" content="630">
-    <meta property="og:locale" content="{{ locales[lang].htmlLang }}">
-    <meta property="og:locale:alternate" content="ru_RU">
-    <meta property="og:locale:alternate" content="tg_TJ">
+    <meta property="og:locale" content="{{ locales[lang].ogLocale }}">
+    {%- for code, loc in locales %}
+    {%- if code != lang %}
+    <meta property="og:locale:alternate" content="{{ loc.ogLocale }}">
+    {%- endif %}
+    {%- endfor %}
 
     <!-- Twitter -->
     <meta property="twitter:card" content="summary_large_image">
-    <meta property="twitter:url" content="https://sitorakarimi.com/">
+    <meta property="twitter:url" content="https://sitorakarimi.com/{{ lang }}/">
     <meta property="twitter:title" content="{{ t.meta.ogTitle or t.meta.title }}">
     <meta property="twitter:description" content="{{ t.meta.description }}">
     <meta property="twitter:image" content="https://sitorakarimi.com/assets/images/og-image.webp">
@@ -95,9 +98,12 @@ eleventyComputed:
     <link rel="dns-prefetch" href="https://www.googletagmanager.com">
     <link rel="dns-prefetch" href="https://images.unsplash.com">
 
-    <!-- Font Awesome (deferred for performance) -->
-    <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
-    <noscript><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"></noscript>
+    <!-- Font Awesome (deferred for performance, SRI hash for integrity) -->
+    <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous">
+    <noscript><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous"></noscript>
+
+    <!-- LCP hero image preload -->
+    <link rel="preload" as="image" href="/assets/images/hero.webp" fetchpriority="high" type="image/webp">
 
     <!-- Custom Styles -->
     <!-- Version matches CSS_VERSION in sw.js — update both when styles.css changes -->
@@ -303,7 +309,7 @@ eleventyComputed:
     }
     </script>
 
-    <!-- FAQ Schema -->
+    <!-- FAQ Schema (locale-aware) -->
     <script type="application/ld+json">
     {
         "@context": "https://schema.org",
@@ -311,50 +317,50 @@ eleventyComputed:
         "mainEntity": [
             {
                 "@type": "Question",
-                "name": "How often should I get an eye exam?",
+                "name": {{ t.faq.question1 | dump | safe }},
                 "acceptedAnswer": {
                     "@type": "Answer",
-                    "text": "Adults with no vision problems should get comprehensive eye exams every 2 years. If you wear glasses, have diabetes, or family history of eye disease, annual exams are recommended. Children need exams at 6 months, age 3, before school, then annually."
+                    "text": {{ t.faq.answer1 | dump | safe }}
                 }
             },
             {
                 "@type": "Question",
-                "name": "Do you see children? At what age?",
+                "name": {{ t.faq.question2 | dump | safe }},
                 "acceptedAnswer": {
                     "@type": "Answer",
-                    "text": "Yes! Dr. Karimova has specialized training in pediatric ophthalmology and welcomes children from infancy through teenage years using child-friendly testing methods."
+                    "text": {{ t.faq.answer2 | dump | safe }}
                 }
             },
             {
                 "@type": "Question",
-                "name": "What is dry eye syndrome and how is it treated?",
+                "name": {{ t.faq.question3 | dump | safe }},
                 "acceptedAnswer": {
                     "@type": "Answer",
-                    "text": "Dry eye syndrome causes burning, itching, redness, and watery eyes due to insufficient tear production or poor tear quality. Treatment includes prescription eye drops, punctal plugs, warm compress therapy, and lifestyle modifications. Most patients see improvement within 2-4 weeks."
+                    "text": {{ t.faq.answer3 | dump | safe }}
                 }
             },
             {
                 "@type": "Question",
-                "name": "How long does a comprehensive eye exam take?",
+                "name": {{ t.faq.question4 | dump | safe }},
                 "acceptedAnswer": {
                     "@type": "Answer",
-                    "text": "A comprehensive eye examination takes approximately 45-60 minutes for your first visit. This includes visual acuity testing, refraction assessment, intraocular pressure measurement, retinal health evaluation, and consultation with Dr. Karimova."
+                    "text": {{ t.faq.answer4 | dump | safe }}
                 }
             },
             {
                 "@type": "Question",
-                "name": "Do you fit contact lenses?",
+                "name": {{ t.faq.question5 | dump | safe }},
                 "acceptedAnswer": {
                     "@type": "Answer",
-                    "text": "Yes, we provide professional contact lens fitting including measurements of eye curvature and tear film quality. We offer daily disposable, monthly replacement, toric lenses for astigmatism, and multifocal lenses. Complete training and ongoing support are included."
+                    "text": {{ t.faq.answer5 | dump | safe }}
                 }
             },
             {
                 "@type": "Question",
-                "name": "Where is your clinic located in Dushanbe?",
+                "name": {{ t.faq.question6 | dump | safe }},
                 "acceptedAnswer": {
                     "@type": "Answer",
-                    "text": "Our clinic is located inside Osse Optical Store at Bekhzod Street 14, Dushanbe, Tajikistan. After your appointment you can fill your prescription glasses same-day at Osse. Flexible appointment times including same-day urgent care. Contact us at +992 108 11 80 80."
+                    "text": {{ t.faq.answer6 | dump | safe }}
                 }
             }
         ]
@@ -368,52 +374,76 @@ eleventyComputed:
         "@type": "ItemList",
         "itemListElement": [
             {
-                "@type": "MedicalProcedure",
-                "name": "Comprehensive Eye Examinations",
-                "description": "Complete eye health evaluation using advanced diagnostic technology including digital retinal imaging and corneal topography",
-                "procedureType": "Diagnostic",
-                "followup": "Based on individual needs, typically 1-2 years for healthy adults",
-                "preparation": "Bring current glasses or contact lenses and list of medications"
+                "@type": "ListItem",
+                "position": 1,
+                "item": {
+                    "@type": "MedicalProcedure",
+                    "name": "Comprehensive Eye Examinations",
+                    "description": "Complete eye health evaluation using advanced diagnostic technology including digital retinal imaging and corneal topography",
+                    "procedureType": "Diagnostic",
+                    "followup": "Based on individual needs, typically 1-2 years for healthy adults",
+                    "preparation": "Bring current glasses or contact lenses and list of medications"
+                }
             },
             {
-                "@type": "MedicalProcedure",
-                "name": "Prescription Glasses Fitting",
-                "description": "Custom eyewear solutions with precise refraction testing and professional fitting for all ages",
-                "procedureType": "Therapeutic",
-                "followup": "Annual prescription updates recommended",
-                "preparation": "No special preparation required"
+                "@type": "ListItem",
+                "position": 2,
+                "item": {
+                    "@type": "MedicalProcedure",
+                    "name": "Prescription Glasses Fitting",
+                    "description": "Custom eyewear solutions with precise refraction testing and professional fitting for all ages",
+                    "procedureType": "Therapeutic",
+                    "followup": "Annual prescription updates recommended",
+                    "preparation": "No special preparation required"
+                }
             },
             {
-                "@type": "MedicalProcedure",
-                "name": "Contact Lens Fitting",
-                "description": "Professional contact lens fitting and care with comprehensive training and ongoing support",
-                "procedureType": "Therapeutic",
-                "followup": "Initial follow-up within 1 week, then annually",
-                "preparation": "Discontinue contact lens wear 24 hours before initial fitting"
+                "@type": "ListItem",
+                "position": 3,
+                "item": {
+                    "@type": "MedicalProcedure",
+                    "name": "Contact Lens Fitting",
+                    "description": "Professional contact lens fitting and care with comprehensive training and ongoing support",
+                    "procedureType": "Therapeutic",
+                    "followup": "Initial follow-up within 1 week, then annually",
+                    "preparation": "Discontinue contact lens wear 24 hours before initial fitting"
+                }
             },
             {
-                "@type": "MedicalProcedure",
-                "name": "Dry Eye Management",
-                "description": "Comprehensive dry eye assessment and treatment including tear film analysis, meibomian gland evaluation, and personalized therapy",
-                "procedureType": "Therapeutic",
-                "followup": "2-4 weeks for initial response, then as needed",
-                "preparation": "No special preparation required"
+                "@type": "ListItem",
+                "position": 4,
+                "item": {
+                    "@type": "MedicalProcedure",
+                    "name": "Dry Eye Management",
+                    "description": "Comprehensive dry eye assessment and treatment including tear film analysis, meibomian gland evaluation, and personalized therapy",
+                    "procedureType": "Therapeutic",
+                    "followup": "2-4 weeks for initial response, then as needed",
+                    "preparation": "No special preparation required"
+                }
             },
             {
-                "@type": "MedicalProcedure",
-                "name": "Ongoing Care and Follow-Up",
-                "description": "Continuous monitoring and personalized care plans for chronic eye conditions including glaucoma and diabetic retinopathy",
-                "procedureType": "Preventive",
-                "followup": "Varies by condition, typically every 3-12 months",
-                "preparation": "Bring previous medical records and current medications"
+                "@type": "ListItem",
+                "position": 5,
+                "item": {
+                    "@type": "MedicalProcedure",
+                    "name": "Ongoing Care and Follow-Up",
+                    "description": "Continuous monitoring and personalized care plans for chronic eye conditions including glaucoma and diabetic retinopathy",
+                    "procedureType": "Preventive",
+                    "followup": "Varies by condition, typically every 3-12 months",
+                    "preparation": "Bring previous medical records and current medications"
+                }
             },
             {
-                "@type": "MedicalProcedure",
-                "name": "Pediatric Eye Care",
-                "description": "Specialized children's eye care from infancy through teenage years using child-friendly testing methods",
-                "procedureType": "Diagnostic and Therapeutic",
-                "followup": "Recommended at 6 months, age 3, before school, then annually",
-                "preparation": "Bring child's favorite toy for comfort, no special medical preparation"
+                "@type": "ListItem",
+                "position": 6,
+                "item": {
+                    "@type": "MedicalProcedure",
+                    "name": "Pediatric Eye Care",
+                    "description": "Specialized children's eye care from infancy through teenage years using child-friendly testing methods",
+                    "procedureType": "Diagnostic and Therapeutic",
+                    "followup": "Recommended at 6 months, age 3, before school, then annually",
+                    "preparation": "Bring child's favorite toy for comfort, no special medical preparation"
+                }
             }
         ]
     }
@@ -432,6 +462,8 @@ eleventyComputed:
 
     <!-- Skip to Content Link (Accessibility) -->
     <a href="#main-content" class="skip-to-content">Skip to main content</a>
+
+    <main id="main-content" tabindex="-1">
 
     <!-- Navigation -->
     <nav class="fixed w-full bg-transparent backdrop-blur-md z-50 transition-all" id="navbar">
@@ -484,7 +516,7 @@ eleventyComputed:
 
                 <!-- Mobile Language Switcher -->
                 <div class="pt-3 border-t border-white/10">
-                    <p class="text-xs uppercase tracking-widest text-white/60 mb-2" data-i18n="nav.language">{{ t.nav.language | safe }}</p>
+                    <p class="text-xs uppercase tracking-widest text-white/80 mb-2" data-i18n="nav.language">{{ t.nav.language | safe }}</p>
                     <div class="flex gap-2">
                         <button data-lang="en" class="lang-option-mobile flex-1 px-3 py-2 text-sm text-white bg-white/10 rounded hover:bg-coral transition-colors">EN</button>
                         <button data-lang="ru" class="lang-option-mobile flex-1 px-3 py-2 text-sm text-white bg-white/10 rounded hover:bg-coral transition-colors">RU</button>
@@ -497,12 +529,12 @@ eleventyComputed:
 
     <!-- Hero Section -->
     <section id="home" class="relative h-screen flex items-center justify-center overflow-hidden">
-        <div id="main-content"></div>
         <!-- Background Image -->
         <div class="absolute inset-0 z-0">
-            <img src="/assets/images/hero.png"
+            <img src="/assets/images/hero.webp"
                  alt="Dr. Sitora Karimova's ophthalmology practice - Professional eye care services in Dushanbe, Tajikistan"
                  loading="eager"
+                 fetchpriority="high"
                  width="1920"
                  height="1080"
                  class="w-full h-full object-cover">
@@ -770,7 +802,7 @@ eleventyComputed:
               class="glasses-anim-img"
               id="glasses-anim-img"
               draggable="false"
-              alt="Eyeglasses"
+              alt=""
             />
           </div>
 
@@ -812,7 +844,7 @@ eleventyComputed:
             </div>
 
             <!-- Carousel Container -->
-            <div class="testimonial-carousel">
+            <div class="testimonial-carousel" aria-live="polite" aria-atomic="true" role="region" aria-label="{{ t.nav.reviews | safe }}">
                 <!-- Review 1 -->
                 <div class="testimonial-slide active">
                     <div class="text-center">
@@ -954,14 +986,14 @@ eleventyComputed:
                 <button class="vd-tab" role="tab" aria-selected="false" data-condition="glaucoma" data-i18n="visionDisorders.tabs.glaucoma">{{ t.visionDisorders.tabs.glaucoma | safe }}</button>
             </div>
 
-            <div class="vd-image-container">
+            <div class="vd-image-container" role="tabpanel">
                 <img id="vd-image" src="/assets/images/vision-disorders.webp" alt="Street scene used to demonstrate vision disorder simulation" />
                 <div id="vd-overlay" aria-hidden="true"></div>
             </div>
 
             <div class="vd-slider-row" id="vd-slider-row">
                 <span class="vd-slider-label" data-i18n="visionDisorders.sliderMild">{{ t.visionDisorders.sliderMild | safe }}</span>
-                <input type="range" id="vd-slider" min="0" max="100" value="50" aria-label="Severity" />
+                <input type="range" id="vd-slider" min="0" max="100" value="50" aria-label="{{ t.visionDisorders.sliderSevere | safe }}" />
                 <span class="vd-slider-label" data-i18n="visionDisorders.sliderSevere">{{ t.visionDisorders.sliderSevere | safe }}</span>
             </div>
 
@@ -975,7 +1007,7 @@ eleventyComputed:
             <!-- Header -->
             <div class="text-center mb-12">
                 <p class="text-sm uppercase tracking-widest mb-3 text-coral" data-i18n="visionTest.subtitle">{{ t.visionTest.subtitle | safe }}</p>
-                <h2 class="text-4xl md:text-5xl font-light text-navy-900 mb-8" data-i18n="visionTest.heading">{{ t.visionTest.heading | safe }}</h2>
+                <h2 class="text-4xl md:text-5xl font-light text-navy-900 mb-8" data-i18n="visionTest.title">{{ t.visionTest.title | safe }}</h2>
             </div>
 
             <!-- Test Container -->
@@ -1134,7 +1166,7 @@ eleventyComputed:
                     </div>
 
                     <div class="flex gap-4">
-                        <a href="#contact" class="btn-navy" data-i18n="contact.bookNow">{{ t.contact.bookNow | safe }}</a>
+                        <a href="https://wa.me/992930097171" target="_blank" rel="noopener noreferrer" class="btn-navy" data-i18n="contact.bookNow">{{ t.contact.bookNow | safe }}</a>
                         <a href="tel:+992108118080" class="btn-outline" data-i18n="contact.callUs">{{ t.contact.callUs | safe }}</a>
                     </div>
                 </div>
@@ -1149,11 +1181,14 @@ eleventyComputed:
                     style="border:0; position: absolute; top: 0; left: 0; width: 100%; height: 100%;"
                     allowfullscreen=""
                     loading="lazy"
-                    referrerpolicy="no-referrer-when-downgrade">
+                    referrerpolicy="no-referrer-when-downgrade"
+                    sandbox="allow-scripts allow-same-origin allow-popups allow-forms">
                 </iframe>
             </div>
         </div>
     </section>
+
+    </main><!-- /#main-content -->
 
     <!-- Footer -->
     <footer class="bg-gray-50 text-gray-600 py-16">
@@ -1194,17 +1229,14 @@ eleventyComputed:
                 <div>
                     <h4 class="font-medium text-navy-900 mb-4" data-i18n="footer.connect">{{ t.footer.connect | safe }}</h4>
                     <div class="flex space-x-4">
-                        <a href="#" class="text-gray-400 hover:text-coral transition-colors">
-                            <i class="fab fa-facebook text-xl"></i>
+                        <a href="https://www.facebook.com/sitorakarimi" target="_blank" rel="noopener noreferrer" aria-label="Facebook" class="text-gray-400 hover:text-coral transition-colors">
+                            <i class="fab fa-facebook text-xl" aria-hidden="true"></i>
                         </a>
-                        <a href="#" class="text-gray-400 hover:text-coral transition-colors">
-                            <i class="fab fa-twitter text-xl"></i>
+                        <a href="https://www.instagram.com/sitorakarimi" target="_blank" rel="noopener noreferrer" aria-label="Instagram" class="text-gray-400 hover:text-coral transition-colors">
+                            <i class="fab fa-instagram text-xl" aria-hidden="true"></i>
                         </a>
-                        <a href="#" class="text-gray-400 hover:text-coral transition-colors">
-                            <i class="fab fa-instagram text-xl"></i>
-                        </a>
-                        <a href="#" class="text-gray-400 hover:text-coral transition-colors">
-                            <i class="fab fa-linkedin text-xl"></i>
+                        <a href="https://www.linkedin.com/in/sitorakarimi" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn" class="text-gray-400 hover:text-coral transition-colors">
+                            <i class="fab fa-linkedin text-xl" aria-hidden="true"></i>
                         </a>
                     </div>
                 </div>
@@ -1219,7 +1251,7 @@ eleventyComputed:
     <!-- JavaScript -->
     <script>
         // Auto-generate version from timestamp (changes every deployment)
-        window.SITE_VERSION = '1.1.1'; // Fix: version styles.css URL + SW cache:reload to prevent stale CSS
+        window.SITE_VERSION = '1.3.0'; // Must match CACHE_VERSION in sw.js
     </script>
     <script>window.__T__ = {{ t | dump | safe }}; window.__LANG__ = "{{ lang }}";</script>
     <script src="/script.js?v=1.1.0"></script>

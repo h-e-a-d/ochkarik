@@ -24,7 +24,7 @@ const ASSETS_TO_CACHE = [
     '/vision-disorders.js',
     `/styles.css?v=${CSS_VERSION}`,
     '/favicon.svg',
-    '/assets/images/hero.png',
+    '/assets/images/hero.webp',
     '/assets/images/about-1.jpg',
     '/assets/images/about-2.jpg',
     '/assets/images/eyeglasses-vector-small.svg',
@@ -136,9 +136,18 @@ self.addEventListener('fetch', (event) => {
                     return response;
                 })
                 .catch(() => {
-                    // Offline: serve from cache, last resort fall back to root
+                    // Offline: serve from cache; last resort falls back to the
+                    // same locale the user was on, then /en/, then /ru/.
                     return caches.match(event.request)
-                        .then((cached) => cached || caches.match('/ru/'));
+                        .then((cached) => {
+                            if (cached) return cached;
+                            // Try to match the locale from the URL path (e.g. /en/, /ru/, /tj/)
+                            const urlPath = new URL(event.request.url).pathname;
+                            const localeMatch = urlPath.match(/^\/(en|ru|tj)\//);
+                            const locale = localeMatch ? localeMatch[1] : 'en';
+                            return caches.match(`/${locale}/`)
+                                .then((localeFallback) => localeFallback || caches.match('/en/'));
+                        });
                 })
         );
     } else {

@@ -47,7 +47,7 @@ document.addEventListener('DOMContentLoaded', function() {
     // ===========================
     (function () {
         const currentLang = document.documentElement.lang || 'ru';
-        const langMap = { en: 'EN', ru: 'RU', tg: 'RU', tj: 'TJ' };
+        const langMap = { en: 'EN', ru: 'RU', tg: 'TJ', tj: 'TJ' };
 
         // Update the "current language" badge in the nav
         const currentLangDisplay = document.getElementById('current-lang');
@@ -439,21 +439,6 @@ document.addEventListener('DOMContentLoaded', function() {
 
 
     // ===========================
-    // Performance: Debounce Scroll Events
-    // ===========================
-    function debounce(func, wait) {
-        let timeout;
-        return function executedFunction(...args) {
-            const later = () => {
-                clearTimeout(timeout);
-                func(...args);
-            };
-            clearTimeout(timeout);
-            timeout = setTimeout(later, wait);
-        };
-    }
-
-    // ===========================
     // Smooth Reveal for Elements (Optimized - Single Observer)
     // ===========================
     const revealElements = document.querySelectorAll('section h2, section p, .btn-navy, .btn-outline');
@@ -498,6 +483,7 @@ document.addEventListener('DOMContentLoaded', function() {
     // Testimonial Carousel
     // ===========================
     let currentSlide = 0;
+    let autoAdvance;
     const slides = document.querySelectorAll('.testimonial-slide');
     const dots = document.querySelectorAll('.testimonial-dot');
 
@@ -513,11 +499,6 @@ document.addEventListener('DOMContentLoaded', function() {
 
     function nextSlide() {
         currentSlide = (currentSlide + 1) % slides.length;
-        showSlide(currentSlide);
-    }
-
-    function prevSlide() {
-        currentSlide = (currentSlide - 1 + slides.length) % slides.length;
         showSlide(currentSlide);
     }
 

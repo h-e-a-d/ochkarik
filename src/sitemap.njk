@@ -14,7 +14,35 @@ eleventyExcludeFromCollections: true
         {%- for altCode, altLoc in locales %}
         <xhtml:link rel="alternate" hreflang="{{ altLoc.hreflang }}" href="https://sitorakarimi.com/{{ altCode }}/"/>
         {%- endfor %}
-        <xhtml:link rel="alternate" hreflang="x-default" href="https://sitorakarimi.com/ru/"/>
+        <xhtml:link rel="alternate" hreflang="x-default" href="https://sitorakarimi.com/en/"/>
     </url>
+    <url>
+        <loc>https://sitorakarimi.com/{{ code }}/blog/</loc>
+        <lastmod>{{ page.date.toISOString().slice(0, 10) }}</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.8</priority>
+        {%- for altCode, altLoc in locales %}
+        <xhtml:link rel="alternate" hreflang="{{ altLoc.hreflang }}" href="https://sitorakarimi.com/{{ altCode }}/blog/"/>
+        {%- endfor %}
+        <xhtml:link rel="alternate" hreflang="x-default" href="https://sitorakarimi.com/en/blog/"/>
+    </url>
+{%- endfor %}
+{%- for post in blogPosts %}
+    {%- for code, loc in locales %}
+    {%- if post[code] %}
+    <url>
+        <loc>https://sitorakarimi.com/{{ code }}/blog/{{ post.slug }}/</loc>
+        <lastmod>{{ post.date }}</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.7</priority>
+        {%- for altCode, altLoc in locales %}
+        {%- if post[altCode] %}
+        <xhtml:link rel="alternate" hreflang="{{ altLoc.hreflang }}" href="https://sitorakarimi.com/{{ altCode }}/blog/{{ post.slug }}/"/>
+        {%- endif %}
+        {%- endfor %}
+        <xhtml:link rel="alternate" hreflang="x-default" href="https://sitorakarimi.com/en/blog/{{ post.slug }}/"/>
+    </url>
+    {%- endif %}
+    {%- endfor %}
 {%- endfor %}
 </urlset>

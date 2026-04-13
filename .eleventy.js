@@ -9,6 +9,7 @@ module.exports = function (eleventyConfig) {
   eleventyConfig.addPassthroughCopy({ "favicon.svg": "favicon.svg" });
   eleventyConfig.addPassthroughCopy({ "robots.txt": "robots.txt" });
   eleventyConfig.addPassthroughCopy({ "_redirects": "_redirects" });
+  eleventyConfig.addPassthroughCopy({ "_headers": "_headers" });
 
   // Blog static assets
   eleventyConfig.addPassthroughCopy({ "blog/blog.css": "blog/blog.css" });

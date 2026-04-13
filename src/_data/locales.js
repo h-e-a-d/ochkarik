@@ -6,7 +6,7 @@ const tj = require("./locales/tj.json");
 const en = require("./locales/en.json");
 
 module.exports = {
-  ru: { code: "ru", htmlLang: "ru", hreflang: "ru", name: "Русский",  strings: ru },
-  tj: { code: "tj", htmlLang: "tg", hreflang: "tg", name: "Тоҷикӣ",   strings: tj },
-  en: { code: "en", htmlLang: "en", hreflang: "en", name: "English",  strings: en },
+  ru: { code: "ru", htmlLang: "ru", hreflang: "ru", ogLocale: "ru_RU", name: "Русский",  strings: ru },
+  tj: { code: "tj", htmlLang: "tg", hreflang: "tg", ogLocale: "tg_TJ", name: "Тоҷикӣ",   strings: tj },
+  en: { code: "en", htmlLang: "en", hreflang: "en", ogLocale: "en_US", name: "English",  strings: en },
 };
