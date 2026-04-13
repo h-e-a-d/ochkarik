@@ -3,12 +3,16 @@
 
 // Cache version - INCREMENT THIS when deploying updates
 // Format: 'v{major}.{minor}.{patch}'
-const CACHE_VERSION = '1.3.0';
+const CACHE_VERSION = '1.3.1';
 const CACHE_NAME = `sitorakarimi-${CACHE_VERSION}`;
 
 // CSS version — must match the ?v= query string on /styles.css in index.njk.
 // Update BOTH values whenever styles.css changes, then bump CACHE_VERSION.
 const CSS_VERSION = '1.3.0';
+
+// Tailwind version — must match the ?v= query string on /tailwind.css in all templates.
+// Update BOTH values whenever tailwind.config.js or tailwind.input.css changes, then bump CACHE_VERSION.
+const TAILWIND_VERSION = '1.3.1';
 
 // Assets to cache. Per-locale pages are listed so offline visitors see their
 // language correctly. Root "/" is intentionally omitted — it 302-redirects to /ru/.
@@ -23,6 +27,7 @@ const ASSETS_TO_CACHE = [
     '/vision-test.js',
     '/vision-disorders.js',
     `/styles.css?v=${CSS_VERSION}`,
+    `/tailwind.css?v=${TAILWIND_VERSION}`,
     '/favicon.svg',
     '/assets/images/hero.webp',
     '/assets/images/about-1.jpg',
