@@ -8,7 +8,7 @@ const CACHE_NAME = `sitorakarimi-${CACHE_VERSION}`;
 
 // CSS version — must match the ?v= query string on /styles.css in index.njk.
 // Update BOTH values whenever styles.css changes, then bump CACHE_VERSION.
-const CSS_VERSION = '1.3.0';
+const CSS_VERSION = '1.3.1';
 
 // Tailwind version — must match the ?v= query string on /tailwind.css in all templates.
 // Update BOTH values whenever tailwind.config.js or tailwind.input.css changes, then bump CACHE_VERSION.
