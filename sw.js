@@ -3,12 +3,12 @@
 
 // Cache version - INCREMENT THIS when deploying updates
 // Format: 'v{major}.{minor}.{patch}'
-const CACHE_VERSION = '1.3.1';
+const CACHE_VERSION = '1.3.2';
 const CACHE_NAME = `sitorakarimi-${CACHE_VERSION}`;
 
 // CSS version — must match the ?v= query string on /styles.css in index.njk.
 // Update BOTH values whenever styles.css changes, then bump CACHE_VERSION.
-const CSS_VERSION = '1.3.1';
+const CSS_VERSION = '1.3.2';
 
 // Tailwind version — must match the ?v= query string on /tailwind.css in all templates.
 // Update BOTH values whenever tailwind.config.js or tailwind.input.css changes, then bump CACHE_VERSION.
@@ -26,10 +26,12 @@ const ASSETS_TO_CACHE = [
     '/script.js',
     '/vision-test.js',
     '/vision-disorders.js',
+    '/glasses-anim.js',
     `/styles.css?v=${CSS_VERSION}`,
     '/favicon.svg',
     '/assets/images/hero.webp',
     '/assets/images/about-1.jpg',
+    '/assets/images/about-1.webp',
     '/assets/images/about-2.jpg',
     '/assets/images/eyeglasses-vector-small.svg',
     '/assets/images/table-ru.svg',
