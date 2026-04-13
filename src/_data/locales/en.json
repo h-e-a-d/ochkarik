@@ -96,7 +96,12 @@
     "patient4": "Pediatric Patient Parent"
   },
   "partners": {
-    "title": "Trusted Partnerships"
+    "title": "Trusted Partnerships",
+    "eyebrow": "Trusted Partner",
+    "storetype": "Optical Store",
+    "benefit1": "Prescription glasses same-day",
+    "benefit2": "Contact lenses fitted on-site",
+    "benefit3": "Walk-ins welcome"
   },
   "glassesAnim": {
     "eyeline": "Vision that brings<br/><em>life into focus</em>",
