@@ -6,6 +6,7 @@ module.exports = function (eleventyConfig) {
   eleventyConfig.addPassthroughCopy({ "vision-test.js": "vision-test.js" });
   eleventyConfig.addPassthroughCopy({ "vision-disorders.js": "vision-disorders.js" });
   eleventyConfig.addPassthroughCopy({ "sw.js": "sw.js" });
+  eleventyConfig.addPassthroughCopy({ "tailwind.css": "tailwind.css" });
   eleventyConfig.addPassthroughCopy({ "favicon.svg": "favicon.svg" });
   eleventyConfig.addPassthroughCopy({ "robots.txt": "robots.txt" });
   eleventyConfig.addPassthroughCopy({ "_redirects": "_redirects" });
