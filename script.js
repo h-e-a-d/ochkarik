@@ -23,23 +23,25 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
 
-    // Hide loader when page is fully loaded
-    window.addEventListener('load', function() {
-        setTimeout(() => {
-            if (pageLoader) {
-                pageLoader.classList.add('hidden');
-                document.body.classList.remove('loading');
-            }
-        }, 300);
-    });
-
-    // Fallback: Hide loader after 3 seconds if load event doesn't fire
-    setTimeout(() => {
+    // Hide loader as soon as DOM is ready — CSS is already applied at this point
+    // (render-blocking stylesheets are fully parsed before DOMContentLoaded fires).
+    // Waiting for window.load (which waits for images) delays FCP/LCP by 3-4 s on
+    // mobile and directly inflates those Core Web Vitals scores.
+    function hideLoader() {
         if (pageLoader && !pageLoader.classList.contains('hidden')) {
             pageLoader.classList.add('hidden');
             document.body.classList.remove('loading');
         }
-    }, 3000);
+    }
+    // Hide on DOMContentLoaded (we are already inside that handler).
+    hideLoader();
+
+    // Also handle the case where window.load fires before hideLoader runs
+    // (belt-and-suspenders: removes the spinner if still visible after images load).
+    window.addEventListener('load', hideLoader);
+
+    // Hard cap at 800 ms for any edge-case where the above paths are skipped.
+    setTimeout(hideLoader, 800);
 
 
     // ===========================

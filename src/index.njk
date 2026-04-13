@@ -78,8 +78,12 @@ eleventyComputed:
     <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous">
     <noscript><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous"></noscript>
 
-    <!-- LCP hero image preload -->
-    <link rel="preload" as="image" href="/assets/images/hero.webp" fetchpriority="high" type="image/webp">
+    <!-- LCP hero image preload — mobile gets the smaller JPEG, desktop gets webp -->
+    <link rel="preload" as="image"
+          href="/assets/images/hero.webp"
+          imagesrcset="/assets/images/hero-mobile.webp 800w, /assets/images/hero.webp 1248w"
+          imagesizes="100vw"
+          fetchpriority="high">
 
     <!-- Custom Styles -->
     <!-- Version matches CSS_VERSION in sw.js — update both when styles.css changes -->
@@ -507,13 +511,18 @@ eleventyComputed:
     <section id="home" class="relative h-screen flex items-center justify-center overflow-hidden">
         <!-- Background Image -->
         <div class="absolute inset-0 z-0">
-            <img src="/assets/images/hero.webp"
-                 alt="Dr. Sitora Karimova's ophthalmology practice - Professional eye care services in Dushanbe, Tajikistan"
-                 loading="eager"
-                 fetchpriority="high"
-                 width="1920"
-                 height="1080"
-                 class="w-full h-full object-cover">
+            <picture>
+                <!-- Smaller WebP for mobile viewports (≤ 767 px) -->
+                <source media="(max-width: 767px)" srcset="/assets/images/hero-mobile.webp" type="image/webp">
+                <!-- Full-size webp for tablet and desktop -->
+                <img src="/assets/images/hero.webp"
+                     alt="Dr. Sitora Karimova's ophthalmology practice - Professional eye care services in Dushanbe, Tajikistan"
+                     loading="eager"
+                     fetchpriority="high"
+                     width="1920"
+                     height="1080"
+                     class="w-full h-full object-cover">
+            </picture>
             <div class="absolute inset-0 bg-gradient-to-r from-navy-900/85 via-navy-900/70 to-navy-900/60"></div>
         </div>
 
