@@ -4,7 +4,7 @@
   "private": true,
   "description": "Multilingual ophthalmology website for Dr. Sitora Karimova (RU/TJ/EN)",
   "scripts": {
-    "dev": "tailwindcss -i ./tailwind.input.css -o ./tailwind.css && eleventy --serve --quiet",
+    "dev": "tailwindcss -i ./tailwind.input.css -o ./tailwind.css --watch & eleventy --serve --quiet",
     "build": "tailwindcss -i ./tailwind.input.css -o ./tailwind.css --minify && eleventy",
     "clean": "rm -rf _site tailwind.css"
   },
