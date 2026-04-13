@@ -1,4 +1,12 @@
+const fs   = require("fs");
+const path = require("path");
+
 module.exports = function (eleventyConfig) {
+  // Inline a file's contents directly into a template (used to inline tailwind.css).
+  // Usage: {% inlineFile "tailwind.css" %}
+  eleventyConfig.addShortcode("inlineFile", function (filePath) {
+    return fs.readFileSync(path.resolve(filePath), "utf8");
+  });
   // Pass-through: existing static assets ship as-is.
   eleventyConfig.addPassthroughCopy({ "assets": "assets" });
   eleventyConfig.addPassthroughCopy({ "styles.css": "styles.css" });

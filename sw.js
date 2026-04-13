@@ -27,7 +27,6 @@ const ASSETS_TO_CACHE = [
     '/vision-test.js',
     '/vision-disorders.js',
     `/styles.css?v=${CSS_VERSION}`,
-    `/tailwind.css?v=${TAILWIND_VERSION}`,
     '/favicon.svg',
     '/assets/images/hero.webp',
     '/assets/images/about-1.jpg',

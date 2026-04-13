@@ -59,10 +59,10 @@ eleventyComputed:
     <meta property="twitter:description" content="{{ t.meta.description }}">
     <meta property="twitter:image" content="https://sitorakarimi.com/assets/images/og-image.webp">
 
-    <!-- Tailwind CSS (pre-built) -->
-    <link rel="stylesheet" href="/tailwind.css?v=1.3.1">
+    <!-- Tailwind CSS — inlined to eliminate render-blocking network request -->
+    <style>{% inlineFile "tailwind.css" %}</style>
 
-    <!-- Preload styles.css so it fetches in parallel with tailwind.css -->
+    <!-- Preload styles.css so it fetches immediately after HTML is received -->
     <link rel="preload" href="/styles.css?v=1.3.1" as="style">
 
     <!-- Favicon -->
@@ -787,6 +787,8 @@ eleventyComputed:
               class="glasses-anim-img"
               id="glasses-anim-img"
               draggable="false"
+              width="1283"
+              height="613"
               alt=""
             />
           </div>
@@ -1003,6 +1005,8 @@ eleventyComputed:
                     <div id="vision-chart-bg" class="absolute inset-0 flex items-center justify-center p-4 md:p-8">
                         <img src="/assets/images/table-ru.svg"
                              alt="Russian Snellen Vision Chart"
+                             width="842"
+                             height="1361"
                              class="max-w-full max-h-full object-contain opacity-30">
                     </div>
 
