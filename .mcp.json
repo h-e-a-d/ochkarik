@@ -2,10 +2,7 @@
   "mcpServers": {
     "rss": {
       "command": "npx",
-      "args": ["-y", "rss-feeds-mcp"],
-      "env": {
-        "HOME": "/Users/matlyubakarimova/Desktop/Head/ochkarik-main"
-      }
+      "args": ["-y", "rss-feeds-mcp"]
     },
     "kie-ai": {
       "command": "npx",
