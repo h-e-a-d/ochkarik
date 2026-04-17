@@ -1268,7 +1268,7 @@ eleventyComputed:
         window.SITE_VERSION = '1.3.0'; // Must match CACHE_VERSION in sw.js
     </script>
     <script>window.__T__ = {{ t | dump | safe }}; window.__LANG__ = "{{ lang }}";</script>
-    <script src="/script.js?v=1.1.0" defer></script>
+    <script src="/script.js?v=1.1.1" defer></script>
     <script src="/vision-test.js?v=1.1.0" defer></script>
     <script src="/vision-disorders.js?v=1.1.0" defer></script>
 
@@ -1478,7 +1478,7 @@ eleventyComputed:
         // instead of scaling it to infinity, which looks visually the same
         // (user's view "enters" the lens) without blowing the GPU.
         const maxRasterWidth = 4000; // safe under the 4096px texture limit
-        const imgScaleCap = Math.max(2.6, maxRasterWidth / Math.max(1, img.offsetWidth));
+        const imgScaleCap = Math.max(2.6, maxRasterWidth / Math.max(1, imgW));
         const p4  = inv(0.68, 1.00, progress);
         const p4e = easeIn3(p4);
         const exitScale  = lerp(2.6, imgScaleCap, p4e);
@@ -1594,8 +1594,9 @@ eleventyComputed:
         // handler.
         wrap.style.transform = 'translate(0px,0px) scale(0.5)';
 
-        // Run diagnostics — will warn loudly in console if CSS or SVG is broken.
-        diagnose('init');
+        // Run diagnostics deferred — diagnose() reads offsetHeight after style
+        // writes above, so deferring avoids a forced sync reflow at init time.
+        requestAnimationFrame(() => diagnose('init'));
 
         // On production the glasses SVG may arrive from the network after
         // the first update() call (SW may not have installed yet, or the

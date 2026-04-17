@@ -183,17 +183,28 @@ document.addEventListener('DOMContentLoaded', function() {
     const sections = document.querySelectorAll('section[id]');
     const navItems = document.querySelectorAll('.nav-link-light');
 
+    let sectionOffsets = [];
+
+    function cacheSectionOffsets() {
+        sectionOffsets = Array.from(sections).map(section => ({
+            id: section.getAttribute('id'),
+            top: section.offsetTop,
+            bottom: section.offsetTop + section.offsetHeight
+        }));
+    }
+
+    cacheSectionOffsets();
+    window.addEventListener('resize', cacheSectionOffsets, { passive: true });
+
     function setActiveNavOnScroll() {
         const scrollPosition = window.scrollY + 100;
 
         let activeId = null;
-        sections.forEach(section => {
-            const sectionTop = section.offsetTop;
-            const sectionHeight = section.offsetHeight;
-            if (scrollPosition >= sectionTop && scrollPosition < sectionTop + sectionHeight) {
-                activeId = section.getAttribute('id');
+        for (const s of sectionOffsets) {
+            if (scrollPosition >= s.top && scrollPosition < s.bottom) {
+                activeId = s.id;
             }
-        });
+        }
 
         navItems.forEach(item => {
             const shouldBeActive = item.getAttribute('href') === `#${activeId}`;
