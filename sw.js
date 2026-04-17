@@ -31,6 +31,7 @@ const ASSETS_TO_CACHE = [
     '/assets/images/hero.webp',
     '/assets/images/about-1.jpg',
     '/assets/images/about-1.webp',
+    '/assets/images/about-2.webp',
     '/assets/images/about-2.jpg',
     '/assets/images/eyeglasses-vector-small.svg',
     '/assets/images/table-ru.svg',
