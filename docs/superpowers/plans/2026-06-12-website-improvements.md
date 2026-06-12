@@ -437,7 +437,7 @@ git commit -m "perf: drop Google Fonts (Poppins); system font stack everywhere"
 | fab fa-telegram-plane | fa-telegram | brands/telegram |
 | fab fa-linkedin | fa-linkedin | brands/linkedin |
 
-- [ ] **Step 1: Build the sprite** with this script (save as `scripts/build-icon-sprite.mjs`, run once, keep in repo for future icon additions):
+- [x] **Step 1: Build the sprite** with this script (save as `scripts/build-icon-sprite.mjs`, run once, keep in repo for future icon additions):
 
 ```js
 // Builds assets/icons.svg from Font Awesome Free 6.4.0 sources.
@@ -482,7 +482,7 @@ console.log(`wrote assets/icons.svg with ${ICONS.length} symbols`);
 Run: `node scripts/build-icon-sprite.mjs`
 Expected: `wrote assets/icons.svg with 35 symbols`. Verify: `grep -c "<symbol" assets/icons.svg` → 35.
 
-- [ ] **Step 2: Add `.svg-icon` CSS to `styles.css`** (place where the FA `@font-face` block was, replacing it — delete lines 3-19, the two `@font-face` rules and their comment):
+- [x] **Step 2: Add `.svg-icon` CSS to `styles.css`** (place where the FA `@font-face` block was, replacing it — delete lines 3-19, the two `@font-face` rules and their comment):
 
 ```css
 /* Self-hosted SVG icons (replaces Font Awesome webfont) */
@@ -495,7 +495,7 @@ Expected: `wrote assets/icons.svg with 35 symbols`. Verify: `grep -c "<symbol" a
 }
 ```
 
-- [ ] **Step 3: Replace icons in templates.** Pattern — every
+- [x] **Step 3: Replace icons in templates.** Pattern — every
 
 ```html
 <i class="fas fa-NAME extra classes" aria-hidden="true"></i>
@@ -506,7 +506,7 @@ becomes
 ```
 Keep all extra utility classes (`text-xl`, `toggle-icon`, `ml-2`, etc.) and `aria-hidden` attributes. Apply the sprite-id mapping for renamed icons (`fa-times`→`fa-xmark`, `far fa-clock`→`fa-regular-clock`, `far fa-calendar`→`fa-regular-calendar`, `fa-telegram-plane`→`fa-telegram`, `fa-user-md` stays `fa-user-md`). Files: `src/index.njk`, `src/blog/post.njk`, `src/blog/index.njk`.
 
-- [ ] **Step 4: Replace dynamic icons in `script.js`.**
+- [x] **Step 4: Replace dynamic icons in `script.js`.**
 
 FAB markup (lines ~231-240): replace the four `<i>` tags:
 ```html
@@ -524,7 +524,7 @@ useEl.setAttribute('href', isOpen ? '/assets/icons.svg#fa-xmark' : '/assets/icon
 ```
 (and the close-on-Escape path sets `#fa-bars` unconditionally). Update the selector that finds `icon` if it queries `i` — it must query `svg`.
 
-- [ ] **Step 5: Replace dynamic icons in `blog/blog.js`.**
+- [x] **Step 5: Replace dynamic icons in `blog/blog.js`.**
 
 Line ~58 menu toggle:
 ```js
@@ -537,7 +537,7 @@ setTimeout(function () { icon.querySelector('use').setAttribute('href', '/assets
 ```
 Adjust the `icon` lookups from `i` elements to `svg` elements where needed.
 
-- [ ] **Step 6: Remove Font Awesome loading.** Delete from `src/index.njk`, `src/blog/post.njk`, `src/blog/index.njk`:
+- [x] **Step 6: Remove Font Awesome loading.** Delete from `src/index.njk`, `src/blog/post.njk`, `src/blog/index.njk`:
 
 ```html
     <!-- Font Awesome ... -->
@@ -549,19 +549,19 @@ and the cdnjs preconnect in `src/index.njk`:
     <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
 ```
 
-- [ ] **Step 7: Precache the sprite.** Add to `ASSETS_TO_CACHE` in `sw.js`:
+- [x] **Step 7: Precache the sprite.** Add to `ASSETS_TO_CACHE` in `sw.js`:
 
 ```js
     '/assets/icons.svg',
 ```
 
-- [ ] **Step 8: Build and verify**
+- [x] **Step 8: Build and verify** — automated checks passed; visual check handed to user
 
 Run: `npm run build && grep -rn "fa-\|fontawesome\|cdnjs" _site/ru/index.html _site/ru/blog/index.html | grep -v "icons.svg#fa-" | head`
 Expected: no remaining `<i class="fa...">` or cdnjs references; only sprite `use` hrefs.
 Then visual check: `python3 -m http.server 8080 --directory _site` and eyeball icons on `/ru/` and `/ru/blog/` (nav, stars, FAB, footer socials, FAQ chevrons).
 
-- [ ] **Step 9: Commit**
+- [x] **Step 9: Commit** — `3db64c2`
 
 ```bash
 git add -A
@@ -575,19 +575,19 @@ git commit -m "perf: replace Font Awesome CDN with self-hosted SVG sprite"
 **Files:**
 - Modify: `_headers` (CSP line)
 
-- [ ] **Step 1: Replace the Content-Security-Policy value** with (origins removed: cdnjs, fonts.googleapis, fonts.gstatic, unsplash):
+- [x] **Step 1: Replace the Content-Security-Policy value** with (origins removed: cdnjs, fonts.googleapis, fonts.gstatic, unsplash):
 
 ```
   Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-inline' https://www.googletagmanager.com https://www.google-analytics.com; style-src 'self' 'unsafe-inline'; font-src 'self'; img-src 'self' https://www.google.com https://www.googletagmanager.com data:; frame-src https://www.google.com; connect-src 'self' https://www.google-analytics.com https://www.googletagmanager.com; object-src 'none'; base-uri 'self'; form-action 'self';
 ```
 Also update the comment above it (no longer "Font Awesome CDN, Google Fonts, Unsplash").
 
-- [ ] **Step 2: Verify nothing in built output still needs removed origins**
+- [x] **Step 2: Verify nothing in built output still needs removed origins**
 
 Run: `npm run build && grep -rhoE "https://[a-z0-9.-]+" _site/ru/index.html _site/ru/blog/index.html | sort -u`
 Expected output contains only: sitorakarimi.com, googletagmanager.com, google.com (maps), wa.me, social profile links (facebook/instagram/linkedin are `href` navigations — not governed by CSP), schema.org.
 
-- [ ] **Step 3: Commit**
+- [x] **Step 3: Commit** — see git log
 
 ```bash
 git add _headers
@@ -601,7 +601,7 @@ git commit -m "security: tighten CSP after removing third-party CSS/font/image o
 **Files:**
 - Modify: `_redirects`
 
-- [ ] **Step 1: Replace contents** (`tg` is the BCP-47 code for Tajik; URL dir stays `/tj/`):
+- [x] **Step 1: Replace contents** (`tg` is the BCP-47 code for Tajik; URL dir stays `/tj/`):
 
 ```
 /   /en/   302   Language=en
@@ -609,7 +609,7 @@ git commit -m "security: tighten CSP after removing third-party CSS/font/image o
 /   /ru/   302
 ```
 
-- [ ] **Step 2: Build, verify passthrough, commit**
+- [x] **Step 2: Build, verify passthrough, commit** — `978a662`
 
 Run: `npm run build && cat _site/_redirects`
 ```bash
@@ -627,13 +627,13 @@ Note: testable only on Netlify after deploy (`curl -H "Accept-Language: en" -I h
 - Modify: `script.js:672-681` (replace console.log with toast)
 - Modify: `styles.css` (toast styles)
 
-- [ ] **Step 1: Add locale strings** (top-level key in each JSON):
+- [x] **Step 1: Add locale strings** (top-level key in each JSON):
 
 en.json: `"swUpdate": { "message": "The site has been updated", "refresh": "Refresh" }`
 ru.json: `"swUpdate": { "message": "Сайт обновлён", "refresh": "Обновить" }`
 tj.json: `"swUpdate": { "message": "Сомона нав карда шуд", "refresh": "Навсозӣ" }`
 
-- [ ] **Step 2: Add toast styles to `styles.css`:**
+- [x] **Step 2: Add toast styles to `styles.css`:**
 
 ```css
 /* Service-worker update toast */
@@ -664,7 +664,7 @@ tj.json: `"swUpdate": { "message": "Сомона нав карда шуд", "ref
 }
 ```
 
-- [ ] **Step 3: Replace the silent update log in `script.js`.** Add above the SW registration block:
+- [x] **Step 3: Replace the silent update log in `script.js`.** Add above the SW registration block:
 
 ```js
     function showUpdateToast() {
@@ -691,7 +691,7 @@ with:
 showUpdateToast();
 ```
 
-- [ ] **Step 4: Build, verify, commit**
+- [x] **Step 4: Build, verify, commit** — committed
 
 Run: `npm run build && grep -n "showUpdateToast\|swUpdate" _site/script.js _site/ru/index.html | head -4`
 Expected: function present in script.js; `swUpdate` strings inside the `window.__T__` payload.
@@ -707,9 +707,9 @@ git commit -m "feat: show update toast when a new service worker version install
 **Files:**
 - Modify: `script.js:567-568,670,683` and `vision-test.js` (1 log)
 
-- [ ] **Step 1:** Delete the branded console banner (lines 567-568), delete `console.log('Service Worker registered successfully')`, change the registration `.catch` to `console.warn`. In `vision-test.js`, find the single `console.*` call (`grep -n "console" vision-test.js`) and delete it (keep behavior identical).
+- [x] **Step 1:** Done for script.js. DEVIATION: vision-test.js console.warn kept — it only fires when the #vision-test section is missing (abnormal condition), so it is a useful diagnostic, not noise.
 
-- [ ] **Step 2: Verify and commit**
+- [x] **Step 2: Verify and commit** — see git log
 
 Run: `grep -n "console\." script.js vision-test.js`
 Expected: only the `console.warn` in the SW registration catch remains in script.js; zero in vision-test.js.
@@ -727,7 +727,7 @@ git commit -m "chore: remove console noise from production JS"
 - Modify: `src/index.njk` (styles.css preload + stylesheet → ?v=1.5.0; script.js → ?v=1.2.0)
 - Modify: `src/blog/post.njk`, `src/blog/index.njk` (styles.css → ?v=1.5.0; tailwind.css → ?v=1.5.0)
 
-- [ ] **Step 1: Bump sw.js:**
+- [x] **Step 1: Bump sw.js:**
 
 ```js
 const CACHE_VERSION = '1.5.0';
@@ -736,14 +736,14 @@ const TAILWIND_VERSION = '1.5.0';
 ```
 and in `ASSETS_TO_CACHE`: `'/script.js?v=1.2.0'`.
 
-- [ ] **Step 2: Bump templates:** in `src/index.njk` the two `styles.css?v=` references (preload + stylesheet) → `1.5.0`, `script.js?v=` → `1.2.0`. In both blog templates: `styles.css?v=1.5.0`, `tailwind.css?v=1.5.0`.
+- [x] **Step 2: Bump templates:** in `src/index.njk` the two `styles.css?v=` references (preload + stylesheet) → `1.5.0`, `script.js?v=` → `1.2.0`. In both blog templates: `styles.css?v=1.5.0`, `tailwind.css?v=1.5.0`.
 
-- [ ] **Step 3: Cross-check versions are consistent:**
+- [x] **Step 3: Cross-check versions are consistent:**
 
 Run: `grep -rn "?v=" src/ sw.js | grep -v "_site"`
 Expected: styles.css always 1.5.0, tailwind.css 1.5.0, script.js 1.2.0, vision-test.js 1.1.0, vision-disorders.js 1.1.0 — and `sw.js` ASSETS_TO_CACHE entries match exactly.
 
-- [ ] **Step 4: Final build + smoke checks:**
+- [x] **Step 4: Final build + smoke checks:** — all passed
 
 ```bash
 npm run build
@@ -755,7 +755,7 @@ grep -c "<symbol" _site/assets/icons.svg              # 35
 ```
 Then serve `_site` locally and click through: hero, mobile menu open/close (icon swap), testimonial stars, FAB open/close, vision test start, blog listing + one post, language switcher.
 
-- [ ] **Step 5: Commit**
+- [x] **Step 5: Commit**
 
 ```bash
 git add -A
@@ -769,7 +769,7 @@ git commit -m "chore(release): bump cache/CSS/tailwind versions to 1.5.0 for dep
 **Files:**
 - Modify: `CLAUDE.md`
 
-- [ ] **Step 1: Rewrite the stale top sections** to reflect reality:
+- [x] **Step 1: Rewrite the stale top sections** — full rewrite (31KB → 18KB), covering:
   - **Tech Stack:** Eleventy 3 (Nunjucks templates), Tailwind CSS 3 compiled via CLI and inlined on the homepage (no CDN), vanilla JS, self-hosted SVG icon sprite (no Font Awesome), system font stack (no Google Fonts), Netlify hosting with `_headers`/`_redirects`.
   - **File Structure:** `src/index.njk` is the homepage source (there is no root `index.html`); `src/_data/locales/*.json` hold all strings; `_site/` is build output; `scripts/build-icon-sprite.mjs` regenerates `assets/icons.svg`.
   - **Development Workflow:** `npm run dev` / `npm run build`; remove "no build process" claims.
@@ -777,12 +777,12 @@ git commit -m "chore(release): bump cache/CSS/tailwind versions to 1.5.0 for dep
   - **Version Management:** keep, but add `TAILWIND_VERSION` to the bump checklist and note blog templates also carry `?v=` on styles.css/tailwind.css.
   - Add a short **Icons** section: how to add an icon (append to `ICONS` in `scripts/build-icon-sprite.mjs`, rerun it, use `<svg class="svg-icon"><use href="/assets/icons.svg#fa-name"></use></svg>`).
 
-- [ ] **Step 2: Verify no false claims remain**
+- [x] **Step 2: Verify no false claims remain** — only accurate negations remain
 
 Run: `grep -n "CDN\|index.html lines\|website.png\|Font Awesome\|Poppins\|no build process" CLAUDE.md`
 Expected: only accurate mentions (e.g. "no Font Awesome").
 
-- [ ] **Step 3: Commit**
+- [x] **Step 3: Commit** — `15ccd00`
 
 ```bash
 git add CLAUDE.md
