@@ -1,1 +1,5 @@
+# Language-aware root redirect (Netlify matches Accept-Language).
+# Tajik is "tg" in BCP-47 even though our URL prefix is /tj/.
+/   /en/   302   Language=en
+/   /tj/   302   Language=tg
 /   /ru/   302
