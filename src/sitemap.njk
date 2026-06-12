@@ -14,7 +14,7 @@ eleventyExcludeFromCollections: true
         {%- for altCode, altLoc in locales %}
         <xhtml:link rel="alternate" hreflang="{{ altLoc.hreflang }}" href="https://sitorakarimi.com/{{ altCode }}/"/>
         {%- endfor %}
-        <xhtml:link rel="alternate" hreflang="x-default" href="https://sitorakarimi.com/en/"/>
+        <xhtml:link rel="alternate" hreflang="x-default" href="https://sitorakarimi.com/ru/"/>
     </url>
     <url>
         <loc>https://sitorakarimi.com/{{ code }}/blog/</loc>
@@ -24,7 +24,7 @@ eleventyExcludeFromCollections: true
         {%- for altCode, altLoc in locales %}
         <xhtml:link rel="alternate" hreflang="{{ altLoc.hreflang }}" href="https://sitorakarimi.com/{{ altCode }}/blog/"/>
         {%- endfor %}
-        <xhtml:link rel="alternate" hreflang="x-default" href="https://sitorakarimi.com/en/blog/"/>
+        <xhtml:link rel="alternate" hreflang="x-default" href="https://sitorakarimi.com/ru/blog/"/>
     </url>
 {%- endfor %}
 {%- for post in blogPosts %}
@@ -40,7 +40,7 @@ eleventyExcludeFromCollections: true
         <xhtml:link rel="alternate" hreflang="{{ altLoc.hreflang }}" href="https://sitorakarimi.com/{{ altCode }}/blog/{{ post.slug }}/"/>
         {%- endif %}
         {%- endfor %}
-        <xhtml:link rel="alternate" hreflang="x-default" href="https://sitorakarimi.com/en/blog/{{ post.slug }}/"/>
+        <xhtml:link rel="alternate" hreflang="x-default" href="https://sitorakarimi.com/ru/blog/{{ post.slug }}/"/>
     </url>
     {%- endif %}
     {%- endfor %}
