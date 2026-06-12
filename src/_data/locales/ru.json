@@ -218,5 +218,9 @@
       "technology": "Технологии",
       "lifestyle": "Образ жизни"
     }
+  },
+  "swUpdate": {
+    "message": "Сайт обновлён",
+    "refresh": "Обновить"
   }
 }

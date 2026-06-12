@@ -218,5 +218,9 @@
       "technology": "Technology",
       "lifestyle": "Lifestyle"
     }
+  },
+  "swUpdate": {
+    "message": "The site has been updated",
+    "refresh": "Refresh"
   }
 }

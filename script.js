@@ -656,6 +656,21 @@ document.addEventListener('DOMContentLoaded', function() {
     // ===========================
     // Service Worker Registration (deferred for better performance)
     // ===========================
+    function showUpdateToast() {
+        if (document.querySelector('.sw-update-toast')) return;
+        const t = (window.__T__ && window.__T__.swUpdate) || {};
+        const toast = document.createElement('div');
+        toast.className = 'sw-update-toast';
+        toast.setAttribute('role', 'status');
+        const msg = document.createElement('span');
+        msg.textContent = t.message || 'The site has been updated';
+        const btn = document.createElement('button');
+        btn.textContent = t.refresh || 'Refresh';
+        btn.addEventListener('click', () => window.location.reload());
+        toast.append(msg, btn);
+        document.body.appendChild(toast);
+    }
+
     window.addEventListener('load', () => {
         if ('serviceWorker' in navigator) {
             navigator.serviceWorker.register('/sw.js')
@@ -667,8 +682,8 @@ document.addEventListener('DOMContentLoaded', function() {
                         const newWorker = registration.installing;
                         newWorker.addEventListener('statechange', () => {
                             if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
-                                // New content available, reload recommended
-                                console.log('New content available. Please refresh.');
+                                // New content available — offer a refresh
+                                showUpdateToast();
                             }
                         });
                     });

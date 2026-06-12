@@ -1399,3 +1399,38 @@ body.loading {
   user-select: none;
   -webkit-user-drag: none;
 }
+
+/* ===========================
+   Service Worker Update Toast
+   =========================== */
+.sw-update-toast {
+    position: fixed;
+    bottom: 24px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: #0a2a3d;
+    color: #fff;
+    padding: 12px 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.25);
+    display: flex;
+    gap: 16px;
+    align-items: center;
+    z-index: 9999;
+    font-size: 0.9rem;
+}
+
+.sw-update-toast button {
+    background: #ff6b4a;
+    color: #fff;
+    border: none;
+    padding: 6px 14px;
+    border-radius: 6px;
+    cursor: pointer;
+    font: inherit;
+    white-space: nowrap;
+}
+
+.sw-update-toast button:hover {
+    background: #e85d3f;
+}
