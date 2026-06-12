@@ -53,9 +53,9 @@
                 var open = !mobileMenu.classList.contains('hidden');
                 mobileMenu.classList.toggle('hidden');
                 mobileMenuBtn.setAttribute('aria-expanded', !open);
-                var icon = mobileMenuBtn.querySelector('i');
-                if (icon) {
-                    icon.className = open ? 'fas fa-bars text-2xl' : 'fas fa-times text-2xl';
+                var iconUse = mobileMenuBtn.querySelector('use');
+                if (iconUse) {
+                    iconUse.setAttribute('href', open ? '/assets/icons.svg#fa-bars' : '/assets/icons.svg#fa-xmark');
                 }
             });
         }
@@ -190,10 +190,10 @@
         navigator.clipboard.writeText(window.location.href).then(function () {
             var btn = document.getElementById('copy-link-btn');
             if (btn) {
-                var icon = btn.querySelector('i');
-                if (icon) {
-                    icon.className = 'fas fa-check';
-                    setTimeout(function () { icon.className = 'fas fa-link'; }, 2000);
+                var iconUse = btn.querySelector('use');
+                if (iconUse) {
+                    iconUse.setAttribute('href', '/assets/icons.svg#fa-check');
+                    setTimeout(function () { iconUse.setAttribute('href', '/assets/icons.svg#fa-link'); }, 2000);
                 }
             }
         });

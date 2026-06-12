@@ -124,15 +124,10 @@ document.addEventListener('DOMContentLoaded', function() {
             // Toggle backdrop
             backdrop.classList.toggle('active', isHidden);
 
-            // Toggle icon between bars and times
-            const icon = mobileMenuBtn.querySelector('i');
-            if (icon.classList.contains('fa-bars')) {
-                icon.classList.remove('fa-bars');
-                icon.classList.add('fa-times');
-            } else {
-                icon.classList.remove('fa-times');
-                icon.classList.add('fa-bars');
-            }
+            // Toggle icon between bars and xmark
+            const iconUse = mobileMenuBtn.querySelector('use');
+            const isBars = iconUse.getAttribute('href').endsWith('#fa-bars');
+            iconUse.setAttribute('href', isBars ? '/assets/icons.svg#fa-xmark' : '/assets/icons.svg#fa-bars');
         });
 
         // Close mobile menu when clicking on a link
@@ -142,9 +137,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 mobileMenu.classList.add('hidden');
                 mobileMenu.classList.remove('open');
                 backdrop.classList.remove('active');
-                const icon = mobileMenuBtn.querySelector('i');
-                icon.classList.remove('fa-times');
-                icon.classList.add('fa-bars');
+                mobileMenuBtn.querySelector('use').setAttribute('href', '/assets/icons.svg#fa-bars');
             });
         });
     }
@@ -229,14 +222,14 @@ document.addEventListener('DOMContentLoaded', function() {
     contactFab.id = 'contact-fab';
     contactFab.innerHTML = `
         <a href="tel:+992108118080" id="fab-phone" class="fab-option" aria-label="Call us">
-            <i class="fas fa-phone"></i>
+            <svg class="svg-icon"><use href="/assets/icons.svg#fa-phone"></use></svg>
         </a>
         <a href="https://wa.me/992108118080" id="fab-whatsapp" class="fab-option fab-option--whatsapp" aria-label="WhatsApp" target="_blank" rel="noopener noreferrer">
-            <i class="fab fa-whatsapp"></i>
+            <svg class="svg-icon"><use href="/assets/icons.svg#fa-whatsapp"></use></svg>
         </a>
         <button id="fab-main" class="fab-main" aria-label="Contact options" aria-expanded="false">
-            <i class="fas fa-comments fab-icon-contact"></i>
-            <i class="fas fa-times fab-icon-close"></i>
+            <svg class="svg-icon fab-icon-contact"><use href="/assets/icons.svg#fa-comments"></use></svg>
+            <svg class="svg-icon fab-icon-close"><use href="/assets/icons.svg#fa-xmark"></use></svg>
         </button>
     `;
     document.body.appendChild(contactFab);

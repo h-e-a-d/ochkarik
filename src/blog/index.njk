@@ -66,14 +66,8 @@ eleventyComputed:
     <!-- Favicon -->
     <link rel="icon" type="image/svg+xml" href="/favicon.svg">
 
-    <!-- Fonts (non-render-blocking) -->
-
     <!-- Tailwind CSS (pre-built) -->
     <link rel="stylesheet" href="/tailwind.css?v=1.3.1">
-
-    <!-- Font Awesome (non-render-blocking) -->
-    <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous">
-    <noscript><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous"></noscript>
 
     <!-- Styles -->
     <!-- Version matches CSS_VERSION in sw.js — update both when styles.css changes -->
@@ -109,7 +103,7 @@ eleventyComputed:
             <div class="flex justify-between items-center h-20">
                 <a href="/{{ lang }}/" class="flex items-center space-x-2 hover:opacity-90 transition-opacity">
                     <div class="w-10 h-10 bg-white rounded-full flex items-center justify-center">
-                        <i class="fas fa-eye text-navy-900 text-xl"></i>
+                        <svg class="svg-icon text-navy-900 text-xl"><use href="/assets/icons.svg#fa-eye"></use></svg>
                     </div>
                     <span class="font-semibold text-lg text-white">Dr. Sitora Karimova</span>
                 </a>
@@ -123,9 +117,9 @@ eleventyComputed:
                     <!-- Language Switcher -->
                     <div class="relative language-switcher">
                         <button id="lang-btn" class="flex items-center space-x-2 text-white hover:text-coral transition-colors" aria-label="Language selector" aria-haspopup="true" aria-expanded="false">
-                            <i class="fas fa-globe text-lg" aria-hidden="true"></i>
+                            <svg class="svg-icon text-lg" aria-hidden="true"><use href="/assets/icons.svg#fa-globe"></use></svg>
                             <span id="current-lang" class="text-sm font-medium">{{ lang | upper }}</span>
-                            <i class="fas fa-chevron-down text-xs" aria-hidden="true"></i>
+                            <svg class="svg-icon text-xs" aria-hidden="true"><use href="/assets/icons.svg#fa-chevron-down"></use></svg>
                         </button>
                         <div id="lang-menu" class="hidden absolute right-0 mt-2 w-32 bg-white rounded-lg shadow-xl overflow-hidden z-50" role="menu">
                             <button data-lang="en" class="lang-option w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-coral hover:text-white transition-colors" role="menuitem">English</button>
@@ -135,7 +129,7 @@ eleventyComputed:
                     </div>
                 </div>
                 <button class="lg:hidden text-white" id="mobile-menu-btn" aria-label="Toggle mobile menu" aria-expanded="false">
-                    <i class="fas fa-bars text-2xl" aria-hidden="true"></i>
+                    <svg class="svg-icon text-2xl" aria-hidden="true"><use href="/assets/icons.svg#fa-bars"></use></svg>
                 </button>
             </div>
         </div>
@@ -183,7 +177,7 @@ eleventyComputed:
                     <a href="/{{ lang }}/blog/{{ post.slug }}/" class="block overflow-hidden">
                         <div class="blog-card-image aspect-[16/10] bg-gray-100 flex items-center justify-center">
                             <img src="{{ post.image }}" alt="{{ p.title }}" class="w-full h-full object-cover" loading="lazy"
-                                 onerror="this.parentElement.innerHTML='<div class=\'flex items-center justify-center w-full h-full bg-gradient-to-br from-navy-900/5 to-coral/5\'><i class=\'fas fa-newspaper text-4xl text-navy-900/20\'></i></div>'">
+                                 onerror="this.parentElement.innerHTML='<div class=\'flex items-center justify-center w-full h-full bg-gradient-to-br from-navy-900/5 to-coral/5\'><svg class=\'svg-icon text-4xl text-navy-900/20\'><use href=\'/assets/icons.svg#fa-newspaper\'></use></svg></div>'">
                         </div>
                     </a>
                     {%- endif %}
@@ -194,7 +188,7 @@ eleventyComputed:
                             {%- endif %}
                             <span class="text-xs text-gray-400">{{ post.date }}</span>
                             {%- if post.readingTime %}
-                            <span class="text-xs text-gray-400"><i class="far fa-clock"></i> {{ post.readingTime }} {{ t.blog.minRead | safe }}</span>
+                            <span class="text-xs text-gray-400"><svg class="svg-icon"><use href="/assets/icons.svg#fa-regular-clock"></use></svg> {{ post.readingTime }} {{ t.blog.minRead | safe }}</span>
                             {%- endif %}
                         </div>
                         <h2 class="text-lg font-medium text-navy-900 mb-2 leading-snug">
@@ -202,7 +196,7 @@ eleventyComputed:
                         </h2>
                         <p class="text-sm text-gray-500 font-light line-clamp-3 mb-4">{{ p.excerpt | safe }}</p>
                         <a href="/{{ lang }}/blog/{{ post.slug }}/" class="inline-flex items-center text-sm font-medium text-coral hover:text-navy-900 transition-colors">
-                            {{ t.blog.readMore | safe }} <i class="fas fa-arrow-right ml-2 text-xs"></i>
+                            {{ t.blog.readMore | safe }} <svg class="svg-icon ml-2 text-xs"><use href="/assets/icons.svg#fa-arrow-right"></use></svg>
                         </a>
                     </div>
                 </article>
@@ -211,7 +205,7 @@ eleventyComputed:
             </div>
             {%- else %}
             <div class="text-center py-16">
-                <i class="fas fa-newspaper text-5xl text-gray-300 mb-4"></i>
+                <svg class="svg-icon text-5xl text-gray-300 mb-4"><use href="/assets/icons.svg#fa-newspaper"></use></svg>
                 <p class="text-gray-400 text-lg">{{ t.blog.noPosts | safe }}</p>
             </div>
             {%- endif %}
@@ -245,8 +239,8 @@ eleventyComputed:
                 <div>
                     <h4 class="font-medium text-navy-900 mb-4">{{ t.footer.connect | safe }}</h4>
                     <div class="flex space-x-4">
-                        <a href="#" class="text-gray-400 hover:text-coral transition-colors"><i class="fab fa-facebook text-xl"></i></a>
-                        <a href="#" class="text-gray-400 hover:text-coral transition-colors"><i class="fab fa-instagram text-xl"></i></a>
+                        <a href="#" class="text-gray-400 hover:text-coral transition-colors"><svg class="svg-icon text-xl"><use href="/assets/icons.svg#fa-facebook"></use></svg></a>
+                        <a href="#" class="text-gray-400 hover:text-coral transition-colors"><svg class="svg-icon text-xl"><use href="/assets/icons.svg#fa-instagram"></use></svg></a>
                     </div>
                 </div>
             </div>

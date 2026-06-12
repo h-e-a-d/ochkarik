@@ -126,25 +126,25 @@ git commit -m "fix: use /ru/ as the single x-default hreflang everywhere"
 - Modify: `.eleventy.js` (remove glasses-anim passthrough)
 - Modify: `src/index.njk:1266-1269` (remove dead SITE_VERSION script)
 
-- [ ] **Step 1: Confirm nothing references the files (safety check)**
+- [x] **Step 1: Confirm nothing references the files (safety check)**
 
 Run: `grep -rn "glasses-anim.js\|hero.png\|layout.njk\|SITE_VERSION" src/ script.js blog/ .eleventy.js sw.js | grep -v "_site"`
 Expected: only `.eleventy.js` passthrough line for glasses-anim.js and the `SITE_VERSION` inline script in index.njk.
 
-- [ ] **Step 2: Delete files**
+- [x] **Step 2: Delete files**
 
 ```bash
 git rm glasses-anim.js assets/images/hero.png src/_includes/layout.njk
 ```
 
-- [ ] **Step 3: Remove passthrough from `.eleventy.js`**
+- [x] **Step 3: Remove passthrough from `.eleventy.js`**
 
 Delete the line:
 ```js
   eleventyConfig.addPassthroughCopy({ "glasses-anim.js": "glasses-anim.js" });
 ```
 
-- [ ] **Step 4: Remove dead SITE_VERSION script from `src/index.njk`**
+- [x] **Step 4: Remove dead SITE_VERSION script from `src/index.njk`**
 
 Delete:
 ```html
@@ -154,12 +154,12 @@ Delete:
     </script>
 ```
 
-- [ ] **Step 5: Build and verify**
+- [x] **Step 5: Build and verify**
 
 Run: `npm run build && ls _site/glasses-anim.js _site/assets/images/hero.png 2>&1`
-Expected: build succeeds; both `ls` targets report "No such file or directory". Homepage still contains the inline glasses IIFE: `grep -c "glasses-clip-left" _site/ru/index.html` ≥ 1.
+Expected: build succeeds; both `ls` targets report "No such file or directory". Homepage still contains the inline glasses IIFE: verified via `glasses-anim-stage` (2) and `const LENS` (1) — note: `glasses-clip-left` no longer exists; implementation uses CSS clip-path now (CLAUDE.md staleness, covered in Task 16).
 
-- [ ] **Step 6: Commit**
+- [x] **Step 6: Commit** — `d83b8cb`
 
 ```bash
 git add -A
@@ -174,7 +174,7 @@ git commit -m "chore: remove dead code (glasses-anim.js, hero.png, layout.njk, S
 - Modify: `sw.js:22-45` (`ASSETS_TO_CACHE`)
 - Modify: `src/blog/post.njk:103` and `src/blog/index.njk` (`/styles.css` → versioned)
 
-- [ ] **Step 1: Version the JS entries in `ASSETS_TO_CACHE`**
+- [x] **Step 1: Version the JS entries in `ASSETS_TO_CACHE`**
 
 In `sw.js` replace:
 ```js
@@ -193,7 +193,7 @@ Also add the tailwind stylesheet used by blog pages (version matches `TAILWIND_V
     `/tailwind.css?v=${TAILWIND_VERSION}`,
 ```
 
-- [ ] **Step 2: Version styles.css on blog templates**
+- [x] **Step 2: Version styles.css on blog templates**
 
 In `src/blog/post.njk` and `src/blog/index.njk` replace:
 ```html
@@ -205,12 +205,12 @@ with:
 <link rel="stylesheet" href="/styles.css?v=1.3.2">
 ```
 
-- [ ] **Step 3: Build and verify**
+- [x] **Step 3: Build and verify**
 
 Run: `npm run build && grep -n "styles.css" _site/ru/blog/index.html | head -3`
 Expected: `/styles.css?v=1.3.2`.
 
-- [ ] **Step 4: Commit**
+- [x] **Step 4: Commit** — `d164b66`
 
 ```bash
 git add sw.js src/blog/post.njk src/blog/index.njk
@@ -224,9 +224,9 @@ git commit -m "fix(sw): precache versioned JS URLs and version styles.css on blo
 **Files:**
 - Modify: `src/index.njk:206-270` (`aggregateRating` + `review` blocks in LocalBusiness JSON-LD)
 
-- [ ] **Step 1: Delete the `aggregateRating` object and the entire `review` array** from the LocalBusiness schema (keep `containedInPlace` and `sameAs`, fix trailing comma so JSON stays valid). The visible HTML testimonials section is untouched.
+- [x] **Step 1: Delete the `aggregateRating` object and the entire `review` array** from the LocalBusiness schema (keep `containedInPlace` and `sameAs`, fix trailing comma so JSON stays valid). The visible HTML testimonials section is untouched.
 
-- [ ] **Step 2: Validate JSON**
+- [x] **Step 2: Validate JSON**
 
 Run: `npm run build && python3 -c "
 import json,re,sys
@@ -236,7 +236,7 @@ for m in re.findall(r'<script type=\"application/ld\+json\">(.*?)</script>', htm
 print('all JSON-LD valid')"`
 Expected: `all JSON-LD valid`, and `grep -c "aggregateRating" _site/ru/index.html` returns 0 (exit 1).
 
-- [ ] **Step 3: Commit**
+- [x] **Step 3: Commit** — `66b6671`
 
 ```bash
 git add src/index.njk
@@ -251,12 +251,12 @@ git commit -m "fix(seo): remove self-serving review/aggregateRating schema"
 - Create: `assets/images/og-image.jpg` (converted from webp)
 - Modify: `src/index.njk:45,60` (og:image + twitter:image)
 
-- [ ] **Step 1: Convert**
+- [x] **Step 1: Convert** — 1200×630, 153 KB
 
 Run: `sips -s format jpeg -s formatOptions 85 assets/images/og-image.webp --out assets/images/og-image.jpg && sips -g pixelWidth -g pixelHeight assets/images/og-image.jpg`
 Expected: file created; dimensions 1200×630 (if different, update the `og:image:width/height` meta to match).
 
-- [ ] **Step 2: Point homepage OG/Twitter meta at the JPG**
+- [x] **Step 2: Point homepage OG/Twitter meta at the JPG**
 
 Replace both occurrences of:
 ```
@@ -268,7 +268,7 @@ https://sitorakarimi.com/assets/images/og-image.jpg
 ```
 (Leave the schema.org `image` array entry as is — webp is fine there.)
 
-- [ ] **Step 3: Build, verify, commit**
+- [x] **Step 3: Build, verify, commit** — `523c7ef`
 
 Run: `npm run build && grep -n "og-image.jpg" _site/ru/index.html | head -2`
 ```bash
@@ -284,7 +284,7 @@ git commit -m "fix(seo): serve JPEG og:image for WhatsApp/Telegram preview compa
 - Modify: `src/index.njk:824-830` (the `opacity-5` background image div)
 - Modify: `src/index.njk:75` (unsplash dns-prefetch)
 
-- [ ] **Step 1: Delete the background image wrapper** in the testimonials section:
+- [x] **Step 1: Delete the background image wrapper** in the testimonials section:
 
 ```html
         <div class="absolute inset-0 opacity-5">
@@ -298,14 +298,14 @@ git commit -m "fix(seo): serve JPEG og:image for WhatsApp/Telegram preview compa
 ```
 Delete the whole block (the section keeps its `bg-navy-900`).
 
-- [ ] **Step 2: Remove the Unsplash dns-prefetch**
+- [x] **Step 2: Remove the Unsplash dns-prefetch**
 
 Delete from `src/index.njk` head:
 ```html
     <link rel="dns-prefetch" href="https://images.unsplash.com">
 ```
 
-- [ ] **Step 3: Build, verify, commit**
+- [x] **Step 3: Build, verify, commit** — `ff57faf`
 
 Run: `npm run build && grep -rn "unsplash" _site/ru/index.html`
 Expected: no matches.
@@ -321,7 +321,7 @@ git commit -m "perf: remove invisible Unsplash testimonial background image"
 **Files:**
 - Modify: `robots.txt` (full rewrite)
 
-- [ ] **Step 1: Replace contents with:**
+- [x] **Step 1: Replace contents with:**
 
 ```
 # robots.txt for sitorakarimi.com
@@ -334,7 +334,7 @@ Sitemap: https://sitorakarimi.com/sitemap.xml
 ```
 (The previously disallowed paths don't exist in `_site/`; `Crawl-delay` is ignored by Google; `Disallow: /*.txt$` matched robots.txt itself.)
 
-- [ ] **Step 2: Build, verify, commit**
+- [x] **Step 2: Build, verify, commit** — `3e22607`
 
 Run: `npm run build && cat _site/robots.txt`
 ```bash
@@ -351,7 +351,7 @@ git commit -m "chore(seo): simplify robots.txt"
 - Modify: `tailwind.config.js:22` (remove poppins family)
 - Modify: `blog/blog.css` (replace any `Poppins` font-family with the system stack, if present)
 
-- [ ] **Step 1: Remove from both blog templates:**
+- [x] **Step 1: Remove from both blog templates:**
 
 ```html
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -360,14 +360,14 @@ git commit -m "chore(seo): simplify robots.txt"
     <noscript><link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet"></noscript>
 ```
 
-- [ ] **Step 2: Remove the Poppins family from `tailwind.config.js`:**
+- [x] **Step 2: Remove the Poppins family from `tailwind.config.js`:** (also removed `font-poppins` class from both blog `<body>` tags — body now inherits the styles.css font rule)
 
 ```js
         poppins: ['Poppins', 'sans-serif'],
 ```
 Delete this line. Then grep templates for usage: `grep -rn "font-poppins" src/ blog/` — replace any hits with nothing (inherits body font).
 
-- [ ] **Step 3: Check `blog/blog.css` for Poppins**
+- [x] **Step 3: Check `blog/blog.css` for Poppins** — no Poppins in blog.css; nothing to change
 
 Run: `grep -n "Poppins" blog/blog.css styles.css tailwind.input.css`
 Replace any `font-family` containing Poppins with:
@@ -375,7 +375,7 @@ Replace any `font-family` containing Poppins with:
 font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
 ```
 
-- [ ] **Step 4: Rebuild (regenerates tailwind.css), verify, commit**
+- [x] **Step 4: Rebuild (regenerates tailwind.css), verify, commit** — `f6442c8` (tailwind.css is gitignored — build artifact, not committed)
 
 Run: `npm run build && grep -rn "fonts.googleapis\|Poppins" _site/ru/blog/index.html _site/tailwind.css | head`
 Expected: no matches.

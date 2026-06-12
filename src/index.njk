@@ -70,12 +70,7 @@ eleventyComputed:
     <link rel="alternate icon" href="/favicon.svg">
 
     <!-- Preconnect to external origins -->
-    <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
     <link rel="dns-prefetch" href="https://www.googletagmanager.com">
-
-    <!-- Font Awesome (deferred for performance, SRI hash for integrity) -->
-    <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous">
-    <noscript><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous"></noscript>
 
     <!-- LCP hero image preload — mobile gets the smaller JPEG, desktop gets webp -->
     <link rel="preload" as="image"
@@ -385,7 +380,7 @@ eleventyComputed:
             <div class="flex justify-between items-center h-20">
                 <div class="flex items-center space-x-2">
                     <div class="w-10 h-10 bg-white rounded-full flex items-center justify-center">
-                        <i class="fas fa-eye text-navy-900 text-xl"></i>
+                        <svg class="svg-icon text-navy-900 text-xl"><use href="/assets/icons.svg#fa-eye"></use></svg>
                     </div>
                     <span class="font-semibold text-lg text-white">Dr. Sitora Karimova</span>
                 </div>
@@ -401,9 +396,9 @@ eleventyComputed:
                     <!-- Language Switcher -->
                     <div class="relative language-switcher">
                         <button id="lang-btn" class="flex items-center space-x-2 text-white hover:text-coral transition-colors" aria-label="Language selector" aria-haspopup="true" aria-expanded="false">
-                            <i class="fas fa-globe text-lg" aria-hidden="true"></i>
+                            <svg class="svg-icon text-lg" aria-hidden="true"><use href="/assets/icons.svg#fa-globe"></use></svg>
                             <span id="current-lang" class="text-sm font-medium">EN</span>
-                            <i class="fas fa-chevron-down text-xs" aria-hidden="true"></i>
+                            <svg class="svg-icon text-xs" aria-hidden="true"><use href="/assets/icons.svg#fa-chevron-down"></use></svg>
                         </button>
                         <div id="lang-menu" class="hidden absolute right-0 mt-2 w-32 bg-white rounded-lg shadow-xl overflow-hidden z-50" role="menu">
                             <button data-lang="en" class="lang-option w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-coral hover:text-white transition-colors" role="menuitem">English</button>
@@ -413,7 +408,7 @@ eleventyComputed:
                     </div>
                 </div>
                 <button class="lg:hidden text-white" id="mobile-menu-btn" aria-label="Toggle mobile menu" aria-expanded="false">
-                    <i class="fas fa-bars text-2xl" aria-hidden="true"></i>
+                    <svg class="svg-icon text-2xl" aria-hidden="true"><use href="/assets/icons.svg#fa-bars"></use></svg>
                 </button>
             </div>
         </div>
@@ -475,7 +470,7 @@ eleventyComputed:
 
         <!-- Scroll Indicator -->
         <div class="absolute bottom-12 left-1/2 transform -translate-x-1/2 text-white animate-bounce">
-            <i class="fas fa-chevron-down text-2xl"></i>
+            <svg class="svg-icon text-2xl"><use href="/assets/icons.svg#fa-chevron-down"></use></svg>
         </div>
     </section>
 
@@ -491,7 +486,7 @@ eleventyComputed:
                 <!-- Service Card 1: Comprehensive Eye Examination -->
                 <div class="service-card-minimal" data-row="0">
                     <div class="text-coral mb-4">
-                        <i class="fas fa-eye text-4xl"></i>
+                        <svg class="svg-icon text-4xl"><use href="/assets/icons.svg#fa-eye"></use></svg>
                     </div>
                     <h3 class="text-xl font-medium mb-3 text-white" data-i18n="services.comprehensive.title">{{ t.services.comprehensive.title | safe }}</h3>
                     <div class="service-description line-clamp-5">
@@ -505,14 +500,14 @@ eleventyComputed:
                     </div>
                     <button class="service-toggle mt-3 text-coral hover:text-white transition-colors text-sm font-medium flex items-center" data-row="0">
                         <span class="toggle-text">Read More</span>
-                        <i class="fas fa-chevron-down ml-2 toggle-icon transition-transform"></i>
+                        <svg class="svg-icon ml-2 toggle-icon transition-transform"><use href="/assets/icons.svg#fa-chevron-down"></use></svg>
                     </button>
                 </div>
 
                 <!-- Service Card 2: Visual Acuity Testing -->
                 <div class="service-card-minimal" data-row="0">
                     <div class="text-coral mb-4">
-                        <i class="fas fa-chart-line text-4xl"></i>
+                        <svg class="svg-icon text-4xl"><use href="/assets/icons.svg#fa-chart-line"></use></svg>
                     </div>
                     <h3 class="text-xl font-medium mb-3 text-white" data-i18n="services.visometry.title">{{ t.services.visometry.title | safe }}</h3>
                     <div class="service-description line-clamp-5">
@@ -520,14 +515,14 @@ eleventyComputed:
                     </div>
                     <button class="service-toggle mt-3 text-coral hover:text-white transition-colors text-sm font-medium flex items-center" data-row="0">
                         <span class="toggle-text">Read More</span>
-                        <i class="fas fa-chevron-down ml-2 toggle-icon transition-transform"></i>
+                        <svg class="svg-icon ml-2 toggle-icon transition-transform"><use href="/assets/icons.svg#fa-chevron-down"></use></svg>
                     </button>
                 </div>
 
                 <!-- Service Card 3: Autorefractometry -->
                 <div class="service-card-minimal" data-row="0">
                     <div class="text-coral mb-4">
-                        <i class="fas fa-microscope text-4xl"></i>
+                        <svg class="svg-icon text-4xl"><use href="/assets/icons.svg#fa-microscope"></use></svg>
                     </div>
                     <h3 class="text-xl font-medium mb-3 text-white" data-i18n="services.autorefractometry.title">{{ t.services.autorefractometry.title | safe }}</h3>
                     <div class="service-description line-clamp-5">
@@ -535,14 +530,14 @@ eleventyComputed:
                     </div>
                     <button class="service-toggle mt-3 text-coral hover:text-white transition-colors text-sm font-medium flex items-center" data-row="0">
                         <span class="toggle-text">Read More</span>
-                        <i class="fas fa-chevron-down ml-2 toggle-icon transition-transform"></i>
+                        <svg class="svg-icon ml-2 toggle-icon transition-transform"><use href="/assets/icons.svg#fa-chevron-down"></use></svg>
                     </button>
                 </div>
 
                 <!-- Service Card 4: Glasses Prescription -->
                 <div class="service-card-minimal" data-row="1">
                     <div class="text-coral mb-4">
-                        <i class="fas fa-glasses text-4xl"></i>
+                        <svg class="svg-icon text-4xl"><use href="/assets/icons.svg#fa-glasses"></use></svg>
                     </div>
                     <h3 class="text-xl font-medium mb-3 text-white" data-i18n="services.subjective.title">{{ t.services.subjective.title | safe }}</h3>
                     <div class="service-description line-clamp-5">
@@ -550,14 +545,14 @@ eleventyComputed:
                     </div>
                     <button class="service-toggle mt-3 text-coral hover:text-white transition-colors text-sm font-medium flex items-center" data-row="1">
                         <span class="toggle-text">Read More</span>
-                        <i class="fas fa-chevron-down ml-2 toggle-icon transition-transform"></i>
+                        <svg class="svg-icon ml-2 toggle-icon transition-transform"><use href="/assets/icons.svg#fa-chevron-down"></use></svg>
                     </button>
                 </div>
 
                 <!-- Service Card 5: Accommodation Assessment -->
                 <div class="service-card-minimal" data-row="1">
                     <div class="text-coral mb-4">
-                        <i class="fas fa-expand text-4xl"></i>
+                        <svg class="svg-icon text-4xl"><use href="/assets/icons.svg#fa-expand"></use></svg>
                     </div>
                     <h3 class="text-xl font-medium mb-3 text-white" data-i18n="services.accommodation.title">{{ t.services.accommodation.title | safe }}</h3>
                     <div class="service-description line-clamp-5">
@@ -565,14 +560,14 @@ eleventyComputed:
                     </div>
                     <button class="service-toggle mt-3 text-coral hover:text-white transition-colors text-sm font-medium flex items-center" data-row="1">
                         <span class="toggle-text">Read More</span>
-                        <i class="fas fa-chevron-down ml-2 toggle-icon transition-transform"></i>
+                        <svg class="svg-icon ml-2 toggle-icon transition-transform"><use href="/assets/icons.svg#fa-chevron-down"></use></svg>
                     </button>
                 </div>
 
                 <!-- Service Card 6: Keratometry -->
                 <div class="service-card-minimal" data-row="1">
                     <div class="text-coral mb-4">
-                        <i class="fas fa-circle-notch text-4xl"></i>
+                        <svg class="svg-icon text-4xl"><use href="/assets/icons.svg#fa-circle-notch"></use></svg>
                     </div>
                     <h3 class="text-xl font-medium mb-3 text-white" data-i18n="services.keratometry.title">{{ t.services.keratometry.title | safe }}</h3>
                     <div class="service-description line-clamp-5">
@@ -580,14 +575,14 @@ eleventyComputed:
                     </div>
                     <button class="service-toggle mt-3 text-coral hover:text-white transition-colors text-sm font-medium flex items-center" data-row="1">
                         <span class="toggle-text">Read More</span>
-                        <i class="fas fa-chevron-down ml-2 toggle-icon transition-transform"></i>
+                        <svg class="svg-icon ml-2 toggle-icon transition-transform"><use href="/assets/icons.svg#fa-chevron-down"></use></svg>
                     </button>
                 </div>
 
                 <!-- Service Card 7: Fundus Examination -->
                 <div class="service-card-minimal" data-row="2">
                     <div class="text-coral mb-4">
-                        <i class="fas fa-eye-dropper text-4xl"></i>
+                        <svg class="svg-icon text-4xl"><use href="/assets/icons.svg#fa-eye-dropper"></use></svg>
                     </div>
                     <h3 class="text-xl font-medium mb-3 text-white" data-i18n="services.ophthalmoscopy.title">{{ t.services.ophthalmoscopy.title | safe }}</h3>
                     <div class="service-description line-clamp-5">
@@ -595,14 +590,14 @@ eleventyComputed:
                     </div>
                     <button class="service-toggle mt-3 text-coral hover:text-white transition-colors text-sm font-medium flex items-center" data-row="2">
                         <span class="toggle-text">Read More</span>
-                        <i class="fas fa-chevron-down ml-2 toggle-icon transition-transform"></i>
+                        <svg class="svg-icon ml-2 toggle-icon transition-transform"><use href="/assets/icons.svg#fa-chevron-down"></use></svg>
                     </button>
                 </div>
 
                 <!-- Service Card 8: Prescription Glasses -->
                 <div class="service-card-minimal" data-row="2">
                     <div class="text-coral mb-4">
-                        <i class="fas fa-store text-4xl"></i>
+                        <svg class="svg-icon text-4xl"><use href="/assets/icons.svg#fa-store"></use></svg>
                     </div>
                     <h3 class="text-xl font-medium mb-3 text-white" data-i18n="services.prescriptionGlasses.title">{{ t.services.prescriptionGlasses.title | safe }}</h3>
                     <div class="service-description line-clamp-5">
@@ -610,14 +605,14 @@ eleventyComputed:
                     </div>
                     <button class="service-toggle mt-3 text-coral hover:text-white transition-colors text-sm font-medium flex items-center" data-row="2">
                         <span class="toggle-text">Read More</span>
-                        <i class="fas fa-chevron-down ml-2 toggle-icon transition-transform"></i>
+                        <svg class="svg-icon ml-2 toggle-icon transition-transform"><use href="/assets/icons.svg#fa-chevron-down"></use></svg>
                     </button>
                 </div>
 
                 <!-- Service Card 9: Contact Lenses & Treatment -->
                 <div class="service-card-minimal" data-row="2">
                     <div class="text-coral mb-4">
-                        <i class="fas fa-circle-dot text-4xl"></i>
+                        <svg class="svg-icon text-4xl"><use href="/assets/icons.svg#fa-circle-dot"></use></svg>
                     </div>
                     <h3 class="text-xl font-medium mb-3 text-white" data-i18n="services.contactsAndTreatment.title">{{ t.services.contactsAndTreatment.title | safe }}</h3>
                     <div class="service-description line-clamp-5">
@@ -625,7 +620,7 @@ eleventyComputed:
                     </div>
                     <button class="service-toggle mt-3 text-coral hover:text-white transition-colors text-sm font-medium flex items-center" data-row="2">
                         <span class="toggle-text">Read More</span>
-                        <i class="fas fa-chevron-down ml-2 toggle-icon transition-transform"></i>
+                        <svg class="svg-icon ml-2 toggle-icon transition-transform"><use href="/assets/icons.svg#fa-chevron-down"></use></svg>
                     </button>
                 </div>
             </div>
@@ -768,15 +763,15 @@ eleventyComputed:
                 <div class="testimonial-slide active">
                     <div class="text-center">
                         <div class="flex justify-center mb-4">
-                            <i class="fas fa-quote-left text-4xl text-coral"></i>
+                            <svg class="svg-icon text-4xl text-coral"><use href="/assets/icons.svg#fa-quote-left"></use></svg>
                         </div>
                         <blockquote class="text-2xl md:text-4xl font-light text-white mb-8 leading-relaxed" data-i18n="testimonials.quote1">{{ t.testimonials.quote1 | safe }}</blockquote>
                         <div class="flex items-center justify-center space-x-1 mb-6">
-                            <i class="fas fa-star text-coral text-xl"></i>
-                            <i class="fas fa-star text-coral text-xl"></i>
-                            <i class="fas fa-star text-coral text-xl"></i>
-                            <i class="fas fa-star text-coral text-xl"></i>
-                            <i class="fas fa-star text-coral text-xl"></i>
+                            <svg class="svg-icon text-coral text-xl"><use href="/assets/icons.svg#fa-star"></use></svg>
+                            <svg class="svg-icon text-coral text-xl"><use href="/assets/icons.svg#fa-star"></use></svg>
+                            <svg class="svg-icon text-coral text-xl"><use href="/assets/icons.svg#fa-star"></use></svg>
+                            <svg class="svg-icon text-coral text-xl"><use href="/assets/icons.svg#fa-star"></use></svg>
+                            <svg class="svg-icon text-coral text-xl"><use href="/assets/icons.svg#fa-star"></use></svg>
                         </div>
                         <div class="text-white/80 font-light">
                             <p class="text-lg" data-i18n="testimonials.name1">{{ t.testimonials.name1 | safe }}</p>
@@ -789,15 +784,15 @@ eleventyComputed:
                 <div class="testimonial-slide">
                     <div class="text-center">
                         <div class="flex justify-center mb-4">
-                            <i class="fas fa-quote-left text-4xl text-coral"></i>
+                            <svg class="svg-icon text-4xl text-coral"><use href="/assets/icons.svg#fa-quote-left"></use></svg>
                         </div>
                         <blockquote class="text-2xl md:text-4xl font-light text-white mb-8 leading-relaxed" data-i18n="testimonials.quote2">{{ t.testimonials.quote2 | safe }}</blockquote>
                         <div class="flex items-center justify-center space-x-1 mb-6">
-                            <i class="fas fa-star text-coral text-xl"></i>
-                            <i class="fas fa-star text-coral text-xl"></i>
-                            <i class="fas fa-star text-coral text-xl"></i>
-                            <i class="fas fa-star text-coral text-xl"></i>
-                            <i class="fas fa-star text-coral text-xl"></i>
+                            <svg class="svg-icon text-coral text-xl"><use href="/assets/icons.svg#fa-star"></use></svg>
+                            <svg class="svg-icon text-coral text-xl"><use href="/assets/icons.svg#fa-star"></use></svg>
+                            <svg class="svg-icon text-coral text-xl"><use href="/assets/icons.svg#fa-star"></use></svg>
+                            <svg class="svg-icon text-coral text-xl"><use href="/assets/icons.svg#fa-star"></use></svg>
+                            <svg class="svg-icon text-coral text-xl"><use href="/assets/icons.svg#fa-star"></use></svg>
                         </div>
                         <div class="text-white/80 font-light">
                             <p class="text-lg" data-i18n="testimonials.name2">{{ t.testimonials.name2 | safe }}</p>
@@ -810,15 +805,15 @@ eleventyComputed:
                 <div class="testimonial-slide">
                     <div class="text-center">
                         <div class="flex justify-center mb-4">
-                            <i class="fas fa-quote-left text-4xl text-coral"></i>
+                            <svg class="svg-icon text-4xl text-coral"><use href="/assets/icons.svg#fa-quote-left"></use></svg>
                         </div>
                         <blockquote class="text-2xl md:text-4xl font-light text-white mb-8 leading-relaxed" data-i18n="testimonials.quote3">{{ t.testimonials.quote3 | safe }}</blockquote>
                         <div class="flex items-center justify-center space-x-1 mb-6">
-                            <i class="fas fa-star text-coral text-xl"></i>
-                            <i class="fas fa-star text-coral text-xl"></i>
-                            <i class="fas fa-star text-coral text-xl"></i>
-                            <i class="fas fa-star text-coral text-xl"></i>
-                            <i class="fas fa-star text-coral text-xl"></i>
+                            <svg class="svg-icon text-coral text-xl"><use href="/assets/icons.svg#fa-star"></use></svg>
+                            <svg class="svg-icon text-coral text-xl"><use href="/assets/icons.svg#fa-star"></use></svg>
+                            <svg class="svg-icon text-coral text-xl"><use href="/assets/icons.svg#fa-star"></use></svg>
+                            <svg class="svg-icon text-coral text-xl"><use href="/assets/icons.svg#fa-star"></use></svg>
+                            <svg class="svg-icon text-coral text-xl"><use href="/assets/icons.svg#fa-star"></use></svg>
                         </div>
                         <div class="text-white/80 font-light">
                             <p class="text-lg" data-i18n="testimonials.name3">{{ t.testimonials.name3 | safe }}</p>
@@ -831,15 +826,15 @@ eleventyComputed:
                 <div class="testimonial-slide">
                     <div class="text-center">
                         <div class="flex justify-center mb-4">
-                            <i class="fas fa-quote-left text-4xl text-coral"></i>
+                            <svg class="svg-icon text-4xl text-coral"><use href="/assets/icons.svg#fa-quote-left"></use></svg>
                         </div>
                         <blockquote class="text-2xl md:text-4xl font-light text-white mb-8 leading-relaxed" data-i18n="testimonials.quote4">{{ t.testimonials.quote4 | safe }}</blockquote>
                         <div class="flex items-center justify-center space-x-1 mb-6">
-                            <i class="fas fa-star text-coral text-xl"></i>
-                            <i class="fas fa-star text-coral text-xl"></i>
-                            <i class="fas fa-star text-coral text-xl"></i>
-                            <i class="fas fa-star text-coral text-xl"></i>
-                            <i class="fas fa-star text-coral text-xl"></i>
+                            <svg class="svg-icon text-coral text-xl"><use href="/assets/icons.svg#fa-star"></use></svg>
+                            <svg class="svg-icon text-coral text-xl"><use href="/assets/icons.svg#fa-star"></use></svg>
+                            <svg class="svg-icon text-coral text-xl"><use href="/assets/icons.svg#fa-star"></use></svg>
+                            <svg class="svg-icon text-coral text-xl"><use href="/assets/icons.svg#fa-star"></use></svg>
+                            <svg class="svg-icon text-coral text-xl"><use href="/assets/icons.svg#fa-star"></use></svg>
                         </div>
                         <div class="text-white/80 font-light">
                             <p class="text-lg" data-i18n="testimonials.name4">{{ t.testimonials.name4 | safe }}</p>
@@ -885,21 +880,21 @@ eleventyComputed:
 
                     <div class="flex items-center gap-4">
                         <div class="w-12 h-12 rounded-full flex items-center justify-center flex-shrink-0" style="background:#0a2a3d">
-                            <i class="fas fa-glasses text-white text-lg"></i>
+                            <svg class="svg-icon text-white text-lg"><use href="/assets/icons.svg#fa-glasses"></use></svg>
                         </div>
                         <p class="text-sm text-gray-600 leading-snug max-w-[130px]" data-i18n="partners.benefit1">{{ t.partners.benefit1 | safe }}</p>
                     </div>
 
                     <div class="flex items-center gap-4">
                         <div class="w-12 h-12 rounded-full flex items-center justify-center flex-shrink-0" style="background:#0a2a3d">
-                            <i class="fas fa-eye-dropper text-white text-lg"></i>
+                            <svg class="svg-icon text-white text-lg"><use href="/assets/icons.svg#fa-eye-dropper"></use></svg>
                         </div>
                         <p class="text-sm text-gray-600 leading-snug max-w-[130px]" data-i18n="partners.benefit2">{{ t.partners.benefit2 | safe }}</p>
                     </div>
 
                     <div class="flex items-center gap-4">
                         <div class="w-12 h-12 rounded-full flex items-center justify-center flex-shrink-0" style="background:#0a2a3d">
-                            <i class="fas fa-clock text-white text-lg"></i>
+                            <svg class="svg-icon text-white text-lg"><use href="/assets/icons.svg#fa-clock"></use></svg>
                         </div>
                         <p class="text-sm text-gray-600 leading-snug max-w-[130px]" data-i18n="partners.benefit3">{{ t.partners.benefit3 | safe }}</p>
                     </div>
@@ -1170,13 +1165,13 @@ eleventyComputed:
                     <h3 class="font-medium text-navy-900 mb-4" data-i18n="footer.connect">{{ t.footer.connect | safe }}</h3>
                     <div class="flex space-x-4">
                         <a href="https://www.facebook.com/sitorakarimi" target="_blank" rel="noopener noreferrer" aria-label="Facebook" class="text-gray-400 hover:text-coral transition-colors">
-                            <i class="fab fa-facebook text-xl" aria-hidden="true"></i>
+                            <svg class="svg-icon text-xl" aria-hidden="true"><use href="/assets/icons.svg#fa-facebook"></use></svg>
                         </a>
                         <a href="https://www.instagram.com/dr.sitora.karimova/" target="_blank" rel="noopener noreferrer" aria-label="Instagram" class="text-gray-400 hover:text-coral transition-colors">
-                            <i class="fab fa-instagram text-xl" aria-hidden="true"></i>
+                            <svg class="svg-icon text-xl" aria-hidden="true"><use href="/assets/icons.svg#fa-instagram"></use></svg>
                         </a>
                         <a href="https://www.linkedin.com/in/sitorakarimi" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn" class="text-gray-400 hover:text-coral transition-colors">
-                            <i class="fab fa-linkedin text-xl" aria-hidden="true"></i>
+                            <svg class="svg-icon text-xl" aria-hidden="true"><use href="/assets/icons.svg#fa-linkedin"></use></svg>
                         </a>
                     </div>
                 </div>

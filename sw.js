@@ -29,6 +29,7 @@ const ASSETS_TO_CACHE = [
     `/styles.css?v=${CSS_VERSION}`,
     `/tailwind.css?v=${TAILWIND_VERSION}`,
     '/favicon.svg',
+    '/assets/icons.svg',
     '/assets/images/hero.webp',
     '/assets/images/about-1.jpg',
     '/assets/images/about-1.webp',
