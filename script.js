@@ -555,13 +555,6 @@ document.addEventListener('DOMContentLoaded', function() {
 
 
     // ===========================
-    // Console Branding
-    // ===========================
-    console.log('%c👁️ Sitora Karimova Ophthalmology', 'color: #0a2a3d; font-size: 24px; font-weight: bold; padding: 10px;');
-    console.log('%cExceptional eye care with modern design', 'color: #ff6b4a; font-size: 14px; font-weight: 300;');
-
-
-    // ===========================
     // About Section Image Carousel
     // ===========================
     const aboutSlides = document.querySelectorAll('.carousel-slide');
@@ -675,8 +668,6 @@ document.addEventListener('DOMContentLoaded', function() {
         if ('serviceWorker' in navigator) {
             navigator.serviceWorker.register('/sw.js')
                 .then(registration => {
-                    console.log('Service Worker registered successfully');
-
                     // Check for updates
                     registration.addEventListener('updatefound', () => {
                         const newWorker = registration.installing;
@@ -688,7 +679,7 @@ document.addEventListener('DOMContentLoaded', function() {
                         });
                     });
                 })
-                .catch(err => console.log('Service Worker registration failed:', err));
+                .catch(err => console.warn('Service Worker registration failed:', err));
         }
     });
 
