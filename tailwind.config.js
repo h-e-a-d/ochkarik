@@ -19,7 +19,6 @@ module.exports = {
       },
       fontFamily: {
         sans: ['Helvetica Neue', 'Helvetica', 'Arial', 'sans-serif'],
-        poppins: ['Poppins', 'sans-serif'],
       },
     },
   },
