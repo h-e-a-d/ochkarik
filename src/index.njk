@@ -1263,10 +1263,6 @@ eleventyComputed:
     </footer>
 
     <!-- JavaScript -->
-    <script>
-        // Auto-generate version from timestamp (changes every deployment)
-        window.SITE_VERSION = '1.3.0'; // Must match CACHE_VERSION in sw.js
-    </script>
     <script>window.__T__ = {{ t | dump | safe }}; window.__LANG__ = "{{ lang }}";</script>
     <script src="/script.js?v=1.1.1" defer></script>
     <script src="/vision-test.js?v=1.1.0" defer></script>
