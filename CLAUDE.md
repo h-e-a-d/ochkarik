@@ -4,246 +4,189 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project Overview
 
-This is a single-page ophthalmologist website for Dr. Sitora Karimova (sitorakarimi.com) featuring a minimalist design with smooth animations, responsive layout, and modern UX patterns. The site is built with vanilla HTML, CSS, and JavaScript using Tailwind CSS for styling.
+Multilingual (RU/TJ/EN) ophthalmologist website for Dr. Sitora Karimova (sitorakarimi.com), Dushanbe, Tajikistan. The practice is located inside the Osse Optical Store, Bekhzod Street 14. Minimalist design, scroll animations, an interactive vision test, a vision-disorders simulator, a scroll-driven glasses animation, and a trilingual blog.
+
+Russian is the primary market/locale: the root URL redirects to `/ru/` (language-aware — see Netlify section) and `/ru/` is the `x-default` hreflang everywhere.
+
+**Canonical contact phone: +992 108 11 80 80** (`tel:+992108118080`, WhatsApp `wa.me/992108118080`). Use this number in schema, links, and locale strings — do not reintroduce other numbers.
 
 ## Tech Stack
 
-- **Frontend Framework**: Vanilla JavaScript (no build process)
-- **CSS Framework**: Tailwind CSS (via CDN)
-- **Custom CSS**: `styles.css` for animations and enhanced styling
-- **Icons**: Font Awesome 6.4.0
-- **Fonts**: Google Fonts (Poppins)
+- **Static site generator**: Eleventy 3 (Nunjucks templates in `src/`, output in `_site/`)
+- **CSS**: Tailwind CSS 3 compiled via CLI (`tailwind.input.css` → `tailwind.css`, **gitignored build artifact**) + hand-written `styles.css`
+  - Homepage **inlines** the compiled Tailwind into a `<style>` tag (`{% inlineFile "tailwind.css" %}` shortcode) to avoid a render-blocking request; blog pages link it as `/tailwind.css?v=…`
+- **JS**: Vanilla, no framework. `script.js` (homepage), `vision-test.js`, `vision-disorders.js`, `blog/blog.js`, plus a large inline IIFE in `src/index.njk` for the glasses animation
+- **Icons**: Self-hosted SVG sprite `assets/icons.svg` (35 symbols from Font Awesome Free 6.4.0, CC BY 4.0). **No Font Awesome CDN, no icon webfonts.** See Icons section.
+- **Fonts**: System font stack only (`body` rule in `styles.css`). **No Google Fonts / Poppins.**
+- **Hosting**: Netlify (`_headers` for CSP/security headers, `_redirects` for the language-aware root redirect)
+- **Analytics**: Google Tag Manager (GTM-TBKDQH2B), idle-deferred so it doesn't block LCP
+- **Offline/caching**: hand-rolled service worker `sw.js` (see Version Management — critical)
 
 ## Architecture
 
 ### File Structure
 
-- `index.html` - Main single-page application with all sections (hero, services, about, testimonials, partners, vision test, contact, footer)
-- `script.js` - All interactive functionality and animations
-- `vision-test.js` - **Separate modular script for interactive vision test feature (can be easily enabled/disabled)**
-- `styles.css` - Custom CSS for animations, transitions, and design enhancements
-- `website.png` - Reference design file (6MB PNG for UX/UI reference)
-- `assets/images/table-ru.svg` - Russian Snellen vision chart for the vision test feature
-- `blog/` - Blog static assets (blog.css, blog.js, post-template.json)
-- `src/blog/` - Blog Nunjucks templates (index.njk for listing, post.njk for posts)
-- `src/_data/blog/posts/` - Blog post JSON files (one per article, all languages)
-- `src/_data/blogPosts.js` - Blog post data loader
-- `src/_data/blogPages.js` - Locale × post page generator
-- `blog.md` - **Comprehensive blog system documentation and content engine workflow**
+```
+.eleventy.js              Eleventy config: inlineFile shortcode + passthrough copies
+src/
+  index.njk               Homepage template (paginated over locales → /ru/, /tj/, /en/)
+                          Contains: full <head> with JSON-LD schemas, all sections,
+                          and the inline glasses-animation IIFE before </body>
+  sitemap.njk             sitemap.xml with hreflang alternates for all pages
+  blog/index.njk          Blog listing template (per locale)
+  blog/post.njk           Blog post template (locale × post via blogPages)
+  _data/locales.js        Locale registry (ru/tj/en; Tajik is `tg` in BCP-47, `/tj/` in URLs)
+  _data/locales/*.json    ALL UI strings per language (nav, hero, faq, swUpdate, …)
+  _data/blogPosts.js      Blog post loader
+  _data/blogPages.js      Locale × post page generator
+  _data/blog/posts/*.json One JSON per article, all languages inside
+script.js                 Homepage interactivity (see feature list below)
+vision-test.js            Interactive Snellen vision test (modular IIFE)
+vision-disorders.js       Vision disorders simulator (tabs + severity slider)
+blog/blog.css, blog/blog.js   Blog static assets (menu, share buttons, markdown render)
+styles.css                Custom CSS: buttons, animations, vision test, FAB, glasses anim, SW toast
+tailwind.input.css        Tailwind entry point (config: tailwind.config.js)
+sw.js                     Service worker (precache + runtime cache, versioned)
+assets/icons.svg          SVG icon sprite (generated — do not hand-edit)
+scripts/build-icon-sprite.mjs  Regenerates assets/icons.svg
+assets/images/            Self-hosted images (webp + og-image.jpg); table-ru.svg Snellen chart
+_headers                  Netlify security headers incl. CSP
+_redirects                Language-aware root redirect
+blog.md                   Comprehensive blog system documentation and content workflow
+docs/superpowers/plans/   Implementation plans (checkbox progress tracking)
+```
+
+There is **no root `index.html`** — the homepage source of truth is `src/index.njk`. Never edit files in `_site/` (build output, gitignored).
+
+### Build & Development
+
+```bash
+npm run dev     # tailwind --watch + eleventy --serve
+npm run build   # tailwind --minify + eleventy  → _site/
+npm run clean   # rm -rf _site tailwind.css
+```
+
+Preview a build: `python3 -m http.server 8080 --directory _site` → http://localhost:8080/ru/
+
+Verification habits (no test suite): after template/CSS changes run `npm run build` and grep `_site/` output; after JS changes run `node --check <file>`.
+
+### Internationalization
+
+- One page per locale: `/ru/`, `/tj/`, `/en/` (+ `/{lang}/blog/...`). Content is rendered **server-side by Eleventy** from `src/_data/locales/*.json`.
+- `data-i18n="key.path"` attributes exist on translated elements; `window.__T__` (the locale's full string object) and `window.__LANG__` are injected into every page for JS that needs strings (FAB labels, vision test, SW toast).
+- The language switcher just **navigates** to the same path under the other locale prefix (`script.js` "Language Switcher" section) — no client-side re-rendering.
+- Adding a string: add the key to **all three** locale JSONs, reference it via `{{ t.path | safe }}` in templates.
+- hreflang: every page lists ru/tg/en alternates + `x-default` → **`/ru/`** (homepage head, blog templates, sitemap.njk — keep all four in sync).
 
 ### Design System
 
-**Color Palette:**
-- Navy 900: `#0a2a3d` (primary dark)
-- Navy 800: `#0f3d56` (hover state)
-- Coral: `#ff6b4a` (accent color)
-- White and grays for text/backgrounds
+**Colors** (Tailwind config + styles.css): Navy 900 `#0a2a3d` (primary dark), Navy 800 `#0f3d56` (hover), Coral `#ff6b4a` (accent), white/grays.
 
-**Typography:**
-- Font family: Poppins (300, 400, 500, 600, 700 weights)
-- Font weights: 300 (light/default), 400 (regular), 500 (medium/buttons)
+**Typography**: system font stack, set once on `body` in `styles.css` (`'Söhne', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', Arial, sans-serif`); default weight 300. Blog inherits the same rule — do not add font CDNs.
 
-**Button Styles:**
-- `.btn-navy` - Solid navy button with hover lift effect
-- `.btn-outline` - Outlined button (navy on white backgrounds)
-- `.btn-outline-white` - White outlined button (for dark backgrounds)
+**Buttons** (styles.css): `.btn-navy` (solid), `.btn-green` (vision-test Yes), `.btn-outline` (navy outline), `.btn-outline-white` (for dark backgrounds). All have hover lift.
 
-### Key JavaScript Features (script.js)
+### Icons (SVG sprite)
 
-The script.js file handles all interactivity through a single DOMContentLoaded event listener:
+All icons come from `assets/icons.svg`, referenced as:
 
-1. **Mobile Menu Toggle** - Hamburger menu with icon animation (lines 9-39)
-2. **Smooth Scrolling** - Anchor link navigation with navbar offset (lines 45-66)
-3. **Active Nav Highlight** - Updates nav links based on scroll position (lines 72-94)
-4. **Navbar Background** - Adds .scrolled class after 100px scroll (lines 100-108)
-5. **Intersection Observer** - Fade-in animations for service cards and sections (lines 114-139)
-6. **Parallax Effect** - Hero section background parallax (lines 145-153)
-7. **Back to Top Button** - Dynamically created, appears after 500px scroll (lines 159-181)
-8. **Stats Counter** - Animates "15+" number when scrolled into view (lines 187-218)
-9. **Lazy Loading** - Image lazy loading with IntersectionObserver (lines 224-240)
-10. **Custom Cursor** - Desktop-only cursor follow effect (lines 246-281)
-11. **Hero Text Animation** - Initial fade-in for hero title (lines 287-297)
-12. **Keyboard Accessibility** - ESC closes mobile menu, Tab detection (lines 303-317)
-13. **Debounced Scroll** - Performance optimization for scroll handlers (lines 323-340)
-14. **Smooth Reveal** - Fade-in animation for h2, p, buttons (lines 345-365)
-
-### HTML Sections
-
-1. **Navigation** (lines 140-195) - Fixed navbar with mobile menu and language switcher
-2. **Hero** (lines 198-234) - Full-screen with background image and gradient overlay
-3. **Services** (lines 237-300) - 6 service cards in grid layout on navy background
-4. **About** (lines 303-356) - Two-column layout with text and image carousel
-5. **Stats Circle** (lines 359-372) - Single centered circle with "8+ Years" stat
-6. **Testimonials** (lines 375-489) - Carousel with 4 testimonials, quote styling, and star ratings
-7. **Partners** (lines 492-518) - Icon grid (placeholder logos for partnerships)
-8. **Vision Test** (lines 520-582) - **Interactive vision test section** (see Vision Test Feature section below)
-9. **Contact** (lines 584-578) - Google Maps iframe with overlay card + contact info
-10. **Footer** (lines 581-638) - 4-column layout with links and social icons
-
-## Development Workflow
-
-### Running Locally
-
-No build process required. Simply open `index.html` in a browser or use a local server:
-
-```bash
-# Python 3
-python -m http.server 8000
-
-# Node.js (if http-server is installed)
-npx http-server -p 8000
-```
-
-Visit `http://localhost:8000` in your browser.
-
-### Testing
-
-- Test responsive breakpoints at 768px (md) and 1024px (lg)
-- Verify mobile menu functionality on mobile devices
-- Check scroll animations work in all major browsers
-- Test keyboard navigation (Tab, Escape keys)
-- Verify accessibility with screen readers
-
-### Making Changes
-
-**Content Updates:**
-- Edit text directly in `index.html`
-- Update doctor name, credentials, services in respective sections
-- Replace Unsplash images with actual photos
-
-**Styling Changes:**
-- Modify Tailwind config in `index.html` lines 12-24 for colors
-- Add custom animations/effects in `styles.css`
-- Button styles defined in `styles.css` lines 23-91
-
-**Behavior Changes:**
-- All interactivity logic is in `script.js`
-- Each feature is clearly commented with section headers
-- Modify scroll thresholds, animation delays, and timings as needed
-
-### Version Management & Releases
-
-When preparing a release or making significant updates to the site:
-
-**IMPORTANT: Three things must always be updated together when `styles.css` changes:**
-
-1. `sw.js` → `CSS_VERSION` constant
-2. `sw.js` → `CACHE_VERSION` constant (same value — also invalidates the full SW cache for all users)
-3. `src/index.njk` → `?v=` query string on the `<link rel="stylesheet" href="/styles.css?v=...">` tag
-
-**Example — bumping for a CSS change:**
-```javascript
-// sw.js (before)
-const CACHE_VERSION = '1.3.0';
-const CSS_VERSION   = '1.3.0';
-
-// sw.js (after)
-const CACHE_VERSION = '1.3.1';
-const CSS_VERSION   = '1.3.1';
-```
 ```html
-<!-- src/index.njk (before) -->
-<link rel="stylesheet" href="/styles.css?v=1.3.0">
-
-<!-- src/index.njk (after) -->
-<link rel="stylesheet" href="/styles.css?v=1.3.1">
+<svg class="svg-icon text-xl" aria-hidden="true"><use href="/assets/icons.svg#fa-star"></use></svg>
 ```
 
-**Why all three matter:**
-- The Service Worker serves `styles.css` from its cache on language switches (cache-first strategy)
-- Without a versioned URL, the SW re-caches whatever the browser's HTTP cache provides — which can be a stale pre-edit version
-- This caused the glasses animation to break on language switch: the SW was serving an old `styles.css` that predated the glasses animation section (lines 1359+), so all `.glasses-anim-*` rules were missing
-- The `?v=` URL makes the cached entry unique per version; the old stale entry is never matched
+- `.svg-icon` (styles.css) is `1em × 1em`, `fill: currentColor` — size with text-size utilities, color with text-color utilities, exactly like the old Font Awesome classes.
+- **To add an icon**: append `["fa-name", "solid|regular|brands/fa6-file-name"]` to the `ICONS` array in `scripts/build-icon-sprite.mjs`, run `node scripts/build-icon-sprite.mjs`, commit the regenerated sprite.
+- Renamed ids to know: `fa-xmark` (not fa-times), `fa-regular-clock`/`fa-regular-calendar` (regular style), `fa-telegram`, `fa-user-md` (sourced from FA's user-doctor).
+- **Dynamic icon swaps** change the `<use>` href, not classes — e.g. mobile menu toggle (`script.js`, `blog/blog.js`) swaps `#fa-bars` ↔ `#fa-xmark`; blog copy-link swaps `#fa-link` → `#fa-check`.
+- The sprite is in the SW precache; sprite changes need a `CACHE_VERSION` bump.
 
-**When to bump (all three):**
-- Any edit to `styles.css`
-- Before deploying to production
+### Homepage Sections (src/index.njk, in order)
 
-**For other assets (JS, images, HTML):**
-- Bumping `CACHE_VERSION` deletes the old cache and forces a fresh install for all assets
-- JS files (`script.js`, `vision-test.js`, `vision-disorders.js`) use `?v=` in the HTML **and are listed in `ASSETS_TO_CACHE`** — they are cached by the SW with a cache-first strategy. Always bump `CACHE_VERSION` when JS files change.
+1. **Navigation** — fixed navbar, transparent until `.scrolled` (100px), mobile menu + language switcher
+2. **Hero** (`#home`) — full-screen, `<picture>` with `hero-mobile.webp`/`hero.webp` (preloaded, fetchpriority=high), gradient overlay
+3. **Services** (`#services`) — 6 cards on navy, expandable descriptions (`.service-toggle`)
+4. **About** (`#about`) — text + 2-image carousel
+5. **Glasses animation** (`#glasses-animation-section`) — see dedicated section below
+6. **Stats** — "8+ Years" counter circle (animates on scroll into view)
+7. **Testimonials** (`#testimonials`) — 4-slide carousel, quote + 5 stars each (visible HTML only — **no review/aggregateRating JSON-LD; Google treats self-hosted review markup as self-serving spam, do not re-add**)
+8. **Partners** (`#partners`) — icon grid + Google Maps link
+9. **Vision disorders** (`#vision-disorders`) — healthy/myopia/cataracts/glaucoma tabs + severity slider over `vision-disorders.webp` (logic: vision-disorders.js)
+10. **Vision test** (`#vision-test`) — see dedicated section below
+11. **FAQ** (`#faq`) — 6 static Q&A cards (mirrored in FAQPage JSON-LD, locale-aware)
+12. **Contact** (`#contact`) — Google Maps embed (real clinic location), phone/email/hours, WhatsApp booking + call buttons
+13. **Footer** — links + social icons
 
-### Important Implementation Details
+`<head>` JSON-LD blocks: MedicalBusiness/Physician/LocalBusiness (NO reviews), FAQPage (locale-aware), ItemList of MedicalProcedures.
 
-1. **Navbar behavior**: Transparent by default, becomes opaque with `.scrolled` class after 100px scroll
-2. **Service cards**: Use `.service-card-minimal` class with fade-in-up animation and staggered delays
-3. **Image sources**: Currently using Unsplash via CDN - replace with actual assets
-4. **Google Maps**: Embedded iframe pointing to San Francisco - update with actual clinic location
-5. **Contact info**: Placeholder phone/email in contact section (lines 332-337)
-6. **Mobile breakpoint**: 768px (md) - mobile menu shows below this
-7. **Custom cursor**: Only active on desktop (window width > 768px)
+### script.js Features (section comments in file)
 
-### Browser Compatibility
+Page loader · Language switcher (URL navigation) · Mobile menu + backdrop (sprite href swap) · Smooth scrolling with navbar offset · Active-nav-on-scroll · Consolidated RAF-throttled scroll handler · IntersectionObserver scroll animations · Stats counter · Image lazy loading · Hero text animation · Keyboard accessibility (Esc closes menu, Tab detection) · Smooth reveal · Footer year · Testimonial carousel · About carousel · Service row expand/toggle · Contact FAB (floating phone/WhatsApp button, created dynamically) · Service worker registration + **update toast**.
 
-- Modern browsers (Chrome, Firefox, Safari, Edge)
-- Uses IntersectionObserver API (requires polyfill for IE11)
-- CSS custom properties used in Tailwind config
-- Service Worker code present but commented out (lines 388-393)
+Scroll-handler rule: guard every `classList.add/remove` with a `.contains()` check (navbar `.scrolled`, FAB `.fab-visible`) — unconditional mutations restart CSS transitions every scroll frame in Chromium.
 
-### Accessibility Features
+SW update toast: when a new SW version installs, `showUpdateToast()` shows a localized "site updated / refresh" pill (`.sw-update-toast` in styles.css, strings under `swUpdate` in locale JSONs). No silent console.log. Note: only homepage loads `script.js`, so SW registration/toast happens on homepage visits (blog pages load `blog/blog.js` instead).
 
-- Focus outlines on interactive elements (styles.css:274-278)
-- Keyboard navigation support (Escape, Tab)
-- Reduced motion media query support (styles.css:400-408)
-- High contrast mode support (styles.css:411-416)
-- ARIA label on back-to-top button
-- Semantic HTML structure
+## Version Management & Releases (CRITICAL)
 
-### Performance Optimizations
+`sw.js` precaches assets cache-first; HTML is network-first. Stale-cache bugs are invisible locally and hit returning visitors — historically this broke the glasses animation (SW served a pre-animation `styles.css`). The defense is **versioned URLs that must stay in sync**:
 
-- Debounced scroll event handlers (50ms delay)
-- IntersectionObserver for lazy loading and animations
-- Staggered animation delays to prevent jank
-- Minimal external dependencies (only CDN resources)
+| Constant in sw.js | Must match `?v=` on | Where |
+|---|---|---|
+| `CSS_VERSION` | `/styles.css?v=…` | src/index.njk (preload + stylesheet), both blog templates |
+| `TAILWIND_VERSION` | `/tailwind.css?v=…` | both blog templates |
+| `CACHE_VERSION` | — (cache name) | bump on ANY asset change; purges all SW caches for all users |
+| (literal in ASSETS_TO_CACHE) | `/script.js?v=…`, `/vision-test.js?v=…`, `/vision-disorders.js?v=…` | src/index.njk script tags |
 
-### Design Reference
+**Rules:**
+- Edit `styles.css` → bump `CSS_VERSION` + all `?v=` on styles.css links + `CACHE_VERSION`
+- Edit `tailwind.config.js`/`tailwind.input.css` → bump `TAILWIND_VERSION` + blog `?v=` + `CACHE_VERSION`
+- Edit any JS → bump its `?v=` in src/index.njk AND the matching entry in `ASSETS_TO_CACHE`, + `CACHE_VERSION`
+- Edit `blog/blog.js` or `assets/icons.svg` (unversioned URLs, precached) → bump `CACHE_VERSION`
+- **The `?v=` strings in `ASSETS_TO_CACHE` must equal the ones in HTML exactly** — SW cache matching includes the query string; a mismatch silently turns precache entries into dead weight
+- Before deploy, cross-check: `grep -rhoE '\?v=[0-9.]+' src/ sw.js | sort | uniq -c`
 
-The `website.png` file (6MB) contains the original design mockup. When making UI/UX changes, reference this file to maintain design consistency with the original vision.
+Current release: 1.5.0 (CACHE/CSS/TAILWIND), script.js 1.2.0, vision-test.js/vision-disorders.js 1.1.0.
+
+## Netlify Configuration
+
+- **`_redirects`** — language-aware root redirect (Accept-Language at the edge): `Language=en` → `/en/`, `Language=tg` → `/tj/`, fallback `/ru/`. Only testable after deploy (`curl -H "Accept-Language: en" -I https://sitorakarimi.com/`).
+- **`_headers`** — CSP allows only: self, GTM/GA scripts, Google Maps iframe. `style-src`/`font-src` are `'self'` (+inline styles). **All CSS/fonts/icons/images are self-hosted — adding any CDN resource requires a CSP update, prefer self-hosting instead.** Plus X-Frame-Options, nosniff, Referrer-Policy, Permissions-Policy.
+- OG image is **JPEG** (`assets/images/og-image.jpg`, 1200×630) because WhatsApp renders WebP previews unreliably — don't switch og:image back to webp. (Blog posts still use per-post webp heroes for og:image.)
 
 ---
 
 ## Glasses Animation Section
 
-### Overview
+Scroll-driven fullscreen animation between About and Stats: zooms into a pair of glasses, revealing sharp text through the lenses against blurry text. Vanilla JS + CSS, no library.
 
-A scroll-driven fullscreen animation that zooms into a pair of eyeglasses, revealing sharp text through the lenses against a blurry background. The effect is implemented entirely with vanilla JS + CSS — no animation library. It sits between the About and Stats sections.
+### Files
 
-### File Locations
+- **HTML**: `src/index.njk` — the `#glasses-animation-section` block, plus an inline `<script>` IIFE near the end of `<body>` (search for `const LENS`)
+- **CSS**: `styles.css` — `.glasses-anim-*` rules
+- **Asset**: `assets/images/eyeglasses-vector-small.svg`
 
-- **HTML**: `index.html` — the `#glasses-animation-section` block, plus an inline `<script>` IIFE at the bottom of `<body>` (just before `</body>`)
-- **CSS**: `styles.css` lines ~1358–1433 (`.glasses-anim-*` rules)
-- **Asset**: `assets/images/eyeglasses-vector-small.svg` — the glasses image
-
-### HTML Structure
+### Structure
 
 ```
-#glasses-animation-section  (position: relative, background: #fff)
-  ├── <svg> (0×0, position: absolute)
-  │     └── <clipPath id="glasses-lens-clip">
-  │           ├── <ellipse id="glasses-clip-left">   ← updated every frame
-  │           └── <ellipse id="glasses-clip-right">  ← updated every frame
-  │
-  └── .glasses-anim-stage  (position: relative, height: 500vh — the scroll budget)
-        └── .glasses-anim-sticky  (position: sticky, top: 0, height: 100vh)
-              ├── #glasses-anim-blurry   z-index:2  full-screen blurry text
-              ├── #glasses-lens-mask     z-index:3  white fill clipped to lenses (hides blur glow)
-              ├── #glasses-anim-sharp    z-index:4  full-screen sharp text, clip-path to lenses
-              └── .glasses-anim-wrap     z-index:10 glasses image (transform target)
-                    └── .glasses-anim-img  (eyeglasses-vector-small.svg)
+#glasses-animation-section
+  └── .glasses-anim-stage  (height: 500vh — the scroll budget)
+        └── .glasses-anim-sticky  (position: sticky, 100vh)
+              ├── #glasses-anim-blurry            z2  full-screen blurry text
+              ├── #glasses-mask-left / -right     z3  white masks, CSS clip-path ellipse per lens
+              ├── #glasses-anim-sharp-left/-right z4  sharp text, CSS clip-path ellipse per lens
+              └── .glasses-anim-wrap              z10 glasses image (transform target)
 ```
 
-### Scroll Animation Phases (progress 0 → 1)
+Note: clipping uses **CSS `clip-path: ellipse()`** on per-lens divs (cheap basic-shape clip in Chromium), NOT SVG `<clipPath>` — an earlier SVG-based approach was replaced for performance.
 
-`progress = clamp(-stageTop / (stageH - vpH), 0, 1)` — i.e. how far the user has scrolled through the 500vh stage.
+### Scroll phases (progress = how far through the 500vh stage)
 
-| Phase | Progress range | What happens |
-|-------|---------------|--------------|
-| **Zoom in** | 0 → 0.68 | Glasses scale 0.5 → 2.6, text fades in (opacity 0→1, blur 20px→6px) |
-| **Exit through lens** | 0.68 → 1.0 | Scale jumps 2.6 → 18, pivot shifts from center to left lens center, right lens shrinks to zero |
+| Phase | Progress | What happens |
+|---|---|---|
+| Zoom in | 0 → 0.68 | glasses scale 0.5 → 2.6, text fades in (blur 20px → 6px) |
+| Exit through lens | 0.68 → 1.0 | scale → 18, pivot shifts to left lens, right lens shrinks to zero |
 
-### Lens Constants (LENS object)
-
-Fractional coordinates relative to the image bounding box, measured from the SVG source:
+### LENS constants (fractions of the image bounding box)
 
 ```javascript
 const LENS = {
@@ -251,455 +194,74 @@ const LENS = {
   right: { cx: 0.7205, cy: 0.2986, rx: 0.1644, ry: 0.2631 },
 };
 ```
+Re-measure if the glasses image is replaced. Clip ellipses are computed **analytically** from the transform `(tx, ty, s)` — never `getBoundingClientRect()` after writing the transform (layout thrash).
 
-If the glasses image is replaced, re-measure these values using the image's natural dimensions.
+### Performance rules
 
-### Clip-Path Coordinate Derivation (no layout thrash)
+- Read all layout values first, then write all DOM changes — never interleave
+- RAF-throttle scroll (`ticking` flag, max one `requestAnimationFrame(update)` per frame)
+- `will-change` pre-promotes layers; `isolation: isolate` on the sticky container
+- Updates are skipped while the section is off-screen
 
-The SVG `clipPathUnits="userSpaceOnUse"` means ellipse coordinates are in viewport pixels. Because `transform-origin: center center` on `.glasses-anim-wrap`, a layout point `(px, py)` inside the image maps to viewport coordinates:
+### Debugging
 
-```
-vx = vpW/2 + tx + s * (px - vpW/2)
-vy = vpH/2 + ty + s * (py - vpH/2)
-```
+- Enable verbose mode: append `?glassesdebug` to the URL, or `localStorage.glassesDebug='1'; location.reload()`
+- Always-on warnings: `⚠ CSS NOT APPLIED` (stale SW cache — check CSS_VERSION/`?v=` were bumped), `⚠ SVG NOT READY` (auto-recovers on img.load), `⚠ NON-ZERO SCROLL`
 
-This lets us compute the clip ellipses **analytically** from `(tx, ty, s)` — without calling `getBoundingClientRect()` after writing the transform, which would force a synchronous layout.
+### Disabling
 
-### Performance Rules
-
-- **Read before write**: `update()` reads all layout values (`getBoundingClientRect`, `offsetWidth/Height`, `innerWidth/Height`) in one block, then writes all DOM changes in a second block. Never interleave reads and writes.
-- **RAF throttle**: `onScroll()` gates on a `ticking` flag, scheduling at most one `requestAnimationFrame(update)` per frame.
-- **`will-change`**: `filter, opacity` on blurry text; `clip-path, opacity` on sharp text; `transform` on the wrap — all pre-promote to GPU layers.
-- **`isolation: isolate`** on `.glasses-anim-sticky` keeps internal `z-index` stacking from affecting the rest of the page.
-
-### classList / Scroll Handler Rules (script.js)
-
-The main `handleScroll()` in `script.js` uses `.contains()` guards before every `classList.add/remove` call (navbar `.scrolled`, FAB `.fab-visible`). `setActiveNavOnScroll()` computes the active section first and only mutates the DOM when the state needs to change. This eliminates spurious Chromium DOM mutations that would restart CSS transitions on the FAB and navbar every scroll frame.
-
-### Enabling / Disabling
-
-The entire feature is self-contained. To disable: comment out or delete the `#glasses-animation-section` block in `index.html` and the inline `<script>` IIFE immediately before `</body>`. The `.glasses-anim-*` CSS rules in `styles.css` can be left in place — they have no effect without the HTML.
-
-### Debugging the Animation
-
-The IIFE has a built-in diagnostic system. Enable verbose mode in one of two ways:
-
-- Append `?glassesdebug` to any URL: `https://sitorakarimi.com/ru/?glassesdebug`
-- Or run in DevTools console, then reload: `localStorage.glassesDebug = '1'; location.reload()`
-
-**Always-on warnings** (visible without debug mode, appear in any browser's DevTools):
-
-| Warning | What it means |
-|---|---|
-| `⚠ CSS NOT APPLIED` | `styles.css` not loaded or SW serving stale cache. Check that `CSS_VERSION` and `?v=` were bumped after the last CSS edit. |
-| `⚠ SVG NOT READY` | Glasses SVG has `offsetHeight=0` at init — auto-recovers via `img.load` event. |
-| `⚠ NON-ZERO SCROLL` | Page started at non-zero scroll position — animation may jump to mid-progress. |
-
-**Verbose mode** additionally logs: computed CSS values, full stylesheet list, SW controller URL, SVG dimensions, IntersectionObserver fires, and `img.load` events — all grouped under `[glasses] diagnose(init)`.
+Delete/comment the `#glasses-animation-section` block and the inline IIFE in `src/index.njk`. The `.glasses-anim-*` CSS can stay (inert without the HTML).
 
 ---
 
 ## Vision Test Feature
 
-### Overview
-
-The Vision Test is an **interactive eye examination feature** that allows website visitors to test their vision using a Russian Snellen chart (`table-ru.svg`). This feature is positioned between the Partners and Contact sections and is designed as a **standalone, modular component** for easy enabling/disabling.
-
-### File Location
-
-- **HTML Section**: `index.html` lines 520-582 (Vision Test Section)
-- **JavaScript Module**: `vision-test.js` (separate file)
-- **CSS Styles**: `styles.css` lines 598-730 (Vision Test Section Styles)
-- **Vision Chart**: `assets/images/table-ru.svg` (Russian Snellen chart with 7 lines)
-
-### How It Works
-
-The vision test follows a structured flow with three states:
-
-#### 1. **Initial State (Before Test Starts)**
-- **Instruction Text**: "Try our interactive vision test. Sit 50cm from the screen. Cover one eye."
-- **Control**: Single "Start Test" button
-- **Chart Display**: Hidden
-- **Indicators**: Hidden (line indicator and vision strength indicator)
-
-#### 2. **Active Test State (During Test)**
-- **Instruction Text**: "Can you read all characters?" - positioned at bottom of white box
-- **Controls**: Three buttons
-  - **"Yes"** (green) - Records positive result, advances to next line
-  - **"No"** (outline) - Records negative result, advances to next line
-  - **"Restart"** (outline, smaller) - Resets test at any time
-- **Chart Display**: Single line of Cyrillic characters, centered in white box
-- **Indicators** (inside white box, top corners):
-  - **Top Left**: Line indicator (e.g., "LINE 1 OF 12", "LINE 2 OF 12", etc.)
-  - **Top Right**: Vision strength indicator (e.g., "V = 0,1", "V = 0,2", etc.)
-
-#### 3. **Completion State (After All 12 Lines)**
-- **Display**: Results summary shown in chart area
-  - "Test Complete!" heading
-  - "Your vision level: V = X,X" (highest line successfully read)
-  - Detailed results table with checkmarks (✓) and X marks (✗) for each line
-  - Scrollable if more than ~8 lines
-  - Professional consultation reminder
-- **Controls**: Only "Restart" button visible
-- **Instruction Text**: Hidden
-- **Disclaimer**: Always visible at bottom - "This test is for educational purposes only and does not replace a professional eye examination."
-
-### Vision Chart Data
-
-The vision test uses **12 progressively smaller lines** of Russian Cyrillic characters, covering the full range from V=0.1 to V=2.0:
-
-| Line | Vision Value | Diopter Value | Characters | Font Size | Description |
-|------|--------------|---------------|------------|-----------|-------------|
-| 1    | V = 0,1      | D = 50,0      | Ш Б        | 120px     | Largest (very poor vision) |
-| 2    | V = 0,2      | D = 25,0      | М Н К      | 80px      | |
-| 3    | V = 0,3      | D = 16,67     | Ы М Б Ш    | 60px      | |
-| 4    | V = 0,4      | D = 12,5      | Б Ы Н К М  | 48px      | |
-| 5    | V = 0,5      | D = 10,0      | И Н Ш М К  | 40px      | |
-| 6    | V = 0,6      | D = 8,33      | Н Ш Ы И К Б | 32px     | |
-| 7    | V = 0,7      | D = 7,14      | Ш И Н Б К Ы | 28px     | |
-| 8    | V = 0,8      | D = 6,25      | К Н Ш М Ы Б И | 24px   | |
-| 9    | V = 0,9      | D = 5,55      | Б К Ш М И Ы Н | 20px   | |
-| 10   | V = 1,0      | D = 5,0       | Н К И Б М Ш Ы Б | 18px | Normal vision (20/20) |
-| 11   | V = 1,5      | D = 3,33      | Ш И Н К М И Ы Б | 14px | Above average vision |
-| 12   | V = 2,0      | D = 2,5       | И М Ш Ы Н Б М К | 12px | Excellent vision (smallest) |
-
-These values are hardcoded in `vision-test.js` in the `VISION_TEST_CONFIG` object.
-
-**Character Selection:**
-Characters are selected from Russian Cyrillic optotypes commonly used in Snellen charts: Ш, Б, М, Н, К, Ы, И. These characters have similar visual complexity and are easily distinguishable at various sizes.
-
-### JavaScript Architecture (vision-test.js)
-
-The vision test is implemented as an **IIFE (Immediately Invoked Function Expression)** to prevent global namespace pollution:
-
-```javascript
-(function() {
-    'use strict';
-    // Vision test logic here
-})();
-```
-
-#### Key Functions:
-
-1. **`initVisionTest()`** - Main initialization function, called on DOM ready
-   - Checks if `#vision-test` section exists in DOM
-   - Attaches event listeners to all buttons (Start, Yes, No, Restart)
-   - Sets up initial UI state
-
-2. **`startTest()`** - Triggered when "Start Test" button is clicked
-   - Sets `currentLine = 1`
-   - Initializes `testResults = []` to track answers
-   - Shows chart and indicators
-   - Hides initial controls, shows test controls
-   - Updates instruction text to "Can you read all characters?"
-
-3. **`recordAnswer(canRead)`** - Triggered when "Yes" or "No" button is clicked
-   - Stores result in `testResults` array with:
-     - `line`: Current line number (1-12)
-     - `vision`: Vision value (e.g., "V = 0,5")
-     - `diopter`: Diopter value (e.g., "D = 10,0")
-     - `canRead`: Boolean (true for Yes, false for No)
-   - Increments `currentLine` and calls `updateTestDisplay()`
-   - If `currentLine > 12`, calls `showCompletionMessage()`
-   - **Does NOT reset test** - continues until all 12 lines are tested
-
-4. **`resetTest()`** - Triggered when "Restart" button is clicked
-   - Resets `currentLine = 0`
-   - Clears `testResults = []`
-   - Hides chart and indicators
-   - Shows initial controls, hides test controls
-   - Resets instruction text to initial state
-   - Shows instruction text again (sets `display: 'block'`)
-
-5. **`updateTestDisplay()`** - Updates UI based on current line
-   - Updates line indicator text (e.g., "LINE 3 OF 12")
-   - Updates vision indicator text (e.g., "V = 0,3")
-   - Calls `updateChartDisplay(currentLine)` to render characters
-
-6. **`updateChartDisplay(lineNumber)`** - Renders current line of characters
-   - Gets character array for current line from `VISION_TEST_CONFIG.lineCharacters`
-   - Gets font size from `VISION_TEST_CONFIG.fontSizes`
-   - Dynamically generates HTML with:
-     - `.vision-line` div with appropriate font size
-     - Individual `.vision-char` spans for each character
-     - Characters spaced with `gap: 0.3em` (CSS flexbox)
-   - Replaces `#vision-chart` innerHTML with rendered line
-
-7. **`showCompletionMessage()`** - Displays results summary
-   - Analyzes `testResults` to find best vision (last "Yes" answer)
-   - If no "Yes" answers, shows "Below V = 0,1"
-   - Generates HTML summary with:
-     - "Test Complete!" heading (centered)
-     - Best vision level achieved
-     - Detailed results table (scrollable)
-     - Each line shows: Line number, vision value, checkmark (✓) or X (✗)
-     - Professional consultation reminder
-   - Hides instruction text (sets `display: 'none'`)
-   - Hides Yes and No buttons (only Restart visible)
-
-#### Public API:
-
-The module exposes a global `window.VisionTest` object with:
-- `init()` - Manually initialize the test
-- `isActive()` - Returns boolean of test active state
-- `getCurrentLine()` - Returns current line number (0-12)
-
-### CSS Styling (styles.css)
-
-The vision test styles are organized in a dedicated section (lines 631-860+):
-
-#### Container Styles:
-- `.vision-test-container` - Main gray container with compact padding
-  - Desktop: `p-8` (32px)
-  - Mobile: `p-4` (16px)
-- `.vision-chart-container` - White box with gradient background, contains chart and indicators
-  - Height: `min-h-[400px]` (desktop), `min-h-[350px]` → `280px` (mobile)
-  - Uses `flexbox` with `flex-col` for vertical layout
-  - `position: relative` for absolute-positioned indicators
-
-#### Layout Structure:
-```
-.vision-test-container (gray background)
-  └── .vision-chart-container (white box)
-        ├── .vision-indicators-row (absolute, top corners)
-        │     ├── #line-indicator (top-left)
-        │     └── #vision-indicator (top-right)
-        ├── #vision-chart (centered, flex-1)
-        │     └── .vision-line (dynamic characters)
-        └── .vision-instruction-bottom (absolute, bottom)
-              └── #vision-instruction
-```
-
-#### Character Display:
-- `.vision-chart` - Flexbox container with reduced padding
-  - Desktop: `padding: 20px`
-  - Mobile: `padding: 10px`
-  - Uses `flex items-center justify-center` for centering
-- `.vision-line` - Character line wrapper
-  - `display: flex` with `justify-content: center`
-  - `gap: 0.3em` (desktop), `0.2em` (mobile)
-  - Font size set inline (12px-120px)
-  - Fade-in animation on render
-- `.vision-char` - Individual character spans
-  - `display: inline-block` for proper spacing
-  - Centered with flexbox parent
-
-#### Indicator Styles:
-- `#line-indicator` - Top-left corner
-  - Font: 0.75rem, uppercase, tracking-widest
-  - Color: Gray (#6b7280)
-  - Background: Semi-transparent white (rgba(255, 255, 255, 0.95))
-  - Padding: 4px 8px
-  - **No shadow** (removed for flat design)
-- `#vision-indicator` - Top-right corner
-  - Font: 0.875rem (14px)
-  - Color: Coral (#ff6b4a)
-  - Same background and padding as line indicator
-  - **No shadow**
-
-#### Instruction Text:
-- `#vision-instruction` - Bottom of white box
-  - Position: Absolute at bottom
-  - Background: Semi-transparent white
-  - Padding: 8px 12px
-  - Font: 0.875rem (mobile), 1rem (desktop)
-  - **No shadow**
-  - Hidden on completion with `display: none`
-
-#### Button Styles:
-- `.btn-green` - "Yes" button
-  - Background: #059669 (green)
-  - Hover: #047857 (darker green)
-  - Lift effect on hover: `translateY(-2px)`
-  - Mobile: Smaller padding (12px 32px)
-- `.btn-outline` - "No" and "Restart" buttons
-  - Standard outline style (navy border)
-  - Mobile: Smaller padding
-- Button layout:
-  - Desktop: Side by side with gap-4
-  - Mobile: Full width, stacked vertically
-
-#### Results Summary Styles:
-- `.vision-results-summary` - Results container
-  - Max-width: 600px
-  - Centered with auto margins
-  - Top padding: `pt-6` (24px desktop), `1.5rem` (mobile)
-  - Compact padding overall: 10px (desktop), 5px (mobile)
-- `.results-details` - Scrollable results table
-  - White background with rounded corners
-  - Shadow: `0 2px 8px rgba(0, 0, 0, 0.1)`
-  - Max height: 256px (scrollable if needed)
-  - Right padding: `pr-2` to separate from scrollbar
-- Result rows:
-  - Spacing: `space-y-1` (4px between rows)
-  - Row padding: `py-1.5` (6px vertical)
-  - Right padding: `pr-1` (4px) - prevents checkmarks touching scrollbar
-  - Border bottom for separation
-- Scrollbar styling:
-  - Width: 6px
-  - Track: Light gray (#f1f1f1)
-  - Thumb: Gray (#d1d5db), darker on hover
-
-#### Mobile Responsiveness:
-All major elements are optimized for mobile at 768px breakpoint:
-- Reduced container padding (32px → 16px)
-- Smaller white box height (400px → 280px)
-- Compact chart padding (20px → 10px)
-- Smaller font sizes for indicators (0.75rem → 0.65rem)
-- Smaller instruction text (1rem → 0.875rem)
-- Reduced character gap (0.3em → 0.2em)
-- Stacked button layout (flex-col)
-- Full-width buttons
-- Smaller result heading (1.5rem → 1rem)
-- Compact results padding
-
-#### Accessibility:
-- No focus outlines on buttons (removed shadows for cleaner look)
-- Smooth transitions for all state changes (0.3s ease)
-- Fade-in animation for character appearance
-- High contrast text (black on white for characters)
-- Semantic HTML structure maintained
-- Responsive text sizing for readability
-
-### Enabling/Disabling the Feature
-
-The vision test is designed as a **modular, optional feature**. To enable/disable:
-
-#### To Disable:
-1. **Option A (Remove from DOM)**: Comment out or delete the Vision Test HTML section in `index.html` (lines 520-582)
-2. **Option B (Remove script)**: Comment out or remove `<script src="vision-test.js"></script>` in `index.html` (line 706)
-3. **Option C (Hide with CSS)**: Add `#vision-test { display: none; }` to `styles.css`
-
-#### To Re-enable:
-1. Ensure HTML section is present in `index.html`
-2. Ensure `<script src="vision-test.js"></script>` is included before `</body>`
-3. Ensure vision test styles are present in `styles.css`
-4. Ensure `assets/images/table-ru.svg` exists
-
-### Testing the Vision Test
-
-When testing this feature:
-
-1. **Initial State**:
-   - Verify "Start Test" button appears
-   - Instruction text: "Try our interactive vision test. Sit 50cm from the screen. Cover one eye."
-   - Chart and indicators are hidden
-
-2. **Starting the Test**:
-   - Click "Start Test"
-   - Instruction moves to bottom of white box: "Can you read all characters?"
-   - First line (Ш Б) appears centered at 120px
-   - Line indicator shows "LINE 1 OF 12" (top-left)
-   - Vision indicator shows "V = 0,1" (top-right)
-   - Three buttons visible: Yes (green), No (outline), Restart (smaller outline)
-
-3. **Answer Recording**:
-   - Click "Yes" → Records positive result, moves to line 2
-   - Click "No" → Records negative result, moves to line 2
-   - Both buttons advance the test (do not end it)
-   - Click "Restart" → Resets test to initial state at any time
-
-4. **Progression Through Lines**:
-   - Each line shows progressively smaller characters
-   - Line indicator updates: "LINE 2 OF 12", "LINE 3 OF 12", etc.
-   - Vision indicator updates: "V = 0,2", "V = 0,3", etc.
-   - Characters properly centered with appropriate spacing
-   - Font sizes: 120px → 80px → 60px → 48px → 40px → 32px → 28px → 24px → 20px → 18px → 14px → 12px
-
-5. **Completion State**:
-   - After line 12, results summary appears
-   - "Test Complete!" heading (centered, compact)
-   - "Your vision level: V = X,X" (shows highest line successfully read)
-   - Detailed results table with ✓ for "Yes" answers, ✗ for "No" answers
-   - If more than 8 lines, table is scrollable
-   - Checkmarks have proper spacing from scrollbar (pr-1, pr-2)
-   - Only "Restart" button visible
-   - Instruction text hidden
-   - Professional consultation reminder at bottom
-
-6. **Results Calculation**:
-   - Best vision = last line where user clicked "Yes"
-   - If all "No" answers → "Below V = 0,1"
-   - If user clicks "Yes" through line 10 → "V = 1,0"
-   - Results persist until restart
-
-7. **Restart Functionality**:
-   - Click "Restart" from any state
-   - Clears all results
-   - Returns to initial state
-   - Yes and No buttons reappear
-   - Instruction text reappears at bottom
-
-8. **Visual/Layout Checks**:
-   - Characters centered in white box
-   - Indicators inside white box corners (not gray area)
-   - Instruction at bottom of white box (not outside)
-   - No overlapping text (indicators clear of "Test Complete!" heading)
-   - No shadows on indicators or instruction tooltips
-   - Smooth fade-in animation when characters appear
-
-9. **Mobile Responsiveness**:
-   - Test on screen width < 768px
-   - White box height: 280px (compact)
-   - Buttons stack vertically, full width
-   - Smaller font sizes for all elements
-   - Character gap reduced to 0.2em
-   - Results heading: 1rem
-   - Proper spacing maintained
-
-10. **Button Styling**:
-    - Yes button: Green (#059669) with hover lift effect
-    - No button: Navy outline
-    - Restart button: Navy outline, slightly smaller
-    - All buttons have hover effects
-
-11. **Accessibility**:
-    - Tab through buttons (keyboard navigation)
-    - Enter key activates buttons
-    - High contrast (black text on white for characters)
-    - Readable font sizes at all levels
-
-### Future Enhancements
-
-Potential improvements to the vision test feature:
-
-1. **SVG Cropping**: Implement actual line-by-line cropping of the SVG instead of transform animations
-2. **Multilingual Support**: Add English and Tajik vision charts (`table-en.svg`, `table-tj.svg`)
-3. **Results Storage**: Store test results in localStorage or send to backend
-4. **Progress Saving**: Allow users to pause and resume tests
-5. **Timer Feature**: Add optional timer to measure reading speed
-6. **Both Eyes Test**: Guide users through testing both eyes separately
-7. **Email Results**: Allow users to email their results to themselves or the doctor
-8. **Analytics**: Track completion rates and average vision scores
-
-### Internationalization (i18n)
-
-The vision test section includes `data-i18n` attributes for multilingual support:
-
-- `visionTest.subtitle` → "Interactive Feature"
-- `visionTest.title` → "Test Your Vision"
-- `visionTest.initialInstruction` → Initial instruction text
-- `visionTest.questionInstruction` → "Can you read all characters?"
-- `visionTest.startButton` → "Start Test"
-- `visionTest.yesButton` → "Yes"
-- `visionTest.restartButton` → "Restart"
-- `visionTest.completionMessage` → Completion message
-- `visionTest.disclaimer` → Disclaimer text
-
-These should be added to the site's translation files when implementing full i18n support.
-
-### Medical Disclaimer
-
-**IMPORTANT**: The vision test feature includes a prominent disclaimer stating:
-
-> "This test is for educational purposes only and does not replace a professional eye examination."
-
-This disclaimer is always visible and cannot be dismissed. The completion message also encourages users to "consult with Dr. Karimova for professional assessment."
-
-### Security & Privacy
-
-- No personal data is collected or stored
-- No backend API calls are made
-- All test logic runs entirely client-side
-- No cookies or tracking for the vision test feature
-- Chart is served as a static SVG asset
+Interactive Snellen test (`#vision-test` section + `vision-test.js`), 12 lines of Russian Cyrillic optotypes (Ш Б М Н К Ы И), V = 0.1 → 2.0.
+
+### Flow
+
+1. **Initial**: instruction ("sit 50cm away, cover one eye") + Start button; chart hidden
+2. **Active**: one line of characters centered in the white box; "LINE n OF 12" top-left, "V = 0,n" top-right; Yes (green) / No (outline) / Restart buttons. Both Yes and No advance — the test always runs all 12 lines
+3. **Complete**: results summary (best vision = last "Yes" line; "Below V = 0,1" if none), scrollable ✓/✗ table, consultation reminder, only Restart visible
+
+### Config (`VISION_TEST_CONFIG` in vision-test.js)
+
+`totalLines: 12`; font sizes 120, 80, 60, 48, 40, 32, 28, 24, 20, 18, 14, 12 px; vision values V=0,1…1,0 then 1,5 and 2,0 with matching diopter values; `lineCharacters` arrays per line.
+
+### Architecture
+
+IIFE exposing `window.VisionTest` (`init()`, `isActive()`, `getCurrentLine()`). Key functions: `initVisionTest` (wires buttons; warns if section missing), `startTest`, `recordAnswer(canRead)`, `resetTest`, `updateTestDisplay`, `updateChartDisplay(line)`, `showCompletionMessage`. UI strings come from the locale JSONs (`visionTest.*` keys) via `window.__T__`.
+
+Styles: dedicated section of `styles.css` (`.vision-test-container`, `.vision-chart-container`, indicators, results table, mobile breakpoints at 768px).
+
+### Disabling
+
+Remove the `#vision-test` section from `src/index.njk` or the `vision-test.js` script tag. Asset: `assets/images/table-ru.svg`.
+
+**Medical disclaimer is mandatory and always visible**: "This test is for educational purposes only and does not replace a professional eye examination." No personal data is collected; everything runs client-side.
+
+---
+
+## Blog
+
+Trilingual blog at `/{lang}/blog/`. **Full documentation and the content-creation workflow live in `blog.md`** — read it before blog work. Quick facts:
+
+- Posts are single JSON files in `src/_data/blog/posts/` (one file = one article, all three languages inside, `aiTranslated` flags supported)
+- Templates: `src/blog/index.njk` (listing), `src/blog/post.njk` (article; Article JSON-LD, per-locale hreflang, og:image from `post.image`)
+- The `blog-post` skill automates: article discovery (RSS), rewriting, RU/TJ translation, hero image, build, SW bump, commit
+- Blog pages load `tailwind.css?v=` + `styles.css?v=` + `blog/blog.css` and `blog/blog.js` (not script.js)
+
+## SEO Checklist (maintained state — don't regress)
+
+- hreflang ru/tg/en + x-default=/ru/ on every page and in sitemap.xml
+- Canonical URLs per locale page
+- og:image = JPEG for the homepage (WhatsApp compatibility)
+- No self-serving review/aggregateRating structured data
+- robots.txt is minimal (allow all + sitemap); sitemap.njk auto-includes blog posts with hreflang alternates
+- One phone number everywhere: +992 108 11 80 80
+
+## Accessibility
+
+- Skip-to-content link; semantic headings (one h1 in hero, h2 per section)
+- `aria-expanded` on menu/FAB toggles, `aria-label` on icon-only buttons, `aria-hidden` on decorative icons, `role="status"` on the SW toast, `aria-live` on the testimonial carousel
+- Esc closes the mobile menu; reduced-motion and high-contrast media queries in styles.css
