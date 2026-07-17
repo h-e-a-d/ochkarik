@@ -14,6 +14,11 @@
 // all three locale files. Nothing else needs touching.
 // Children's / pediatric eye care is intentionally absent — it is not offered.
 //
+// The footer's "Services" column also renders from this array (entries with
+// `footer: true`), reading `services.<key>.title` from the locale JSON —
+// eliminating a fifth, separate set of `footer.eyeExams`/`footer.glasses`/…
+// strings that had already drifted in wording from these canonical titles.
+//
 //   key   → looks up `t.services[key]` in the locale JSON
 //   id    → stable anchor for footer deep-links (#service-dry-eye)
 //   icon  → Font Awesome 6 class
@@ -22,17 +27,17 @@
 // expands a whole row at once so card heights stay aligned.
 
 const SERVICES = [
-  { key: 'comprehensive',        id: 'service-comprehensive',        icon: 'fa-eye' },
+  { key: 'comprehensive',        id: 'service-comprehensive',        icon: 'fa-eye',            footer: true },
   { key: 'visometry',            id: 'service-visometry',            icon: 'fa-chart-line' },
   { key: 'autorefractometry',    id: 'service-autorefractometry',    icon: 'fa-microscope' },
   { key: 'subjective',           id: 'service-subjective',           icon: 'fa-glasses' },
   { key: 'accommodation',        id: 'service-accommodation',        icon: 'fa-expand' },
   { key: 'keratometry',          id: 'service-keratometry',          icon: 'fa-circle-notch' },
   { key: 'ophthalmoscopy',       id: 'service-ophthalmoscopy',       icon: 'fa-eye-dropper' },
-  { key: 'prescriptionGlasses',  id: 'service-prescription-glasses', icon: 'fa-store' },
-  { key: 'contactsAndTreatment', id: 'service-contacts',             icon: 'fa-circle-dot' },
-  { key: 'dryEye',               id: 'service-dry-eye',              icon: 'fa-droplet' },
-  { key: 'ongoingCare',          id: 'service-followup',             icon: 'fa-calendar-check' },
+  { key: 'prescriptionGlasses',  id: 'service-prescription-glasses', icon: 'fa-store',          footer: true },
+  { key: 'contactsAndTreatment', id: 'service-contacts',             icon: 'fa-circle-dot',     footer: true },
+  { key: 'dryEye',               id: 'service-dry-eye',              icon: 'fa-droplet',        footer: true },
+  { key: 'ongoingCare',          id: 'service-followup',             icon: 'fa-calendar-check', footer: true },
 ];
 
 const CARDS_PER_ROW = 3;

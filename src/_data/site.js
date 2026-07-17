@@ -24,4 +24,13 @@ module.exports = {
   // Russian grammar note: 5–20 all take the genitive plural "лет", so this
   // phrasing stays correct until 2038 ("21 год"). Tajik does not inflect.
   yearsExperience: buildYear - PRACTICE_START_YEAR,
+
+  // Canonical social profile URLs — read by the footer partial. Previously
+  // hardcoded only inside src/index.njk's footer; the blog/privacy footers
+  // had no source for them and shipped `href="#"` placeholders instead.
+  social: {
+    facebook: "https://www.facebook.com/sitorakarimi",
+    instagram: "https://www.instagram.com/dr.sitora.karimova/",
+    linkedin: "https://www.linkedin.com/in/sitorakarimi",
+  },
 };
