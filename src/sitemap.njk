@@ -3,19 +3,12 @@ permalink: /sitemap.xml
 eleventyExcludeFromCollections: true
 ---
 <?xml version="1.0" encoding="UTF-8"?>
-{#- <lastmod> comes from real content dates, never the build time: posts carry
-    their own `date`, and the other pages get their git last-commit date via
-    src/_data/lastmod.js (omitted entirely when git can't tell us). Stamping the
-    build date made every deploy claim every page had changed, which teaches
-    Google to ignore lastmod across the whole sitemap. -#}
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
         xmlns:xhtml="http://www.w3.org/1999/xhtml">
 {%- for code, loc in locales %}
     <url>
         <loc>https://sitorakarimi.com/{{ code }}/</loc>
-        {%- if lastmod.home %}
-        <lastmod>{{ lastmod.home }}</lastmod>
-        {%- endif %}
+        <lastmod>{{ page.date.toISOString().slice(0, 10) }}</lastmod>
         <changefreq>weekly</changefreq>
         <priority>{% if code == "ru" %}1.0{% else %}0.9{% endif %}</priority>
         {%- for altCode, altLoc in locales %}
@@ -25,30 +18,13 @@ eleventyExcludeFromCollections: true
     </url>
     <url>
         <loc>https://sitorakarimi.com/{{ code }}/blog/</loc>
-        {#- The blog index changes whenever a post is added, so the newest post
-            date is a truer signal than the template's own git date. -#}
-        {%- set blogMod = blogPosts[0].date if blogPosts.length else lastmod.blog %}
-        {%- if blogMod %}
-        <lastmod>{{ blogMod }}</lastmod>
-        {%- endif %}
+        <lastmod>{{ page.date.toISOString().slice(0, 10) }}</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.8</priority>
         {%- for altCode, altLoc in locales %}
         <xhtml:link rel="alternate" hreflang="{{ altLoc.hreflang }}" href="https://sitorakarimi.com/{{ altCode }}/blog/"/>
         {%- endfor %}
         <xhtml:link rel="alternate" hreflang="x-default" href="https://sitorakarimi.com/ru/blog/"/>
-    </url>
-    <url>
-        <loc>https://sitorakarimi.com/{{ code }}/privacy/</loc>
-        {%- if lastmod.privacy %}
-        <lastmod>{{ lastmod.privacy }}</lastmod>
-        {%- endif %}
-        <changefreq>yearly</changefreq>
-        <priority>0.1</priority>
-        {%- for altCode, altLoc in locales %}
-        <xhtml:link rel="alternate" hreflang="{{ altLoc.hreflang }}" href="https://sitorakarimi.com/{{ altCode }}/privacy/"/>
-        {%- endfor %}
-        <xhtml:link rel="alternate" hreflang="x-default" href="https://sitorakarimi.com/ru/privacy/"/>
     </url>
 {%- endfor %}
 {%- for post in blogPosts %}

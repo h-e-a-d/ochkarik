@@ -358,12 +358,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 if (entry.isIntersecting) {
                     const numberElement = statsCircle.querySelector('.text-5xl');
                     if (numberElement) {
-                        // Target comes from the markup (data-count-to), which is
-                        // rendered from site.yearsExperience. Hardcoding it here
-                        // meant the counter animated to a stale "8" while the
-                        // rest of the page had moved on.
-                        const target = parseInt(numberElement.dataset.countTo, 10);
-                        animateCounter(numberElement, Number.isFinite(target) ? target : 0, 2000);
+                        animateCounter(numberElement, 8, 2000);
                     }
                     statsObserver.unobserve(entry.target);
                 }
@@ -452,13 +447,7 @@ document.addEventListener('DOMContentLoaded', function() {
     // ===========================
     // Smooth Reveal for Elements (Optimized - Single Observer)
     // ===========================
-    // `.no-reveal` opts a section out. This matters for text the reader may
-    // print or save as PDF (e.g. the privacy policy): the reveal starts at
-    // opacity:0 and only clears once the element scrolls into view, so
-    // anything still below the fold at print time prints blank.
-    const revealElements = document.querySelectorAll(
-        'section:not(.no-reveal) h2, section:not(.no-reveal) p, .btn-navy, .btn-outline'
-    );
+    const revealElements = document.querySelectorAll('section h2, section p, .btn-navy, .btn-outline');
 
     // Initialize elements (skip hero section for instant visibility)
     revealElements.forEach(element => {

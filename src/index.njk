@@ -63,19 +63,7 @@ eleventyComputed:
     <style>{% inlineFile "tailwind.css" %}</style>
 
     <!-- Preload styles.css so it fetches immediately after HTML is received -->
-    <link rel="preload" href="/styles.css?v=1.6.0" as="style">
-
-    <!-- Fonts — self-hosted Montserrat (see @font-face note in styles.css).
-         Preload only the subsets this locale actually renders: Latin is always
-         needed (numerals, "Osse", "Dr."), Cyrillic for ru/tg, and the
-         Tajik-specific letters (ғ ӣ қ ӯ ҳ ҷ) live in cyrillic-ext. -->
-    <link rel="preload" href="/assets/fonts/montserrat-latin.woff2" as="font" type="font/woff2" crossorigin>
-    {%- if lang in ['ru', 'tj'] %}
-    <link rel="preload" href="/assets/fonts/montserrat-cyrillic.woff2" as="font" type="font/woff2" crossorigin>
-    {%- endif %}
-    {%- if lang == 'tj' %}
-    <link rel="preload" href="/assets/fonts/montserrat-cyrillic-ext.woff2" as="font" type="font/woff2" crossorigin>
-    {%- endif %}
+    <link rel="preload" href="/styles.css?v=1.5.0" as="style">
 
     <!-- Favicon -->
     <link rel="icon" type="image/svg+xml" href="/favicon.svg">
@@ -93,7 +81,7 @@ eleventyComputed:
 
     <!-- Custom Styles -->
     <!-- Version matches CSS_VERSION in sw.js — update both when styles.css changes -->
-    <link rel="stylesheet" href="/styles.css?v=1.6.0">
+    <link rel="stylesheet" href="/styles.css?v=1.5.0">
 
     <!-- Schema.org Structured Data - Enhanced with LocalBusiness and Reviews -->
     <script type="application/ld+json">
@@ -135,10 +123,7 @@ eleventyComputed:
             }
         ],
         "medicalSpecialty": ["Ophthalmology", "Optometry"],
-        "inLanguage": "{{ locales[lang].htmlLang }}",
-        {#- Localized so /ru/ and /tj/ carry schema in their own language, and
-            free of the "board-certified" claim (see hasCredential below). -#}
-        "description": {{ t.meta.schemaDescription | dump | safe }},
+        "description": "Board-certified ophthalmologist with 8+ years of experience specializing in comprehensive eye care, prescription glasses, contact lenses, dry eye management, and pediatric eye care in Dushanbe, Tajikistan. Practice located inside Osse Optical Store — get your prescription filled same-day.",
         "founder": {
             "@type": "Person",
             "name": "Dr. Sitora Karimova",
@@ -147,45 +132,69 @@ eleventyComputed:
                 "@type": "EducationalOrganization",
                 "name": "Avicenna Tajik State Medical University"
             },
-            {#- Only verifiable credentials. This previously claimed a Board
-                Certification "recognizedBy" the American Academy of
-                Ophthalmology — the AAO does not board-certify anyone (that is
-                the American Board of Ophthalmology), and an unverifiable
-                credential on a YMYL medical site is a real liability. -#}
             "hasCredential": [
                 {
                     "@type": "EducationalOccupationalCredential",
-                    "credentialCategory": "degree",
-                    "name": "Diploma in Medicine",
+                    "credentialCategory": "Board Certification",
                     "recognizedBy": {
-                        "@type": "EducationalOrganization",
-                        "name": "Avicenna Tajik State Medical University"
+                        "@type": "Organization",
+                        "name": "American Academy of Ophthalmology"
                     }
                 }
-            ],
-            "knowsLanguage": ["ru", "tg", "en"]
+            ]
         },
-        {#- Generated from src/_data/services.js + the locale strings, so this
-            catalog always lists exactly the services rendered as cards below.
-            Google requires structured data to reflect visible page content;
-            this previously advertised Dry Eye / Ongoing Care / Pediatric Eye
-            Care while the page showed nine unrelated procedures. -#}
         "hasOfferCatalog": {
             "@type": "OfferCatalog",
-            "name": {{ t.services.title | dump | safe }},
+            "name": "Ophthalmology Services",
             "itemListElement": [
-                {%- for s in services %}
-                {%- set sv = t.services[s.key] %}
                 {
                     "@type": "Offer",
                     "itemOffered": {
                         "@type": "MedicalProcedure",
-                        "@id": "https://sitorakarimi.com/{{ lang }}/#{{ s.id }}",
-                        "name": {{ sv.title | dump | safe }},
-                        "description": {{ (sv.description or sv.intro) | striptags | dump | safe }}
+                        "name": "Comprehensive Eye Examinations",
+                        "description": "Complete eye health evaluation using advanced diagnostic technology"
                     }
-                }{% if not loop.last %},{% endif %}
-                {%- endfor %}
+                },
+                {
+                    "@type": "Offer",
+                    "itemOffered": {
+                        "@type": "MedicalProcedure",
+                        "name": "Prescription Glasses",
+                        "description": "Custom eyewear tailored to your vision needs and style preferences"
+                    }
+                },
+                {
+                    "@type": "Offer",
+                    "itemOffered": {
+                        "@type": "MedicalProcedure",
+                        "name": "Contact Lenses",
+                        "description": "Professional fitting and care for comfortable contact lens wear"
+                    }
+                },
+                {
+                    "@type": "Offer",
+                    "itemOffered": {
+                        "@type": "MedicalProcedure",
+                        "name": "Dry Eye Management",
+                        "description": "Effective treatments to relieve discomfort and restore eye moisture"
+                    }
+                },
+                {
+                    "@type": "Offer",
+                    "itemOffered": {
+                        "@type": "MedicalProcedure",
+                        "name": "Ongoing Care and Follow-Up",
+                        "description": "Continuous monitoring and personalized care plans for long-term eye health"
+                    }
+                },
+                {
+                    "@type": "Offer",
+                    "itemOffered": {
+                        "@type": "MedicalProcedure",
+                        "name": "Children's Eye Care",
+                        "description": "Gentle, specialized eye care for children"
+                    }
+                }
             ]
         },
         "containedInPlace": {
@@ -267,6 +276,87 @@ eleventyComputed:
     }
     </script>
 
+    <!-- Service Schema for Each Medical Procedure -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "ItemList",
+        "itemListElement": [
+            {
+                "@type": "ListItem",
+                "position": 1,
+                "item": {
+                    "@type": "MedicalProcedure",
+                    "name": "Comprehensive Eye Examinations",
+                    "description": "Complete eye health evaluation using advanced diagnostic technology including digital retinal imaging and corneal topography",
+                    "procedureType": "Diagnostic",
+                    "followup": "Based on individual needs, typically 1-2 years for healthy adults",
+                    "preparation": "Bring current glasses or contact lenses and list of medications"
+                }
+            },
+            {
+                "@type": "ListItem",
+                "position": 2,
+                "item": {
+                    "@type": "MedicalProcedure",
+                    "name": "Prescription Glasses Fitting",
+                    "description": "Custom eyewear solutions with precise refraction testing and professional fitting for all ages",
+                    "procedureType": "Therapeutic",
+                    "followup": "Annual prescription updates recommended",
+                    "preparation": "No special preparation required"
+                }
+            },
+            {
+                "@type": "ListItem",
+                "position": 3,
+                "item": {
+                    "@type": "MedicalProcedure",
+                    "name": "Contact Lens Fitting",
+                    "description": "Professional contact lens fitting and care with comprehensive training and ongoing support",
+                    "procedureType": "Therapeutic",
+                    "followup": "Initial follow-up within 1 week, then annually",
+                    "preparation": "Discontinue contact lens wear 24 hours before initial fitting"
+                }
+            },
+            {
+                "@type": "ListItem",
+                "position": 4,
+                "item": {
+                    "@type": "MedicalProcedure",
+                    "name": "Dry Eye Management",
+                    "description": "Comprehensive dry eye assessment and treatment including tear film analysis, meibomian gland evaluation, and personalized therapy",
+                    "procedureType": "Therapeutic",
+                    "followup": "2-4 weeks for initial response, then as needed",
+                    "preparation": "No special preparation required"
+                }
+            },
+            {
+                "@type": "ListItem",
+                "position": 5,
+                "item": {
+                    "@type": "MedicalProcedure",
+                    "name": "Ongoing Care and Follow-Up",
+                    "description": "Continuous monitoring and personalized care plans for chronic eye conditions including glaucoma and diabetic retinopathy",
+                    "procedureType": "Preventive",
+                    "followup": "Varies by condition, typically every 3-12 months",
+                    "preparation": "Bring previous medical records and current medications"
+                }
+            },
+            {
+                "@type": "ListItem",
+                "position": 6,
+                "item": {
+                    "@type": "MedicalProcedure",
+                    "name": "Pediatric Eye Care",
+                    "description": "Specialized children's eye care from infancy through teenage years using child-friendly testing methods",
+                    "procedureType": "Diagnostic and Therapeutic",
+                    "followup": "Recommended at 6 months, age 3, before school, then annually",
+                    "preparation": "Bring child's favorite toy for comfort, no special medical preparation"
+                }
+            }
+        ]
+    }
+    </script>
 </head>
 <body class="text-gray-800">
     <!-- Google Tag Manager (noscript) -->
@@ -392,36 +482,147 @@ eleventyComputed:
                 <h2 class="text-4xl md:text-5xl font-light text-white mb-4" data-i18n="services.title">{{ t.services.title | safe }}</h2>
             </div>
 
-            {#- Cards are generated from src/_data/services.js — the same array that
-                builds the hasOfferCatalog schema above, so page and schema can
-                never disagree. Add a service there + locale strings; nothing else. -#}
             <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-12">
-                {%- for s in services %}
-                {%- set sv = t.services[s.key] %}
-                <div id="{{ s.id }}" class="service-card-minimal" data-row="{{ s.row }}">
+                <!-- Service Card 1: Comprehensive Eye Examination -->
+                <div class="service-card-minimal" data-row="0">
                     <div class="text-coral mb-4">
-                        <svg class="svg-icon text-4xl"><use href="/assets/icons.svg#{{ s.icon }}"></use></svg>
+                        <svg class="svg-icon text-4xl"><use href="/assets/icons.svg#fa-eye"></use></svg>
                     </div>
-                    <h3 class="text-xl font-medium mb-3 text-white" data-i18n="services.{{ s.key }}.title">{{ sv.title | safe }}</h3>
+                    <h3 class="text-xl font-medium mb-3 text-white" data-i18n="services.comprehensive.title">{{ t.services.comprehensive.title | safe }}</h3>
                     <div class="service-description line-clamp-5">
-                        {%- if s.rich %}
                         <div class="text-white/70 font-light mb-3">
-                            <span data-i18n="services.{{ s.key }}.intro">{{ sv.intro | safe }}</span>
-                            <span data-i18n="services.{{ s.key }}.diagnosticsTitle">{{ sv.diagnosticsTitle | safe }}</span>
-                            <ul data-i18n="services.{{ s.key }}.diagnosticsList">{{ sv.diagnosticsList | safe }}</ul>
-                            <span data-i18n="services.{{ s.key }}.treatmentTitle">{{ sv.treatmentTitle | safe }}</span>
-                            <ul data-i18n="services.{{ s.key }}.treatmentList">{{ sv.treatmentList | safe }}</ul>
+                            <span data-i18n="services.comprehensive.intro">{{ t.services.comprehensive.intro | safe }}</span>
+                            <span data-i18n="services.comprehensive.diagnosticsTitle">{{ t.services.comprehensive.diagnosticsTitle | safe }}</span>
+                            <ul data-i18n="services.comprehensive.diagnosticsList">{{ t.services.comprehensive.diagnosticsList | safe }}</ul>
+                            <span data-i18n="services.comprehensive.treatmentTitle">{{ t.services.comprehensive.treatmentTitle | safe }}</span>
+                            <ul data-i18n="services.comprehensive.treatmentList">{{ t.services.comprehensive.treatmentList | safe }}</ul>
                         </div>
-                        {%- else %}
-                        <p class="text-white/70 font-light" data-i18n="services.{{ s.key }}.description">{{ sv.description | safe }}</p>
-                        {%- endif %}
                     </div>
-                    <button class="service-toggle mt-3 text-coral hover:text-white transition-colors text-sm font-medium flex items-center" data-row="{{ s.row }}">
-                        <span class="toggle-text">{{ t.services.readMore | safe }}</span>
+                    <button class="service-toggle mt-3 text-coral hover:text-white transition-colors text-sm font-medium flex items-center" data-row="0">
+                        <span class="toggle-text">Read More</span>
                         <svg class="svg-icon ml-2 toggle-icon transition-transform"><use href="/assets/icons.svg#fa-chevron-down"></use></svg>
                     </button>
                 </div>
-                {%- endfor %}
+
+                <!-- Service Card 2: Visual Acuity Testing -->
+                <div class="service-card-minimal" data-row="0">
+                    <div class="text-coral mb-4">
+                        <svg class="svg-icon text-4xl"><use href="/assets/icons.svg#fa-chart-line"></use></svg>
+                    </div>
+                    <h3 class="text-xl font-medium mb-3 text-white" data-i18n="services.visometry.title">{{ t.services.visometry.title | safe }}</h3>
+                    <div class="service-description line-clamp-5">
+                        <p class="text-white/70 font-light" data-i18n="services.visometry.description">{{ t.services.visometry.description | safe }}</p>
+                    </div>
+                    <button class="service-toggle mt-3 text-coral hover:text-white transition-colors text-sm font-medium flex items-center" data-row="0">
+                        <span class="toggle-text">Read More</span>
+                        <svg class="svg-icon ml-2 toggle-icon transition-transform"><use href="/assets/icons.svg#fa-chevron-down"></use></svg>
+                    </button>
+                </div>
+
+                <!-- Service Card 3: Autorefractometry -->
+                <div class="service-card-minimal" data-row="0">
+                    <div class="text-coral mb-4">
+                        <svg class="svg-icon text-4xl"><use href="/assets/icons.svg#fa-microscope"></use></svg>
+                    </div>
+                    <h3 class="text-xl font-medium mb-3 text-white" data-i18n="services.autorefractometry.title">{{ t.services.autorefractometry.title | safe }}</h3>
+                    <div class="service-description line-clamp-5">
+                        <p class="text-white/70 font-light" data-i18n="services.autorefractometry.description">{{ t.services.autorefractometry.description | safe }}</p>
+                    </div>
+                    <button class="service-toggle mt-3 text-coral hover:text-white transition-colors text-sm font-medium flex items-center" data-row="0">
+                        <span class="toggle-text">Read More</span>
+                        <svg class="svg-icon ml-2 toggle-icon transition-transform"><use href="/assets/icons.svg#fa-chevron-down"></use></svg>
+                    </button>
+                </div>
+
+                <!-- Service Card 4: Glasses Prescription -->
+                <div class="service-card-minimal" data-row="1">
+                    <div class="text-coral mb-4">
+                        <svg class="svg-icon text-4xl"><use href="/assets/icons.svg#fa-glasses"></use></svg>
+                    </div>
+                    <h3 class="text-xl font-medium mb-3 text-white" data-i18n="services.subjective.title">{{ t.services.subjective.title | safe }}</h3>
+                    <div class="service-description line-clamp-5">
+                        <p class="text-white/70 font-light" data-i18n="services.subjective.description">{{ t.services.subjective.description | safe }}</p>
+                    </div>
+                    <button class="service-toggle mt-3 text-coral hover:text-white transition-colors text-sm font-medium flex items-center" data-row="1">
+                        <span class="toggle-text">Read More</span>
+                        <svg class="svg-icon ml-2 toggle-icon transition-transform"><use href="/assets/icons.svg#fa-chevron-down"></use></svg>
+                    </button>
+                </div>
+
+                <!-- Service Card 5: Accommodation Assessment -->
+                <div class="service-card-minimal" data-row="1">
+                    <div class="text-coral mb-4">
+                        <svg class="svg-icon text-4xl"><use href="/assets/icons.svg#fa-expand"></use></svg>
+                    </div>
+                    <h3 class="text-xl font-medium mb-3 text-white" data-i18n="services.accommodation.title">{{ t.services.accommodation.title | safe }}</h3>
+                    <div class="service-description line-clamp-5">
+                        <p class="text-white/70 font-light" data-i18n="services.accommodation.description">{{ t.services.accommodation.description | safe }}</p>
+                    </div>
+                    <button class="service-toggle mt-3 text-coral hover:text-white transition-colors text-sm font-medium flex items-center" data-row="1">
+                        <span class="toggle-text">Read More</span>
+                        <svg class="svg-icon ml-2 toggle-icon transition-transform"><use href="/assets/icons.svg#fa-chevron-down"></use></svg>
+                    </button>
+                </div>
+
+                <!-- Service Card 6: Keratometry -->
+                <div class="service-card-minimal" data-row="1">
+                    <div class="text-coral mb-4">
+                        <svg class="svg-icon text-4xl"><use href="/assets/icons.svg#fa-circle-notch"></use></svg>
+                    </div>
+                    <h3 class="text-xl font-medium mb-3 text-white" data-i18n="services.keratometry.title">{{ t.services.keratometry.title | safe }}</h3>
+                    <div class="service-description line-clamp-5">
+                        <p class="text-white/70 font-light" data-i18n="services.keratometry.description">{{ t.services.keratometry.description | safe }}</p>
+                    </div>
+                    <button class="service-toggle mt-3 text-coral hover:text-white transition-colors text-sm font-medium flex items-center" data-row="1">
+                        <span class="toggle-text">Read More</span>
+                        <svg class="svg-icon ml-2 toggle-icon transition-transform"><use href="/assets/icons.svg#fa-chevron-down"></use></svg>
+                    </button>
+                </div>
+
+                <!-- Service Card 7: Fundus Examination -->
+                <div class="service-card-minimal" data-row="2">
+                    <div class="text-coral mb-4">
+                        <svg class="svg-icon text-4xl"><use href="/assets/icons.svg#fa-eye-dropper"></use></svg>
+                    </div>
+                    <h3 class="text-xl font-medium mb-3 text-white" data-i18n="services.ophthalmoscopy.title">{{ t.services.ophthalmoscopy.title | safe }}</h3>
+                    <div class="service-description line-clamp-5">
+                        <p class="text-white/70 font-light" data-i18n="services.ophthalmoscopy.description">{{ t.services.ophthalmoscopy.description | safe }}</p>
+                    </div>
+                    <button class="service-toggle mt-3 text-coral hover:text-white transition-colors text-sm font-medium flex items-center" data-row="2">
+                        <span class="toggle-text">Read More</span>
+                        <svg class="svg-icon ml-2 toggle-icon transition-transform"><use href="/assets/icons.svg#fa-chevron-down"></use></svg>
+                    </button>
+                </div>
+
+                <!-- Service Card 8: Prescription Glasses -->
+                <div class="service-card-minimal" data-row="2">
+                    <div class="text-coral mb-4">
+                        <svg class="svg-icon text-4xl"><use href="/assets/icons.svg#fa-store"></use></svg>
+                    </div>
+                    <h3 class="text-xl font-medium mb-3 text-white" data-i18n="services.prescriptionGlasses.title">{{ t.services.prescriptionGlasses.title | safe }}</h3>
+                    <div class="service-description line-clamp-5">
+                        <p class="text-white/70 font-light" data-i18n="services.prescriptionGlasses.description">{{ t.services.prescriptionGlasses.description | safe }}</p>
+                    </div>
+                    <button class="service-toggle mt-3 text-coral hover:text-white transition-colors text-sm font-medium flex items-center" data-row="2">
+                        <span class="toggle-text">Read More</span>
+                        <svg class="svg-icon ml-2 toggle-icon transition-transform"><use href="/assets/icons.svg#fa-chevron-down"></use></svg>
+                    </button>
+                </div>
+
+                <!-- Service Card 9: Contact Lenses & Treatment -->
+                <div class="service-card-minimal" data-row="2">
+                    <div class="text-coral mb-4">
+                        <svg class="svg-icon text-4xl"><use href="/assets/icons.svg#fa-circle-dot"></use></svg>
+                    </div>
+                    <h3 class="text-xl font-medium mb-3 text-white" data-i18n="services.contactsAndTreatment.title">{{ t.services.contactsAndTreatment.title | safe }}</h3>
+                    <div class="service-description line-clamp-5">
+                        <p class="text-white/70 font-light" data-i18n="services.contactsAndTreatment.description">{{ t.services.contactsAndTreatment.description | safe }}</p>
+                    </div>
+                    <button class="service-toggle mt-3 text-coral hover:text-white transition-colors text-sm font-medium flex items-center" data-row="2">
+                        <span class="toggle-text">Read More</span>
+                        <svg class="svg-icon ml-2 toggle-icon transition-transform"><use href="/assets/icons.svg#fa-chevron-down"></use></svg>
+                    </button>
+                </div>
             </div>
         </div>
     </section>
@@ -462,11 +663,7 @@ eleventyComputed:
                     <picture>
                         <source srcset="/assets/images/about-1.webp" type="image/webp">
                         <img src="/assets/images/about-1.jpg"
-                             {#- Alt describes the image; it is not ad copy. This previously
-                                 read "Board certified ophthalmologist with 8 years experience"
-                                 — a third spelling of the credential claim removed elsewhere,
-                                 plus a hardcoded year count that had already gone stale. -#}
-                             alt="Dr. Sitora Karimova at her ophthalmology practice in Dushanbe"
+                             alt="Dr. Sitora Karimova - Board certified ophthalmologist with 8 years experience at her Dushanbe eye care clinic"
                              loading="lazy"
                              width="800"
                              height="600"
@@ -542,9 +739,7 @@ eleventyComputed:
                 <div class="relative">
                     <div class="w-64 h-64 bg-navy-900 rounded-full flex items-center justify-center">
                         <div class="text-center text-white">
-                            {#- Derived from site.js (buildYear - 2017). data-count-to feeds script.js's
-                                counter so the number lives in exactly one place. -#}
-                            <div class="text-5xl font-light mb-2" data-count-to="{{ site.yearsExperience }}">{{ site.yearsExperience }}+</div>
+                            <div class="text-5xl font-light mb-2">8+</div>
                             <div class="text-sm uppercase tracking-wider text-white/70" data-i18n="stats.years">{{ t.stats.years | safe }}</div>
                         </div>
                     </div>
@@ -944,11 +1139,12 @@ eleventyComputed:
                 <div>
                     <h3 class="font-medium text-navy-900 mb-4" data-i18n="footer.servicesTitle">{{ t.footer.servicesTitle | safe }}</h3>
                     <ul class="space-y-2 text-sm font-light">
-                        <li><a href="#service-comprehensive" class="hover:text-coral transition-colors" data-i18n="footer.eyeExams">{{ t.footer.eyeExams | safe }}</a></li>
-                        <li><a href="#service-prescription-glasses" class="hover:text-coral transition-colors" data-i18n="footer.glasses">{{ t.footer.glasses | safe }}</a></li>
-                        <li><a href="#service-contacts" class="hover:text-coral transition-colors" data-i18n="footer.contacts">{{ t.footer.contacts | safe }}</a></li>
-                        <li><a href="#service-dry-eye" class="hover:text-coral transition-colors" data-i18n="footer.dryeye">{{ t.footer.dryeye | safe }}</a></li>
-                        <li><a href="#service-followup" class="hover:text-coral transition-colors" data-i18n="footer.followup">{{ t.footer.followup | safe }}</a></li>
+                        <li><a href="#services" class="hover:text-coral transition-colors" data-i18n="footer.eyeExams">{{ t.footer.eyeExams | safe }}</a></li>
+                        <li><a href="#services" class="hover:text-coral transition-colors" data-i18n="footer.glasses">{{ t.footer.glasses | safe }}</a></li>
+                        <li><a href="#services" class="hover:text-coral transition-colors" data-i18n="footer.contacts">{{ t.footer.contacts | safe }}</a></li>
+                        <li><a href="#services" class="hover:text-coral transition-colors" data-i18n="footer.dryeye">{{ t.footer.dryeye | safe }}</a></li>
+                        <li><a href="#services" class="hover:text-coral transition-colors" data-i18n="footer.followup">{{ t.footer.followup | safe }}</a></li>
+                        <li><a href="#services" class="hover:text-coral transition-colors" data-i18n="footer.pediatric">{{ t.footer.pediatric | safe }}</a></li>
                     </ul>
                 </div>
 
@@ -960,7 +1156,7 @@ eleventyComputed:
                         <li><a href="#testimonials" class="hover:text-coral transition-colors" data-i18n="footer.reviews">{{ t.footer.reviews | safe }}</a></li>
                         <li><a href="/{{ lang }}/blog/" class="hover:text-coral transition-colors" data-i18n="nav.blog">{{ t.nav.blog | safe }}</a></li>
                         <li><a href="#contact" class="hover:text-coral transition-colors" data-i18n="footer.contact">{{ t.footer.contact | safe }}</a></li>
-                        <li><a href="/{{ lang }}/privacy/" class="hover:text-coral transition-colors" data-i18n="footer.privacy">{{ t.footer.privacy | safe }}</a></li>
+                        <li><a href="#" class="hover:text-coral transition-colors" data-i18n="footer.privacy">{{ t.footer.privacy | safe }}</a></li>
                     </ul>
                 </div>
 
@@ -989,7 +1185,7 @@ eleventyComputed:
 
     <!-- JavaScript -->
     <script>window.__T__ = {{ t | dump | safe }}; window.__LANG__ = "{{ lang }}";</script>
-    <script src="/script.js?v=1.2.1" defer></script>
+    <script src="/script.js?v=1.2.0" defer></script>
     <script src="/vision-test.js?v=1.1.0" defer></script>
     <script src="/vision-disorders.js?v=1.1.0" defer></script>
 

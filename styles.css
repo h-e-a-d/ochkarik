@@ -1,55 +1,5 @@
 /* Custom CSS Styles for Ophthalmologist Website - Minimalist Design */
 
-/* ─────────────────────────────────────────────────────────────────────────
-   Montserrat — self-hosted variable font (wght 300–700 in a single file
-   per script).
-
-   Why Montserrat and not Poppins (which design.md used to specify):
-   Poppins ships only latin / latin-ext / devanagari — it has NO Cyrillic
-   glyphs at all. Two of our three locales (ru, tg) are Cyrillic, so Poppins
-   could never render them; they silently fell back to a system font while
-   the page paid for the download. Montserrat is the closest geometric sans
-   with full Cyrillic + Cyrillic-ext coverage, including every Tajik-specific
-   letter (ғ ӣ қ ӯ ҳ ҷ and capitals) — verified against the font's cmap.
-
-   Subsets are unicode-range gated, so a browser downloads only what the page
-   actually uses: en → latin (37 KB); ru → cyrillic + latin; tg → cyrillic +
-   cyrillic-ext + latin. Files are self-hosted to avoid a third-party
-   round-trip (the blog previously pulled Poppins from fonts.googleapis.com).
-   ───────────────────────────────────────────────────────────────────────── */
-@font-face {
-    font-family: 'Montserrat';
-    font-style: normal;
-    font-weight: 300 700;
-    font-display: swap;
-    src: url('/assets/fonts/montserrat-cyrillic-ext.woff2') format('woff2');
-    unicode-range: U+0460-052F, U+1C80-1C8A, U+20B4, U+2DE0-2DFF, U+A640-A69F, U+FE2E-FE2F;
-}
-@font-face {
-    font-family: 'Montserrat';
-    font-style: normal;
-    font-weight: 300 700;
-    font-display: swap;
-    src: url('/assets/fonts/montserrat-cyrillic.woff2') format('woff2');
-    unicode-range: U+0301, U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;
-}
-@font-face {
-    font-family: 'Montserrat';
-    font-style: normal;
-    font-weight: 300 700;
-    font-display: swap;
-    src: url('/assets/fonts/montserrat-latin-ext.woff2') format('woff2');
-    unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
-}
-@font-face {
-    font-family: 'Montserrat';
-    font-style: normal;
-    font-weight: 300 700;
-    font-display: swap;
-    src: url('/assets/fonts/montserrat-latin.woff2') format('woff2');
-    unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
-}
-
 /* Self-hosted SVG icons (replaces Font Awesome webfont).
    Usage: <svg class="svg-icon"><use href="/assets/icons.svg#fa-name"></use></svg>
    Sizing follows font-size (width/height: 1em), color follows currentColor. */
@@ -93,7 +43,7 @@ a, button, input, select, textarea {
 }
 
 body {
-    font-family: 'Montserrat', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
+    font-family: 'Söhne', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
     font-weight: 300;
     line-height: 1.7;
     color: #333;
@@ -168,32 +118,6 @@ body {
     color: white;
     transform: translateY(-2px);
     box-shadow: 0 10px 25px rgba(10, 42, 61, 0.2);
-}
-
-/* White solid button — the inverse of .btn-navy, for primary actions on a navy
-   surface. .btn-navy is #0a2a3d on #0a2a3d there: it disappears into the
-   background and loses the visual hierarchy to the outline button beside it. */
-.btn-white {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    padding: 16px 40px;
-    background-color: #ffffff;
-    color: #0a2a3d;
-    font-weight: 500;
-    font-size: 14px;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    border-radius: 4px;
-    transition: all 0.3s ease;
-    text-decoration: none;
-    border: 2px solid #ffffff;
-}
-
-.btn-white:hover {
-    background-color: transparent;
-    color: #ffffff;
-    transform: translateY(-2px);
 }
 
 .btn-outline-white {
@@ -1509,32 +1433,4 @@ body.loading {
 
 .sw-update-toast button:hover {
     background: #e85d3f;
-}
-
-/* Privacy policy body copy. Tailwind Preflight strips list markers and
-   paragraph margins, so the policy's <p>/<ul> content needs them restored. */
-.privacy-body p {
-    margin-bottom: 1rem;
-}
-.privacy-body p:last-child {
-    margin-bottom: 0;
-}
-.privacy-body ul {
-    list-style: disc;
-    padding-left: 1.5rem;
-    margin: 1rem 0;
-}
-.privacy-body li {
-    margin-bottom: 0.375rem;
-}
-.privacy-body a {
-    color: #ff6b4a;
-    text-decoration: underline;
-}
-.privacy-body a:hover {
-    color: #0a2a3d;
-}
-.privacy-body strong {
-    font-weight: 500;
-    color: #0a2a3d;
 }

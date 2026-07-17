@@ -19,7 +19,6 @@ const ICONS = [
   ["fa-check", "solid/check"], ["fa-chart-line", "solid/chart-line"],
   ["fa-arrow-right", "solid/arrow-right"], ["fa-arrow-left", "solid/arrow-left"],
   ["fa-regular-clock", "regular/clock"], ["fa-regular-calendar", "regular/calendar"],
-  ["fa-droplet", "solid/droplet"], ["fa-calendar-check", "solid/calendar-check"],
   ["fa-instagram", "brands/instagram"], ["fa-facebook", "brands/facebook"],
   ["fa-facebook-f", "brands/facebook-f"], ["fa-whatsapp", "brands/whatsapp"],
   ["fa-twitter", "brands/twitter"], ["fa-telegram", "brands/telegram"],
