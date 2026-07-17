@@ -71,19 +71,11 @@ html {
    reproducible via desktop Chrome at any tested viewport width, including
    an exhaustive per-element bounding-box scan) let real iOS Safari treat
    the page as horizontally pannable, dragging content left and revealing
-   blank space past its right edge.
-
-   `clip`, not `hidden`: any ancestor whose overflow is not `visible` on
-   EITHER axis becomes the containing block for a descendant's
-   position:sticky, breaking it relative to the real viewport. Confirmed
-   live — overflow-x:hidden here detached #glasses-anim-sticky from the
-   viewport (getBoundingClientRect().top went to -1600px instead of
-   staying ~0 while scrolling through the animation). `overflow: clip` is
-   the spec-designed replacement: same visual clipping, but explicitly
-   does not establish a scroll container, so sticky descendants are
-   unaffected. Requires Safari 16+ (Sept 2022) / Chrome 90+ / Firefox 113+. */
+   blank space past its right edge. overflow-x only (not the overflow
+   shorthand) so position:sticky sections (glasses animation) keep working —
+   sticky positioning breaks if an ancestor sets overflow-y, not overflow-x. */
 html, body {
-    overflow-x: clip;
+    overflow-x: hidden;
     max-width: 100%;
 }
 
