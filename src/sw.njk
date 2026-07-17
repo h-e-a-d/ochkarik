@@ -1,18 +1,23 @@
+---
+permalink: /sw.js
+eleventyExcludeFromCollections: true
+---
 // Service Worker for sitorakarimi.com
 // Handles caching for offline support and performance optimization
+//
+// Generated from src/sw.njk — every version below comes from
+// src/_data/assets.js, the single source of truth. Do not hand-edit a
+// version number here; edit assets.js and rebuild.
 
-// Cache version - INCREMENT THIS when deploying updates
-// Format: 'v{major}.{minor}.{patch}'
-const CACHE_VERSION = '1.6.0';
+// Cache version - drives cache purge/cleanup for all clients
+const CACHE_VERSION = '{{ assets.cache }}';
 const CACHE_NAME = `sitorakarimi-${CACHE_VERSION}`;
 
-// CSS version — must match the ?v= query string on /styles.css in index.njk.
-// Update BOTH values whenever styles.css changes, then bump CACHE_VERSION.
-const CSS_VERSION = '1.6.0';
+// CSS version — must match the ?v= query string on /styles.css.
+const CSS_VERSION = '{{ assets.css }}';
 
-// Tailwind version — must match the ?v= query string on /tailwind.css in all templates.
-// Update BOTH values whenever tailwind.config.js or tailwind.input.css changes, then bump CACHE_VERSION.
-const TAILWIND_VERSION = '1.6.0';
+// Tailwind version — must match the ?v= query string on /tailwind.css.
+const TAILWIND_VERSION = '{{ assets.tailwind }}';
 
 // Assets to cache. Per-locale pages are listed so offline visitors see their
 // language correctly. Root "/" is intentionally omitted — it 302-redirects to /ru/.
@@ -23,9 +28,9 @@ const ASSETS_TO_CACHE = [
     '/ru/',
     '/tj/',
     '/en/',
-    '/script.js?v=1.2.1',
-    '/vision-test.js?v=1.1.0',
-    '/vision-disorders.js?v=1.1.0',
+    '/script.js?v={{ assets.script }}',
+    '/vision-test.js?v={{ assets.visionTest }}',
+    '/vision-disorders.js?v={{ assets.visionDisorders }}',
     `/styles.css?v=${CSS_VERSION}`,
     `/tailwind.css?v=${TAILWIND_VERSION}`,
     '/favicon.svg',
@@ -45,7 +50,7 @@ const ASSETS_TO_CACHE = [
     '/assets/images/table-ru.svg',
     '/assets/images/og-image.webp',
     '/assets/images/vision-disorders.webp',
-    '/blog/blog.css?v=1.6.0',
+    '/blog/blog.css?v={{ assets.blogCss }}',
     '/blog/blog.js',
     '/ru/blog/',
     '/tj/blog/',
