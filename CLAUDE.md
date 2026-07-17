@@ -40,13 +40,15 @@ src/
   _data/blogPosts.js      Blog post loader
   _data/blogPages.js      Locale × post page generator
   _data/blog/posts/*.json One JSON per article, all languages inside
+  _includes/               Shared layout + partials (layouts/base.njk, partials/nav.njk,
+                            partials/footer.njk, partials/head-common.njk, partials/gtm-*.njk)
 script.js                 Homepage interactivity (see feature list below)
 vision-test.js            Interactive Snellen vision test (modular IIFE)
 vision-disorders.js       Vision disorders simulator (tabs + severity slider)
 blog/blog.css, blog/blog.js   Blog static assets (menu, share buttons, markdown render)
 styles.css                Custom CSS: buttons, animations, vision test, FAB, glasses anim, SW toast
 tailwind.input.css        Tailwind entry point (config: tailwind.config.js)
-sw.js                     Service worker (precache + runtime cache, versioned)
+src/sw.njk                Service worker template — reads versions from src/_data/assets.js
 assets/icons.svg          SVG icon sprite (generated — do not hand-edit)
 scripts/build-icon-sprite.mjs  Regenerates assets/icons.svg
 assets/images/            Self-hosted images (webp + og-image.jpg); table-ru.svg Snellen chart
@@ -148,6 +150,10 @@ rich-results violation. **Children's/pediatric eye care is not offered** and mus
 in the schema or footer. (Note the blog still carries pediatric content and a `pediatric`
 category — a known content/services mismatch, flagged for the owner.)
 
+The footer's "Services" column also renders from this array (entries with `footer: true`) —
+it used to be a fifth, independently-drifting set of `footer.eyeExams`/`footer.glasses`/…
+locale strings; those are gone.
+
 ## Structured Data Rules
 
 - Inject text into `<script type="application/ld+json">` with `{{ value | dump | safe }}`,
@@ -166,6 +172,25 @@ category — a known content/services mismatch, flagged for the owner.)
   The AAO mentions in blog posts are legitimate *citations* of its guidance and should stay.
 - **`alt` text describes the image; it is not ad copy.** The About photo's alt carried both the
   credential claim and a hardcoded year count. Keep alt descriptive.
+
+## Shared Layout (nav/footer/head)
+
+`src/_includes/layouts/base.njk` is the single skeleton every page (`index.njk`, `blog/index.njk`,
+`blog/post.njk`, `privacy.njk`) extends. It owns the nav (`partials/nav.njk` macro), footer
+(`partials/footer.njk` macro), universal `<head>` bits (`partials/head-common.njk`), the
+`window.__T__`/`window.__LANG__` handoff, and the skip-to-content link. A page-specific `<title>`,
+meta tags, Tailwind delivery, and JSON-LD live in that page's own `{% block %}` fills — see
+`base.njk`'s header comment for the full list of blocks.
+
+**To change a nav link or footer link:** edit `src/_data/nav.js` (nav) or flag/unflag a service with
+`footer: true` in `src/_data/services.js` (footer services column) — never edit a template's markup
+directly, or the four pages will drift again.
+
+**hreflang blocks are intentionally NOT unified** — each page's `{% block metaTags %}` builds its
+own, because the URL suffix differs per page type (`/{{code}}/`, `/{{code}}/blog/`,
+`/{{code}}/blog/{{slug}}/`, `/{{code}}/privacy/`) and a blog post's hreflang must additionally
+filter to locales it's actually translated into. Don't try to further-abstract this without a
+real second use case.
 
 ## Canonical Facts
 
@@ -193,25 +218,19 @@ prints blank. The privacy policy uses this; marketing sections intentionally do 
 
 ## Version Management & Releases (CRITICAL)
 
-`sw.js` precaches assets cache-first; HTML is network-first. Stale-cache bugs are invisible locally and hit returning visitors — historically this broke the glasses animation (SW served a pre-animation `styles.css`). The defense is **versioned URLs that must stay in sync**:
+`sw.js` (generated from `src/sw.njk`) precaches assets cache-first; HTML is network-first. Stale-cache bugs are invisible locally and hit returning visitors — historically this broke the glasses animation (SW served a pre-animation `styles.css`).
 
-| Constant in sw.js | Must match `?v=` on | Where |
-|---|---|---|
-| `CSS_VERSION` | `/styles.css?v=…` | src/index.njk (preload + stylesheet), both blog templates |
-| `TAILWIND_VERSION` | `/tailwind.css?v=…` | both blog templates |
-| `CACHE_VERSION` | — (cache name) | bump on ANY asset change; purges all SW caches for all users |
-| (literal in ASSETS_TO_CACHE) | `/script.js?v=…`, `/vision-test.js?v=…`, `/vision-disorders.js?v=…` | src/index.njk script tags |
+**Every `?v=` version and the SW's `CACHE_VERSION` now come from one file: `src/_data/assets.js`.** There is nothing to cross-check by hand anymore — `src/sw.njk` and every template's `<head>`/`<script>` tags all read the same object, so a mismatch is no longer possible. Previously this required a manual `grep -rhoE '\?v=[0-9.]+' src/ sw.js | sort | uniq -c` before every deploy; that check is now redundant (each asset name appears with exactly one version by construction) but still useful as a sanity confirmation.
 
 **Rules:**
-- Edit `styles.css` → bump `CSS_VERSION` + all `?v=` on styles.css links + `CACHE_VERSION`
-- Edit `tailwind.config.js`/`tailwind.input.css` → bump `TAILWIND_VERSION` + blog `?v=` + `CACHE_VERSION`
-- Edit any JS → bump its `?v=` in src/index.njk AND the matching entry in `ASSETS_TO_CACHE`, + `CACHE_VERSION`
-- Edit `blog/blog.js` or `assets/icons.svg` (unversioned URLs, precached) → bump `CACHE_VERSION`
-- **The `?v=` strings in `ASSETS_TO_CACHE` must equal the ones in HTML exactly** — SW cache matching includes the query string; a mismatch silently turns precache entries into dead weight
-- Before deploy, cross-check: `grep -rhoE '\?v=[0-9.]+' src/ sw.js | sort | uniq -c`
+- Edit `styles.css` → bump `assets.css` and `assets.cache` in `src/_data/assets.js`
+- Edit `tailwind.config.js`/`tailwind.input.css` → bump `assets.tailwind` and `assets.cache`
+- Edit any JS (`script.js`, `vision-test.js`, `vision-disorders.js`) → bump that file's entry in `assets.js` and `assets.cache`
+- Edit `blog/blog.js` or `assets/icons.svg` (unversioned URLs, precached) → bump `assets.cache` only
+- Edit `blog/blog.css` → bump `assets.blogCss` and `assets.cache`
+- `npm run build` regenerates `_site/sw.js` from `src/sw.njk` automatically — there is no separate SW file to remember to edit
 
-Current release: 1.6.0 (CACHE/CSS/TAILWIND), script.js 1.2.1, vision-test.js/vision-disorders.js 1.1.0.
-Note `/blog/blog.css?v=…` is versioned too and must match between the blog/privacy templates and `ASSETS_TO_CACHE`.
+Current release: assets.js `cache` 1.7.0, `css`/`tailwind`/`blogCss` 1.6.0, `script` 1.2.1, `visionTest`/`visionDisorders` 1.1.0.
 
 ## Netlify Configuration
 
