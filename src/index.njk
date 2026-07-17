@@ -462,7 +462,11 @@ eleventyComputed:
                     <picture>
                         <source srcset="/assets/images/about-1.webp" type="image/webp">
                         <img src="/assets/images/about-1.jpg"
-                             alt="Dr. Sitora Karimova - Board certified ophthalmologist with 8 years experience at her Dushanbe eye care clinic"
+                             {#- Alt describes the image; it is not ad copy. This previously
+                                 read "Board certified ophthalmologist with 8 years experience"
+                                 — a third spelling of the credential claim removed elsewhere,
+                                 plus a hardcoded year count that had already gone stale. -#}
+                             alt="Dr. Sitora Karimova at her ophthalmology practice in Dushanbe"
                              loading="lazy"
                              width="800"
                              height="600"
@@ -538,7 +542,9 @@ eleventyComputed:
                 <div class="relative">
                     <div class="w-64 h-64 bg-navy-900 rounded-full flex items-center justify-center">
                         <div class="text-center text-white">
-                            <div class="text-5xl font-light mb-2">8+</div>
+                            {#- Derived from site.js (buildYear - 2017). data-count-to feeds script.js's
+                                counter so the number lives in exactly one place. -#}
+                            <div class="text-5xl font-light mb-2" data-count-to="{{ site.yearsExperience }}">{{ site.yearsExperience }}+</div>
                             <div class="text-sm uppercase tracking-wider text-white/70" data-i18n="stats.years">{{ t.stats.years | safe }}</div>
                         </div>
                     </div>
@@ -976,7 +982,7 @@ eleventyComputed:
             </div>
 
             <div class="border-t border-gray-200 pt-8">
-                <p class="text-sm text-center font-light" data-i18n="footer.copyright">{{ t.footer.copyright | replace("{year}", site.buildYear) | safe }}</p>
+                <p class="text-sm text-center font-light" data-i18n="footer.copyright">{{ t.footer.copyright | safe }}</p>
             </div>
         </div>
     </footer>

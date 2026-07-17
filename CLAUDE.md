@@ -160,7 +160,12 @@ category — a known content/services mismatch, flagged for the owner.)
   no stars, and a manual-action risk. Ratings must come from the Google Business Profile.
 - Credentials must be verifiable. Do not reintroduce "Board Certified" / "Fellow, American
   Academy of Ophthalmology" — the AAO does not board-certify (that's the American Board of
-  Ophthalmology), and this is a YMYL medical site.
+  Ophthalmology), and this is a YMYL medical site. It had been written three ways
+  ("Board Certified", "Board-certified", "Board certified") in locales, schema and an image
+  `alt` — **grep case-insensitively** (`grep -riE 'board[- ]?certif'`) before declaring it gone.
+  The AAO mentions in blog posts are legitimate *citations* of its guidance and should stay.
+- **`alt` text describes the image; it is not ad copy.** The About photo's alt carried both the
+  credential claim and a hardcoded year count. Keep alt descriptive.
 
 ## Canonical Facts
 
@@ -171,8 +176,13 @@ category — a known content/services mismatch, flagged for the owner.)
   get real git commit dates via `src/_data/lastmod.js`, and the tag is omitted when git can't
   say. Stamping build time makes every deploy claim every page changed, which teaches Google to
   ignore `lastmod` sitewide — including where it's accurate.
-- **Footer copyright year is dynamic** via `site.buildYear` + the `{year}` placeholder in
-  `footer.copyright`. Never hardcode a year back into the locale strings.
+- **Numbers that change with the calendar are derived, never typed.** `src/_data/site.js` owns
+  them; `src/_data/locales.js` substitutes them into every locale string in one pass:
+  `{year}` → `site.buildYear` (footer copyright) and `{years}` → `site.yearsExperience`
+  (`buildYear - 2017`, used in meta description, schema description, about copy, credential
+  list and the stats circle). The stats counter reads its target from `data-count-to` in the
+  markup rather than hardcoding it. Both had already rotted in production ("© 2025", "8+ years"
+  when it was nine) — do not hardcode either back into the JSON, templates or script.js.
 
 ## Scroll-reveal opt-out
 

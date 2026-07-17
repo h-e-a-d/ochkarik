@@ -1,9 +1,9 @@
 {
   "meta": {
     "title": "Ophthalmologist in Dushanbe — Dr. Sitora Karimova",
-    "description": "Comprehensive eye exams, prescription glasses and contact lenses in Dushanbe. 8+ years experience. Located inside Osse Optical, Bekhzod Street 14. +992 108 11 80 80",
+    "description": "Comprehensive eye exams, prescription glasses and contact lenses in Dushanbe. {years}+ years experience. Located inside Osse Optical, Bekhzod Street 14. +992 108 11 80 80",
     "ogTitle": "Dr. Sitora Karimova — Ophthalmologist in Dushanbe",
-    "schemaDescription": "Ophthalmologist in Dushanbe with 8+ years of experience. Comprehensive eye examinations, glasses and contact lens fitting, dry eye management and ongoing follow-up care. Located inside Osse Optical — get your prescription filled same-day."
+    "schemaDescription": "Ophthalmologist in Dushanbe with {years}+ years of experience. Comprehensive eye examinations, glasses and contact lens fitting, dry eye management and ongoing follow-up care. Located inside Osse Optical — get your prescription filled same-day."
   },
   "nav": {
     "home": "Home",
@@ -79,11 +79,11 @@
   "about": {
     "subtitle": "Meet Dr. Karimova",
     "title": "Excellence in ophthalmology since 2017",
-    "description1": "Dr. Sitora Karimova brings 8 years of specialized experience in comprehensive eye care. She holds a diploma in medicine from Avicenna Tajik State Medical University and combines cutting-edge technology with a patient-first philosophy.",
+    "description1": "Dr. Sitora Karimova brings {years} years of specialized experience in comprehensive eye care. She holds a diploma in medicine from Avicenna Tajik State Medical University and combines cutting-edge technology with a patient-first philosophy.",
     "description2": "Her practice focuses on delivering personalized consultation that address each patient's unique needs, ensuring optimal vision outcomes and long-term eye health.",
     "credential1": "Diploma in Medicine — Avicenna Tajik State Medical University",
     "credential2": "Specialist in comprehensive eye exams & optical correction",
-    "credential3": "8+ Years Clinical Experience"
+    "credential3": "{years}+ Years Clinical Experience"
   },
   "stats": {
     "years": "Years of<br>Experience"

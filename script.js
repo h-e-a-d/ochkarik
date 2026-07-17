@@ -358,7 +358,12 @@ document.addEventListener('DOMContentLoaded', function() {
                 if (entry.isIntersecting) {
                     const numberElement = statsCircle.querySelector('.text-5xl');
                     if (numberElement) {
-                        animateCounter(numberElement, 8, 2000);
+                        // Target comes from the markup (data-count-to), which is
+                        // rendered from site.yearsExperience. Hardcoding it here
+                        // meant the counter animated to a stale "8" while the
+                        // rest of the page had moved on.
+                        const target = parseInt(numberElement.dataset.countTo, 10);
+                        animateCounter(numberElement, Number.isFinite(target) ? target : 0, 2000);
                     }
                     statsObserver.unobserve(entry.target);
                 }
