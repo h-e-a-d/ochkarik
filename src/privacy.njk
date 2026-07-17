@@ -9,18 +9,13 @@ eleventyComputed:
 ---
 {%- set t = locales[lang].strings -%}
 {%- set pr = t.privacy -%}
-{%- set isHome = false -%}
-{%- set navVariant = 'solid' -%}
-{%- set bodyClass = 'font-light text-gray-700 bg-white' -%}
-{%- set langSwitcherLinks = [] -%}
-{%- for code, loc in locales -%}
-{%- set _ = langSwitcherLinks.push({ code: code, name: loc.name, href: '/' + code + '/privacy/' }) -%}
-{%- endfor -%}
-{% extends "layouts/base.njk" %}
+<!DOCTYPE html>
+<html lang="{{ locales[lang].htmlLang }}">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes, viewport-fit=cover">
 
-{% block pageTitle %}{{ pr.metaTitle }}{% endblock %}
-
-{% block metaTags %}
+    <title>{{ pr.metaTitle }}</title>
     <meta name="description" content="{{ pr.metaDescription }}">
     <meta name="author" content="Dr. Sitora Karimova">
 
@@ -41,14 +36,23 @@ eleventyComputed:
     <meta property="og:title" content="{{ pr.metaTitle }}">
     <meta property="og:description" content="{{ pr.metaDescription }}">
     <meta property="og:locale" content="{{ locales[lang].ogLocale }}">
-    <meta property="og:image" content="https://sitorakarimi.com/assets/images/og-image.jpg">
-{% endblock %}
+    <meta property="og:image" content="https://sitorakarimi.com/assets/images/og-image.webp">
 
-{% block tailwindStyles %}
-    <link rel="stylesheet" href="/tailwind.css?v={{ assets.tailwind }}">
-{% endblock %}
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg">
 
-{% block schema %}
+    <!-- Fonts — self-hosted Montserrat (see @font-face note in styles.css). -->
+    <link rel="preload" href="/assets/fonts/montserrat-latin.woff2" as="font" type="font/woff2" crossorigin>
+    {%- if lang in ['ru', 'tj'] %}
+    <link rel="preload" href="/assets/fonts/montserrat-cyrillic.woff2" as="font" type="font/woff2" crossorigin>
+    {%- endif %}
+    {%- if lang == 'tj' %}
+    <link rel="preload" href="/assets/fonts/montserrat-cyrillic-ext.woff2" as="font" type="font/woff2" crossorigin>
+    {%- endif %}
+
+    <link rel="stylesheet" href="/tailwind.css?v=1.6.0">
+    <link rel="stylesheet" href="/styles.css?v=1.6.0">
+
+
     <!-- Structured Data: BreadcrumbList (mirrors the visible breadcrumb below) -->
     <script type="application/ld+json">
     {
@@ -70,9 +74,61 @@ eleventyComputed:
         ]
     }
     </script>
-{% endblock %}
+</head>
+<body class="font-light text-gray-700 bg-white" data-lang="{{ lang }}">
 
-{% block content %}
+    <!-- Navigation -->
+    <nav class="fixed top-0 w-full bg-navy-900 z-50 shadow-lg" id="navbar">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-20">
+                <a href="/{{ lang }}/" class="flex items-center space-x-2 hover:opacity-90 transition-opacity">
+                    <div class="w-10 h-10 bg-white rounded-full flex items-center justify-center">
+                        <svg class="svg-icon text-navy-900 text-xl" aria-hidden="true"><use href="/assets/icons.svg#fa-eye"></use></svg>
+                    </div>
+                    <span class="font-semibold text-lg text-white">Dr. Sitora Karimova</span>
+                </a>
+                <div class="hidden lg:flex items-center space-x-8">
+                    <a href="/{{ lang }}/" class="nav-link-light">{{ t.nav.home | safe }}</a>
+                    <a href="/{{ lang }}/#services" class="nav-link-light">{{ t.nav.services | safe }}</a>
+                    <a href="/{{ lang }}/blog/" class="nav-link-light">{{ t.nav.blog | safe }}</a>
+                    <a href="/{{ lang }}/#contact" class="nav-link-light">{{ t.nav.contact | safe }}</a>
+
+                    <div class="relative language-switcher">
+                        <button id="lang-btn" class="flex items-center space-x-2 text-white hover:text-coral transition-colors" aria-label="Language selector" aria-haspopup="true" aria-expanded="false">
+                            <svg class="svg-icon text-lg" aria-hidden="true"><use href="/assets/icons.svg#fa-globe"></use></svg>
+                            <span id="current-lang" class="text-sm font-medium">{{ lang | upper }}</span>
+                            <svg class="svg-icon text-xs" aria-hidden="true"><use href="/assets/icons.svg#fa-chevron-down"></use></svg>
+                        </button>
+                        <div id="lang-menu" class="hidden absolute right-0 mt-2 w-32 bg-white rounded-lg shadow-xl overflow-hidden z-50" role="menu">
+                            {%- for code, loc in locales %}
+                            <a href="/{{ code }}/privacy/" class="lang-option block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-coral hover:text-white transition-colors" role="menuitem">{{ loc.name }}</a>
+                            {%- endfor %}
+                        </div>
+                    </div>
+                </div>
+                <button class="lg:hidden text-white" id="mobile-menu-btn" aria-label="Toggle mobile menu" aria-expanded="false">
+                    <svg class="svg-icon text-2xl" aria-hidden="true"><use href="/assets/icons.svg#fa-bars"></use></svg>
+                </button>
+            </div>
+        </div>
+        <div id="mobile-menu" class="hidden lg:hidden bg-navy-900 border-t border-white/10">
+            <div class="px-4 py-3 space-y-3">
+                <a href="/{{ lang }}/" class="block nav-link-light">{{ t.nav.home | safe }}</a>
+                <a href="/{{ lang }}/#services" class="block nav-link-light">{{ t.nav.services | safe }}</a>
+                <a href="/{{ lang }}/blog/" class="block nav-link-light">{{ t.nav.blog | safe }}</a>
+                <a href="/{{ lang }}/#contact" class="block nav-link-light">{{ t.nav.contact | safe }}</a>
+                <div class="pt-3 border-t border-white/10">
+                    <p class="text-xs uppercase tracking-widest text-white/60 mb-2">{{ t.nav.language | safe }}</p>
+                    <div class="flex gap-2">
+                        {%- for code, loc in locales %}
+                        <a href="/{{ code }}/privacy/" class="lang-option-mobile flex-1 px-3 py-2 text-sm text-white bg-white/10 rounded hover:bg-coral transition-colors text-center">{{ code | upper }}</a>
+                        {%- endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
     <!-- Header -->
     <header class="pt-32 pb-12 bg-gradient-to-b from-navy-900 to-navy-800">
         <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -89,7 +145,7 @@ eleventyComputed:
     </header>
 
     <!-- Body -->
-    <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+    <main class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
         <p class="text-lg text-gray-600 leading-relaxed mb-12">{{ pr.intro }}</p>
 
         {#- .no-reveal keeps script.js's scroll-in animation off the policy text:
@@ -106,11 +162,18 @@ eleventyComputed:
                 <svg class="svg-icon mr-2" aria-hidden="true"><use href="/assets/icons.svg#fa-arrow-left"></use></svg> {{ t.nav.home | safe }}
             </a>
         </div>
-    </div>
-{% endblock %}
+    </main>
 
-{% block scripts %}
+    <!-- Footer -->
+    <footer class="bg-gray-50 text-gray-600 py-16 border-t border-gray-200">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <p class="text-sm text-center font-light">{{ t.footer.copyright | safe }}</p>
+        </div>
+    </footer>
+
     {#- script.js reads window.__T__ for the service-worker update toast; without
         it the toast would render with empty labels on this page. -#}
-    <script src="/script.js?v={{ assets.script }}" defer></script>
-{% endblock %}
+    <script>window.__T__ = {{ t | dump | safe }}; window.__LANG__ = "{{ lang }}";</script>
+    <script src="/script.js?v=1.2.1" defer></script>
+</body>
+</html>

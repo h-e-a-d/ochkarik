@@ -8,14 +8,13 @@ eleventyComputed:
   title: "{{ locales[lang].strings.meta.title }}"
 ---
 {%- set t = locales[lang].strings -%}
-{%- set isHome = true -%}
-{%- set navVariant = 'transparent' -%}
-{%- set bodyClass = 'text-gray-800' -%}
-{% extends "layouts/base.njk" %}
+<!DOCTYPE html>
+<html lang="{{ locales[lang].htmlLang }}">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes, viewport-fit=cover">
 
-{% block pageTitle %}{{ t.meta.title }}{% endblock %}
-
-{% block metaTags %}
+    <title>{{ t.meta.title }}</title>
     <meta name="description" content="{{ t.meta.description }}">
     <meta name="author" content="Dr. Sitora Karimova">
 
@@ -59,19 +58,43 @@ eleventyComputed:
     <meta property="twitter:title" content="{{ t.meta.ogTitle or t.meta.title }}">
     <meta property="twitter:description" content="{{ t.meta.description }}">
     <meta property="twitter:image" content="https://sitorakarimi.com/assets/images/og-image.jpg">
-{% endblock %}
 
-{% block stylesPreload %}
-    <!-- Preload styles.css so it fetches immediately after HTML is received -->
-    <link rel="preload" href="/styles.css?v={{ assets.css }}" as="style">
-{% endblock %}
-
-{% block tailwindStyles %}
     <!-- Tailwind CSS — inlined to eliminate render-blocking network request -->
     <style>{% inlineFile "tailwind.css" %}</style>
-{% endblock %}
 
-{% block schema %}
+    <!-- Preload styles.css so it fetches immediately after HTML is received -->
+    <link rel="preload" href="/styles.css?v=1.6.0" as="style">
+
+    <!-- Fonts — self-hosted Montserrat (see @font-face note in styles.css).
+         Preload only the subsets this locale actually renders: Latin is always
+         needed (numerals, "Osse", "Dr."), Cyrillic for ru/tg, and the
+         Tajik-specific letters (ғ ӣ қ ӯ ҳ ҷ) live in cyrillic-ext. -->
+    <link rel="preload" href="/assets/fonts/montserrat-latin.woff2" as="font" type="font/woff2" crossorigin>
+    {%- if lang in ['ru', 'tj'] %}
+    <link rel="preload" href="/assets/fonts/montserrat-cyrillic.woff2" as="font" type="font/woff2" crossorigin>
+    {%- endif %}
+    {%- if lang == 'tj' %}
+    <link rel="preload" href="/assets/fonts/montserrat-cyrillic-ext.woff2" as="font" type="font/woff2" crossorigin>
+    {%- endif %}
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+    <link rel="alternate icon" href="/favicon.svg">
+
+    <!-- Preconnect to external origins -->
+    <link rel="dns-prefetch" href="https://www.googletagmanager.com">
+
+    <!-- LCP hero image preload — mobile gets the smaller JPEG, desktop gets webp -->
+    <link rel="preload" as="image"
+          href="/assets/images/hero.webp"
+          imagesrcset="/assets/images/hero-mobile.webp 800w, /assets/images/hero.webp 1248w"
+          imagesizes="100vw"
+          fetchpriority="high">
+
+    <!-- Custom Styles -->
+    <!-- Version matches CSS_VERSION in sw.js — update both when styles.css changes -->
+    <link rel="stylesheet" href="/styles.css?v=1.6.0">
+
     <!-- Schema.org Structured Data - Enhanced with LocalBusiness and Reviews -->
     <script type="application/ld+json">
     {
@@ -243,32 +266,86 @@ eleventyComputed:
         ]
     }
     </script>
-{% endblock %}
 
-{% block headExtra %}
-    <!-- Preconnect to external origins -->
-    <link rel="dns-prefetch" href="https://www.googletagmanager.com">
+</head>
+<body class="text-gray-800">
+    <!-- Google Tag Manager (noscript) -->
+    <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-TBKDQH2B"
+    height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+    <!-- End Google Tag Manager (noscript) -->
 
-    <!-- LCP hero image preload — mobile gets the smaller JPEG, desktop gets webp -->
-    <link rel="preload" as="image"
-          href="/assets/images/hero.webp"
-          imagesrcset="/assets/images/hero-mobile.webp 800w, /assets/images/hero.webp 1248w"
-          imagesizes="100vw"
-          fetchpriority="high">
-{% endblock %}
-
-{% block gtmNoscript %}
-    {% include "partials/gtm-noscript.njk" %}
-{% endblock %}
-
-{% block bodyStart %}
     <!-- Page Loader -->
     <div class="page-loader" id="page-loader">
         <div class="loader-icon"></div>
     </div>
-{% endblock %}
 
-{% block content %}
+    <!-- Skip to Content Link (Accessibility) -->
+    <a href="#main-content" class="skip-to-content">Skip to main content</a>
+
+    <main id="main-content" tabindex="-1">
+
+    <!-- Navigation -->
+    <nav class="fixed w-full bg-transparent backdrop-blur-md z-50 transition-all" id="navbar">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-20">
+                <div class="flex items-center space-x-2">
+                    <div class="w-10 h-10 bg-white rounded-full flex items-center justify-center">
+                        <svg class="svg-icon text-navy-900 text-xl"><use href="/assets/icons.svg#fa-eye"></use></svg>
+                    </div>
+                    <span class="font-semibold text-lg text-white">Dr. Sitora Karimova</span>
+                </div>
+                <div class="hidden lg:flex items-center space-x-8">
+                    <a href="#home" class="nav-link-light" data-i18n="nav.home">{{ t.nav.home | safe }}</a>
+                    <a href="#services" class="nav-link-light" data-i18n="nav.services">{{ t.nav.services | safe }}</a>
+                    <a href="#about" class="nav-link-light" data-i18n="nav.about">{{ t.nav.about | safe }}</a>
+                    <a href="#testimonials" class="nav-link-light" data-i18n="nav.reviews">{{ t.nav.reviews | safe }}</a>
+                    <a href="#faq" class="nav-link-light" data-i18n="nav.faq">{{ t.nav.faq | safe }}</a>
+                    <a href="#contact" class="nav-link-light" data-i18n="nav.contact">{{ t.nav.contact | safe }}</a>
+                    <a href="/{{ lang }}/blog/" class="nav-link-light" data-i18n="nav.blog">{{ t.nav.blog | safe }}</a>
+
+                    <!-- Language Switcher -->
+                    <div class="relative language-switcher">
+                        <button id="lang-btn" class="flex items-center space-x-2 text-white hover:text-coral transition-colors" aria-label="Language selector" aria-haspopup="true" aria-expanded="false">
+                            <svg class="svg-icon text-lg" aria-hidden="true"><use href="/assets/icons.svg#fa-globe"></use></svg>
+                            <span id="current-lang" class="text-sm font-medium">EN</span>
+                            <svg class="svg-icon text-xs" aria-hidden="true"><use href="/assets/icons.svg#fa-chevron-down"></use></svg>
+                        </button>
+                        <div id="lang-menu" class="hidden absolute right-0 mt-2 w-32 bg-white rounded-lg shadow-xl overflow-hidden z-50" role="menu">
+                            <button data-lang="en" class="lang-option w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-coral hover:text-white transition-colors" role="menuitem">English</button>
+                            <button data-lang="ru" class="lang-option w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-coral hover:text-white transition-colors" role="menuitem">Русский</button>
+                            <button data-lang="tj" class="lang-option w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-coral hover:text-white transition-colors" role="menuitem">Тоҷикӣ</button>
+                        </div>
+                    </div>
+                </div>
+                <button class="lg:hidden text-white" id="mobile-menu-btn" aria-label="Toggle mobile menu" aria-expanded="false">
+                    <svg class="svg-icon text-2xl" aria-hidden="true"><use href="/assets/icons.svg#fa-bars"></use></svg>
+                </button>
+            </div>
+        </div>
+        <!-- Mobile Menu -->
+        <div id="mobile-menu" class="hidden lg:hidden bg-navy-900 border-t border-white/10">
+            <div class="px-4 py-2 space-y-0">
+                <a href="#home" class="block nav-link-light" data-i18n="nav.home">{{ t.nav.home | safe }}</a>
+                <a href="#services" class="block nav-link-light" data-i18n="nav.services">{{ t.nav.services | safe }}</a>
+                <a href="#about" class="block nav-link-light" data-i18n="nav.about">{{ t.nav.about | safe }}</a>
+                <a href="#testimonials" class="block nav-link-light" data-i18n="nav.reviews">{{ t.nav.reviews | safe }}</a>
+                <a href="#faq" class="block nav-link-light" data-i18n="nav.faq">{{ t.nav.faq | safe }}</a>
+                <a href="#contact" class="block nav-link-light" data-i18n="nav.contact">{{ t.nav.contact | safe }}</a>
+                <a href="/{{ lang }}/blog/" class="block nav-link-light" data-i18n="nav.blog">{{ t.nav.blog | safe }}</a>
+
+                <!-- Mobile Language Switcher -->
+                <div class="pt-3 border-t border-white/10">
+                    <p class="text-xs uppercase tracking-widest text-white/80 mb-2" data-i18n="nav.language">{{ t.nav.language | safe }}</p>
+                    <div class="flex gap-2">
+                        <button data-lang="en" class="lang-option-mobile flex-1 px-3 py-2 text-sm text-white bg-white/10 rounded hover:bg-coral transition-colors">EN</button>
+                        <button data-lang="ru" class="lang-option-mobile flex-1 px-3 py-2 text-sm text-white bg-white/10 rounded hover:bg-coral transition-colors">RU</button>
+                        <button data-lang="tj" class="lang-option-mobile flex-1 px-3 py-2 text-sm text-white bg-white/10 rounded hover:bg-coral transition-colors">TJ</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
     <!-- Hero Section -->
     <section id="home" class="relative h-screen flex items-center justify-center overflow-hidden">
         <!-- Background Image -->
@@ -851,12 +928,70 @@ eleventyComputed:
         </div>
     </section>
 
-{% endblock %}
+    </main><!-- /#main-content -->
 
-{% block scripts %}
-    <script src="/script.js?v={{ assets.script }}" defer></script>
-    <script src="/vision-test.js?v={{ assets.visionTest }}" defer></script>
-    <script src="/vision-disorders.js?v={{ assets.visionDisorders }}" defer></script>
+    <!-- Footer -->
+    <footer class="bg-gray-50 text-gray-600 py-16">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid md:grid-cols-4 gap-12 mb-12">
+                <!-- Column 1 -->
+                <div>
+                    <h3 class="font-medium text-navy-900 mb-4">Sitora Karimova</h3>
+                    <p class="text-sm font-light" data-i18n="footer.tagline">{{ t.footer.tagline | safe }}</p>
+                </div>
+
+                <!-- Column 2 -->
+                <div>
+                    <h3 class="font-medium text-navy-900 mb-4" data-i18n="footer.servicesTitle">{{ t.footer.servicesTitle | safe }}</h3>
+                    <ul class="space-y-2 text-sm font-light">
+                        <li><a href="#service-comprehensive" class="hover:text-coral transition-colors" data-i18n="footer.eyeExams">{{ t.footer.eyeExams | safe }}</a></li>
+                        <li><a href="#service-prescription-glasses" class="hover:text-coral transition-colors" data-i18n="footer.glasses">{{ t.footer.glasses | safe }}</a></li>
+                        <li><a href="#service-contacts" class="hover:text-coral transition-colors" data-i18n="footer.contacts">{{ t.footer.contacts | safe }}</a></li>
+                        <li><a href="#service-dry-eye" class="hover:text-coral transition-colors" data-i18n="footer.dryeye">{{ t.footer.dryeye | safe }}</a></li>
+                        <li><a href="#service-followup" class="hover:text-coral transition-colors" data-i18n="footer.followup">{{ t.footer.followup | safe }}</a></li>
+                    </ul>
+                </div>
+
+                <!-- Column 3 -->
+                <div>
+                    <h3 class="font-medium text-navy-900 mb-4" data-i18n="footer.infoTitle">{{ t.footer.infoTitle | safe }}</h3>
+                    <ul class="space-y-2 text-sm font-light">
+                        <li><a href="#about" class="hover:text-coral transition-colors" data-i18n="footer.about">{{ t.footer.about | safe }}</a></li>
+                        <li><a href="#testimonials" class="hover:text-coral transition-colors" data-i18n="footer.reviews">{{ t.footer.reviews | safe }}</a></li>
+                        <li><a href="/{{ lang }}/blog/" class="hover:text-coral transition-colors" data-i18n="nav.blog">{{ t.nav.blog | safe }}</a></li>
+                        <li><a href="#contact" class="hover:text-coral transition-colors" data-i18n="footer.contact">{{ t.footer.contact | safe }}</a></li>
+                        <li><a href="/{{ lang }}/privacy/" class="hover:text-coral transition-colors" data-i18n="footer.privacy">{{ t.footer.privacy | safe }}</a></li>
+                    </ul>
+                </div>
+
+                <!-- Column 4 -->
+                <div>
+                    <h3 class="font-medium text-navy-900 mb-4" data-i18n="footer.connect">{{ t.footer.connect | safe }}</h3>
+                    <div class="flex space-x-4">
+                        <a href="https://www.facebook.com/sitorakarimi" target="_blank" rel="noopener noreferrer" aria-label="Facebook" class="text-gray-400 hover:text-coral transition-colors">
+                            <svg class="svg-icon text-xl" aria-hidden="true"><use href="/assets/icons.svg#fa-facebook"></use></svg>
+                        </a>
+                        <a href="https://www.instagram.com/dr.sitora.karimova/" target="_blank" rel="noopener noreferrer" aria-label="Instagram" class="text-gray-400 hover:text-coral transition-colors">
+                            <svg class="svg-icon text-xl" aria-hidden="true"><use href="/assets/icons.svg#fa-instagram"></use></svg>
+                        </a>
+                        <a href="https://www.linkedin.com/in/sitorakarimi" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn" class="text-gray-400 hover:text-coral transition-colors">
+                            <svg class="svg-icon text-xl" aria-hidden="true"><use href="/assets/icons.svg#fa-linkedin"></use></svg>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="border-t border-gray-200 pt-8">
+                <p class="text-sm text-center font-light" data-i18n="footer.copyright">{{ t.footer.copyright | safe }}</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- JavaScript -->
+    <script>window.__T__ = {{ t | dump | safe }}; window.__LANG__ = "{{ lang }}";</script>
+    <script src="/script.js?v=1.2.1" defer></script>
+    <script src="/vision-test.js?v=1.1.0" defer></script>
+    <script src="/vision-disorders.js?v=1.1.0" defer></script>
 
     <script>
     (function () {
@@ -1280,8 +1415,24 @@ eleventyComputed:
       else init();
     })();
     </script>
-{% endblock %}
 
-{% block bodyEndExtra %}
-    {% include "partials/gtm-loader.njk" %}
-{% endblock %}
+    <!-- Google Tag Manager (idle-deferred to avoid blocking LCP/FCP) -->
+    <script>
+    window.dataLayer = window.dataLayer || [];
+    window.dataLayer.push({'gtm.start': new Date().getTime(), event: 'gtm.js'});
+    function _loadGTM() {
+        var f = document.getElementsByTagName('script')[0],
+            j = document.createElement('script');
+        j.async = true;
+        j.src = 'https://www.googletagmanager.com/gtm.js?id=GTM-TBKDQH2B';
+        f.parentNode.insertBefore(j, f);
+    }
+    if ('requestIdleCallback' in window) {
+        requestIdleCallback(_loadGTM, { timeout: 4000 });
+    } else {
+        setTimeout(_loadGTM, 3500);
+    }
+    </script>
+    <!-- End Google Tag Manager -->
+</body>
+</html>
