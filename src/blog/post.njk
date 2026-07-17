@@ -60,10 +60,11 @@ eleventyComputed:
     <meta property="og:site_name" content="Dr. Sitora Karimova Ophthalmology">
     <meta property="og:title" content="{{ p.title }}">
     <meta property="og:description" content="{{ p.metaDescription }}">
-    <meta property="og:locale" content="{{ locales[lang].htmlLang }}">
-    {%- if post.image %}
-    <meta property="og:image" content="https://sitorakarimi.com{{ post.image }}">
-    {%- endif %}
+    {#- og:locale wants a territory code (ru_RU), not a bare language tag. -#}
+    <meta property="og:locale" content="{{ locales[lang].ogLocale }}">
+    {#- Fall back to the site OG image so a post without its own art still
+        unfurls as a card rather than a bare link. -#}
+    <meta property="og:image" content="https://sitorakarimi.com{{ post.image | default('/assets/images/og-image.jpg') }}">
     <meta property="article:published_time" content="{{ post.date }}">
     <meta property="article:author" content="{{ post.author | default('Dr. Sitora Karimova') }}">
     {%- if post.category %}
@@ -77,29 +78,42 @@ eleventyComputed:
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="{{ p.title }}">
     <meta name="twitter:description" content="{{ p.metaDescription }}">
-    {%- if post.image %}
-    <meta name="twitter:image" content="https://sitorakarimi.com{{ post.image }}">
-    {%- endif %}
+    <meta name="twitter:image" content="https://sitorakarimi.com{{ post.image | default('/assets/images/og-image.jpg') }}">
 
     <!-- Favicon -->
     <link rel="icon" type="image/svg+xml" href="/favicon.svg">
 
+    <!-- Fonts — self-hosted Montserrat (see @font-face note in styles.css).
+         Preload only the subsets this locale actually renders. -->
+    <link rel="preload" href="/assets/fonts/montserrat-latin.woff2" as="font" type="font/woff2" crossorigin>
+    {%- if lang in ['ru', 'tj'] %}
+    <link rel="preload" href="/assets/fonts/montserrat-cyrillic.woff2" as="font" type="font/woff2" crossorigin>
+    {%- endif %}
+    {%- if lang == 'tj' %}
+    <link rel="preload" href="/assets/fonts/montserrat-cyrillic-ext.woff2" as="font" type="font/woff2" crossorigin>
+    {%- endif %}
+
     <!-- Tailwind CSS (pre-built) -->
-    <link rel="stylesheet" href="/tailwind.css?v=1.5.0">
+    <link rel="stylesheet" href="/tailwind.css?v=1.6.0">
 
     <!-- Styles -->
     <!-- Version matches CSS_VERSION in sw.js — update both when styles.css changes -->
-    <link rel="stylesheet" href="/styles.css?v=1.5.0">
-    <link rel="stylesheet" href="/blog/blog.css">
+    <link rel="stylesheet" href="/styles.css?v=1.6.0">
+    <link rel="stylesheet" href="/blog/blog.css?v=1.6.0">
 
     <!-- Structured Data: Article -->
     <script type="application/ld+json">
     {
         "@context": "https://schema.org",
         "@type": "Article",
-        "headline": "{{ p.title }}",
-        "description": "{{ p.metaDescription }}",
+        {#- Values are injected with `| dump | safe` (which emits its own quotes).
+            A raw "{{ p.title }}" breaks the whole JSON-LD block the moment a
+            title contains a double quote — Nunjucks autoescape would turn it
+            into &quot;, which is not valid JSON either. -#}
+        "headline": {{ p.title | dump | safe }},
+        "description": {{ p.metaDescription | dump | safe }},
         "datePublished": "{{ post.date }}",
+        "dateModified": "{{ post.updated | default(post.date) }}",
         "url": "https://sitorakarimi.com/{{ lang }}/blog/{{ post.slug }}/",
         "inLanguage": "{{ locales[lang].htmlLang }}",
         {%- if post.image %}
@@ -107,19 +121,61 @@ eleventyComputed:
         {%- endif %}
         "author": {
             "@type": "Person",
-            "name": "{{ post.author | default('Dr. Sitora Karimova') }}",
+            "name": {{ post.author | default('Dr. Sitora Karimova') | dump | safe }},
             "jobTitle": "Ophthalmologist",
             "url": "https://sitorakarimi.com/{{ lang }}/"
         },
+        {%- if post.category %}
+        "articleSection": {{ (t.blog.categories[post.category] or post.category) | dump | safe }},
+        {%- endif %}
+        {%- if post.tags and post.tags.length %}
+        "keywords": {{ post.tags | join(", ") | dump | safe }},
+        {%- endif %}
+        {%- if post.source and post.source.url %}
+        "citation": {{ post.source.url | dump | safe }},
+        {%- endif %}
         "publisher": {
             "@type": "Organization",
             "name": "Dr. Sitora Karimova Ophthalmology",
-            "url": "https://sitorakarimi.com"
+            "url": "https://sitorakarimi.com",
+            {#- Google's Article guidance asks for a publisher logo. -#}
+            "logo": {
+                "@type": "ImageObject",
+                "url": "https://sitorakarimi.com/assets/images/og-image.jpg"
+            }
         },
         "mainEntityOfPage": {
             "@type": "WebPage",
             "@id": "https://sitorakarimi.com/{{ lang }}/blog/{{ post.slug }}/"
         }
+    }
+    </script>
+
+    <!-- Structured Data: BreadcrumbList (mirrors the visible breadcrumb below) -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+            {
+                "@type": "ListItem",
+                "position": 1,
+                "name": {{ t.nav.home | striptags | dump | safe }},
+                "item": "https://sitorakarimi.com/{{ lang }}/"
+            },
+            {
+                "@type": "ListItem",
+                "position": 2,
+                "name": {{ t.nav.blog | striptags | dump | safe }},
+                "item": "https://sitorakarimi.com/{{ lang }}/blog/"
+            },
+            {
+                "@type": "ListItem",
+                "position": 3,
+                "name": {{ p.title | striptags | dump | safe }},
+                "item": "https://sitorakarimi.com/{{ lang }}/blog/{{ post.slug }}/"
+            }
+        ]
     }
     </script>
 </head>
@@ -246,7 +302,12 @@ eleventyComputed:
         {%- if post.image %}
         <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 -mt-6">
             <div class="rounded-lg overflow-hidden shadow-lg">
-                <img src="{{ post.image }}" alt="{{ p.title }}" class="w-full h-auto"
+                {#- .blog-hero-img pins a 16/9 box via CSS aspect-ratio so the
+                    slot is reserved before the image decodes (no CLS). Source
+                    images vary slightly (1376x768, 1408x768), so a CSS ratio +
+                    object-fit:cover is more reliable than per-post attributes. -#}
+                <img src="{{ post.image }}" alt="{{ p.title }}" class="w-full blog-hero-img"
+                     width="1376" height="768" fetchpriority="high"
                      onerror="this.parentElement.style.display='none'">
             </div>
         </div>
@@ -275,6 +336,22 @@ eleventyComputed:
             </div>
             {%- endif %}
 
+            {#- Conversion + internal-linking block. Before this, blog posts linked
+                back into the site only via the nav/footer chrome — every article
+                page had no contextual link to services or contact, and a plain
+                tel: number as the only call to action. -#}
+            <aside class="blog-cta mt-12">
+                <h2 class="blog-cta-heading">{{ t.blog.ctaHeading | safe }}</h2>
+                <p class="blog-cta-text">{{ t.blog.ctaText | safe }}</p>
+                {#- White-on-navy, not .btn-navy/.btn-outline: this block's
+                    background is the navy gradient, so a navy button would be
+                    invisible against it. -#}
+                <div class="blog-cta-actions">
+                    <a href="/{{ lang }}/#contact" class="btn-white">{{ t.blog.ctaButton | safe }}</a>
+                    <a href="/{{ lang }}/#services" class="btn-outline-white">{{ t.blog.ctaServices | safe }}</a>
+                </div>
+            </aside>
+
             <!-- Share & Back -->
             <div class="mt-12 pt-8 border-t border-gray-200 flex flex-wrap items-center justify-between gap-4">
                 <a href="/{{ lang }}/blog/" class="inline-flex items-center text-sm font-medium text-navy-900 hover:text-coral transition-colors">
@@ -297,6 +374,37 @@ eleventyComputed:
                 </div>
             </div>
         </div>
+        {#- Related posts — ranked in src/_data/blogPages.js (shared category, then
+            shared tags, then recency). Always same-language: `related` is built
+            per locale and only includes posts translated into it. -#}
+        {%- if item.related and item.related.length %}
+        <section class="bg-gray-50 border-t border-gray-200 py-16">
+            <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+                <h2 class="text-2xl font-medium text-navy-900 mb-8">{{ t.blog.relatedTitle | safe }}</h2>
+                <div class="grid gap-6 md:grid-cols-3">
+                    {%- for r in item.related %}
+                    {%- set rp = r[lang] %}
+                    <article class="blog-card bg-white rounded-lg overflow-hidden shadow-sm hover:shadow-lg transition-all duration-300">
+                        {%- if r.image %}
+                        <a href="/{{ lang }}/blog/{{ r.slug }}/" class="block overflow-hidden" tabindex="-1" aria-hidden="true">
+                            <img src="{{ r.image }}" alt="" loading="lazy" width="1376" height="768"
+                                 class="w-full blog-hero-img">
+                        </a>
+                        {%- endif %}
+                        <div class="p-5">
+                            {%- if r.category %}
+                            <span class="blog-category text-xs uppercase tracking-wider font-medium text-coral">{{ t.blog.categories[r.category] | default(r.category) | safe }}</span>
+                            {%- endif %}
+                            <h3 class="text-base font-medium text-navy-900 mt-2 leading-snug">
+                                <a href="/{{ lang }}/blog/{{ r.slug }}/" class="hover:text-coral transition-colors">{{ rp.title | safe }}</a>
+                            </h3>
+                        </div>
+                    </article>
+                    {%- endfor %}
+                </div>
+            </div>
+        </section>
+        {%- endif %}
     </article>
 
     <!-- Footer -->
@@ -332,7 +440,7 @@ eleventyComputed:
                 </div>
             </div>
             <div class="border-t border-gray-200 pt-8">
-                <p class="text-sm text-center font-light">{{ t.footer.copyright | safe }}</p>
+                <p class="text-sm text-center font-light">{{ t.footer.copyright | replace("{year}", site.buildYear) | safe }}</p>
             </div>
         </div>
     </footer>

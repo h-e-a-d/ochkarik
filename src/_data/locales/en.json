@@ -2,7 +2,8 @@
   "meta": {
     "title": "Ophthalmologist in Dushanbe — Dr. Sitora Karimova",
     "description": "Comprehensive eye exams, prescription glasses and contact lenses in Dushanbe. 8+ years experience. Located inside Osse Optical, Bekhzod Street 14. +992 108 11 80 80",
-    "ogTitle": "Dr. Sitora Karimova — Ophthalmologist in Dushanbe"
+    "ogTitle": "Dr. Sitora Karimova — Ophthalmologist in Dushanbe",
+    "schemaDescription": "Ophthalmologist in Dushanbe with 8+ years of experience. Comprehensive eye examinations, glasses and contact lens fitting, dry eye management and ongoing follow-up care. Located inside Osse Optical — get your prescription filled same-day."
   },
   "nav": {
     "home": "Home",
@@ -65,15 +66,23 @@
     "contactsAndTreatment": {
       "title": "Contact Lenses & Treatment",
       "description": "Professional fitting and care: daily disposable, monthly replacement, toric lenses for astigmatism, multifocal lenses. Treatment and patient management for conjunctivitis, dry eye syndrome, accommodation spasm, and visual fatigue. Prevention for high visual load (computer work, driving). Complete training and medication management."
+    },
+    "dryEye": {
+      "title": "Dry Eye Management",
+      "description": "Assessment and treatment of dry eye syndrome: tear film evaluation, identifying the cause (screen work, contact lens wear, climate, medication), and a personalised therapy plan — lubricating drops, lid hygiene and habit changes. A follow-up visit confirms the treatment is working."
+    },
+    "ongoingCare": {
+      "title": "Ongoing Care and Follow-Up",
+      "description": "Continuous monitoring for chronic and progressive conditions — glaucoma, diabetic and hypertensive retinopathy, progressive myopia, accommodation disorders. Scheduled repeat examinations track how your eyes change over time, so glasses, lenses or therapy can be adjusted before problems develop."
     }
   },
   "about": {
     "subtitle": "Meet Dr. Karimova",
     "title": "Excellence in ophthalmology since 2017",
-    "description1": "Dr. Sitora Karimova brings 8 years of specialized experience in comprehensive eye care. Trained at Avicenna Tajik State Medical University, she combines cutting-edge technology with a patient-first philosophy.",
+    "description1": "Dr. Sitora Karimova brings 8 years of specialized experience in comprehensive eye care. She holds a diploma in medicine from Avicenna Tajik State Medical University and combines cutting-edge technology with a patient-first philosophy.",
     "description2": "Her practice focuses on delivering personalized consultation that address each patient's unique needs, ensuring optimal vision outcomes and long-term eye health.",
-    "credential1": "Board Certified Ophthalmologist",
-    "credential2": "Fellow, American Academy of Ophthalmology",
+    "credential1": "Diploma in Medicine — Avicenna Tajik State Medical University",
+    "credential2": "Specialist in comprehensive eye exams & optical correction",
     "credential3": "8+ Years Clinical Experience"
   },
   "stats": {
@@ -187,14 +196,13 @@
     "contacts": "Contact Lenses",
     "dryeye": "Dry Eye Management",
     "followup": "Ongoing Care and Follow-Up",
-    "pediatric": "Children's Eye Care",
     "infoTitle": "Information",
     "about": "About",
     "reviews": "Reviews",
     "contact": "Contact",
     "privacy": "Privacy Policy",
     "connect": "Connect",
-    "copyright": "© 2025 Sitora Karimova Ophthalmology. All rights reserved."
+    "copyright": "© {year} Sitora Karimova Ophthalmology. All rights reserved."
   },
   "blog": {
     "metaTitle": "Eye Health Blog — Dr. Sitora Karimova",
@@ -217,10 +225,48 @@
       "pediatric": "Pediatric",
       "technology": "Technology",
       "lifestyle": "Lifestyle"
-    }
+    },
+    "relatedTitle": "Related articles",
+    "ctaHeading": "Have a question about your eyes?",
+    "ctaText": "Book a comprehensive eye examination with Dr. Karimova — inside Osse Optical, Bekhzod Street 14, Dushanbe.",
+    "ctaButton": "Book an appointment",
+    "ctaServices": "See all services"
   },
   "swUpdate": {
     "message": "The site has been updated",
     "refresh": "Refresh"
+  },
+  "privacy": {
+    "metaTitle": "Privacy Policy — Dr. Sitora Karimova",
+    "metaDescription": "How sitorakarimi.com handles data: what is collected, which analytics and third-party services are used, and how to reach us.",
+    "title": "Privacy Policy",
+    "lastUpdated": "Last updated: 17 July 2026",
+    "intro": "This website is operated by the ophthalmology practice of Dr. Sitora Karimova, located inside Osse Optical at Bekhzod Street 14, Dushanbe, Tajikistan. This page explains what information the site collects and how it is used. In short: there are no accounts, no booking forms, and no medical information is collected here.",
+    "sections": [
+      {
+        "heading": "Information we collect",
+        "body": "<p>This website does not ask you to create an account and has no contact or booking form. We do not collect your name, phone number, email address, or any medical information through this site.</p><p>When you visit, our analytics provider automatically records standard technical data: pages viewed, approximate location (city level), referring website, device type, browser and language. This data is aggregated and is not used to identify you personally.</p>"
+      },
+      {
+        "heading": "Cookies and analytics",
+        "body": "<p>We use Google Analytics, loaded through Google Tag Manager, to understand which pages are useful to visitors. It stores cookies in your browser to recognise repeat visits. You can block these through your browser settings or a content blocker — the website works normally without them.</p><p>We do not use advertising or retargeting cookies.</p>"
+      },
+      {
+        "heading": "Interactive vision tools",
+        "body": "<p>The vision test and the vision disorder simulator run entirely inside your browser. Your answers and results are never sent to us and are never stored — they disappear as soon as you reload the page. These tools are educational and are not a medical diagnosis.</p>"
+      },
+      {
+        "heading": "Third-party services",
+        "body": "<p>Parts of this site are provided by third parties, which may receive your IP address when their content loads:</p><ul><li><strong>Google Maps</strong> — the embedded clinic map.</li><li><strong>Google Tag Manager / Google Analytics</strong> — usage statistics.</li><li><strong>Cloudflare CDN</strong> — icon fonts.</li></ul><p>Text fonts are served from our own server, so no font provider receives your data.</p>"
+      },
+      {
+        "heading": "If you contact us",
+        "body": "<p>If you call, message us on WhatsApp, or send an email, we receive what you send and use it only to reply to you and, where relevant, to arrange an appointment. Those conversations happen outside this website and are covered by the terms of the service you used.</p>"
+      },
+      {
+        "heading": "Your rights and how to reach us",
+        "body": "<p>You may ask what data we hold about you, ask us to delete it, or object to analytics tracking. Write to <a href=\"mailto:info@sitorakarimi.com\">info@sitorakarimi.com</a> or call <a href=\"tel:+992108118080\">+992 108 11 80 80</a>.</p><p>If this policy changes, the date at the top of this page will be updated.</p>"
+      }
+    ]
   }
 }

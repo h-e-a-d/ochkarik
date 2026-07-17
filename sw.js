@@ -3,16 +3,16 @@
 
 // Cache version - INCREMENT THIS when deploying updates
 // Format: 'v{major}.{minor}.{patch}'
-const CACHE_VERSION = '1.5.0';
+const CACHE_VERSION = '1.6.0';
 const CACHE_NAME = `sitorakarimi-${CACHE_VERSION}`;
 
 // CSS version — must match the ?v= query string on /styles.css in index.njk.
 // Update BOTH values whenever styles.css changes, then bump CACHE_VERSION.
-const CSS_VERSION = '1.5.0';
+const CSS_VERSION = '1.6.0';
 
 // Tailwind version — must match the ?v= query string on /tailwind.css in all templates.
 // Update BOTH values whenever tailwind.config.js or tailwind.input.css changes, then bump CACHE_VERSION.
-const TAILWIND_VERSION = '1.5.0';
+const TAILWIND_VERSION = '1.6.0';
 
 // Assets to cache. Per-locale pages are listed so offline visitors see their
 // language correctly. Root "/" is intentionally omitted — it 302-redirects to /ru/.
@@ -23,12 +23,18 @@ const ASSETS_TO_CACHE = [
     '/ru/',
     '/tj/',
     '/en/',
-    '/script.js?v=1.2.0',
+    '/script.js?v=1.2.1',
     '/vision-test.js?v=1.1.0',
     '/vision-disorders.js?v=1.1.0',
     `/styles.css?v=${CSS_VERSION}`,
     `/tailwind.css?v=${TAILWIND_VERSION}`,
     '/favicon.svg',
+    // Self-hosted Montserrat. Latin + Cyrillic are pre-cached because every
+    // locale needs at least one of them; cyrillic-ext is Tajik-only and
+    // latin-ext is a rarely-hit fallback, so both are left to fetch on demand
+    // (the cache-first handler below stores them on first use).
+    '/assets/fonts/montserrat-latin.woff2',
+    '/assets/fonts/montserrat-cyrillic.woff2',
     '/assets/icons.svg',
     '/assets/images/hero.webp',
     '/assets/images/about-1.jpg',
@@ -39,7 +45,7 @@ const ASSETS_TO_CACHE = [
     '/assets/images/table-ru.svg',
     '/assets/images/og-image.webp',
     '/assets/images/vision-disorders.webp',
-    '/blog/blog.css',
+    '/blog/blog.css?v=1.6.0',
     '/blog/blog.js',
     '/ru/blog/',
     '/tj/blog/',

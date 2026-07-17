@@ -233,6 +233,56 @@
     }
 }
 
+/* ---------- End-of-post CTA ---------- */
+.blog-cta {
+    background: linear-gradient(135deg, #0a2a3d 0%, #0f3d56 100%);
+    border-radius: 0.5rem;
+    padding: 2.5rem 2rem;
+    text-align: center;
+}
+
+.blog-cta-heading {
+    color: #fff;
+    font-size: 1.5rem;
+    font-weight: 300;
+    margin-bottom: 0.75rem;
+}
+
+.blog-cta-text {
+    color: rgba(255, 255, 255, 0.75);
+    font-weight: 300;
+    max-width: 34rem;
+    margin: 0 auto 1.75rem;
+}
+
+.blog-cta-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    justify-content: center;
+}
+
+@media (max-width: 640px) {
+    .blog-cta {
+        padding: 2rem 1.25rem;
+    }
+    .blog-cta-actions .btn-white,
+    .blog-cta-actions .btn-outline-white {
+        width: 100%;
+    }
+}
+
+/* ---------- Post hero image ---------- */
+/* Reserve the image slot before decode so the article text below never shifts.
+   Source images are near-16/9 but not identical (1376x768, 1408x768), so the
+   ratio is pinned in CSS and the small difference is absorbed by object-fit. */
+.blog-hero-img {
+    aspect-ratio: 16 / 9;
+    object-fit: cover;
+    display: block;
+    height: auto;
+}
+
 /* ---------- Print ---------- */
 @media print {
     .ai-translation-banner,

@@ -447,7 +447,13 @@ document.addEventListener('DOMContentLoaded', function() {
     // ===========================
     // Smooth Reveal for Elements (Optimized - Single Observer)
     // ===========================
-    const revealElements = document.querySelectorAll('section h2, section p, .btn-navy, .btn-outline');
+    // `.no-reveal` opts a section out. This matters for text the reader may
+    // print or save as PDF (e.g. the privacy policy): the reveal starts at
+    // opacity:0 and only clears once the element scrolls into view, so
+    // anything still below the fold at print time prints blank.
+    const revealElements = document.querySelectorAll(
+        'section:not(.no-reveal) h2, section:not(.no-reveal) p, .btn-navy, .btn-outline'
+    );
 
     // Initialize elements (skip hero section for instant visibility)
     revealElements.forEach(element => {

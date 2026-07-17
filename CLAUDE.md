@@ -16,8 +16,8 @@ Russian is the primary market/locale: the root URL redirects to `/ru/` (language
 - **CSS**: Tailwind CSS 3 compiled via CLI (`tailwind.input.css` → `tailwind.css`, **gitignored build artifact**) + hand-written `styles.css`
   - Homepage **inlines** the compiled Tailwind into a `<style>` tag (`{% inlineFile "tailwind.css" %}` shortcode) to avoid a render-blocking request; blog pages link it as `/tailwind.css?v=…`
 - **JS**: Vanilla, no framework. `script.js` (homepage), `vision-test.js`, `vision-disorders.js`, `blog/blog.js`, plus a large inline IIFE in `src/index.njk` for the glasses animation
-- **Icons**: Self-hosted SVG sprite `assets/icons.svg` (35 symbols from Font Awesome Free 6.4.0, CC BY 4.0). **No Font Awesome CDN, no icon webfonts.** See Icons section.
-- **Fonts**: System font stack only (`body` rule in `styles.css`). **No Google Fonts / Poppins.**
+- **Icons**: Self-hosted SVG sprite `assets/icons.svg` (37 symbols from Font Awesome Free 6.4.0, CC BY 4.0). **No Font Awesome CDN, no icon webfonts.** See Icons section.
+- **Fonts**: **Self-hosted Montserrat** (`assets/fonts/montserrat-*.woff2`, `@font-face` at the top of `styles.css`). **No Google Fonts, no font CDN.** See Typography.
 - **Hosting**: Netlify (`_headers` for CSP/security headers, `_redirects` for the language-aware root redirect)
 - **Analytics**: Google Tag Manager (GTM-TBKDQH2B), idle-deferred so it doesn't block LCP
 - **Offline/caching**: hand-rolled service worker `sw.js` (see Version Management — critical)
@@ -82,9 +82,15 @@ Verification habits (no test suite): after template/CSS changes run `npm run bui
 
 **Colors** (Tailwind config + styles.css): Navy 900 `#0a2a3d` (primary dark), Navy 800 `#0f3d56` (hover), Coral `#ff6b4a` (accent), white/grays.
 
-**Typography**: system font stack, set once on `body` in `styles.css` (`'Söhne', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', Arial, sans-serif`); default weight 300. Blog inherits the same rule — do not add font CDNs.
+**Typography**: **self-hosted Montserrat**, set on `body` in `styles.css` and as Tailwind's `sans` (Preflight applies it to `<html>`); default weight 300. Blog and privacy inherit the same rule — do not add font CDNs.
 
-**Buttons** (styles.css): `.btn-navy` (solid), `.btn-green` (vision-test Yes), `.btn-outline` (navy outline), `.btn-outline-white` (for dark backgrounds). All have hover lift.
+- One **variable** woff2 per script subset spans weights 300–700; `unicode-range` means a browser downloads only what the page renders (`en` → latin ~37 KB; `ru` → cyrillic + latin; `tg` → cyrillic + cyrillic-ext + latin). Templates preload only their own locale's subsets.
+- **Do not switch fonts without checking Cyrillic + Tajik coverage first.** Poppins (used until 2026-07-17) ships only latin/latin-ext/devanagari — **no Cyrillic at all** — so `ru`/`tg`, the primary audience, silently fell back to a system font while still paying for the download. The stack also listed `'Söhne'` first, a commercial font that was never served. Montserrat covers Latin + Cyrillic + every Tajik letter (ғ ӣ қ ӯ ҳ ҷ), verified against its cmap. Manrope/Onest/Jost fail Tajik; Rubik lacks Ҳ/ҳ.
+- Fonts are precached by the SW and served `immutable` for a year (`_headers`); the filenames carry no hash, so a **replacement typeface must ship under a new filename**.
+
+**Buttons** (styles.css): `.btn-navy` (solid, light backgrounds), `.btn-green` (vision-test Yes), `.btn-outline` (navy outline), `.btn-white` (**primary on dark**), `.btn-outline-white` (**secondary on dark**). All have hover lift.
+
+> On a navy surface use `.btn-white` + `.btn-outline-white`. Never `.btn-navy` there — it is `#0a2a3d` on `#0a2a3d`, invisible, and cedes hierarchy to the outline button next to it.
 
 ### Icons (SVG sprite)
 
@@ -97,6 +103,7 @@ All icons come from `assets/icons.svg`, referenced as:
 - `.svg-icon` (styles.css) is `1em × 1em`, `fill: currentColor` — size with text-size utilities, color with text-color utilities, exactly like the old Font Awesome classes.
 - **To add an icon**: append `["fa-name", "solid|regular|brands/fa6-file-name"]` to the `ICONS` array in `scripts/build-icon-sprite.mjs`, run `node scripts/build-icon-sprite.mjs`, commit the regenerated sprite.
 - Renamed ids to know: `fa-xmark` (not fa-times), `fa-regular-clock`/`fa-regular-calendar` (regular style), `fa-telegram`, `fa-user-md` (sourced from FA's user-doctor).
+- **Never hand-edit `assets/icons.svg`** — the build script rewrites it from scratch and your symbol disappears on the next run.
 - **Dynamic icon swaps** change the `<use>` href, not classes — e.g. mobile menu toggle (`script.js`, `blog/blog.js`) swaps `#fa-bars` ↔ `#fa-xmark`; blog copy-link swaps `#fa-link` → `#fa-check`.
 - The sprite is in the SW precache; sprite changes need a `CACHE_VERSION` bump.
 
@@ -126,6 +133,54 @@ Scroll-handler rule: guard every `classList.add/remove` with a `.contains()` che
 
 SW update toast: when a new SW version installs, `showUpdateToast()` shows a localized "site updated / refresh" pill (`.sw-update-toast` in styles.css, strings under `swUpdate` in locale JSONs). No silent console.log. Note: only homepage loads `script.js`, so SW registration/toast happens on homepage visits (blog pages load `blog/blog.js` instead).
 
+## Services — one source of truth
+
+**`src/_data/services.js` is the canonical service list.** `src/index.njk` renders both the
+visible cards **and** the LocalBusiness `hasOfferCatalog` schema from that one array, so they
+cannot drift. To add a service: add an entry there **and** `services.<key>.{title,description}`
+to all three locale files. Nothing else. Card `id`s are the footer's deep-link targets
+(`#service-dry-eye`) and the schema `@id`s.
+
+This exists because three lists had already drifted: 9 visible cards, 6 footer links, and 6
+schema entries advertising "Dry Eye Management", "Ongoing Care" and "Pediatric Eye Care" that
+had no card anywhere — structured data not representing visible content, which is a Google
+rich-results violation. **Children's/pediatric eye care is not offered** and must not reappear
+in the schema or footer. (Note the blog still carries pediatric content and a `pediatric`
+category — a known content/services mismatch, flagged for the owner.)
+
+## Structured Data Rules
+
+- Inject text into `<script type="application/ld+json">` with `{{ value | dump | safe }}`,
+  never as `"{{ value }}"` — one double quote in a title breaks the whole block, and Nunjucks
+  autoescape would emit `&quot;`, which is not valid JSON either.
+- Schema is **localized** — descriptions/service names come from the locale JSON so `/ru/`
+  carries Russian schema. Don't hardcode English into a JSON-LD block.
+- **Anything claimed in schema must be visible on the page.**
+- **No `review`/`aggregateRating`** on LocalBusiness: Google disallows self-serving reviews —
+  no stars, and a manual-action risk. Ratings must come from the Google Business Profile.
+- Credentials must be verifiable. Do not reintroduce "Board Certified" / "Fellow, American
+  Academy of Ophthalmology" — the AAO does not board-certify (that's the American Board of
+  Ophthalmology), and this is a YMYL medical site.
+
+## Canonical Facts
+
+- **Phone: `+992 108 11 80 80`** → `tel:+992108118080`, `wa.me/992108118080`, schema
+  `telephone`. One number everywhere; NAP consistency is load-bearing for local SEO.
+- **`x-default` hreflang → `/ru/`** everywhere (homepage, blog, privacy, sitemap).
+- **Sitemap `<lastmod>` must never be the build date.** Posts use their own `date`; other pages
+  get real git commit dates via `src/_data/lastmod.js`, and the tag is omitted when git can't
+  say. Stamping build time makes every deploy claim every page changed, which teaches Google to
+  ignore `lastmod` sitewide — including where it's accurate.
+- **Footer copyright year is dynamic** via `site.buildYear` + the `{year}` placeholder in
+  `footer.copyright`. Never hardcode a year back into the locale strings.
+
+## Scroll-reveal opt-out
+
+`script.js` sets `opacity:0` on `section:not(.no-reveal) h2, section:not(.no-reveal) p` and
+clears it via IntersectionObserver on scroll. **Add `.no-reveal` to any section whose text must
+be readable without scrolling** — anything below the fold is `opacity:0` at print time and
+prints blank. The privacy policy uses this; marketing sections intentionally do not.
+
 ## Version Management & Releases (CRITICAL)
 
 `sw.js` precaches assets cache-first; HTML is network-first. Stale-cache bugs are invisible locally and hit returning visitors — historically this broke the glasses animation (SW served a pre-animation `styles.css`). The defense is **versioned URLs that must stay in sync**:
@@ -145,7 +200,8 @@ SW update toast: when a new SW version installs, `showUpdateToast()` shows a loc
 - **The `?v=` strings in `ASSETS_TO_CACHE` must equal the ones in HTML exactly** — SW cache matching includes the query string; a mismatch silently turns precache entries into dead weight
 - Before deploy, cross-check: `grep -rhoE '\?v=[0-9.]+' src/ sw.js | sort | uniq -c`
 
-Current release: 1.5.0 (CACHE/CSS/TAILWIND), script.js 1.2.0, vision-test.js/vision-disorders.js 1.1.0.
+Current release: 1.6.0 (CACHE/CSS/TAILWIND), script.js 1.2.1, vision-test.js/vision-disorders.js 1.1.0.
+Note `/blog/blog.css?v=…` is versioned too and must match between the blog/privacy templates and `ASSETS_TO_CACHE`.
 
 ## Netlify Configuration
 
@@ -259,6 +315,12 @@ Trilingual blog at `/{lang}/blog/`. **Full documentation and the content-creatio
 - No self-serving review/aggregateRating structured data
 - robots.txt is minimal (allow all + sitemap); sitemap.njk auto-includes blog posts with hreflang alternates
 - One phone number everywhere: +992 108 11 80 80
+- Schema `hasOfferCatalog` is generated from `src/_data/services.js` and must always equal the visible cards
+- No unverifiable credentials in schema or on-page (see Structured Data Rules)
+- BreadcrumbList on blog posts + privacy; Article carries publisher.logo, articleSection, keywords, dateModified
+- Blog posts must keep contextual links into the site (end-of-post CTA + related posts) — they were a crawl dead-end before
+- sitemap `<lastmod>` never uses the build date (see Canonical Facts)
+- Privacy policy at /{lang}/privacy/, linked from the footer and in the sitemap
 
 ## Accessibility
 
