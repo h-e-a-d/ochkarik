@@ -1,8 +1,9 @@
 {#
   Universal <head> content — byte-identical on every page regardless of
-  type. Page-specific title/meta/OG/schema/Tailwind-delivery live in blocks
-  in layouts/base.njk, filled per child template (see that file's header
-  comment for the full list of blocks).
+  type. Emits charset/viewport/favicon/font-preloads. Page-specific
+  title/meta/OG/schema/Tailwind-delivery live in blocks in layouts/base.njk,
+  filled per child template (see that file's header comment for the full
+  list of blocks, including where the styles.css link lives).
 #}
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes, viewport-fit=cover">
@@ -21,6 +22,3 @@
 {%- if lang == 'tj' %}
 <link rel="preload" href="/assets/fonts/montserrat-cyrillic-ext.woff2" as="font" type="font/woff2" crossorigin>
 {%- endif %}
-
-<!-- Custom styles — version is src/_data/assets.js, the single source of truth -->
-<link rel="stylesheet" href="/styles.css?v={{ assets.css }}">
