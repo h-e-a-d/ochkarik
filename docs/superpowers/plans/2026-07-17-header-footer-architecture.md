@@ -66,7 +66,7 @@ CLAUDE.md            EDIT   Task 12
 - Produces: `site.social.{facebook,instagram,linkedin}` — consumed by `footer.njk` (Task 5).
 - Produces: `services[i].footer` (boolean, only present/true on 5 entries) — consumed by `footer.njk` (Task 5).
 
-- [ ] **Step 1: Create `src/_data/assets.js`**
+- [x] **Step 1: Create `src/_data/assets.js`**
 
 ```javascript
 // Single source of truth for every `?v=` asset version and for sw.js's
@@ -93,7 +93,7 @@ module.exports = {
 
 (`cache` is bumped to `1.7.0` because `sw.js`'s own bytes change shape in Task 2 — a structural change to a precached-adjacent file, per CLAUDE.md's "bump on ANY asset change" rule. `css`/`tailwind`/`blogCss`/`script`/`visionTest`/`visionDisorders` stay at their current values: this migration does not change those files' bytes.)
 
-- [ ] **Step 2: Create `src/_data/nav.js`**
+- [x] **Step 2: Create `src/_data/nav.js`**
 
 ```javascript
 // Canonical nav link list — mirrors services.js's pattern so nav links can't
@@ -120,7 +120,7 @@ module.exports = [
 ];
 ```
 
-- [ ] **Step 3: Edit `src/_data/site.js` — add `social`**
+- [x] **Step 3: Edit `src/_data/site.js` — add `social`**
 
 Current end of file:
 ```javascript
@@ -143,7 +143,7 @@ Replace with:
 };
 ```
 
-- [ ] **Step 4: Edit `src/_data/services.js` — flag the 5 footer services**
+- [x] **Step 4: Edit `src/_data/services.js` — flag the 5 footer services**
 
 Current `SERVICES` array (lines 24–36):
 ```javascript
@@ -188,7 +188,7 @@ Also update the file's header comment (lines 1–22) to mention the footer now r
 // strings that had already drifted in wording from these canonical titles.
 ```
 
-- [ ] **Step 5: Verify no-op build**
+- [x] **Step 5: Verify no-op build**
 
 Run: `npm run build`
 Expected: Build succeeds with no errors. `assets`, `nav`, `site.social`, and `services[i].footer` are not yet referenced by any template, so `git diff --stat _site/` (if `_site/` were tracked — it's gitignored, so instead diff rendered output) should show **zero rendered HTML differences**. Confirm via:
@@ -201,7 +201,7 @@ diff -rq _site/ /tmp/site-baseline/
 
 Expected: no output from `diff -rq` (directories identical).
 
-- [ ] **Step 6: Commit**
+- [x] **Step 6: Commit**
 
 ```bash
 git add src/_data/assets.js src/_data/nav.js src/_data/site.js src/_data/services.js
@@ -228,7 +228,7 @@ EOF
 - Consumes: `assets.{cache,css,tailwind,blogCss,script,visionTest,visionDisorders}` (Task 1).
 - Produces: `_site/sw.js`, identical output path to today's passthrough-copied file.
 
-- [ ] **Step 1: Create `src/sw.njk`**
+- [x] **Step 1: Create `src/sw.njk`**
 
 ```
 ---
@@ -459,7 +459,7 @@ self.addEventListener('message', (event) => {
 });
 ```
 
-- [ ] **Step 2: Remove the dead passthrough copy in `.eleventy.js`**
+- [x] **Step 2: Remove the dead passthrough copy in `.eleventy.js`**
 
 Current line 12:
 ```javascript
@@ -468,7 +468,7 @@ Current line 12:
 
 Delete this line entirely (the file no longer exists at the repo root once Step 4 runs; `src/sw.njk` renders to the same output path via its own `permalink`, so no passthrough entry is needed).
 
-- [ ] **Step 3: Build and diff `_site/sw.js` against the current file**
+- [x] **Step 3: Build and diff `_site/sw.js` against the current file**
 
 ```bash
 cp sw.js /tmp/sw.js.before
@@ -478,13 +478,13 @@ diff /tmp/sw.js.before _site/sw.js
 
 Expected: the only differences are `CACHE_VERSION` (`1.6.0` → `1.7.0`, intentional per Task 1) and the new header comment. Every `ASSETS_TO_CACHE` entry, every event listener, every code path must be byte-identical otherwise. If `diff` shows anything else, stop and fix `sw.njk` before proceeding.
 
-- [ ] **Step 4: Delete the root `sw.js`**
+- [x] **Step 4: Delete the root `sw.js`**
 
 ```bash
 git rm sw.js
 ```
 
-- [ ] **Step 5: Rebuild and confirm `_site/sw.js` still renders correctly**
+- [x] **Step 5: Rebuild and confirm `_site/sw.js` still renders correctly**
 
 ```bash
 npm run build
@@ -493,7 +493,7 @@ node -e "new Function(require('fs').readFileSync('_site/sw.js', 'utf8'))"
 
 Expected: no syntax errors (the `new Function(...)` call parses the file; it doesn't execute service-worker APIs, just validates the JS is syntactically valid).
 
-- [ ] **Step 6: Commit**
+- [x] **Step 6: Commit**
 
 ```bash
 git add src/sw.njk .eleventy.js sw.js
@@ -520,7 +520,7 @@ EOF
 - Consumes: `lang` (child-set before use), `assets.css` (Task 1).
 - Produces: nothing callable — these are `{% include %}`d, not macros, since none take parameters. Used by `layouts/base.njk` (Task 6, for `head-common.njk`) and by individual pages' block fills (Tasks 7–10, for the two GTM snippets).
 
-- [ ] **Step 1: Create `src/_includes/partials/head-common.njk`**
+- [x] **Step 1: Create `src/_includes/partials/head-common.njk`**
 
 ```
 {#
@@ -551,7 +551,7 @@ EOF
 <link rel="stylesheet" href="/styles.css?v={{ assets.css }}">
 ```
 
-- [ ] **Step 2: Create `src/_includes/partials/gtm-loader.njk`**
+- [x] **Step 2: Create `src/_includes/partials/gtm-loader.njk`**
 
 ```
 <!-- Google Tag Manager (idle-deferred to avoid blocking LCP/FCP) -->
@@ -574,7 +574,7 @@ if ('requestIdleCallback' in window) {
 <!-- End Google Tag Manager -->
 ```
 
-- [ ] **Step 3: Create `src/_includes/partials/gtm-noscript.njk`**
+- [x] **Step 3: Create `src/_includes/partials/gtm-noscript.njk`**
 
 ```
 <!-- Google Tag Manager (noscript) -->
@@ -583,7 +583,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <!-- End Google Tag Manager (noscript) -->
 ```
 
-- [ ] **Step 4: Verify with a standalone Nunjucks render (no Eleventy page consumes these yet)**
+- [x] **Step 4: Verify with a standalone Nunjucks render (no Eleventy page consumes these yet)**
 
 ```bash
 mkdir -p /tmp/nk-verify/partials
@@ -607,7 +607,7 @@ console.log('OK');
 
 Expected: prints the rendered HTML, then `OK`, with no thrown error.
 
-- [ ] **Step 5: Commit**
+- [x] **Step 5: Commit**
 
 ```bash
 git add src/_includes/partials/head-common.njk src/_includes/partials/gtm-loader.njk src/_includes/partials/gtm-noscript.njk
@@ -626,7 +626,7 @@ git commit -m "Add head-common and GTM partials (not yet wired into any page)"
 - Consumes (from calling context via `with context` import): `t` (locale strings), `nav` (Task 1's `_data/nav.js`), `locales` (Eleventy global data).
 - Produces: `{% macro render(lang, variant, isHome, activeKey='', langSwitcherLinks=none) %}` — consumed by `layouts/base.njk` (Task 6).
 
-- [ ] **Step 1: Create `src/_includes/partials/nav.njk`**
+- [x] **Step 1: Create `src/_includes/partials/nav.njk`**
 
 ```
 {#
@@ -753,7 +753,7 @@ git commit -m "Add head-common and GTM partials (not yet wired into any page)"
 
 > **Note on `nav-link-light active` behavior**: `index.njk`'s desktop-nav-transparent variant currently sets no static `.active` class anywhere — `script.js`'s scroll handler applies it dynamically. This macro preserves that (homepage callers pass `activeKey=''`, so nothing gets the class server-side; JS still applies it client-side, unaffected). Only blog pages statically mark `.active` on `blog`, matching current behavior exactly.
 
-- [ ] **Step 2: Verify with a standalone Nunjucks render — button mode (homepage-style)**
+- [x] **Step 2: Verify with a standalone Nunjucks render — button mode (homepage-style)**
 
 ```bash
 mkdir -p /tmp/nk-verify/partials
@@ -780,7 +780,7 @@ console.log('OK: button mode / homepage');
 
 Expected: rendered HTML printed, then `OK: button mode / homepage`.
 
-- [ ] **Step 3: Verify anchor mode (blog-post-style, filtered language links)**
+- [x] **Step 3: Verify anchor mode (blog-post-style, filtered language links)**
 
 ```bash
 cat > /tmp/nk-verify/test-nav2.njk <<'EOF'
@@ -807,7 +807,7 @@ console.log('OK: anchor mode / blog post');
 
 Expected: rendered HTML printed, then `OK: anchor mode / blog post`.
 
-- [ ] **Step 4: Commit**
+- [x] **Step 4: Commit**
 
 ```bash
 git add src/_includes/partials/nav.njk
@@ -826,7 +826,7 @@ git commit -m "Add shared nav.njk macro (button and anchor language-switcher mod
 - Consumes (from context): `t`, `services` (Task 1), `site` (Task 1).
 - Produces: `{% macro render(lang, isHome) %}` — consumed by `layouts/base.njk` (Task 6).
 
-- [ ] **Step 1: Create `src/_includes/partials/footer.njk`**
+- [x] **Step 1: Create `src/_includes/partials/footer.njk`**
 
 ```
 {#
@@ -900,7 +900,7 @@ git commit -m "Add shared nav.njk macro (button and anchor language-switcher mod
 {% endmacro %}
 ```
 
-- [ ] **Step 2: Verify with a standalone Nunjucks render**
+- [x] **Step 2: Verify with a standalone Nunjucks render**
 
 ```bash
 mkdir -p /tmp/nk-verify/partials
@@ -937,7 +937,7 @@ console.log('OK: footer, non-home');
 
 Expected: rendered HTML printed, then `OK: footer, non-home`.
 
-- [ ] **Step 3: Commit**
+- [x] **Step 3: Commit**
 
 ```bash
 git add src/_includes/partials/footer.njk
@@ -955,7 +955,7 @@ git commit -m "Add shared footer.njk macro, sourced from services.js/site.js"
 - Consumes: everything documented in the file's own header comment (reproduced below) — must be set by every child template before `{% extends %}`.
 - Produces: blocks `pageTitle`, `metaTags`, `stylesPreload`, `tailwindStyles`, `schema`, `headExtra`, `bodyStart`, `gtmNoscript`, `content`, `scripts`, `bodyEndExtra` — consumed by Tasks 7–10.
 
-- [ ] **Step 1: Create `src/_includes/layouts/base.njk`**
+- [x] **Step 1: Create `src/_includes/layouts/base.njk`**
 
 ```
 {#
@@ -1029,7 +1029,7 @@ git commit -m "Add shared footer.njk macro, sourced from services.js/site.js"
 </html>
 ```
 
-- [ ] **Step 2: Verify with a standalone Nunjucks render exercising every block**
+- [x] **Step 2: Verify with a standalone Nunjucks render exercising every block**
 
 ```bash
 mkdir -p /tmp/nk-verify/layouts /tmp/nk-verify/partials
@@ -1067,7 +1067,7 @@ console.log('OK: base.njk full render');
 
 Expected: rendered HTML printed, then `OK: base.njk full render`.
 
-- [ ] **Step 3: Commit**
+- [x] **Step 3: Commit**
 
 ```bash
 git add src/_includes/layouts/base.njk
@@ -1086,7 +1086,7 @@ Easiest page: shortest head, minimal body, currently the outlier with a copyrigh
 **Interfaces:**
 - Consumes: `layouts/base.njk` blocks (Task 6), `assets.tailwind` (Task 1).
 
-- [ ] **Step 1: Capture baseline rendered output**
+- [x] **Step 1: Capture baseline rendered output**
 
 ```bash
 npm run build
@@ -1095,7 +1095,7 @@ cp -r _site/tj/privacy /tmp/privacy-baseline-tj
 cp -r _site/en/privacy /tmp/privacy-baseline-en
 ```
 
-- [ ] **Step 2: Rewrite `src/privacy.njk`**
+- [x] **Step 2: Rewrite `src/privacy.njk`**
 
 Keep the existing front matter (lines 1–9) unchanged. Replace everything from `{%- set t = ... %}` onward with:
 
@@ -1211,7 +1211,7 @@ Keep the existing front matter (lines 1–9) unchanged. Replace everything from 
 
 Note: the inner `<main class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-16">` from the old file becomes a `<div>` with the same classes (highlighted above) — `layouts/base.njk` now supplies the page's one-and-only `<main>` landmark, and nested `<main>` elements are invalid HTML. Also note `og:image` changed from `og-image.webp` to `og-image.jpg` — this is a bug fix: CLAUDE.md's Netlify section states "OG image is JPEG... don't switch og:image back to webp," and privacy.njk was the one page still on `.webp`.
 
-- [ ] **Step 3: Build and diff against baseline**
+- [x] **Step 3: Build and diff against baseline**
 
 ```bash
 npm run build
@@ -1233,7 +1233,7 @@ diff -u /tmp/privacy-baseline-tj/index.html _site/tj/privacy/index.html
 diff -u /tmp/privacy-baseline-en/index.html _site/en/privacy/index.html
 ```
 
-- [ ] **Step 4: Validate JSON-LD still parses**
+- [x] **Step 4: Validate JSON-LD still parses**
 
 ```bash
 node -e "
@@ -1246,7 +1246,7 @@ console.log('OK: privacy JSON-LD valid');
 "
 ```
 
-- [ ] **Step 5: Manual check — build and serve locally**
+- [x] **Step 5: Manual check — build and serve locally**
 
 ```bash
 npm run build
@@ -1259,7 +1259,7 @@ Open `http://localhost:8080/ru/privacy/` in a browser (or via claude-in-chrome).
 kill %1
 ```
 
-- [ ] **Step 6: Commit**
+- [x] **Step 6: Commit**
 
 ```bash
 git add src/privacy.njk
