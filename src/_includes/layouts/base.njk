@@ -1,0 +1,69 @@
+{#
+  Shared page skeleton for every locale page (home, blog listing, blog post,
+  privacy). Owns: doctype/html/head boilerplate, nav, footer, skip-link, and
+  the window.__T__/__LANG__ handoff to client JS. Page-specific head content
+  and body content come from child templates via blocks.
+
+  Every child template MUST set these before {% extends "layouts/base.njk" %}:
+    t          locale strings — {% set t = locales[lang].strings %}
+    lang       locale code
+    isHome     boolean — true only for src/index.njk
+    navVariant 'transparent' | 'solid'
+    bodyClass  full class="" value for <body>
+
+  Optional (default shown):
+    navActive          ''    — nav.js `key` to mark active, e.g. 'blog'
+    langSwitcherLinks   none — list of {code, name, href}; omit for the
+                              default JS button language switcher
+
+  Blocks available to fill:
+    pageTitle       <title> contents
+    metaTags        description/author/robots/canonical/hreflang/OG/Twitter
+    stylesPreload   optional <link rel="preload" as="style"> (index only)
+    tailwindStyles  Tailwind delivery (inlined vs linked) + any extra
+                    stylesheet links (e.g. blog/blog.css)
+    schema          <script type="application/ld+json"> block(s)
+    headExtra       anything else in <head> (hero preload, dns-prefetch,
+                    idle GTM loader for blog/post — see gtm-loader.njk)
+    bodyStart       content immediately after <body>, before the skip link
+                    (index: page-loader div; blog post: AI-translation banner)
+    gtmNoscript     {% include "partials/gtm-noscript.njk" %} on pages that
+                    load GTM; omitted (stays empty) on privacy
+    content         main page content — rendered inside <main id="main-content">
+    scripts         page-specific <script src> tags (window.__T__/__LANG__ is
+                    already emitted by this layout; don't repeat it)
+    bodyEndExtra    anything after the scripts block (index: idle GTM loader
+                    at end of body, matching its current position)
+#}
+{%- import "partials/nav.njk" as navPartial with context -%}
+{%- import "partials/footer.njk" as footerPartial with context -%}
+<!DOCTYPE html>
+<html lang="{{ locales[lang].htmlLang }}">
+<head>
+    {% include "partials/head-common.njk" %}
+    <title>{% block pageTitle %}{% endblock %}</title>
+    {% block metaTags %}{% endblock %}
+    {% block stylesPreload %}{% endblock %}
+    {% block tailwindStyles %}{% endblock %}
+    {% block schema %}{% endblock %}
+    {% block headExtra %}{% endblock %}
+</head>
+<body class="{{ bodyClass }}"{% if not isHome %} data-lang="{{ lang }}"{% endif %}>
+    {% block gtmNoscript %}{% endblock %}
+    {% block bodyStart %}{% endblock %}
+
+    <a href="#main-content" class="skip-to-content">Skip to main content</a>
+
+    {{ navPartial.render(lang, navVariant, isHome, navActive or '', langSwitcherLinks or none) }}
+
+    <main id="main-content" tabindex="-1">
+        {% block content %}{% endblock %}
+    </main>
+
+    {{ footerPartial.render(lang, isHome) }}
+
+    <script>window.__T__ = {{ t | dump | safe }}; window.__LANG__ = "{{ lang }}";</script>
+    {% block scripts %}{% endblock %}
+    {% block bodyEndExtra %}{% endblock %}
+</body>
+</html>
