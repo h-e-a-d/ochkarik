@@ -1036,7 +1036,17 @@ eleventyComputed:
 
         const imgW       = img.offsetWidth;
         const imgH       = img.offsetHeight;
-        const vpW        = window.innerWidth;
+        // Geometry must come from the sticky's own box, NOT the window:
+        // on mobile the URL bar showing/hiding changes innerHeight while
+        // the 100vh sticky box stays constant. innerHeight-based math
+        // shifted every clip ellipse up by half the URL-bar height on
+        // upscroll (misaligned lenses) and made `progress` jump as its
+        // denominator changed mid-scroll (jank). clip-path coordinates
+        // are relative to the mask elements' own border box, which is
+        // exactly the sticky box — so sticky-local math is also more
+        // correct than viewport math, not just more stable.
+        const boxW       = sticky.clientWidth;
+        const boxH       = sticky.clientHeight;
 
         // Guard: SVG not yet decoded — offsetHeight is 0 when height:auto
         // can't compute without the image's natural dimensions. Returning
@@ -1049,7 +1059,7 @@ eleventyComputed:
         }
 
         // ── Calculate everything ──────────────────────────────────────────
-        const progress = clamp01(-stageTop / (stageH - vpH));
+        const progress = clamp01(-stageTop / (stageH - boxH));
         if (progress === lastProgress) return;
         lastProgress = progress;
 
@@ -1086,11 +1096,13 @@ eleventyComputed:
 
         // Clip coordinates computed analytically from transform — avoids
         // getBoundingClientRect() after writing wrap.style.transform (layout thrash).
-        // When sticky is sticking, its top-left is at viewport (0,0).
+        // All coordinates are sticky-local: the wrap and mask layers are
+        // inset:0 in the sticky, so the transform origin is the sticky
+        // center and clip-path positions resolve against the same box.
         // transform: translate(tx,ty) scale(s) with transform-origin center maps
-        // a layout point (px,py) to: (vpW/2 + tx + s*(px - vpW/2), vpH/2 + ty + s*(py - vpH/2))
-        const imgVL = vpW / 2 + tx - s * imgW / 2;   // img visual left
-        const imgVT = vpH / 2 + ty - s * imgH / 2;   // img visual top
+        // a layout point (px,py) to: (boxW/2 + tx + s*(px - boxW/2), boxH/2 + ty + s*(py - boxH/2))
+        const imgVL = boxW / 2 + tx - s * imgW / 2;   // img visual left
+        const imgVT = boxH / 2 + ty - s * imgH / 2;   // img visual top
         const imgVW = s * imgW;
         const imgVH = s * imgH;
 
