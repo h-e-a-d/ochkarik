@@ -4,7 +4,10 @@
   # Content-Security-Policy
   # Allows: same-origin, Google Tag Manager / Analytics, Google Maps embeds.
   # All CSS, fonts, icons, and images are self-hosted.
-  Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-inline' https://www.googletagmanager.com https://www.google-analytics.com; style-src 'self' 'unsafe-inline'; font-src 'self'; img-src 'self' https://www.google.com https://www.googletagmanager.com data:; frame-src https://www.google.com; connect-src 'self' https://www.google-analytics.com https://www.googletagmanager.com; object-src 'none'; base-uri 'self'; form-action 'self';
+  Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-inline' https://www.googletagmanager.com https://www.google-analytics.com; style-src 'self' 'unsafe-inline'; font-src 'self'; img-src 'self' https://www.google.com https://www.googletagmanager.com data:; frame-src https://www.google.com; frame-ancestors 'self'; connect-src 'self' https://www.google-analytics.com https://www.googletagmanager.com; object-src 'none'; base-uri 'self'; form-action 'self';
+
+  # Force HTTPS on every future visit, including subdomains
+  Strict-Transport-Security: max-age=31536000; includeSubDomains
 
   # Prevent clickjacking
   X-Frame-Options: SAMEORIGIN
@@ -17,3 +20,42 @@
 
   # Permissions policy — disable unnecessary browser features
   Permissions-Policy: camera=(), microphone=(), geolocation=(), payment=()
+
+# ── Caching ──────────────────────────────────────────────────────────────
+# HTML is never cached here (default no explicit Cache-Control -> Netlify's
+# short default), so deploys are always visible. Everything below is either
+# versioned via ?v= (a version bump mints a new URL, so immutable is safe)
+# or, for fonts, carries the versioning in the filename itself per the
+# "replacement typeface ships under a new filename" rule in CLAUDE.md.
+
+# Self-hosted fonts: filename changes on any replacement, so this is safe
+# to cache for a year without revalidation.
+/assets/fonts/*
+  Cache-Control: public, max-age=31536000, immutable
+
+# CSS/JS/Tailwind served with a ?v= query string — Netlify matches headers
+# by path, so this block applies to every version. A version bump changes
+# the URL (new cache key), so immutable caching of the old URL is correct.
+/styles.css
+  Cache-Control: public, max-age=31536000, immutable
+/tailwind.css
+  Cache-Control: public, max-age=31536000, immutable
+/script.js
+  Cache-Control: public, max-age=31536000, immutable
+/vision-test.js
+  Cache-Control: public, max-age=31536000, immutable
+/vision-disorders.js
+  Cache-Control: public, max-age=31536000, immutable
+/blog/blog.css
+  Cache-Control: public, max-age=31536000, immutable
+
+# Unversioned assets — bump assets.cache to bust the SW, but the URL never
+# changes, so the HTTP cache must revalidate rather than go immutable.
+/blog/blog.js
+  Cache-Control: public, max-age=3600, must-revalidate
+/assets/icons.svg
+  Cache-Control: public, max-age=3600, must-revalidate
+
+# Images — unversioned, moderate cache with revalidation.
+/assets/images/*
+  Cache-Control: public, max-age=2592000, must-revalidate

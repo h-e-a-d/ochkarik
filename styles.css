@@ -299,7 +299,7 @@ body {
 .service-description {
     cursor: pointer;
     position: relative;
-    max-height: 7.5em; /* Approximately 5 lines */
+    max-height: 8.5em; /* 5 lines at body's 1.7 line-height (7.5em assumed 1.5 and cut into the 5th line) */
     overflow: hidden;
     transition: max-height 0.4s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.3s ease;
 }
@@ -1495,6 +1495,31 @@ body.loading {
   opacity: 1;
   user-select: none;
   -webkit-user-drag: none;
+}
+
+/* prefers-reduced-motion fallback: the JS never attaches the scroll
+   listener when the class below is present (see the IIFE in index.njk),
+   so this collapses the 500vh scroll-jacked stage into a normal static
+   block showing the sharp copy once, unclipped. */
+#glasses-animation-section.glasses-anim-static .glasses-anim-stage {
+  height: auto;
+}
+#glasses-animation-section.glasses-anim-static .glasses-anim-sticky {
+  position: relative;
+  height: auto;
+  min-height: 50vh;
+  padding: 5rem 1rem;
+}
+#glasses-animation-section.glasses-anim-static #glasses-anim-blurry,
+#glasses-animation-section.glasses-anim-static .glasses-lens-mask-piece,
+#glasses-animation-section.glasses-anim-static #glasses-anim-sharp-right,
+#glasses-animation-section.glasses-anim-static .glasses-anim-wrap {
+  display: none;
+}
+#glasses-animation-section.glasses-anim-static #glasses-anim-sharp-left {
+  position: relative;
+  opacity: 1;
+  clip-path: none;
 }
 
 /* ===========================

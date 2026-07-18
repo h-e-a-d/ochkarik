@@ -1,0 +1,64 @@
+---
+permalink: /404.html
+eleventyExcludeFromCollections: true
+---
+{#-
+  Netlify serves this single file for any unmatched path, before it knows
+  which locale the visitor wanted — so unlike every other page here, it
+  can't be localized via the locales pagination. It shows all three
+  languages at once instead. lang="ru" matches the site's x-default locale.
+-#}
+{%- set lang = 'ru' -%}
+{%- set t = locales.ru.strings -%}
+{%- set isHome = false -%}
+{%- set navVariant = 'solid' -%}
+{%- set bodyClass = 'font-light text-gray-700 bg-white' -%}
+{#- Explicit hrefs: the default JS switcher swaps the URL's first path
+    segment, which would turn /404.html into /en/404.html (another 404)
+    instead of a real homepage. -#}
+{%- set langSwitcherLinks = [] -%}
+{%- for code, loc in locales -%}
+{%- set _ = langSwitcherLinks.push({ code: code, name: loc.name, href: '/' + code + '/' }) -%}
+{%- endfor -%}
+{% extends "layouts/base.njk" %}
+
+{% block pageTitle %}Страница не найдена / Саҳифа ёфт нашуд / Page not found — Dr. Sitora Karimova{% endblock %}
+
+{% block metaTags %}
+    <meta name="description" content="Запрашиваемая страница не найдена.">
+    <meta name="robots" content="noindex, follow">
+{% endblock %}
+
+{% block tailwindStyles %}
+    <style>{% inlineFile "tailwind.css" %}</style>
+{% endblock %}
+
+{% block gtmNoscript %}
+    {% include "partials/gtm-noscript.njk" %}
+{% endblock %}
+
+{% block content %}
+    <section class="py-32 bg-white">
+        <div class="max-w-2xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <p class="text-sm uppercase tracking-widest mb-3 text-coral">404</p>
+
+            <h1 class="text-3xl md:text-4xl font-light mb-3 text-navy-900">Страница не найдена</h1>
+            <p class="text-lg text-gray-600 mb-2 font-light">Саҳифа ёфт нашуд</p>
+            <p class="text-lg text-gray-600 mb-10 font-light">Page not found</p>
+
+            <div class="flex flex-col sm:flex-row gap-4 justify-center mb-10">
+                <a href="/ru/" class="btn-navy">На главную (RU)</a>
+                <a href="/tj/" class="btn-outline">Ба саҳифаи асосӣ (TJ)</a>
+                <a href="/en/" class="btn-outline">Homepage (EN)</a>
+            </div>
+
+            <p class="text-sm text-gray-500">
+                <a href="tel:+992108118080" class="text-navy-900 hover:text-coral transition-colors">+992 108 11 80 80</a>
+            </p>
+        </div>
+    </section>
+{% endblock %}
+
+{% block bodyEndExtra %}
+    {% include "partials/gtm-loader.njk" %}
+{% endblock %}

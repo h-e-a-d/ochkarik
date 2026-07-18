@@ -11,6 +11,11 @@ eleventyComputed:
 {%- set isHome = true -%}
 {%- set navVariant = 'transparent' -%}
 {%- set bodyClass = 'text-gray-800' -%}
+{#- Single counts driving both the visible FAQ/testimonial blocks and their
+    JSON-LD, so a question or review added to one can't be forgotten in the
+    other (the same drift that services.js was created to prevent). -#}
+{%- set faqCount = 6 -%}
+{%- set testimonialCount = 4 -%}
 {% extends "layouts/base.njk" %}
 
 {% block pageTitle %}{{ t.meta.title }}{% endblock %}
@@ -192,54 +197,16 @@ eleventyComputed:
         "@context": "https://schema.org",
         "@type": "FAQPage",
         "mainEntity": [
+            {%- for i in range(1, faqCount + 1) %}
             {
                 "@type": "Question",
-                "name": {{ t.faq.question1 | dump | safe }},
+                "name": {{ t.faq["question" ~ i] | dump | safe }},
                 "acceptedAnswer": {
                     "@type": "Answer",
-                    "text": {{ t.faq.answer1 | dump | safe }}
+                    "text": {{ t.faq["answer" ~ i] | dump | safe }}
                 }
-            },
-            {
-                "@type": "Question",
-                "name": {{ t.faq.question2 | dump | safe }},
-                "acceptedAnswer": {
-                    "@type": "Answer",
-                    "text": {{ t.faq.answer2 | dump | safe }}
-                }
-            },
-            {
-                "@type": "Question",
-                "name": {{ t.faq.question3 | dump | safe }},
-                "acceptedAnswer": {
-                    "@type": "Answer",
-                    "text": {{ t.faq.answer3 | dump | safe }}
-                }
-            },
-            {
-                "@type": "Question",
-                "name": {{ t.faq.question4 | dump | safe }},
-                "acceptedAnswer": {
-                    "@type": "Answer",
-                    "text": {{ t.faq.answer4 | dump | safe }}
-                }
-            },
-            {
-                "@type": "Question",
-                "name": {{ t.faq.question5 | dump | safe }},
-                "acceptedAnswer": {
-                    "@type": "Answer",
-                    "text": {{ t.faq.answer5 | dump | safe }}
-                }
-            },
-            {
-                "@type": "Question",
-                "name": {{ t.faq.question6 | dump | safe }},
-                "acceptedAnswer": {
-                    "@type": "Answer",
-                    "text": {{ t.faq.answer6 | dump | safe }}
-                }
-            }
+            }{% if not loop.last %},{% endif %}
+            {%- endfor %}
         ]
     }
     </script>
@@ -281,8 +248,8 @@ eleventyComputed:
                      alt="Dr. Sitora Karimova's ophthalmology practice - Professional eye care services in Dushanbe, Tajikistan"
                      loading="eager"
                      fetchpriority="high"
-                     width="1920"
-                     height="1080"
+                     width="1248"
+                     height="832"
                      class="w-full h-full object-cover">
             </picture>
             <div class="absolute inset-0 bg-gradient-to-r from-navy-900/85 via-navy-900/70 to-navy-900/60"></div>
@@ -391,8 +358,8 @@ eleventyComputed:
                                  plus a hardcoded year count that had already gone stale. -#}
                              alt="Dr. Sitora Karimova at her ophthalmology practice in Dushanbe"
                              loading="lazy"
-                             width="800"
-                             height="600"
+                             width="640"
+                             height="640"
                              class="carousel-slide active absolute inset-0 w-full h-full object-cover transition-opacity duration-700">
                     </picture>
                     <picture>
@@ -400,8 +367,8 @@ eleventyComputed:
                         <img src="/assets/images/about-2.jpg"
                              alt="Dr. Karimova conducting comprehensive eye examination with modern diagnostic equipment in Dushanbe"
                              loading="lazy"
-                             width="800"
-                             height="600"
+                             width="640"
+                             height="640"
                              class="carousel-slide absolute inset-0 w-full h-full object-cover transition-opacity duration-700 opacity-0">
                     </picture>
                 </div>
@@ -485,15 +452,18 @@ eleventyComputed:
                 <h2 class="text-4xl md:text-5xl font-light text-white mb-4" data-i18n="testimonials.heading">{{ t.testimonials.heading | safe }}</h2>
             </div>
 
+            {#- Looped over testimonialCount (set at the top of this file) so a
+                review can't be added as a slide without a matching dot, or
+                vice versa. -#}
             <!-- Carousel Container -->
             <div class="testimonial-carousel" aria-live="polite" aria-atomic="true" role="region" aria-label="{{ t.nav.reviews | safe }}">
-                <!-- Review 1 -->
-                <div class="testimonial-slide active">
+                {%- for i in range(1, testimonialCount + 1) %}
+                <div class="testimonial-slide{% if loop.first %} active{% endif %}">
                     <div class="text-center">
                         <div class="flex justify-center mb-4">
                             <svg class="svg-icon text-4xl text-coral"><use href="/assets/icons.svg#fa-quote-left"></use></svg>
                         </div>
-                        <blockquote class="text-2xl md:text-4xl font-light text-white mb-8 leading-relaxed" data-i18n="testimonials.quote1">{{ t.testimonials.quote1 | safe }}</blockquote>
+                        <blockquote class="text-2xl md:text-4xl font-light text-white mb-8 leading-relaxed" data-i18n="testimonials.quote{{ i }}">{{ t.testimonials["quote" ~ i] | safe }}</blockquote>
                         <div class="flex items-center justify-center space-x-1 mb-6">
                             <svg class="svg-icon text-coral text-xl"><use href="/assets/icons.svg#fa-star"></use></svg>
                             <svg class="svg-icon text-coral text-xl"><use href="/assets/icons.svg#fa-star"></use></svg>
@@ -502,84 +472,21 @@ eleventyComputed:
                             <svg class="svg-icon text-coral text-xl"><use href="/assets/icons.svg#fa-star"></use></svg>
                         </div>
                         <div class="text-white/80 font-light">
-                            <p class="text-lg" data-i18n="testimonials.name1">{{ t.testimonials.name1 | safe }}</p>
-                            <p class="text-sm" data-i18n="testimonials.patient1">{{ t.testimonials.patient1 | safe }}</p>
+                            <p class="text-lg" data-i18n="testimonials.name{{ i }}">{{ t.testimonials["name" ~ i] | safe }}</p>
+                            <p class="text-sm" data-i18n="testimonials.patient{{ i }}">{{ t.testimonials["patient" ~ i] | safe }}</p>
                         </div>
                     </div>
                 </div>
-
-                <!-- Review 2 -->
-                <div class="testimonial-slide">
-                    <div class="text-center">
-                        <div class="flex justify-center mb-4">
-                            <svg class="svg-icon text-4xl text-coral"><use href="/assets/icons.svg#fa-quote-left"></use></svg>
-                        </div>
-                        <blockquote class="text-2xl md:text-4xl font-light text-white mb-8 leading-relaxed" data-i18n="testimonials.quote2">{{ t.testimonials.quote2 | safe }}</blockquote>
-                        <div class="flex items-center justify-center space-x-1 mb-6">
-                            <svg class="svg-icon text-coral text-xl"><use href="/assets/icons.svg#fa-star"></use></svg>
-                            <svg class="svg-icon text-coral text-xl"><use href="/assets/icons.svg#fa-star"></use></svg>
-                            <svg class="svg-icon text-coral text-xl"><use href="/assets/icons.svg#fa-star"></use></svg>
-                            <svg class="svg-icon text-coral text-xl"><use href="/assets/icons.svg#fa-star"></use></svg>
-                            <svg class="svg-icon text-coral text-xl"><use href="/assets/icons.svg#fa-star"></use></svg>
-                        </div>
-                        <div class="text-white/80 font-light">
-                            <p class="text-lg" data-i18n="testimonials.name2">{{ t.testimonials.name2 | safe }}</p>
-                            <p class="text-sm" data-i18n="testimonials.patient2">{{ t.testimonials.patient2 | safe }}</p>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Review 3 -->
-                <div class="testimonial-slide">
-                    <div class="text-center">
-                        <div class="flex justify-center mb-4">
-                            <svg class="svg-icon text-4xl text-coral"><use href="/assets/icons.svg#fa-quote-left"></use></svg>
-                        </div>
-                        <blockquote class="text-2xl md:text-4xl font-light text-white mb-8 leading-relaxed" data-i18n="testimonials.quote3">{{ t.testimonials.quote3 | safe }}</blockquote>
-                        <div class="flex items-center justify-center space-x-1 mb-6">
-                            <svg class="svg-icon text-coral text-xl"><use href="/assets/icons.svg#fa-star"></use></svg>
-                            <svg class="svg-icon text-coral text-xl"><use href="/assets/icons.svg#fa-star"></use></svg>
-                            <svg class="svg-icon text-coral text-xl"><use href="/assets/icons.svg#fa-star"></use></svg>
-                            <svg class="svg-icon text-coral text-xl"><use href="/assets/icons.svg#fa-star"></use></svg>
-                            <svg class="svg-icon text-coral text-xl"><use href="/assets/icons.svg#fa-star"></use></svg>
-                        </div>
-                        <div class="text-white/80 font-light">
-                            <p class="text-lg" data-i18n="testimonials.name3">{{ t.testimonials.name3 | safe }}</p>
-                            <p class="text-sm" data-i18n="testimonials.patient3">{{ t.testimonials.patient3 | safe }}</p>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Review 4 -->
-                <div class="testimonial-slide">
-                    <div class="text-center">
-                        <div class="flex justify-center mb-4">
-                            <svg class="svg-icon text-4xl text-coral"><use href="/assets/icons.svg#fa-quote-left"></use></svg>
-                        </div>
-                        <blockquote class="text-2xl md:text-4xl font-light text-white mb-8 leading-relaxed" data-i18n="testimonials.quote4">{{ t.testimonials.quote4 | safe }}</blockquote>
-                        <div class="flex items-center justify-center space-x-1 mb-6">
-                            <svg class="svg-icon text-coral text-xl"><use href="/assets/icons.svg#fa-star"></use></svg>
-                            <svg class="svg-icon text-coral text-xl"><use href="/assets/icons.svg#fa-star"></use></svg>
-                            <svg class="svg-icon text-coral text-xl"><use href="/assets/icons.svg#fa-star"></use></svg>
-                            <svg class="svg-icon text-coral text-xl"><use href="/assets/icons.svg#fa-star"></use></svg>
-                            <svg class="svg-icon text-coral text-xl"><use href="/assets/icons.svg#fa-star"></use></svg>
-                        </div>
-                        <div class="text-white/80 font-light">
-                            <p class="text-lg" data-i18n="testimonials.name4">{{ t.testimonials.name4 | safe }}</p>
-                            <p class="text-sm" data-i18n="testimonials.patient4">{{ t.testimonials.patient4 | safe }}</p>
-                        </div>
-                    </div>
-                </div>
+                {%- endfor %}
             </div>
 
             <!-- Carousel Controls -->
             <div class="flex items-center justify-center mt-12">
                 <!-- Dots Indicator -->
                 <div class="flex space-x-3">
-                    <button class="testimonial-dot active" data-slide="0" aria-label="Go to testimonial 1"></button>
-                    <button class="testimonial-dot" data-slide="1" aria-label="Go to testimonial 2"></button>
-                    <button class="testimonial-dot" data-slide="2" aria-label="Go to testimonial 3"></button>
-                    <button class="testimonial-dot" data-slide="3" aria-label="Go to testimonial 4"></button>
+                    {%- for i in range(1, testimonialCount + 1) %}
+                    <button class="testimonial-dot{% if loop.first %} active{% endif %}" data-slide="{{ loop.index0 }}" aria-label="Go to testimonial {{ i }}"></button>
+                    {%- endfor %}
                 </div>
             </div>
         </div>
@@ -743,42 +650,16 @@ eleventyComputed:
                 <p class="text-lg text-gray-600 font-light" data-i18n="faq.description">{{ t.faq.description | safe }}</p>
             </div>
 
+            {#- Looped from the same faqCount that drives the FAQPage schema
+                above — a question can no longer be added to one and
+                forgotten in the other. -#}
             <div class="space-y-6">
-                <!-- FAQ Item 1 -->
+                {%- for i in range(1, faqCount + 1) %}
                 <div class="faq-item bg-white rounded-lg shadow-sm p-6 hover:shadow-md transition-shadow">
-                    <h3 class="text-xl font-medium text-navy-900 mb-3" data-i18n="faq.question1">{{ t.faq.question1 | safe }}</h3>
-                    <p class="text-gray-600 font-light leading-relaxed" data-i18n="faq.answer1">{{ t.faq.answer1 | safe }}</p>
+                    <h3 class="text-xl font-medium text-navy-900 mb-3" data-i18n="faq.question{{ i }}">{{ t.faq["question" ~ i] | safe }}</h3>
+                    <p class="text-gray-600 font-light leading-relaxed" data-i18n="faq.answer{{ i }}">{{ t.faq["answer" ~ i] | safe }}</p>
                 </div>
-
-                <!-- FAQ Item 2 -->
-                <div class="faq-item bg-white rounded-lg shadow-sm p-6 hover:shadow-md transition-shadow">
-                    <h3 class="text-xl font-medium text-navy-900 mb-3" data-i18n="faq.question2">{{ t.faq.question2 | safe }}</h3>
-                    <p class="text-gray-600 font-light leading-relaxed" data-i18n="faq.answer2">{{ t.faq.answer2 | safe }}</p>
-                </div>
-
-                <!-- FAQ Item 3 -->
-                <div class="faq-item bg-white rounded-lg shadow-sm p-6 hover:shadow-md transition-shadow">
-                    <h3 class="text-xl font-medium text-navy-900 mb-3" data-i18n="faq.question3">{{ t.faq.question3 | safe }}</h3>
-                    <p class="text-gray-600 font-light leading-relaxed" data-i18n="faq.answer3">{{ t.faq.answer3 | safe }}</p>
-                </div>
-
-                <!-- FAQ Item 4 -->
-                <div class="faq-item bg-white rounded-lg shadow-sm p-6 hover:shadow-md transition-shadow">
-                    <h3 class="text-xl font-medium text-navy-900 mb-3" data-i18n="faq.question4">{{ t.faq.question4 | safe }}</h3>
-                    <p class="text-gray-600 font-light leading-relaxed" data-i18n="faq.answer4">{{ t.faq.answer4 | safe }}</p>
-                </div>
-
-                <!-- FAQ Item 5 -->
-                <div class="faq-item bg-white rounded-lg shadow-sm p-6 hover:shadow-md transition-shadow">
-                    <h3 class="text-xl font-medium text-navy-900 mb-3" data-i18n="faq.question5">{{ t.faq.question5 | safe }}</h3>
-                    <p class="text-gray-600 font-light leading-relaxed" data-i18n="faq.answer5">{{ t.faq.answer5 | safe }}</p>
-                </div>
-
-                <!-- FAQ Item 6 -->
-                <div class="faq-item bg-white rounded-lg shadow-sm p-6 hover:shadow-md transition-shadow">
-                    <h3 class="text-xl font-medium text-navy-900 mb-3" data-i18n="faq.question6">{{ t.faq.question6 | safe }}</h3>
-                    <p class="text-gray-600 font-light leading-relaxed" data-i18n="faq.answer6">{{ t.faq.answer6 | safe }}</p>
-                </div>
+                {%- endfor %}
             </div>
 
             <!-- CTA -->
@@ -878,6 +759,15 @@ eleventyComputed:
       const sharpRight = document.getElementById('glasses-anim-sharp-right');
 
       if (!stage) return;
+
+      // Scroll-jacked zoom is exactly the kind of motion prefers-reduced-motion
+      // exists for. Skip the scroll listener entirely and let the CSS class
+      // below (.glasses-anim-static) collapse the 500vh stage into a normal
+      // static block showing the sharp copy once — see styles.css.
+      if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+        stage.closest('#glasses-animation-section').classList.add('glasses-anim-static');
+        return;
+      }
 
       const easeOut3  = t => 1 - Math.pow(1 - t, 3);
       const easeIn3   = t => t * t * t;

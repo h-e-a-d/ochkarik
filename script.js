@@ -503,6 +503,11 @@ document.addEventListener('DOMContentLoaded', function() {
     let autoAdvance;
     const slides = document.querySelectorAll('.testimonial-slide');
     const dots = document.querySelectorAll('.testimonial-dot');
+    // Scroll-linked or timed motion should respect this — a continuously
+    // auto-advancing carousel is exactly the kind of motion the media
+    // query exists to suppress.
+    const prefersReducedMotion = window.matchMedia &&
+        window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
     function showSlide(index) {
         // Remove active class from all slides and dots
@@ -519,17 +524,41 @@ document.addEventListener('DOMContentLoaded', function() {
         showSlide(currentSlide);
     }
 
+    function prevSlide() {
+        currentSlide = (currentSlide - 1 + slides.length) % slides.length;
+        showSlide(currentSlide);
+    }
+
+    function startAutoAdvance() {
+        if (prefersReducedMotion || slides.length < 2) return;
+        clearInterval(autoAdvance);
+        autoAdvance = setInterval(nextSlide, 7000);
+    }
+
+    function stopAutoAdvance() {
+        clearInterval(autoAdvance);
+    }
+
     // Event listeners for dots
     dots.forEach((dot, index) => {
         dot.addEventListener('click', () => {
             currentSlide = index;
             showSlide(currentSlide);
+            startAutoAdvance();
         });
     });
 
-    // Touch swipe support for mobile
     const testimonialSection = document.getElementById('testimonials');
-    if (testimonialSection) {
+    if (testimonialSection && slides.length > 0) {
+        startAutoAdvance();
+
+        // Pause on hover/focus so the quote doesn't change out from under a
+        // reading or keyboard-navigating visitor (WCAG 2.2.2).
+        testimonialSection.addEventListener('mouseenter', stopAutoAdvance);
+        testimonialSection.addEventListener('mouseleave', startAutoAdvance);
+        testimonialSection.addEventListener('focusin', stopAutoAdvance);
+        testimonialSection.addEventListener('focusout', startAutoAdvance);
+
         // Touch swipe support for mobile
         let touchStartX = 0;
         let touchEndX = 0;
@@ -548,7 +577,7 @@ document.addEventListener('DOMContentLoaded', function() {
             const diff = touchStartX - touchEndX;
 
             if (Math.abs(diff) > swipeThreshold) {
-                clearInterval(autoAdvance);
+                stopAutoAdvance();
 
                 if (diff > 0) {
                     // Swipe left - next slide
@@ -558,8 +587,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     prevSlide();
                 }
 
-                // Restart auto-advance after swipe
-                autoAdvance = setInterval(nextSlide, 7000);
+                startAutoAdvance();
             }
         }
     }

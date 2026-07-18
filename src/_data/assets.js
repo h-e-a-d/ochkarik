@@ -10,11 +10,11 @@
 // cache. Bump the specific asset's own version (css/tailwind/blogCss/script/
 // visionTest/visionDisorders) only when that asset's bytes actually change.
 module.exports = {
-  cache: "1.7.3",
-  css: "1.7.1",
+  cache: "1.7.5",
+  css: "1.7.3",
   tailwind: "1.6.0",
   blogCss: "1.6.0",
-  script: "1.2.1",
+  script: "1.2.2",
   visionTest: "1.1.0",
   visionDisorders: "1.1.0",
 };

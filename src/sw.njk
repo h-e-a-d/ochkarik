@@ -41,14 +41,20 @@ const ASSETS_TO_CACHE = [
     '/assets/fonts/montserrat-latin.woff2',
     '/assets/fonts/montserrat-cyrillic.woff2',
     '/assets/icons.svg',
+    // Both hero variants: mobile visitors never fetch hero.webp (their
+    // <picture> source only matches hero-mobile.webp) and vice versa, so
+    // both must be precached for that visitor's own hero to be offline-ready.
+    // og-image.jpg/webp and the about-*.jpg <picture> fallbacks are
+    // intentionally NOT precached — og-image only appears inside JSON-LD
+    // (crawlers read it, browsers never fetch it) and every SW-capable
+    // browser supports WebP, so the <picture> tag always resolves to the
+    // .webp source and the .jpg fallback is dead weight here.
     '/assets/images/hero.webp',
-    '/assets/images/about-1.jpg',
+    '/assets/images/hero-mobile.webp',
     '/assets/images/about-1.webp',
     '/assets/images/about-2.webp',
-    '/assets/images/about-2.jpg',
     '/assets/images/eyeglasses-vector-small.svg',
     '/assets/images/table-ru.svg',
-    '/assets/images/og-image.webp',
     '/assets/images/vision-disorders.webp',
     '/blog/blog.css?v={{ assets.blogCss }}',
     '/blog/blog.js',
