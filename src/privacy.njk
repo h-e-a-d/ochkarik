@@ -1,0 +1,116 @@
+---
+pagination:
+  data: locales
+  size: 1
+  alias: lang
+permalink: "/{{ lang }}/privacy/index.html"
+eleventyComputed:
+  title: "{{ locales[lang].strings.privacy.metaTitle }}"
+---
+{%- set t = locales[lang].strings -%}
+{%- set pr = t.privacy -%}
+{%- set isHome = false -%}
+{%- set navVariant = 'solid' -%}
+{%- set bodyClass = 'font-light text-gray-700 bg-white' -%}
+{%- set langSwitcherLinks = [] -%}
+{%- for code, loc in locales -%}
+{%- set _ = langSwitcherLinks.push({ code: code, name: loc.name, href: '/' + code + '/privacy/' }) -%}
+{%- endfor -%}
+{% extends "layouts/base.njk" %}
+
+{% block pageTitle %}{{ pr.metaTitle }}{% endblock %}
+
+{% block metaTags %}
+    <meta name="description" content="{{ pr.metaDescription }}">
+    <meta name="author" content="Dr. Sitora Karimova">
+
+    <!-- A policy page carries no ranking value and should not compete with the
+         real pages in search — index it (users may look for it) but keep it out
+         of snippets. -->
+    <meta name="robots" content="index, follow, max-snippet:0">
+
+    <link rel="canonical" href="https://sitorakarimi.com/{{ lang }}/privacy/">
+    {%- for code, loc in locales %}
+    <link rel="alternate" hreflang="{{ loc.hreflang }}" href="https://sitorakarimi.com/{{ code }}/privacy/">
+    {%- endfor %}
+    <link rel="alternate" hreflang="x-default" href="https://sitorakarimi.com/ru/privacy/">
+
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://sitorakarimi.com/{{ lang }}/privacy/">
+    <meta property="og:site_name" content="Dr. Sitora Karimova Ophthalmology">
+    <meta property="og:title" content="{{ pr.metaTitle }}">
+    <meta property="og:description" content="{{ pr.metaDescription }}">
+    <meta property="og:locale" content="{{ locales[lang].ogLocale }}">
+    <meta property="og:image" content="https://sitorakarimi.com/assets/images/og-image.jpg">
+{% endblock %}
+
+{% block tailwindStyles %}
+    <link rel="stylesheet" href="/tailwind.css?v={{ assets.tailwind }}">
+{% endblock %}
+
+{% block schema %}
+    <!-- Structured Data: BreadcrumbList (mirrors the visible breadcrumb below) -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+            {
+                "@type": "ListItem",
+                "position": 1,
+                "name": {{ t.nav.home | striptags | dump | safe }},
+                "item": "https://sitorakarimi.com/{{ lang }}/"
+            },
+            {
+                "@type": "ListItem",
+                "position": 2,
+                "name": {{ pr.title | dump | safe }},
+                "item": "https://sitorakarimi.com/{{ lang }}/privacy/"
+            }
+        ]
+    }
+    </script>
+{% endblock %}
+
+{% block content %}
+    <!-- Header -->
+    <header class="pt-32 pb-12 bg-gradient-to-b from-navy-900 to-navy-800">
+        <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
+            <nav class="mb-6" aria-label="Breadcrumb">
+                <ol class="flex items-center space-x-2 text-sm text-white/50">
+                    <li><a href="/{{ lang }}/" class="hover:text-white transition-colors">{{ t.nav.home | safe }}</a></li>
+                    <li><svg class="svg-icon text-[10px]" aria-hidden="true"><use href="/assets/icons.svg#fa-chevron-right"></use></svg></li>
+                    <li class="text-white/80">{{ pr.title }}</li>
+                </ol>
+            </nav>
+            <h1 class="text-3xl md:text-5xl font-light text-white mb-4">{{ pr.title }}</h1>
+            <p class="text-sm text-white/60">{{ pr.lastUpdated }}</p>
+        </div>
+    </header>
+
+    <!-- Body -->
+    <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+        <p class="text-lg text-gray-600 leading-relaxed mb-12">{{ pr.intro }}</p>
+
+        {#- .no-reveal keeps script.js's scroll-in animation off the policy text:
+            it must be readable immediately and must survive printing / save-as-PDF. -#}
+        {%- for section in pr.sections %}
+        <section class="mb-10 no-reveal">
+            <h2 class="text-2xl font-medium text-navy-900 mb-4">{{ section.heading }}</h2>
+            <div class="privacy-body text-gray-600 leading-relaxed">{{ section.body | safe }}</div>
+        </section>
+        {%- endfor %}
+
+        <div class="mt-12 pt-8 border-t border-gray-200">
+            <a href="/{{ lang }}/" class="inline-flex items-center text-sm font-medium text-navy-900 hover:text-coral transition-colors">
+                <svg class="svg-icon mr-2" aria-hidden="true"><use href="/assets/icons.svg#fa-arrow-left"></use></svg> {{ t.nav.home | safe }}
+            </a>
+        </div>
+    </div>
+{% endblock %}
+
+{% block scripts %}
+    {#- script.js reads window.__T__ for the service-worker update toast; without
+        it the toast would render with empty labels on this page. -#}
+    <script src="/script.js?v={{ assets.script }}" defer></script>
+{% endblock %}

@@ -17,8 +17,12 @@ module.exports = {
         },
         coral: '#ff6b4a',
       },
+      // Montserrat is self-hosted via @font-face in styles.css (see the note
+      // there: Poppins had no Cyrillic, so it could not serve the ru/tg
+      // locales). Preflight applies `sans` to <html>, so setting it here is
+      // what gives every page the right family.
       fontFamily: {
-        sans: ['Helvetica Neue', 'Helvetica', 'Arial', 'sans-serif'],
+        sans: ['Montserrat', '-apple-system', 'BlinkMacSystemFont', 'Segoe UI', 'Helvetica Neue', 'Arial', 'sans-serif'],
       },
     },
   },

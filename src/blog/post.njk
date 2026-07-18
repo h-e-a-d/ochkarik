@@ -11,42 +11,28 @@ eleventyComputed:
 {%- set post = item.post -%}
 {%- set p = post[item.lang] -%}
 {%- set lang = item.lang -%}
-<!DOCTYPE html>
-<html lang="{{ locales[lang].htmlLang }}">
-<head>
-    <!-- Google Tag Manager (idle-deferred to avoid blocking LCP/FCP) -->
-    <script>
-    window.dataLayer = window.dataLayer || [];
-    window.dataLayer.push({'gtm.start': new Date().getTime(), event: 'gtm.js'});
-    function _loadGTM() {
-        var f = document.getElementsByTagName('script')[0],
-            j = document.createElement('script');
-        j.async = true;
-        j.src = 'https://www.googletagmanager.com/gtm.js?id=GTM-TBKDQH2B';
-        f.parentNode.insertBefore(j, f);
-    }
-    if ('requestIdleCallback' in window) {
-        requestIdleCallback(_loadGTM, { timeout: 4000 });
-    } else {
-        setTimeout(_loadGTM, 3500);
-    }
-    </script>
-    <!-- End Google Tag Manager -->
+{%- set isHome = false -%}
+{%- set navVariant = 'solid' -%}
+{%- set navActive = 'blog' -%}
+{%- set bodyClass = 'font-light text-gray-700 bg-white' -%}
+{%- set langSwitcherLinks = [] -%}
+{%- for code, loc in locales -%}
+{%- if post[code] -%}
+{%- set _ = langSwitcherLinks.push({ code: code, name: loc.name, href: '/' + code + '/blog/' + post.slug + '/' }) -%}
+{%- endif -%}
+{%- endfor -%}
+{% extends "layouts/base.njk" %}
 
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes, viewport-fit=cover">
+{% block pageTitle %}{{ p.title }} — Dr. Sitora Karimova{% endblock %}
 
-    <title>{{ p.title }} — Dr. Sitora Karimova</title>
+{% block metaTags %}
     <meta name="description" content="{{ p.metaDescription }}">
     <meta name="author" content="{{ post.author | default('Dr. Sitora Karimova') }}">
 
-    <!-- Robots directives -->
     <meta name="robots" content="index, follow, max-image-preview:large">
 
-    <!-- Canonical URL -->
     <link rel="canonical" href="https://sitorakarimi.com/{{ lang }}/blog/{{ post.slug }}/">
 
-    <!-- Hreflang tags for this post -->
     {%- for code, loc in locales %}
     {%- if post[code] %}
     <link rel="alternate" hreflang="{{ loc.hreflang }}" href="https://sitorakarimi.com/{{ code }}/blog/{{ post.slug }}/">
@@ -54,16 +40,16 @@ eleventyComputed:
     {%- endfor %}
     <link rel="alternate" hreflang="x-default" href="https://sitorakarimi.com/ru/blog/{{ post.slug }}/">
 
-    <!-- Open Graph -->
     <meta property="og:type" content="article">
     <meta property="og:url" content="https://sitorakarimi.com/{{ lang }}/blog/{{ post.slug }}/">
     <meta property="og:site_name" content="Dr. Sitora Karimova Ophthalmology">
     <meta property="og:title" content="{{ p.title }}">
     <meta property="og:description" content="{{ p.metaDescription }}">
-    <meta property="og:locale" content="{{ locales[lang].htmlLang }}">
-    {%- if post.image %}
-    <meta property="og:image" content="https://sitorakarimi.com{{ post.image }}">
-    {%- endif %}
+    {#- og:locale wants a territory code (ru_RU), not a bare language tag. -#}
+    <meta property="og:locale" content="{{ locales[lang].ogLocale }}">
+    {#- Fall back to the site OG image so a post without its own art still
+        unfurls as a card rather than a bare link. -#}
+    <meta property="og:image" content="https://sitorakarimi.com{{ post.image | default('/assets/images/og-image.jpg') }}">
     <meta property="article:published_time" content="{{ post.date }}">
     <meta property="article:author" content="{{ post.author | default('Dr. Sitora Karimova') }}">
     {%- if post.category %}
@@ -73,33 +59,31 @@ eleventyComputed:
     <meta property="article:tag" content="{{ tag }}">
     {%- endfor %}
 
-    <!-- Twitter Card -->
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="{{ p.title }}">
     <meta name="twitter:description" content="{{ p.metaDescription }}">
-    {%- if post.image %}
-    <meta name="twitter:image" content="https://sitorakarimi.com{{ post.image }}">
-    {%- endif %}
+    <meta name="twitter:image" content="https://sitorakarimi.com{{ post.image | default('/assets/images/og-image.jpg') }}">
+{% endblock %}
 
-    <!-- Favicon -->
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+{% block tailwindStyles %}
+    <link rel="stylesheet" href="/tailwind.css?v={{ assets.tailwind }}">
+    <link rel="stylesheet" href="/blog/blog.css?v={{ assets.blogCss }}">
+{% endblock %}
 
-    <!-- Tailwind CSS (pre-built) -->
-    <link rel="stylesheet" href="/tailwind.css?v=1.5.0">
-
-    <!-- Styles -->
-    <!-- Version matches CSS_VERSION in sw.js — update both when styles.css changes -->
-    <link rel="stylesheet" href="/styles.css?v=1.5.0">
-    <link rel="stylesheet" href="/blog/blog.css">
-
+{% block schema %}
     <!-- Structured Data: Article -->
     <script type="application/ld+json">
     {
         "@context": "https://schema.org",
         "@type": "Article",
-        "headline": "{{ p.title }}",
-        "description": "{{ p.metaDescription }}",
+        {#- Values are injected with `| dump | safe` (which emits its own quotes).
+            A raw "{{ p.title }}" breaks the whole JSON-LD block the moment a
+            title contains a double quote — Nunjucks autoescape would turn it
+            into &quot;, which is not valid JSON either. -#}
+        "headline": {{ p.title | dump | safe }},
+        "description": {{ p.metaDescription | dump | safe }},
         "datePublished": "{{ post.date }}",
+        "dateModified": "{{ post.updated | default(post.date) }}",
         "url": "https://sitorakarimi.com/{{ lang }}/blog/{{ post.slug }}/",
         "inLanguage": "{{ locales[lang].htmlLang }}",
         {%- if post.image %}
@@ -107,14 +91,28 @@ eleventyComputed:
         {%- endif %}
         "author": {
             "@type": "Person",
-            "name": "{{ post.author | default('Dr. Sitora Karimova') }}",
+            "name": {{ post.author | default('Dr. Sitora Karimova') | dump | safe }},
             "jobTitle": "Ophthalmologist",
             "url": "https://sitorakarimi.com/{{ lang }}/"
         },
+        {%- if post.category %}
+        "articleSection": {{ (t.blog.categories[post.category] or post.category) | dump | safe }},
+        {%- endif %}
+        {%- if post.tags and post.tags.length %}
+        "keywords": {{ post.tags | join(", ") | dump | safe }},
+        {%- endif %}
+        {%- if post.source and post.source.url %}
+        "citation": {{ post.source.url | dump | safe }},
+        {%- endif %}
         "publisher": {
             "@type": "Organization",
             "name": "Dr. Sitora Karimova Ophthalmology",
-            "url": "https://sitorakarimi.com"
+            "url": "https://sitorakarimi.com",
+            {#- Google's Article guidance asks for a publisher logo. -#}
+            "logo": {
+                "@type": "ImageObject",
+                "url": "https://sitorakarimi.com/assets/images/og-image.jpg"
+            }
         },
         "mainEntityOfPage": {
             "@type": "WebPage",
@@ -122,12 +120,45 @@ eleventyComputed:
         }
     }
     </script>
-</head>
-<body class="font-light text-gray-700 bg-white" data-lang="{{ lang }}">
-    <!-- Google Tag Manager (noscript) -->
-    <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-TBKDQH2B"
-    height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
+    <!-- Structured Data: BreadcrumbList (mirrors the visible breadcrumb below) -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+            {
+                "@type": "ListItem",
+                "position": 1,
+                "name": {{ t.nav.home | striptags | dump | safe }},
+                "item": "https://sitorakarimi.com/{{ lang }}/"
+            },
+            {
+                "@type": "ListItem",
+                "position": 2,
+                "name": {{ t.nav.blog | striptags | dump | safe }},
+                "item": "https://sitorakarimi.com/{{ lang }}/blog/"
+            },
+            {
+                "@type": "ListItem",
+                "position": 3,
+                "name": {{ p.title | striptags | dump | safe }},
+                "item": "https://sitorakarimi.com/{{ lang }}/blog/{{ post.slug }}/"
+            }
+        ]
+    }
+    </script>
+{% endblock %}
+
+{% block headExtra %}
+    {% include "partials/gtm-loader.njk" %}
+{% endblock %}
+
+{% block gtmNoscript %}
+    {% include "partials/gtm-noscript.njk" %}
+{% endblock %}
+
+{% block bodyStart %}
     <!-- AI Translation Banner -->
     {%- if post.aiTranslated and lang in post.aiTranslated %}
     <div class="ai-translation-banner">
@@ -140,69 +171,9 @@ eleventyComputed:
         </div>
     </div>
     {%- endif %}
+{% endblock %}
 
-    <!-- Navigation -->
-    <nav class="fixed top-0 w-full bg-navy-900 z-50 transition-all shadow-lg" id="navbar">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex justify-between items-center h-20">
-                <a href="/{{ lang }}/" class="flex items-center space-x-2 hover:opacity-90 transition-opacity">
-                    <div class="w-10 h-10 bg-white rounded-full flex items-center justify-center">
-                        <svg class="svg-icon text-navy-900 text-xl"><use href="/assets/icons.svg#fa-eye"></use></svg>
-                    </div>
-                    <span class="font-semibold text-lg text-white">Dr. Sitora Karimova</span>
-                </a>
-                <div class="hidden lg:flex items-center space-x-8">
-                    <a href="/{{ lang }}/" class="nav-link-light">{{ t.nav.home | safe }}</a>
-                    <a href="/{{ lang }}/#services" class="nav-link-light">{{ t.nav.services | safe }}</a>
-                    <a href="/{{ lang }}/#about" class="nav-link-light">{{ t.nav.about | safe }}</a>
-                    <a href="/{{ lang }}/blog/" class="nav-link-light active">{{ t.nav.blog | safe }}</a>
-                    <a href="/{{ lang }}/#contact" class="nav-link-light">{{ t.nav.contact | safe }}</a>
-
-                    <!-- Language Switcher -->
-                    <div class="relative language-switcher">
-                        <button id="lang-btn" class="flex items-center space-x-2 text-white hover:text-coral transition-colors" aria-label="Language selector" aria-haspopup="true" aria-expanded="false">
-                            <svg class="svg-icon text-lg" aria-hidden="true"><use href="/assets/icons.svg#fa-globe"></use></svg>
-                            <span id="current-lang" class="text-sm font-medium">{{ lang | upper }}</span>
-                            <svg class="svg-icon text-xs" aria-hidden="true"><use href="/assets/icons.svg#fa-chevron-down"></use></svg>
-                        </button>
-                        <div id="lang-menu" class="hidden absolute right-0 mt-2 w-32 bg-white rounded-lg shadow-xl overflow-hidden z-50" role="menu">
-                            {%- for code, loc in locales %}
-                            {%- if post[code] %}
-                            <a href="/{{ code }}/blog/{{ post.slug }}/" class="lang-option block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-coral hover:text-white transition-colors" role="menuitem">{{ loc.name }}</a>
-                            {%- endif %}
-                            {%- endfor %}
-                        </div>
-                    </div>
-                </div>
-                <button class="lg:hidden text-white" id="mobile-menu-btn" aria-label="Toggle mobile menu" aria-expanded="false">
-                    <svg class="svg-icon text-2xl" aria-hidden="true"><use href="/assets/icons.svg#fa-bars"></use></svg>
-                </button>
-            </div>
-        </div>
-        <!-- Mobile Menu -->
-        <div id="mobile-menu" class="hidden lg:hidden bg-navy-900 border-t border-white/10">
-            <div class="px-4 py-3 space-y-3">
-                <a href="/{{ lang }}/" class="block nav-link-light">{{ t.nav.home | safe }}</a>
-                <a href="/{{ lang }}/#services" class="block nav-link-light">{{ t.nav.services | safe }}</a>
-                <a href="/{{ lang }}/#about" class="block nav-link-light">{{ t.nav.about | safe }}</a>
-                <a href="/{{ lang }}/blog/" class="block nav-link-light active">{{ t.nav.blog | safe }}</a>
-                <a href="/{{ lang }}/#contact" class="block nav-link-light">{{ t.nav.contact | safe }}</a>
-
-                <!-- Mobile Language Switcher -->
-                <div class="pt-3 border-t border-white/10">
-                    <p class="text-xs uppercase tracking-widest text-white/60 mb-2">{{ t.nav.language | safe }}</p>
-                    <div class="flex gap-2">
-                        {%- for code, loc in locales %}
-                        {%- if post[code] %}
-                        <a href="/{{ code }}/blog/{{ post.slug }}/" class="lang-option-mobile flex-1 px-3 py-2 text-sm text-white bg-white/10 rounded hover:bg-coral transition-colors text-center">{{ code | upper }}</a>
-                        {%- endif %}
-                        {%- endfor %}
-                    </div>
-                </div>
-            </div>
-        </div>
-    </nav>
-
+{% block content %}
     <!-- Article -->
     <article class="blog-post">
         <!-- Post Header -->
@@ -246,7 +217,12 @@ eleventyComputed:
         {%- if post.image %}
         <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 -mt-6">
             <div class="rounded-lg overflow-hidden shadow-lg">
-                <img src="{{ post.image }}" alt="{{ p.title }}" class="w-full h-auto"
+                {#- .blog-hero-img pins a 16/9 box via CSS aspect-ratio so the
+                    slot is reserved before the image decodes (no CLS). Source
+                    images vary slightly (1376x768, 1408x768), so a CSS ratio +
+                    object-fit:cover is more reliable than per-post attributes. -#}
+                <img src="{{ post.image }}" alt="{{ p.title }}" class="w-full blog-hero-img"
+                     width="1376" height="768" fetchpriority="high"
                      onerror="this.parentElement.style.display='none'">
             </div>
         </div>
@@ -275,6 +251,22 @@ eleventyComputed:
             </div>
             {%- endif %}
 
+            {#- Conversion + internal-linking block. Before this, blog posts linked
+                back into the site only via the nav/footer chrome — every article
+                page had no contextual link to services or contact, and a plain
+                tel: number as the only call to action. -#}
+            <aside class="blog-cta mt-12">
+                <h2 class="blog-cta-heading">{{ t.blog.ctaHeading | safe }}</h2>
+                <p class="blog-cta-text">{{ t.blog.ctaText | safe }}</p>
+                {#- White-on-navy, not .btn-navy/.btn-outline: this block's
+                    background is the navy gradient, so a navy button would be
+                    invisible against it. -#}
+                <div class="blog-cta-actions">
+                    <a href="/{{ lang }}/#contact" class="btn-white">{{ t.blog.ctaButton | safe }}</a>
+                    <a href="/{{ lang }}/#services" class="btn-outline-white">{{ t.blog.ctaServices | safe }}</a>
+                </div>
+            </aside>
+
             <!-- Share & Back -->
             <div class="mt-12 pt-8 border-t border-gray-200 flex flex-wrap items-center justify-between gap-4">
                 <a href="/{{ lang }}/blog/" class="inline-flex items-center text-sm font-medium text-navy-900 hover:text-coral transition-colors">
@@ -297,48 +289,40 @@ eleventyComputed:
                 </div>
             </div>
         </div>
+        {#- Related posts — ranked in src/_data/blogPages.js (shared category, then
+            shared tags, then recency). Always same-language: `related` is built
+            per locale and only includes posts translated into it. -#}
+        {%- if item.related and item.related.length %}
+        <section class="bg-gray-50 border-t border-gray-200 py-16">
+            <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+                <h2 class="text-2xl font-medium text-navy-900 mb-8">{{ t.blog.relatedTitle | safe }}</h2>
+                <div class="grid gap-6 md:grid-cols-3">
+                    {%- for r in item.related %}
+                    {%- set rp = r[lang] %}
+                    <article class="blog-card bg-white rounded-lg overflow-hidden shadow-sm hover:shadow-lg transition-all duration-300">
+                        {%- if r.image %}
+                        <a href="/{{ lang }}/blog/{{ r.slug }}/" class="block overflow-hidden" tabindex="-1" aria-hidden="true">
+                            <img src="{{ r.image }}" alt="" loading="lazy" width="1376" height="768"
+                                 class="w-full blog-hero-img">
+                        </a>
+                        {%- endif %}
+                        <div class="p-5">
+                            {%- if r.category %}
+                            <span class="blog-category text-xs uppercase tracking-wider font-medium text-coral">{{ t.blog.categories[r.category] | default(r.category) | safe }}</span>
+                            {%- endif %}
+                            <h3 class="text-base font-medium text-navy-900 mt-2 leading-snug">
+                                <a href="/{{ lang }}/blog/{{ r.slug }}/" class="hover:text-coral transition-colors">{{ rp.title | safe }}</a>
+                            </h3>
+                        </div>
+                    </article>
+                    {%- endfor %}
+                </div>
+            </div>
+        </section>
+        {%- endif %}
     </article>
+{% endblock %}
 
-    <!-- Footer -->
-    <footer class="bg-gray-50 text-gray-600 py-16 border-t border-gray-200">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="grid md:grid-cols-4 gap-12 mb-12">
-                <div>
-                    <h4 class="font-medium text-navy-900 mb-4">Sitora Karimova</h4>
-                    <p class="text-sm font-light">{{ t.footer.tagline | safe }}</p>
-                </div>
-                <div>
-                    <h4 class="font-medium text-navy-900 mb-4">{{ t.footer.servicesTitle | safe }}</h4>
-                    <ul class="space-y-2 text-sm font-light">
-                        <li><a href="/{{ lang }}/#services" class="hover:text-coral transition-colors">{{ t.footer.eyeExams | safe }}</a></li>
-                        <li><a href="/{{ lang }}/#services" class="hover:text-coral transition-colors">{{ t.footer.glasses | safe }}</a></li>
-                        <li><a href="/{{ lang }}/#services" class="hover:text-coral transition-colors">{{ t.footer.contacts | safe }}</a></li>
-                    </ul>
-                </div>
-                <div>
-                    <h4 class="font-medium text-navy-900 mb-4">{{ t.footer.infoTitle | safe }}</h4>
-                    <ul class="space-y-2 text-sm font-light">
-                        <li><a href="/{{ lang }}/#about" class="hover:text-coral transition-colors">{{ t.footer.about | safe }}</a></li>
-                        <li><a href="/{{ lang }}/blog/" class="hover:text-coral transition-colors">{{ t.nav.blog | safe }}</a></li>
-                        <li><a href="/{{ lang }}/#contact" class="hover:text-coral transition-colors">{{ t.footer.contact | safe }}</a></li>
-                    </ul>
-                </div>
-                <div>
-                    <h4 class="font-medium text-navy-900 mb-4">{{ t.footer.connect | safe }}</h4>
-                    <div class="flex space-x-4">
-                        <a href="#" class="text-gray-400 hover:text-coral transition-colors"><svg class="svg-icon text-xl"><use href="/assets/icons.svg#fa-facebook"></use></svg></a>
-                        <a href="#" class="text-gray-400 hover:text-coral transition-colors"><svg class="svg-icon text-xl"><use href="/assets/icons.svg#fa-instagram"></use></svg></a>
-                    </div>
-                </div>
-            </div>
-            <div class="border-t border-gray-200 pt-8">
-                <p class="text-sm text-center font-light">{{ t.footer.copyright | safe }}</p>
-            </div>
-        </div>
-    </footer>
-
-    <!-- JavaScript -->
-    <script>window.__T__ = {{ t | dump | safe }}; window.__LANG__ = "{{ lang }}";</script>
+{% block scripts %}
     <script src="/blog/blog.js"></script>
-</body>
-</html>
+{% endblock %}

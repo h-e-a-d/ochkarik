@@ -1,0 +1,120 @@
+{#
+  Single source for the site's primary navigation, desktop + mobile.
+
+  Params:
+    lang               locale code ('ru'|'tj'|'en')
+    variant             'transparent' (homepage, hero sits behind it) |
+                        'solid' (every other page)
+    isHome              true only for src/index.njk. Controls: (1) whether
+                        the logo is a plain mark or a link home, (2) whether
+                        nav.js entries resolve to in-page anchors (#services)
+                        or full paths (/{{lang}}/#services)
+    activeKey           nav.js `key` to mark with `.active`, e.g. 'blog'.
+                        Empty string (default) marks nothing.
+    langSwitcherLinks   omit (or pass none) for the default JS-driven button
+                        switcher (used on the homepage and blog listing,
+                        where every locale's sibling page always exists at a
+                        trivially-known path). Pass a list of
+                        {code, name, href} to switch to real <a> links
+                        instead (blog post — filtered to translated
+                        locales only; privacy — all locales) since those
+                        pages must NOT link to an untranslated sibling.
+
+  Reads from the calling template's context (present on every page that
+  extends layouts/base.njk): `t` (locale strings), `nav` (src/_data/nav.js,
+  Eleventy global data), `locales` (src/_data/locales.js, global data).
+#}
+{% macro render(lang, variant, isHome, activeKey='', langSwitcherLinks=none) %}
+{%- set navClass = 'fixed top-0 w-full bg-navy-900 z-50 transition-all shadow-lg' if variant == 'solid' else 'fixed w-full bg-transparent backdrop-blur-md z-50 transition-all' -%}
+<nav class="{{ navClass }}" id="navbar">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex justify-between items-center h-20">
+            {%- if isHome %}
+            <div class="flex items-center space-x-2">
+                <div class="w-10 h-10 bg-white rounded-full flex items-center justify-center">
+                    <svg class="svg-icon text-navy-900 text-xl" aria-hidden="true"><use href="/assets/icons.svg#fa-eye"></use></svg>
+                </div>
+                <span class="font-semibold text-lg text-white">Dr. Sitora Karimova</span>
+            </div>
+            {%- else %}
+            <a href="/{{ lang }}/" class="flex items-center space-x-2 hover:opacity-90 transition-opacity">
+                <div class="w-10 h-10 bg-white rounded-full flex items-center justify-center">
+                    <svg class="svg-icon text-navy-900 text-xl" aria-hidden="true"><use href="/assets/icons.svg#fa-eye"></use></svg>
+                </div>
+                <span class="font-semibold text-lg text-white">Dr. Sitora Karimova</span>
+            </a>
+            {%- endif %}
+            <div class="hidden lg:flex items-center space-x-8">
+                {%- for link in nav %}
+                {%- if link.key == 'home' and not isHome %}
+                {%- set href = '/' + lang + '/' %}
+                {%- elif link.key == 'blog' %}
+                {%- set href = '/' + lang + '/blog/' %}
+                {%- elif isHome %}
+                {%- set href = link.hash %}
+                {%- else %}
+                {%- set href = '/' + lang + '/' + link.hash %}
+                {%- endif %}
+                <a href="{{ href }}" class="nav-link-light{{ ' active' if link.key == activeKey else '' }}" data-i18n="nav.{{ link.stringKey }}">{{ t.nav[link.stringKey] | safe }}</a>
+                {%- endfor %}
+
+                <!-- Language Switcher -->
+                <div class="relative language-switcher">
+                    <button id="lang-btn" class="flex items-center space-x-2 text-white hover:text-coral transition-colors" aria-label="Language selector" aria-haspopup="true" aria-expanded="false">
+                        <svg class="svg-icon text-lg" aria-hidden="true"><use href="/assets/icons.svg#fa-globe"></use></svg>
+                        <span id="current-lang" class="text-sm font-medium">{{ lang | upper }}</span>
+                        <svg class="svg-icon text-xs" aria-hidden="true"><use href="/assets/icons.svg#fa-chevron-down"></use></svg>
+                    </button>
+                    <div id="lang-menu" class="hidden absolute right-0 mt-2 w-32 bg-white rounded-lg shadow-xl overflow-hidden z-50" role="menu">
+                        {%- if langSwitcherLinks %}
+                        {%- for l in langSwitcherLinks %}
+                        <a href="{{ l.href }}" class="lang-option block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-coral hover:text-white transition-colors" role="menuitem">{{ l.name }}</a>
+                        {%- endfor %}
+                        {%- else %}
+                        {%- for code, loc in locales %}
+                        <button data-lang="{{ code }}" class="lang-option w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-coral hover:text-white transition-colors" role="menuitem">{{ loc.name }}</button>
+                        {%- endfor %}
+                        {%- endif %}
+                    </div>
+                </div>
+            </div>
+            <button class="lg:hidden text-white" id="mobile-menu-btn" aria-label="Toggle mobile menu" aria-expanded="false">
+                <svg class="svg-icon text-2xl" aria-hidden="true"><use href="/assets/icons.svg#fa-bars"></use></svg>
+            </button>
+        </div>
+    </div>
+    <!-- Mobile Menu -->
+    <div id="mobile-menu" class="hidden lg:hidden bg-navy-900 border-t border-white/10">
+        <div class="px-4 py-3 space-y-3">
+            {%- for link in nav %}
+            {%- if link.key == 'home' and not isHome %}
+            {%- set href = '/' + lang + '/' %}
+            {%- elif link.key == 'blog' %}
+            {%- set href = '/' + lang + '/blog/' %}
+            {%- elif isHome %}
+            {%- set href = link.hash %}
+            {%- else %}
+            {%- set href = '/' + lang + '/' + link.hash %}
+            {%- endif %}
+            <a href="{{ href }}" class="block nav-link-light{{ ' active' if link.key == activeKey else '' }}" data-i18n="nav.{{ link.stringKey }}">{{ t.nav[link.stringKey] | safe }}</a>
+            {%- endfor %}
+
+            <!-- Mobile Language Switcher -->
+            <div class="pt-3 border-t border-white/10">
+                <p class="text-xs uppercase tracking-widest text-white/80 mb-2" data-i18n="nav.language">{{ t.nav.language | safe }}</p>
+                <div class="flex gap-2">
+                    {%- if langSwitcherLinks %}
+                    {%- for l in langSwitcherLinks %}
+                    <a href="{{ l.href }}" class="lang-option-mobile flex-1 px-3 py-2 text-sm text-white bg-white/10 rounded hover:bg-coral transition-colors text-center">{{ l.code | upper }}</a>
+                    {%- endfor %}
+                    {%- else %}
+                    {%- for code, loc in locales %}
+                    <button data-lang="{{ code }}" class="lang-option-mobile flex-1 px-3 py-2 text-sm text-white bg-white/10 rounded hover:bg-coral transition-colors">{{ code | upper }}</button>
+                    {%- endfor %}
+                    {%- endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</nav>
+{% endmacro %}
